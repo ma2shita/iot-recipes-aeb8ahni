@@ -1,0 +1,22 @@
+{
+  "environment": "web",
+  "format": "html",
+  "prefix": "https://storage.googleapis.com",
+  "mainga": "UA-66865146-33",
+  "updated": "2020-03-27T06:19:06Z",
+  "id": "claat-google-analytics-200",
+  "duration": 35,
+  "title": "CLaaT Google Analytics 連携ハンズオン",
+  "authors": "Kohei \"Max\" MATSUSHITA",
+  "summary": "ハンズオンコンテンツ生成・ポータルフレームワーク \"CLaaT\" のGoogle Analytics連携機能を用いてトラッキングIDの設定の仕方からCLaaTが備えている標準のイベント解説、ページ途中における「目標」設定と確認方法を学びます。",
+  "source": "1J9TGH-0R94Kp1chx0lHZpEbl5B4Jje9CZZgygMP7jus",
+  "theme": "200-advanced",
+  "status": [
+    "published"
+  ],
+  "category": [
+    "200-Advanced"
+  ],
+  "tags": [],
+  "url": "claat-google-analytics-200"
+}

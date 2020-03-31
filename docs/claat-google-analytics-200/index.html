@@ -1,0 +1,168 @@
+
+<!doctype html>
+
+<html>
+<head>
+  <meta name="viewport" content="width=device-width, minimum-scale=1.0, initial-scale=1.0, user-scalable=yes">
+  <meta name="theme-color" content="#4F7DC9">
+  <meta charset="UTF-8">
+  <title>CLaaT Google Analytics 連携ハンズオン</title>
+  <link rel="stylesheet" href="//fonts.googleapis.com/css?family=Source+Code+Pro:400|Roboto:400,300,400italic,500,700|Roboto+Mono">
+  <link rel="stylesheet" href="//fonts.googleapis.com/icon?family=Material+Icons">
+  <link rel="stylesheet" href="https://storage.googleapis.com/codelab-elements/codelab-elements.css">
+  <style>
+    .success {
+      color: #1e8e3e;
+    }
+    .error {
+      color: red;
+    }
+  </style>
+</head>
+<body>
+  <google-codelab-analytics gaid="UA-66865146-33"></google-codelab-analytics>
+  <google-codelab codelab-gaid=""
+                  id="claat-google-analytics-200"
+                  title="CLaaT Google Analytics 連携ハンズオン"
+                  environment="web"
+                  feedback-link="">
+    
+      <google-codelab-step label="概要" duration="5">
+        <p>ハンズオンコンテンツ生成・ポータルフレームワーク &#34;<strong>CLaaT</strong>&#34; はGoogle Analytics(以下、GA)を用いたコンテンツ分析が可能です。本ハンズオンではGAトラッキングIDの設定の仕方からCLaaTが備えている標準のイベント解説、ページ途中における「目標」(コンバージョン)設定と確認方法を学びます。</p>
+<p class="image-container"><img style="width: 602.00px" src="img/ecb4f5ff00639aee.png"></p>
+<h2 is-upgraded>できるようになる事</h2>
+<ul>
+<li>CLaaT と GA の連携の仕様</li>
+<li>GA の「目標」(コンバージョン)の設定</li>
+<li>GA のリアルタイムレポートによる進ちょく状況確認</li>
+</ul>
+<h2 is-upgraded>このハンズオンでサポートしない事 (前提知識)</h2>
+<ul>
+<li><a href="https://ma2shita.github.io/claat-serve/claat-start-100/" target="_blank">CLaaTによるコンテンツ作成</a> と アップロード</li>
+<li>GA アカウント作成から操作、用語解説</li>
+<li>分析そのもの (^q^</li>
+</ul>
+
+
+      </google-codelab-step>
+    
+      <google-codelab-step label="必要なものと準備" duration="10">
+        <p>必要なものは以下の通りです。</p>
+<ul>
+<li>GA のトラッキングコード</li>
+</ul>
+<h2 is-upgraded>トラッキングコードを CLaaT アセットに設定する</h2>
+<p><code>claat export</code> の <code>-ga</code> オプションに GA トラッキングコードを指定して <code>claat export</code> します。</p>
+<pre><code>$ claat export -ga [GA Tracking ID] [Google Docs ID]
+となります。
+
+例)
+$ claat export -ga &#34;UA-XXXXXX-XX&#34; 1FXJGzsrTjDkHTtfaOsZkzZeU7ZUZQ7M52hHuKm9Fl8o</code></pre>
+<p>生成し終わったらアップロードしましょう。</p>
+<aside class="warning"><p><strong>注意:</strong> 生成済みのディレクトリに対して再生成する場合、全てのコンテンツが上書きされるわけでは無いため、当該ディレクリの中身は全て削除してから生成する事が望ましいです。</p>
+</aside>
+<h2 is-upgraded>テストをする</h2>
+<ol type="1" start="1">
+<li><h3 is-upgraded>GA の［リアルタイム］&gt;［トラフィック］を開いてモニタリングします。</h3>
+</li>
+<li><h3 is-upgraded>シークレット ウィンドウで計測対象となるページを開きます。</h3>
+</li>
+<li><h3 is-upgraded>この時リアルタイムトラフィックでトラフィックが確認できれば成功です。</h3>
+</li>
+</ol>
+
+
+      </google-codelab-step>
+    
+      <google-codelab-step label="CLaaT の GA 連携仕様を学ぶ" duration="10">
+        <p>CLaaT には GA と連携する仕組み、すなわち<a href="https://support.google.com/analytics/answer/6086082?hl=ja" target="_blank"><strong>ヒット</strong></a><strong>の送信</strong>が備わっています。標準の仕様は以下の通りです。</p>
+<ul>
+<li>ページ トラッキング (リアルタイム トラフィックで捕捉できる)</li>
+<li>イベント トラッキングのヒット (リアルタイム イベントで捕捉できる)</li>
+</ul>
+<h3 is-upgraded>イベントトラッキングの仕様</h3>
+<p>最初のページ(/#0) には <code>ready</code> が、最後のページには <code>complete</code> が GA イベントアクションとして送信されるようになっています。</p>
+<p class="image-container"><img style="width: 602.00px" src="img/7cec3bbf187fbaa0.png"></p>
+<h4 is-upgraded>GA に送信される内容</h4>
+<table>
+<tr><td colspan="1" rowspan="1"><p>イベントカテゴリ</p>
+</td><td colspan="1" rowspan="1"><p><code>codelab</code> (固定)</p>
+</td></tr>
+<tr><td colspan="1" rowspan="1"><p>イベントアクション</p>
+</td><td colspan="1" rowspan="1"><p><code>ready</code> もしくは <code>complete</code></p>
+</td></tr>
+<tr><td colspan="1" rowspan="1"><p>イベントラベル</p>
+</td><td colspan="1" rowspan="1"><p>ソースドキュメントのタイトル もしくは <code>(not set)</code></p>
+</td></tr>
+</table>
+<aside class="warning"><p><strong>注意:</strong> イベントアクションが ready の時はアクションラベルが (not set) になるのはおそらく不具合だと思われます。この影響は CLaaT コンテンツを横断して計測する場合に「どこのコンテンツで ready になったか」がわからなくなるという問題が発生しますが、プロパティもしくはビューでパスの指定で分離することで回避できることから、実用上は問題ないでしょう。</p>
+</aside>
+<h3 is-upgraded>イベントの確認</h3>
+<p>発生したイベントは［リアルタイム］&gt;［イベント］で確認できます。</p>
+<aside class="warning"><p><strong>注意:</strong> イベントはページがロードされるたびにカウントされるためユニークユーザー (UU) とはなりません。これは GA の仕様です。</p>
+</aside>
+<h2 is-upgraded>「目標」の設定</h2>
+<p>CLaaT はページトラッキングを送信しているため、イベントとは別に目標(以下、CV)を設定する事が可能です。これにより <code>complete</code> イベント(= 最終ページ)とは異なるページで「到達」を記録することができます。</p>
+<ul>
+<li>長いコンテンツにおけるチェックポイントの記録</li>
+<li>Appendix 作成による途中ページでの「達成」記録</li>
+</ul>
+<p>CV の指定方法は一般的な GA の CV 設定と同じになります。</p>
+<p>この際、ビューで<strong>デフォルトのページ</strong>を設定している場合は、到達パスにもデフォルトのページの設定を考慮したパスを指定する必要があります。詳細は<strong>より精度の高い計測を行うための設定</strong>を参照ください。</p>
+<table>
+<tr><td colspan="1" rowspan="1"><p><strong>デフォルトのページ</strong></p>
+</td><td colspan="1" rowspan="1"><p><strong>到達パスに設定すべき値</strong></p>
+</td></tr>
+<tr><td colspan="1" rowspan="1"><p>(無し)</p>
+</td><td colspan="1" rowspan="1"><p><code>/claat-serve/claat-start-100/#3</code></p>
+</td></tr>
+<tr><td colspan="1" rowspan="1"><p><code>index.html </code></p>
+</td><td colspan="1" rowspan="1"><p><code>/claat-serve/claat-start-100/index.html#3</code></p>
+</td></tr>
+</table>
+<aside class="special"><p><strong>Tips:</strong> 到達パスを確認するには［リアルタイム］&gt;［コンテンツ］に表示されるアクティブなページを見るのがもっとも簡単です。</p>
+<p class="image-container"><img style="width: 587.00px" src="img/5e57ec606baec82.png"></p>
+</aside>
+<h3 is-upgraded>CV の確認</h3>
+<p>発生した CV は［リアルタイム］&gt;［コンバージョン］で確認できます。</p>
+<aside class="warning"><p><strong>注意:</strong> CV はページがロードされるたびにカウントされるためユニークユーザー (UU) とはなりません。これは GA の仕様です。</p>
+</aside>
+
+
+      </google-codelab-step>
+    
+      <google-codelab-step label="より精度の高い計測を行うための設定" duration="10">
+        <p>標準でもかなり便利に利用できますが、設定を行うことで精度の高い計測が行えます。</p>
+<h2 is-upgraded>セッションのタイムアウト設定</h2>
+<p>1ページ内の作業量が多い(= 時間がかかる)場合に検討します。</p>
+<p><a href="https://support.google.com/analytics/answer/2731565?hl=ja" target="_blank">セッション</a>は30分でタイムアウトします。そのため、1ページ内の作業量が標準をこえるとセッションがタイムアウトしてしまうため、延ばすことを検討しましょう。もしくは作業内容を分割することも有効です。</p>
+<p>セッションのタイムアウトは1ページで最大滞在時間になりそうなページの時間(+10%くらい？)に設定するのが良いでしょう。</p>
+<h2 is-upgraded>デフォルトのページ設定</h2>
+<p>アップロード先システムの「デフォルトドキュメント」が <code>index.html</code> じゃない場合に検討します。また、リンク元が(勝手に) <code>/index.html</code> 等と付けてしまう場合が想定されるときにも検討します。</p>
+<p>デフォルトのページを設定しない場合、以下のようにコンテンツ的には同じなのに別のページビューとして計測されてしまいます。回避するためにはビューのデフォルトのページを設定します。以下の場合はデフォルトのページに <code>index.html</code> を設定することで <code>/</code> のヒットが <code>/index.html</code> に寄せることができます。</p>
+<p class="image-container"><img style="width: 458.00px" src="img/cc8337006a0a68cc.png"></p>
+<p>注意点としては CV を設定した際の到達パスの指定です。詳しくは<strong>「目標」の設定</strong>を参照ください。</p>
+<h2 is-upgraded>わかっている不具合？</h2>
+<h3 is-upgraded>レジューム時のヒット</h3>
+<p>途中でブラウザを閉じてしまっても、元のナビゲーション位置に戻ることができるのがウリの CLaaT ですが、その際のページビューは <code>/</code> になります。(<code>#3</code> といったページになりません)</p>
+
+
+      </google-codelab-step>
+    
+      <google-codelab-step label="Appendix: 本ドキュメントについて" duration="0">
+        <p>本ドキュメントは <a href="https://github.com/googlecodelabs/tools" target="_blank">CLaaT</a> を用いて制作しています。ソースドキュメントは <a href="https://docs.google.com/document/d/1J9TGH-0R94Kp1chx0lHZpEbl5B4Jje9CZZgygMP7jus/edit?usp=sharing" target="_blank">Google Docs - claat-google-analytics-200</a> です。CLaaT 自体のハンズオンドキュメントは <a href="https://ma2shita.github.io/claat-serve/claat-start-100/" target="_blank">CLaaT コンテンツ作成ハンズオン</a> で公開しています。</p>
+<h3 is-upgraded>LICENSE</h3>
+<p>Copyright (c) 2020 <a href="https://twitter.com/ma2shita" target="_blank">Kohei &#34;Max&#34; MATSUSHITA</a><br>Released under the MIT license<br><a href="https://opensource.org/licenses/mit-license.php" target="_blank">https://opensource.org/licenses/mit-license.php</a></p>
+
+
+      </google-codelab-step>
+    
+  </google-codelab>
+
+  <script src="https://storage.googleapis.com/codelab-elements/native-shim.js"></script>
+  <script src="https://storage.googleapis.com/codelab-elements/custom-elements.min.js"></script>
+  <script src="https://storage.googleapis.com/codelab-elements/prettify.js"></script>
+  <script src="https://storage.googleapis.com/codelab-elements/codelab-elements.js"></script>
+
+</body>
+</html>
