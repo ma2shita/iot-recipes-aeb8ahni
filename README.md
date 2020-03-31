@@ -34,7 +34,7 @@ $ git add . && git commit -m "YOUR_COMMENT" && git push
 #### Google Docs IDs
 
 - Main recipes.
-    - [door-monitoring](https://soracom.github.io/iot-recipes/door-monitoring) / `1UVakbTNl33Tml_wSB_zFd-YDV66S-puGXIjxRIlwiVw`
+    - [door-monitoring-by-soracom-lte-m-button](https://soracom.github.io/iot-recipes/door-monitoring-by-soracom-lte-m-button) / `1UVakbTNl33Tml_wSB_zFd-YDV66S-puGXIjxRIlwiVw`
 - Handson contents (Beta).
     - [wio-lte-handson-100](https://soracom.github.io/iot-recipes/wio-lte-handson-100) / `1WjXrAIr8DLeddNAP1s3vBcK7VWFejdkuewUzwTm4c_g`
 - Handson contents for sandbox. U can use for operation and Google Analytics tests.
