@@ -1,0 +1,22 @@
+{
+  "environment": "web",
+  "format": "html",
+  "prefix": "https://storage.googleapis.com",
+  "mainga": "UA-66865146-33",
+  "updated": "2020-03-27T00:52:37Z",
+  "id": "chrome-remotedesktop-100",
+  "duration": 37,
+  "title": "chrome リモートデスクトップで操作支援を受ける",
+  "authors": "Kohei \"Max\" MATSUSHITA",
+  "summary": "Google Chrome を利用した「chrome リモートデスクトップ」で、質問時の操作支援を受ける方法を解説します。このハンズオンは「操作支援を受けたい人」向けとなります。 Web 会議システムを経由した場合における「デスクトップが全ての参加者に見られてしまう」という問題を解決します。",
+  "source": "1BLGPudU0piT7zlasXVCEgmv48n-YewfgStVz_jmhGD0",
+  "theme": "100-basic",
+  "status": [
+    "published"
+  ],
+  "category": [
+    "100-Basic"
+  ],
+  "tags": [],
+  "url": "chrome-remotedesktop-100"
+}

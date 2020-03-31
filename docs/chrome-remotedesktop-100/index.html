@@ -1,0 +1,256 @@
+
+<!doctype html>
+
+<html>
+<head>
+  <meta name="viewport" content="width=device-width, minimum-scale=1.0, initial-scale=1.0, user-scalable=yes">
+  <meta name="theme-color" content="#4F7DC9">
+  <meta charset="UTF-8">
+  <title>chrome リモートデスクトップで操作支援を受ける</title>
+  <link rel="stylesheet" href="//fonts.googleapis.com/css?family=Source+Code+Pro:400|Roboto:400,300,400italic,500,700|Roboto+Mono">
+  <link rel="stylesheet" href="//fonts.googleapis.com/icon?family=Material+Icons">
+  <link rel="stylesheet" href="https://storage.googleapis.com/codelab-elements/codelab-elements.css">
+  <style>
+    .success {
+      color: #1e8e3e;
+    }
+    .error {
+      color: red;
+    }
+  </style>
+</head>
+<body>
+  <google-codelab-analytics gaid="UA-66865146-33"></google-codelab-analytics>
+  <google-codelab codelab-gaid=""
+                  id="chrome-remotedesktop-100"
+                  title="chrome リモートデスクトップで操作支援を受ける"
+                  environment="web"
+                  feedback-link="">
+    
+      <google-codelab-step label="概要" duration="2">
+        <p>Google Chrome を利用した「chrome リモートデスクトップ」で、質問時の操作支援を受ける方法を解説します。このハンズオンは「操作支援を受けたい人」向けとなります。 Web 会議システムを経由した場合における「デスクトップが全ての参加者に見られてしまう」という問題を解決します。</p>
+<p>ただし、操作支援中における質問者とスタッフ間のコミュニケーション方法はフォーカス外としているため、Web 会議システムといったシステムを併用する事を前提としています。</p>
+<p class="image-container"><img style="width: 602.00px" src="img/9659718dbe3ad5ab.png"></p>
+<h2 is-upgraded>できるようになる事</h2>
+<ul>
+<li>chrome リモートデスクトップのセットアップ</li>
+<li>chrome リモートデスクトップを利用した操作支援の受け入れ</li>
+</ul>
+<h2 is-upgraded>このハンズオンでサポートしない事 (前提知識)</h2>
+<ul>
+<li>Google Chrome のセットアップや使い方</li>
+<li>操作支援をする人（スタッフ）側の操作</li>
+<li>操作支援中における質問者とスタッフ間のコミュニケーションの方法</li>
+<li>Ubuntu や Raspbian 等の Linux OS でのセットアップ方法</li>
+</ul>
+
+
+      </google-codelab-step>
+    
+      <google-codelab-step label="chrome リモートデスクトップのインストール (Windows 編)" duration="15">
+        <p>macOS の方は別の章をご覧ください。</p>
+<ol type="1" start="1">
+<li><h3 is-upgraded>必要なものの確認</h3>
+</li>
+</ol>
+<p>chrome リモートデスクトップを利用するためには以下のものが必要ですので確認してください。</p>
+<ul>
+<li>Google Chrome 最新版</li>
+</ul>
+<ol type="1" start="2">
+<li><h3 is-upgraded><a href="https://remotedesktop.google.com/" target="_blank">https://remotedesktop.google.com/</a> を Google Chrome で開きます。</h3>
+</li>
+</ol>
+<aside class="special"><p><strong>Tips: </strong>この時 <a href="https://remotedesktop.google.com/support/" target="_blank">https://remotedesktop.google.com/support/</a> を直接開いた場合は 3 に進んでください。</p>
+</aside>
+<ol type="1" start="3">
+<li><h3 is-upgraded>［リモートサポート］をクリックします。</h3>
+</li>
+</ol>
+<p class="image-container"><img style="width: 602.00px" src="img/53a9b2e9ac01dfa6.png"></p>
+<ol type="1" start="4">
+<li><h3 is-upgraded>&#34;サポートを受ける&#34; のダウンロードボタン<img style="width: 33.50px" src="img/339218a4002f44d8.png">をクリックします。</h3>
+</li>
+</ol>
+<p class="image-container"><img style="width: 602.00px" src="img/606a3c3103b2243b.png"></p>
+<aside class="warning"><p><strong>Note: </strong>この時、右下に表示されているダイアログは［×］で消す、もしくは［インストールしない］をクリックして無視してください。</p>
+</aside>
+<ol type="1" start="5">
+<li><h3 is-upgraded>新たに開いたウィンドウ &#34;chrome ウェブストア&#34; で［Chromeに追加］をクリックし、その後の &#34;「Chrome Remote Desktop」を追加しますか？&#34; では［拡張機能を追加］をクリックします。</h3>
+</li>
+</ol>
+<p class="image-container"><img style="width: 602.00px" src="img/d7db0d408cf92fa7.png"></p>
+<ol type="1" start="6">
+<li><h3 is-upgraded>元のウィンドウで &#34;インストールの準備完了&#34; と表示されたら［同意してインストール］をクリックします。</h3>
+</li>
+</ol>
+<p class="image-container"><img style="width: 602.00px" src="img/267d2d7776931ed5.png"></p>
+<aside class="special"><p><strong>Tips:</strong> &#34;chrome ウェブストア&#34; のウィンドウは閉じてしまってかまいません。</p>
+</aside>
+<ol type="1" start="7">
+<li><h3 is-upgraded>&#34;ダウンロードしたファイルを開く&#34; では［はい］をクリックします。その後指示される内容に従ってインストールを進めてください。</h3>
+</li>
+</ol>
+<p class="image-container"><img style="width: 505.00px" src="img/103aef43283d76b.png"></p>
+<aside class="warning"><p><strong>トラブルシューティング:</strong> インストールが進まない場合は、インストールダイアログがウィンドウの後ろで表示されていないか、タスクバーを確認してみてください。<br><img style="width: 484.00px" src="img/4c89efa6037239d5.png"></p>
+</aside>
+<ol type="1" start="8">
+<li><h3 is-upgraded>&#34;まもなく完了&#34; が表示されたら［OK］をクリックします。</h3>
+</li>
+</ol>
+<p class="image-container"><img style="width: 435.00px" src="img/7fa3eb21952e4e33.png"></p>
+<ol type="1" start="9">
+<li><h3 is-upgraded>元のウィンドウ (もしくは <a href="https://remotedesktop.google.com/support/" target="_blank">https://remotedesktop.google.com/support/</a> を開きなおして) &#34;サポートを受ける&#34; ［コードを生成］が表示されたらセットアップ完了です。</h3>
+</li>
+</ol>
+<p class="image-container"><img style="width: 602.00px" src="img/7f9c60fd647b895b.png"></p>
+<aside class="warning"><p><strong>トラブルシューティング:</strong> この時にダウンロードボタンが表示されている場合はセットアップが正常終了できていません。再度手順を行ってください。</p>
+</aside>
+
+
+      </google-codelab-step>
+    
+      <google-codelab-step label="chrome リモートデスクトップのインストール (macOS 編)" duration="15">
+        <p>Windows の方は別の章をご覧ください。</p>
+<ol type="1" start="1">
+<li><h3 is-upgraded>必要なものの確認</h3>
+</li>
+</ol>
+<p>chrome リモートデスクトップを利用するためには以下のものが必要ですので確認してください。</p>
+<ul>
+<li>Google Chrome 最新版</li>
+</ul>
+<ol type="1" start="2">
+<li><h3 is-upgraded><a href="https://remotedesktop.google.com/" target="_blank">https://remotedesktop.google.com/</a> を Google Chrome で開きます。</h3>
+</li>
+</ol>
+<aside class="special"><p><strong>Tips: </strong>この時 <a href="https://remotedesktop.google.com/support/" target="_blank">https://remotedesktop.google.com/support/</a> を直接開いた場合は 3 に進んでください。</p>
+</aside>
+<ol type="1" start="3">
+<li><h3 is-upgraded>［リモートサポート］をクリックします。</h3>
+</li>
+</ol>
+<p class="image-container"><img style="width: 602.00px" src="img/53a9b2e9ac01dfa6.png"></p>
+<ol type="1" start="4">
+<li><h3 is-upgraded>&#34;サポートを受ける&#34; のダウンロードボタン<img style="width: 33.50px" src="img/339218a4002f44d8.png">をクリックします。</h3>
+</li>
+</ol>
+<p class="image-container"><img style="width: 602.00px" src="img/606a3c3103b2243b.png"></p>
+<aside class="warning"><p><strong>Note: </strong>この時、右下に表示されているダイアログは［×］で消す、もしくは［インストールしない］をクリックして無視してください。</p>
+</aside>
+<ol type="1" start="5">
+<li><h3 is-upgraded>新たに開いたウィンドウ &#34;chrome ウェブストア&#34; で［Chromeに追加］をクリックし、その後の &#34;「Chrome Remote Desktop」を追加しますか？&#34; では［拡張機能を追加］をクリックします。</h3>
+</li>
+</ol>
+<p class="image-container"><img style="width: 602.00px" src="img/d7db0d408cf92fa7.png"></p>
+<ol type="1" start="6">
+<li><h3 is-upgraded>&#34;まもなく完了&#34; が表示されたら［OK］をクリックします。</h3>
+</li>
+</ol>
+<p class="image-container"><img style="width: 435.00px" src="img/7fa3eb21952e4e33.png"></p>
+<ol type="1" start="7">
+<li><h3 is-upgraded>元のウィンドウ (もしくは <a href="https://remotedesktop.google.com/support/" target="_blank">https://remotedesktop.google.com/support/</a> を開きなおして) &#34;サポートを受ける&#34; ［コードを生成］が表示されたらセットアップ完了です。</h3>
+</li>
+</ol>
+<p class="image-container"><img style="width: 602.00px" src="img/7f9c60fd647b895b.png"></p>
+<aside class="warning"><p><strong>トラブルシューティング:</strong> この時にダウンロードボタンが表示されている場合はセットアップが正常終了できていません。再度手順を行ってください。</p>
+</aside>
+
+
+      </google-codelab-step>
+    
+      <google-codelab-step label="操作支援を受ける" duration="5">
+        <h2 is-upgraded>全体の流れ</h2>
+<p class="image-container"><img style="width: 602.00px" src="img/9659718dbe3ad5ab.png"></p>
+<h2 is-upgraded>アクセスコードを発行して操作支援する人（スタッフ）に渡す</h2>
+<ol type="1" start="1">
+<li><h3 is-upgraded><a href="https://remotedesktop.google.com/support/" target="_blank">https://remotedesktop.google.com/support/</a> を開き［コードを生成］をクリックします。</h3>
+</li>
+</ol>
+<p class="image-container"><img style="width: 602.00px" src="img/c872649ba0149b97.png"></p>
+<ol type="1" start="2">
+<li><h3 is-upgraded>数秒経過すると12桁の数字が表示されます。これが<strong>アクセスコード</strong>です。この数字をメモしましょう。</h3>
+</li>
+</ol>
+<p class="image-container"><img style="width: 546.00px" src="img/8c30364eeb4d5d51.png"></p>
+<aside class="special"><p><strong>Tips:</strong> 4桁区切りに見えますが実際は12桁の連続した数字となっています。</p>
+</aside>
+<ol type="1" start="3">
+<li><h3 is-upgraded>アクセスコードを「なんらかの方法」で操作支援する人（スタッフ）に渡します。</h3>
+</li>
+</ol>
+<p>方法はスタッフからの指示、もしくはスタッフに確認してください。</p>
+<aside class="special"><p><strong>Tips:</strong></p>
+<ul>
+<li>Zoom ではチャット上でスタッフを指定して送付することができます。</li>
+<li>Slack や Teams の DM といった方法があります。</li>
+<li>Facebook Messenger や Twitter の DM といった方法があります。</li>
+</ul>
+</aside>
+<aside class="warning"><p><strong>注意: </strong></p>
+<ul>
+<li>アクセスコードは制限時間があります。その期限内にスタッフからアクセスする必要があるため、<strong>発行したら速やかに渡してください</strong>。</li>
+<li>アクセスコードは他人に知られてしまったとしても、この後の「共有の受け入れ」をしなければ制御が奪われることはありませんが、<strong>なるべく直接連絡できる方法で渡すことが好ましい</strong>です。</li>
+<li>もし、オープンな場に投稿してしまったら「アクセスコードのキャンセル」を速やかに行ってアクセスコードの無効化をします。</li>
+</ul>
+</aside>
+<h2 is-upgraded>共有を受け入れる</h2>
+<ol type="1" start="1">
+<li><h3 is-upgraded>しばらくすると &#34;～～ にパソコンの閲覧と制御を許可しますか？&#34; というダイアログが表示されます。この時 ～～ に表示されているメールアドレスがスタッフのものであるかを確認してから［共有］をクリックします。</h3>
+</li>
+</ol>
+<p class="image-container"><img style="width: 545.00px" src="img/604ec49776c7c607.png"></p>
+<aside class="warning"><p><strong>注意: </strong></p>
+<p>ここで &#34;共有&#34; するとスタッフによる操作支援が始まります。そのため、<strong>必ず接続元を確認するようにしてください</strong>。</p>
+</aside>
+<h2 is-upgraded>共有を終了する</h2>
+<p>操作支援が不要になったら共有を終了します。終了の方法は2つあります。</p>
+<h3 is-upgraded>画面下の［共有を停止］をクリックする方法</h3>
+<p class="image-container"><img style="width: 602.00px" src="img/533a71ca7b20182.png"></p>
+<p>スタッフ側でも確実に「共有が停止された」事がわかるため、この方法が望ましいです。</p>
+<h3 is-upgraded>Google Chrome を終了する方法</h3>
+<p>ブラウザを閉じれば共有は強制的に終了します。</p>
+<p>しかしながらスタッフ側では画面が残ってしまい、通信不良による一時的な問題なのか状況がわかりづらくなってしまうため、通常は［共有を停止］する方法を行うようにしてください。</p>
+<h2 is-upgraded>再度、操作支援を受けるには</h2>
+<p>アクセスコードの発行からやり直してください。</p>
+
+
+      </google-codelab-step>
+    
+      <google-codelab-step label="Appendix: アンインストール、操作支援をする人の操作、利用可能なネットワーク環境、本ドキュメントについて" duration="0">
+        <h2 is-upgraded>アンインストール</h2>
+<h3 is-upgraded>Windows</h3>
+<ul>
+<li>設定の「アプリと機能」で Google Remote Desktop Host を削除します。</li>
+<li>Google Chrome 拡張機能の Chrome Remote Desktop を削除します。</li>
+</ul>
+<h3 is-upgraded>macOS</h3>
+<ul>
+<li>Google Chrome 拡張機能の Chrome Remote Desktop を削除します。</li>
+</ul>
+<h2 is-upgraded>利用可能なネットワーク環境</h2>
+<p>トラブルシュートに役立つ情報（未確認ですが）</p>
+<ul>
+<li><a href="https://qiita.com/C_HERO/items/70ffec94e41b564ff5a5" target="_blank">Chrome リモート デスクトップ接続がうまくできない場合の解決策</a></li>
+<li><a href="https://support.google.com/chrome/a/answer/2799701?hl=ja" target="_blank">Chrome リモート デスクトップの利用を管理する - Google Chrome Enterprise ヘルプ</a></li>
+</ul>
+<h2 is-upgraded>操作支援をする人（スタッフ）の操作</h2>
+<p>https://remotedesktop.google.com/support/ を開いて &#34;サポートを提供する&#34; にアクセスコードを入力して［接続］で接続できます。</p>
+<p class="image-container"><img style="width: 602.00px" src="img/816fb42bd204be51.png"></p>
+<h2 is-upgraded>本ドキュメントについて</h2>
+<p>本ドキュメントは <a href="https://github.com/googlecodelabs/tools" target="_blank">CLaaT</a> を用いて制作しています。ソースドキュメントは <a href="https://drive.google.com/open?id=1BLGPudU0piT7zlasXVCEgmv48n-YewfgStVz_jmhGD0" target="_blank">Google Docs - chrome-remotedesktop-100</a> です。CLaaT 自体のハンズオンドキュメントは <a href="https://ma2shita.github.io/claat-serve/claat-start-100/" target="_blank">CLaaT コンテンツ作成ハンズオン</a> で公開しています。</p>
+<h3 is-upgraded>LICENSE</h3>
+<p>Copyright (c) 2020 <a href="https://twitter.com/ma2shita" target="_blank">Kohei &#34;Max&#34; MATSUSHITA</a><br>Released under the MIT license<br><a href="https://opensource.org/licenses/mit-license.php" target="_blank">https://opensource.org/licenses/mit-license.php</a></p>
+
+
+      </google-codelab-step>
+    
+  </google-codelab>
+
+  <script src="https://storage.googleapis.com/codelab-elements/native-shim.js"></script>
+  <script src="https://storage.googleapis.com/codelab-elements/custom-elements.min.js"></script>
+  <script src="https://storage.googleapis.com/codelab-elements/prettify.js"></script>
+  <script src="https://storage.googleapis.com/codelab-elements/codelab-elements.js"></script>
+
+</body>
+</html>
