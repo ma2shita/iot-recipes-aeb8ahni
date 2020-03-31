@@ -1,0 +1,262 @@
+
+<!doctype html>
+
+<html>
+<head>
+  <meta name="viewport" content="width=device-width, minimum-scale=1.0, initial-scale=1.0, user-scalable=yes">
+  <meta name="theme-color" content="#4F7DC9">
+  <meta charset="UTF-8">
+  <title>【IoT DIY レシピ】SORACOM LTE-M Buttonでできる、ドアの開閉モニタリング</title>
+  <link rel="stylesheet" href="//fonts.googleapis.com/css?family=Source+Code+Pro:400|Roboto:400,300,400italic,500,700|Roboto+Mono">
+  <link rel="stylesheet" href="//fonts.googleapis.com/icon?family=Material+Icons">
+  <link rel="stylesheet" href="https://storage.googleapis.com/codelab-elements/codelab-elements.css">
+  <style>
+    .success {
+      color: #1e8e3e;
+    }
+    .error {
+      color: red;
+    }
+  </style>
+</head>
+<body>
+  <google-codelab-analytics gaid="UA-66865146-33"></google-codelab-analytics>
+  <google-codelab codelab-gaid=""
+                  id="door-monitoring"
+                  title="【IoT DIY レシピ】SORACOM LTE-M Buttonでできる、ドアの開閉モニタリング"
+                  environment="web"
+                  feedback-link="">
+    
+      <google-codelab-step label="SORACOM LTE-M Buttonでできる、ドアの開閉モニタリング" duration="3">
+        <p>レシピ難易度：★★☆☆☆</p>
+<p>ソラコムのオフィスの扉は朝早く来た人が開けて、お客様がいつ来てもいい様にしています。当番制ではないことから、いつも「開けました」を社内のチャットに手動で通知しているのですが、結構忘れることが多く、「あれ？いま、開いてるの？」が頻発してました。ここで紹介する IoT レシピは SORACOM LTE-M Button と磁石で動くスイッチセンサー(磁気式リードスイッチ)を利用したドアのモニタリングです。ドアが開いた事を社内チャット(Slack)に通知する仕組みで、オフィスを少し快適できるのではないでしょうか。</p>
+<p>本レシピは、動画コンテンツも用意しております。本レシピの動いている様子を、映像で確認できますので、ぜひ動画もご覧ください。</p>
+<h3 is-upgraded>Day1. ボタンと磁気センサーをドアに設置</h3>
+<iframe class="youtube-video" src="https://www.youtube.com/embed/Icub6HSAVIE?rel=0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+<h3 is-upgraded>Day2. ボタンが発報したらLINEに通知</h3>
+<iframe class="youtube-video" src="https://www.youtube.com/embed/zOLJjFeH5es?rel=0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+<h2 is-upgraded>構成図</h2>
+<p class="image-container"><img style="width: 602.00px" src="img/4ed5b3651140b291.png"></p>
+
+
+      </google-codelab-step>
+    
+      <google-codelab-step label="準備" duration="3">
+        <h2 is-upgraded>ハードウェア</h2>
+<table>
+<tr><td colspan="1" rowspan="1"><p>品名</p>
+</td><td colspan="1" rowspan="1"><p>数量</p>
+</td><td colspan="1" rowspan="1"><p>価格</p>
+</td><td colspan="1" rowspan="1"><p>購入先</p>
+</td></tr>
+<tr><td colspan="1" rowspan="1"><p>SORACOM LTE-M Button Plus</p>
+</td><td colspan="1" rowspan="1"><p>1</p>
+</td><td colspan="1" rowspan="1"><p>7380円        </p>
+</td><td colspan="1" rowspan="1"><p><a href="https://soracom.jp/products/gadgets/button_plus/" target="_blank">ソラコム</a></p>
+</td></tr>
+<tr><td colspan="1" rowspan="1"><p>磁気センサー（A接点型）</p>
+</td><td colspan="1" rowspan="1"><p>1</p>
+</td><td colspan="1" rowspan="1"><p>1668円</p>
+</td><td colspan="1" rowspan="1"><p><a href="https://www.amazon.co.jp/dp/B07FM34M6K/" target="_blank">Amazon.co.jp</a></p>
+</td></tr>
+</table>
+<p>※金額はレシピ作成時となります。税抜き・送料別です。</p>
+<h2 is-upgraded>その他必要なもの</h2>
+<table>
+<tr><td colspan="1" rowspan="1"><p>サービス名</p>
+</td><td colspan="1" rowspan="1"><p>アカウント作成費用</p>
+</td><td colspan="1" rowspan="1"><p>URL</p>
+</td></tr>
+<tr><td colspan="1" rowspan="1"><p>SORACOM</p>
+</td><td colspan="1" rowspan="1"><p>無料</p>
+</td><td colspan="1" rowspan="1"><p><a href="https://soracom.jp" target="_blank">https://soracom.jp</a></p>
+</td></tr>
+<tr><td colspan="1" rowspan="1"><p>IFTTT</p>
+</td><td colspan="1" rowspan="1"><p>無料</p>
+</td><td colspan="1" rowspan="1"><p><a href="https://ifttt.com" target="_blank">https://ifttt.com</a></p>
+</td></tr>
+<tr><td colspan="1" rowspan="1"><p>Slack</p>
+</td><td colspan="1" rowspan="1"><p>無料</p>
+</td><td colspan="1" rowspan="1"><p><a href="https://slack.com/intl/ja-jp/" target="_blank">https://slack.com/intl/ja-jp/</a></p>
+</td></tr>
+</table>
+
+
+      </google-codelab-step>
+    
+      <google-codelab-step label="SORACOM LTE-M Button の登録から動作確認まで" duration="25">
+        <p>システムの構築は段階的に進めます。単純なサブシステム単位で動作を確認しながら、少しずつシステムを拡張することで、意図通りに動かない場合、原因を特定しやすくなります。まずはボタンを普通に押して、SORACOM Harvestでデータの受信を確認するところから始めましょう。</p>
+<h2 is-upgraded>【作業】ボタンの登録確認</h2>
+<p>作業に入る前に、SORACOM LTE-M Button PlusがIoT SIM 管理画面に登録されていることを確認します。SORACOM User Consoleから発注したボタンが届いたら、発注メニュー画面から「受け取り確認」を行わないと管理画面に登録されませんので、ご注意ください。ボタンの登録確認については、以下のページなどを参考にしてください。</p>
+<p><a href="https://dev.soracom.io/jp/start/enterprise_button_harvest/" target="_blank">https://dev.soracom.io/jp/start/enterprise_button_harvest/</a></p>
+<h2 is-upgraded>【作業】SIMグループの作成</h2>
+<p>本レシピでは、ボタンから受け取ったデータを、外部アプリケーション（IFTTT）に連携します。この連携設定はSIMグループに対して行うため、本レシピのために新たにSIMグループを作成する必要があります。まずは任意の名前でSIMグループを作成して下さい。SIMグループの作成方法が分からない場合、以下のページなどを参考にしてください。</p>
+<p><a href="https://dev.soracom.io/jp/start/console/#group" target="_blank">https://dev.soracom.io/jp/start/console/#group</a></p>
+<h2 is-upgraded>【作業】SIMグループの設定</h2>
+<p>次に、ボタンの所属グループを変更し、↑で作成したSIMグループに設定します。その上で、当該SIMグループに対して、</p>
+<ol type="1" start="1">
+<li>バイナリパーサーの設定</li>
+<li>SORACOM Harvestの有効化</li>
+</ol>
+<p>を行います。この手順については以下のページの「ステップ 2: SIMグループを作成する」などを参考にしてください。</p>
+<p><a href="https://dev.soracom.io/jp/start/enterprise_button_harvest/#create_group" target="_blank">https://dev.soracom.io/jp/start/enterprise_button_harvest/#create_group</a></p>
+<h2 is-upgraded>【作業】データの確認</h2>
+<p>この状態でボタンを押せば、SORACOM Harvest上でデータの受信が確認できる筈です。SORACOM Harvestでデータを確認する手順については、以下のページの「ステップ 3: クリックし Harvest でデータを確認する」などを参考にしてください。</p>
+<p><a href="https://dev.soracom.io/jp/start/enterprise_button_harvest/#visualize" target="_blank">https://dev.soracom.io/jp/start/enterprise_button_harvest/#visualize</a></p>
+
+
+      </google-codelab-step>
+    
+      <google-codelab-step label="磁気センサーと SORACOM LTE-M Button の接続まで" duration="15">
+        <p>本システムでは、人がボタンを押すのではなく、ドアの開閉により、自動的にデータ送信する仕組みが必要です。ドアの開閉を検知するため、磁気センサーを用います。</p>
+<h2 is-upgraded>磁気センサーとは</h2>
+<p>磁気センサー（A接点型）は、磁石を近づけると通電します。これを SORACOM LTE-M Button Plus の接点入力に接続することで、磁石を近づけると、ボタンからデータ送信する仕組みが作れます。ドアの開閉時に磁石と磁気センサーが近づくように設置すれば、ドアの開閉に応じて、ボタンからデータを受け取れます。</p>
+<h2 is-upgraded>【作業】磁気センサーとSORACOM LTE-M Buttonを接続</h2>
+<p>まずは磁気センサーをボタンの接点入力に接続します。付属のケーブル先端の露出している芯線と、磁気センサーの露出している芯線を撚り合わせ、テープなどで止めてしまうのが簡単です。</p>
+<p class="image-container"><img style="width: 602.00px" src="img/5587379596fca69a.png"></p>
+<h2 is-upgraded>【作業】磁気センサーをドアに設置</h2>
+<p>ドアに設置します。こんな感じで、ドアの隙間の両側に磁石と磁気センサーを配置し、ドアを閉じた状態で磁石と磁気センサーが接近するようにします。両面テープなどで固定してしまうのが簡単です。</p>
+<p class="image-container"><img style="width: 522.00px" src="img/76fc5a3e4812df30.png"></p>
+<h2 is-upgraded>【作業】ドアを開閉して、データの受信確認</h2>
+<p>設置完了したら、ドアを開閉して、データの受信を確認しましょう。正しく設置できていれば、ドアの開閉は、ボタンを押すのと同じ意味を持ちます。ボタンを押した場合と同じく、SORACOM Harvest上でデータの受信が確認できます。</p>
+<p class="image-container"><img style="width: 602.00px" src="img/938b553715e195a8.png"></p>
+
+
+      </google-codelab-step>
+    
+      <google-codelab-step label="SORACOM Beam &gt; IFTTT &gt; Slackの連携まで" duration="45">
+        <p>ドア開閉に応じてデータを送る動きが確認できたら、次はデータを受け取るアプリ側の設定を行います。設定の順番はSlack → IFTTT → SORACOM Beam となります。</p>
+<h2 is-upgraded>【作業】Slackの設定</h2>
+<p>まずはSlackの特定のchannelにメッセージを出力するIncoming Webhookの設定を行います。下記ページを開きます。</p>
+<p><a href="https://api.slack.com/messaging/webhooks" target="_blank">https://api.slack.com/messaging/webhooks</a></p>
+<p>&#34;Create your Slack app&#34; を押してAppを作成します。</p>
+<p class="image-container"><img style="width: 602.00px" src="img/b8a8f1919230de.png"></p>
+<p>Appの &#34;Incoming Webhooks&#34; をenableした後、&#34;Add New Webhook to Workspace&#34; を押して、Webhookを追加します。</p>
+<p>この時、 <strong>Webhook URL をメモ</strong>しておいてください。</p>
+<p class="image-container"><img style="width: 602.00px" src="img/b1dc35025c585bcd.png"></p>
+<p>以上でSlackの設定は終了です。</p>
+<h2 is-upgraded>【作業】IFTTTの設定</h2>
+<p>新しい &#34;IFTTT&#34; をCreateし、トリガーとアクションをWebhookに設定します。web requestの送付先URLは、先ほどSlackでメモをしたIncoming WebhookのURLをコピーします。</p>
+<table>
+<tr><td colspan="1" rowspan="1"><p>設定</p>
+</td><td colspan="1" rowspan="1"><p>値の例</p>
+</td><td colspan="1" rowspan="1"><p>コメント</p>
+</td></tr>
+<tr><td colspan="1" rowspan="1"><p>Event Name</p>
+</td><td colspan="1" rowspan="1"><p><code>button</code></p>
+</td><td colspan="1" rowspan="1"><p>任意で構いませんが SORACOM Beamへ設定するURLに影響が出るため英数子文字を推奨します。</p>
+</td></tr>
+<tr><td colspan="1" rowspan="1"><p>URL</p>
+</td><td colspan="1" rowspan="1"><p><strong>Slackでメモした Webhook URL</strong></p>
+</td></tr>
+<tr><td colspan="1" rowspan="1"><p>Method</p>
+</td><td colspan="1" rowspan="1"><p><code>POST</code></p>
+</td><td colspan="1" rowspan="1"><p>例と同じようにしてください。</p>
+</td></tr>
+<tr><td colspan="1" rowspan="1"><p>Content Type</p>
+</td><td colspan="1" rowspan="1"><p><code>application/json</code></p>
+</td><td colspan="1" rowspan="1"><p>例と同じようにしてください。</p>
+</td></tr>
+<tr><td colspan="1" rowspan="1"><p>Body</p>
+</td><td colspan="1" rowspan="1"><p><code>{&#34;text&#34;: &#34;Door closed!&#34;}</code></p>
+</td><td colspan="1" rowspan="1"><p><a href="https://api.slack.com/messaging/webhooks#posting_with_webhooks" target="_blank">SlackのWebhookフォーマットに準拠</a>する必要があります。</p>
+</td></tr>
+</table>
+<p class="image-container"><img style="width: 357.00px" src="img/92e48989d3b41d4.png"></p>
+<p>IFTTT の &#34;My services&#34; からWebhooksを選択し、Documentationを開きます。</p>
+<p>ここで <strong>Your key is: の値</strong>をメモしておきます。</p>
+<p class="image-container"><img style="width: 602.00px" src="img/6035debc19d5fd33.png"></p>
+<p>以上でIFTTTの設定は終了です。</p>
+<h2 is-upgraded>【作業】SORACOM Beam の連携設定</h2>
+<p>最後に、SORACOM Beam の転送先として設定します。</p>
+<p>ボタンが所属しているSIMグループに対し、SORACOM Beamの転送設定を追加します。</p>
+<p>ボタンから送られるデータはUDPなので、「UDP→HTTP/HTTPS エントリポイント」を選択してください。</p>
+<p class="image-container"><img style="width: 602.00px" src="img/47689d898cb928d0.png"></p>
+<p>ダイアログには以下のように入力します。ヘッダやレスポンスの設定は不要です。</p>
+<table>
+<tr><td colspan="1" rowspan="1"><p>設定</p>
+</td><td colspan="1" rowspan="1"><p>値の例</p>
+</td><td colspan="1" rowspan="1"><p>コメント</p>
+</td></tr>
+<tr><td colspan="1" rowspan="1"><p>プロトコル</p>
+</td><td colspan="1" rowspan="1"><p><code>HTTPS</code></p>
+</td><td colspan="1" rowspan="1"><p>例と同じようにしてください。</p>
+</td></tr>
+<tr><td colspan="1" rowspan="1"><p>ホスト名</p>
+</td><td colspan="1" rowspan="1"><p><code>maker.ifttt.com</code></p>
+</td><td colspan="1" rowspan="1"><p>例と同じようにしてください。</p>
+</td></tr>
+<tr><td colspan="1" rowspan="1"><p>ポート番号</p>
+</td><td colspan="1" rowspan="1"><p><code>443</code></p>
+</td><td colspan="1" rowspan="1"><p>例と同じようにしてください。</p>
+</td></tr>
+<tr><td colspan="1" rowspan="1"><p>パス</p>
+</td><td colspan="1" rowspan="1"><p><code>/trigger/button/with/KEY_ID</code></p>
+</td><td colspan="1" rowspan="1"><p>button のところは IFTTT の Event Name を、KEY_ID はIFTTTの Your Key ID is の値をそれぞれ置き換えてください。</p>
+</td></tr>
+</table>
+<p class="image-container"><img style="width: 602.00px" src="img/77f8e0fbef98317a.png"></p>
+<h2 is-upgraded>【作業】動作確認</h2>
+<p>ここまでの手順で、SORACOM Beam → IFTTT → Slack のデータ連携の設定は完了です。ドアを開閉すると、Slackに通知が来るはずです。完成！</p>
+<p class="image-container"><img style="width: 602.00px" src="img/dfc89e59c3bfd923.png"></p>
+
+
+      </google-codelab-step>
+    
+      <google-codelab-step label="仕組みの解説と費用感" duration="10">
+        <p>完成したところで、あらためて本システムの構成について説明します。本システムでは、</p>
+<ol type="1" start="1">
+<li>ドアの開閉検知そのものは磁気センサーで行い、</li>
+<li>SORACOM LTE-M Button Plus により、磁気センサーの接点状態をSORACOM Unified Endpointに送った上で、</li>
+<li>SORACOM Harvestによる動作確認、および</li>
+<li>SORACOM BeamによるIFTTT、Slackへのデータ連携</li>
+</ol>
+<p>を行っています。ここで、IFTTTは、SlackのIncoming Webhookに合わせたHTTPリクエストの整形のために利用しています。</p>
+<p>本システムの特徴は、SORACOM Unified Endpointを介することで、SORACOMサービスを活用した柔軟なシステム構成を実現していることです。（SORACOM LTE-M Buttonを採用すると、その時点でUnified Endpointを必ず通るシステムになるのですが）</p>
+<p class="image-container"><img style="width: 602.00px" src="img/4ed5b3651140b291.png"></p>
+<h3 is-upgraded>SORACOM Harvestによるデータ受信確認</h3>
+<p>IFTTTやSlackなど、データを受け取るアプリ側が存在しない状態で、最小のシステム構成で動作確認できます。磁気センサーを設置する際、ドア開閉を確実に検知するため、設置位置の細かい調整などが発生することでしょう。アプリの設定を先に済ませれば、アプリでデータの受信確認を行うことも可能ですが、そうすると、アプリ側に問題があるのか、デバイス側に問題があるのか、切り分けが必要になってしまいます。SORACOM Harvestを利用すれば、アプリを排除した最小のシステム構成で動作確認ができて、なおかつIFTTTやSlackにデータ連携する最終的なシステム構成との両立もできてしまいます。</p>
+<h3 is-upgraded>SORACOM Beamによるプロトコル変換・データ転送</h3>
+<p>SORACOM LTE-M Buttonから送られるデータはUDPなので、IFTTTなどのアプリでデータを受け取るためには、HTTPSなどにプロトコル変換する必要があります。これを担っているのがSORACOM Beamです。さらにSORACOM Beamが強力なのは、IFTTT以外のアプリを利用したい、となった場合、そのような大きなシステム変更が、設定の変更だけでできてしまうことです。</p>
+<h2 is-upgraded>費用感</h2>
+<p>本システムを実際に運用してみました。一日2～3回程度のデータ送信を1ヵ月続けてみたところ 104円となりました。</p>
+<table>
+<tr><td colspan="1" rowspan="1"><p>plan-KM1 ※ SORACOM LTE-M Button Plus 内蔵の LTE-M 通信</p>
+</td><td colspan="1" rowspan="1"><p>基本料: 100円/月 通信料: 3円/月</p>
+</td></tr>
+<tr><td colspan="1" rowspan="1"><p>SORACOM Beam</p>
+</td><td colspan="1" rowspan="1"><p>利用料: 1円/月</p>
+</td></tr>
+<tr><td colspan="1" rowspan="1"><p>IFTTT</p>
+</td><td colspan="1" rowspan="1"><p>無料</p>
+</td></tr>
+<tr><td colspan="1" rowspan="1"><p>Slack</p>
+</td><td colspan="1" rowspan="1"><p>無料プラン利用</p>
+</td></tr>
+</table>
+<p>※金額はレシピ作成時となります。税抜き・送料別です。</p>
+
+
+      </google-codelab-step>
+    
+      <google-codelab-step label="まとめ" duration="5">
+        <p>本レシピでは、SORACOM LTE-M Button Plusと各種SORACOMサービスを活用した、ドアの開閉検知システムの構築方法を紹介しました。一旦システムが完成すれば、そのノウハウやサブシステムを流用することで、アプリケーション開発が格段に容易になります。ぜひ皆さまも、SORACOM LTE-M Button Plusを使った独自のレシピを開発してみて下さい！</p>
+<h2 is-upgraded>参考サイト</h2>
+<ul>
+<li><a href="https://codezine.jp/article/detail/11187" target="_blank">現場のデジタル化を手軽に実現！ SORACOM LTE-M Button Plusで「今日からできるIoT」 (1/3)：CodeZine（コードジン）</a></li>
+<li><a href="https://qiita.com/kshibata101/items/0e13c420080a993c5d16" target="_blank">slackのIncoming webhookが新しくなっていたのでまとめてみた - Qiita</a></li>
+<li><a href="https://www.maff.go.jp/kyusyu/seiryuu/cyoujyugai/wana_tsu.html" target="_blank">わな通知機の製作事例（改良版）：九州農政局</a></li>
+</ul>
+
+
+      </google-codelab-step>
+    
+  </google-codelab>
+
+  <script src="https://storage.googleapis.com/codelab-elements/native-shim.js"></script>
+  <script src="https://storage.googleapis.com/codelab-elements/custom-elements.min.js"></script>
+  <script src="https://storage.googleapis.com/codelab-elements/prettify.js"></script>
+  <script src="https://storage.googleapis.com/codelab-elements/codelab-elements.js"></script>
+
+</body>
+</html>

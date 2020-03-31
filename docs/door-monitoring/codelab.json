@@ -1,0 +1,22 @@
+{
+  "environment": "web",
+  "format": "html",
+  "prefix": "https://storage.googleapis.com",
+  "mainga": "UA-66865146-33",
+  "updated": "2020-03-31T08:40:05Z",
+  "id": "door-monitoring",
+  "duration": 106,
+  "title": "【IoT DIY レシピ】SORACOM LTE-M Buttonでできる、ドアの開閉モニタリング",
+  "authors": "SORACOM, INC.",
+  "summary": "SORACOM LTE-M Button と磁石で動くスイッチセンサー(磁気式リードスイッチ)を利用したドアのモニタリングです。ドアが開いた事を社内チャット(Slack)に通知する仕組みで、オフィスを少し快適できるのではないでしょうか。",
+  "source": "1UVakbTNl33Tml_wSB_zFd-YDV66S-puGXIjxRIlwiVw",
+  "theme": "200-recipe",
+  "status": [
+    "published"
+  ],
+  "category": [
+    "200-Recipe"
+  ],
+  "tags": [],
+  "url": "door-monitoring"
+}
