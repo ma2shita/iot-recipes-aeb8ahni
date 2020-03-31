@@ -1,0 +1,258 @@
+
+<!doctype html>
+
+<html>
+<head>
+  <meta name="viewport" content="width=device-width, minimum-scale=1.0, initial-scale=1.0, user-scalable=yes">
+  <meta name="theme-color" content="#4F7DC9">
+  <meta charset="UTF-8">
+  <title>CLaaT コンテンツ作成ハンズオン</title>
+  <link rel="stylesheet" href="//fonts.googleapis.com/css?family=Source+Code+Pro:400|Roboto:400,300,400italic,500,700|Roboto+Mono">
+  <link rel="stylesheet" href="//fonts.googleapis.com/icon?family=Material+Icons">
+  <link rel="stylesheet" href="https://storage.googleapis.com/codelab-elements/codelab-elements.css">
+  <style>
+    .success {
+      color: #1e8e3e;
+    }
+    .error {
+      color: red;
+    }
+  </style>
+</head>
+<body>
+  <google-codelab-analytics gaid="UA-66865146-33"></google-codelab-analytics>
+  <google-codelab codelab-gaid=""
+                  id="claat-start-100"
+                  title="CLaaT コンテンツ作成ハンズオン"
+                  environment="web"
+                  feedback-link="">
+    
+      <google-codelab-step label="概要" duration="2">
+        <p>ハンズオンコンテンツ生成・ポータルフレームワーク &#34;<strong>CLaaT</strong>&#34; を利用した「ハンズオンコンテンツ製作のハンズオン」です。Google Docsで製作したドキュメントからHTMLや画像などのファイル一式を生成し、PC上で確認できるところまでを行います。</p>
+<p class="image-container"><img style="width: 602.00px" src="img/3f74e3756ec72a36.png"></p>
+<h2 is-upgraded>できるようになる事</h2>
+<ul>
+<li>Google Docsによるソースドキュメントの作成の基礎</li>
+<li><code>claat</code> コマンドによるアセット生成と確認</li>
+<li>作成済みソースドキュメントの修正からアセットの再作成と確認</li>
+</ul>
+<h2 is-upgraded>このハンズオンでサポートしない事 (前提知識)</h2>
+<ul>
+<li>Google DocsやGoogle Driveの操作</li>
+<li>ソースドキュメントのメタデータの解説</li>
+<li>高度なコンテンツ作成フォーマット</li>
+<li>Markdown形式によるソースドキュメントの作成</li>
+<li>CLaaTのポータル機能全般</li>
+<li>生成されたアセットのアップロード</li>
+<li>Google Analytics連携と分析</li>
+<li>文章そのものの書き方 (^q^</li>
+</ul>
+<h2 is-upgraded>用語</h2>
+<table>
+<tr><td colspan="1" rowspan="1"><p>アセット</p>
+</td><td colspan="1" rowspan="1"><p>HTML、画像、メタ情報格納のJSONといったファイル一式</p>
+</td></tr>
+<tr><td colspan="1" rowspan="1"><p>ソースドキュメント</p>
+</td><td colspan="1" rowspan="1"><p>アセットの基となるMarkdownファイルやGoogle Docs</p>
+</td></tr>
+</table>
+
+
+      </google-codelab-step>
+    
+      <google-codelab-step label="CLaaTとは" duration="3">
+        <p>ハンズオンコンテンツを効率よく作成・配信するためのフレームワークです。コンテンツそのものを出力するジェネレータ機能と、コンテンツ群を列挙するポータル機能に分かれており、どちらかだけ利用することも可能です。基となるドキュメントはMarkdownもしくはGoogle Docsが利用できます。また、出力されるコンテンツは静的HTMLと画像群であるため、あらゆるサイトでの配信が可能です。Google社員によるボランティアプロジェクトでApache-2.0ライセンスで公開されています。CLaaT は &#34;<strong>C</strong>ode<strong>l</strong>abs <strong>a</strong>s <strong>a T</strong>hing&#34; から来ているそうです。</p>
+<p><a href="https://github.com/googlecodelabs/tools" target="_blank">https://github.com/googlecodelabs/tools</a></p>
+<h2 is-upgraded>CLaaT(+ Google Docs)の利点</h2>
+<ul>
+<li>生成されるアセットは全て静的コンテンツであるため、どのような場所からでも配信できる。</li>
+<li>ソースドキュメントの作成・編集だけならばブラウザのみで可能(<code>claat</code> コマンド不要)であることから取り掛かりが容易。図も「図形描画」が利用でき、画像編集ソフトを利用せずともスクリーンショット等の取り込みに加え、マスキングといった編集が可能。また「画像が散らばる」ことが無いため管理も容易。</li>
+<li>ソースドキュメントの権限設定はに影響されることなくアセット生成が可能。また、Google Docsの「コメント」や「提案」は生成の対象外であるため、外部の執筆者や校閲者を呼び込みやすい。</li>
+<li>プリントアウトはソースドキュメント自体が利用できる。</li>
+<li>Google Analyticsを利用した達成度状況や簡易的なアンケート収集が可能で、改善点や効果測定についてデジタルマーケティングの手法が利用できる。</li>
+</ul>
+<h2 is-upgraded>ハンズオンコンテンツ単体の制作から配信までのワークフロー</h2>
+<ul>
+<li>Google Docsでソースドキュメント作成・修正</li>
+<li><code>claat export</code> でアセットを生成</li>
+<li><code>claat serve</code> でPC上で確認</li>
+<li>OKならばアセットをWebサーバへアップロード <strong>※本ハンズオンの対象外</strong></li>
+</ul>
+<p class="image-container"><img style="width: 602.00px" src="img/499a6ff9051229c5.png"></p>
+
+
+      </google-codelab-step>
+    
+      <google-codelab-step label="必要なものと準備" duration="0">
+        <ul>
+<li>最新版Google Chrome</li>
+</ul>
+<h2 is-upgraded>Preview Codelab Chrome 拡張機能</h2>
+<p>Google Docsで書いているソースドキュメントをプレビューすることができる機能拡張です。 <a href="https://chrome.google.com/webstore/detail/preview-codelab/lhojjnijnkiglhkggagbapfonpdlinji" target="_blank">https://chrome.google.com/webstore/detail/preview-codelab/lhojjnijnkiglhkggagbapfonpdlinji</a> からインストールしてください。</p>
+<h3 is-upgraded>使い方</h3>
+<p>Google Chromeでソースドキュメント(Google Docs)を開き、アドレスバー横の<img style="width: 97.00px" src="img/f1f4ebfa39f928cd.png">をクリックすると、新しいタブが開きプレビューが表示されます。(Google Docs以外のページでは「サイトのデータが読み取れないか、変更できません」と表示され、新しいタブが開きません）</p>
+<p>ソースドキュメントを編集後、プレビュー側のタブを再読み込みすると編集内容が即時反映されます。</p>
+<h2 is-upgraded>CLaaTコマンド ― Windows 編</h2>
+<p><a href="https://github.com/googlecodelabs/tools/releases/latest" target="_blank">https://github.com/googlecodelabs/tools/releases/latest</a> を開きます。</p>
+<p><code>claat-windows-amd64.exe</code> をダウンロードします。</p>
+<p class="image-container"><img style="width: 602.00px" src="img/ca1e5064db0502ed.png"></p>
+<p>［スタート］を右クリック &gt; ［ファイル名を指定して実行］を開きます。</p>
+<p class="image-container"><img style="width: 299.00px" src="img/a4b22729d3c926f8.png"></p>
+<p>［名前］に <code>%LOCALAPPDATA%\Microsoft\WindowsApps</code> を入れて［OK］をクリックします。</p>
+<p class="image-container"><img style="width: 402.00px" src="img/5985b8fcf6ed92d4.png"></p>
+<p>ダウンロード済みの <code>claat-windows-amd64.exe</code> を開いたウィンドウ(WindowsApps)へ移動します。</p>
+<p class="image-container"><img style="width: 602.00px" src="img/3448e5ec2b387641.png"></p>
+<p>移動した <code>claat-windows-amd64.exe</code> のファイル名を <code>claat.exe</code> に変更します。</p>
+<p>以上でインストールは終了です。</p>
+<h3 is-upgraded>使い方とアップデート</h3>
+<p>PowerShell もしくはコマンドプロンプト(cmd.exe)にて <code>claat</code> で実行できるようになります。</p>
+<p>アップデートについても同様の作業で、新しいバージョンをダウンロードして上書きしてください。</p>
+<h2 is-upgraded>CLaaTコマンド ― macOS, Linux, WSL(Windows Subsystem for Linux) 編</h2>
+<p><a href="https://github.com/googlecodelabs/tools/releases/latest" target="_blank">https://github.com/googlecodelabs/tools/releases/latest</a> を開きます。</p>
+<p><code>claat-darwin-amd64</code> をダウンロードします。<br>※ Linux もしくは WSL の場合は <code>claat-linux-amd64</code> をダウンロードします。以降の手順で読み替えてください。</p>
+<p class="image-container"><img style="width: 602.00px" src="img/fdd782a88bf3c62d.png"></p>
+<p>なんとかして PATH が通っているところ 例) <code>/usr/local/bin</code> にコピーしてください。（後で書きます）</p>
+<h3 is-upgraded>使い方とアップデート</h3>
+<p>Terminal.app(bash) にて <code>claat</code> で実行できるようになります。</p>
+<p>アップデートについても同様の作業で、新しいバージョンをダウンロードして上書きしてください。</p>
+
+
+      </google-codelab-step>
+    
+      <google-codelab-step label="テンプレートファイルを準備する" duration="3">
+        <p>ゼロから作ってもいいですが、早く体験するためにもテンプレートファイルから始めましょう。</p>
+<ol type="1" start="1">
+<li><h3 is-upgraded><a href="https://drive.google.com/open?id=1FXJGzsrTjDkHTtfaOsZkzZeU7ZUZQ7M52hHuKm9Fl8o" target="_blank">テンプレートファイル</a>を開き［ファイル］&gt;［マイドライブに追加］をクリックします。</h3>
+</li>
+</ol>
+<p class="image-container"><img style="width: 214.00px" src="img/420b223ae71fc3b4.png"></p>
+<ol type="1" start="2">
+<li><h3 is-upgraded><a href="https://drive.google.com/drive/u/0/my-drive" target="_blank">マイドライブ</a>を開き <code>claat-template-100</code> を右クリックし［コピーを作成］をクリックします。</h3>
+</li>
+</ol>
+<p class="image-container"><img style="width: 550.00px" src="img/f0df78fe4be7c028.png"></p>
+<ol type="1" start="3">
+<li><h3 is-upgraded>以下のようにコピーが作成されていれば完了です。</h3>
+</li>
+</ol>
+<p class="image-container"><img style="width: 317.00px" src="img/5528448a96739ea6.png"></p>
+<aside class="special"><p><strong>Note:</strong> このとき基となった claat-template-100 は削除しても問題ありません。</p>
+</aside>
+
+
+      </google-codelab-step>
+    
+      <google-codelab-step label="プレビューをしてみる" duration="0">
+        <p><strong>claat-template-100 のコピー</strong>を開き、アドレスバー横の<img style="width: 97.00px" src="img/f1f4ebfa39f928cd.png">をクリックすると、新たなタブが開きプレビューが表示(以下、プレビュー)されます。</p>
+
+
+      </google-codelab-step>
+    
+      <google-codelab-step label="編集をしてみる" duration="0">
+        <ol type="1" start="1">
+<li><h3 is-upgraded><strong>タイトル</strong>を<strong>ハンズオンテキスト</strong>に編集してから、プレビューで再読み込みしてみましょう。</h3>
+</li>
+</ol>
+<p class="image-container"><img style="width: 602.00px" src="img/bf193f61c901d149.png"></p>
+<aside class="warning"><p><strong>Note:</strong> プレビューは自動的な再読み込みはサポートしていません。</p>
+</aside>
+<ol type="1" start="2">
+<li><h3 is-upgraded>文章を編集してプレビューで見てみましょう。</h3>
+</li>
+</ol>
+<p>例えば以下は編集ポイントです。</p>
+<ul>
+<li>A には b に →  A には <strong>a</strong> に</li>
+<li>B には a に → B には <strong>b</strong> に</li>
+<li>生命、世界、そして万物 → 生命、<strong>宇宙</strong>、そして万物</li>
+</ul>
+<h2 is-upgraded>これ以降はテキスト内の「やってみよう」に沿って作業を進めてください。</h2>
+
+
+      </google-codelab-step>
+    
+      <google-codelab-step label="アセットの生成" duration="0">
+        <p>claat コマンドでアセットを生成します。</p>
+<h2 is-upgraded>Google Docs ID を入手します</h2>
+<p>対象となる Google Docs を開いた時のアドレスバーから入手します。（それ以外の方法が無い！）</p>
+<p class="image-container"><img style="width: 602.00px" src="img/f5900e0f113d6dd5.png"></p>
+<p>上記の例では</p>
+<p><code>https://docs.google.com/document/d/</code><strong><code>1FXJGzsrTjDkHTtfaOsZkzZeU7ZUZQ7M52hHuKm9Fl8o</code></strong><code>/edit#</code></p>
+<p>となっているところが ID です。</p>
+<h2 is-upgraded><code>claat export</code> を実行します</h2>
+<pre><code>$ claat export -ga &#34;&#34; [Google Docs ID]
+となります。上記の例ならば以下の通りです。
+$ claat export -ga &#34;&#34; 1FXJGzsrTjDkHTtfaOsZkzZeU7ZUZQ7M52hHuKm9Fl8o</code></pre>
+<p>正常に実行されると <code>ok      claat-template-100</code> といった表示がされ、同名のディレクトリが作成されています。これは Google Docs 内の冒頭にあるメタ情報テーブルの <code>URL</code> がこのディレクトリになります。この URL を変更することで出力先を制御できます。(= Google Docs のファイル名は利用されません)</p>
+<p class="image-container"><img style="width: 602.00px" src="img/d8e062141aedc127.png"></p>
+<p>このディレクトリの中に全てのアセットが生成されています。</p>
+<pre><code>❯ ls -F claat-template-100/
+codelab.json  img/  index.html</code></pre>
+<h2 is-upgraded><code>claat serve</code> でローカル確認します</h2>
+<p>アセットのディレクトリへ移動した後 <code>claat serve</code> を実行すればコンテンツを <a href="http://localhost:9090" target="_blank">http://localhost:9090</a> で確認できます。</p>
+<pre><code>❯ cd claat-template-100
+❯ claat serve
+Serving codelabs on localhost:9090, opening browser tab now...</code></pre>
+<p>基本的にはプレビューと同様の出力となります。</p>
+
+
+      </google-codelab-step>
+    
+      <google-codelab-step label="おわりに / 片付けなど" duration="0">
+        <p>あとでかく。</p>
+
+
+      </google-codelab-step>
+    
+      <google-codelab-step label="付録1：実運用で考慮すること" duration="0">
+        <h2 is-upgraded>CLaaTの課題と回避策</h2>
+<table>
+<tr><td colspan="1" rowspan="1"><p>Polymer アプリで実装されているため、SEO的な観点でのアセットにはなっていない。</p>
+</td><td colspan="1" rowspan="1"><p>検索自体には引っかかるようなので、適切なポータルやLPがあれば良さそう。</p>
+</td></tr>
+<tr><td colspan="1" rowspan="1"><p>Polymer Projectの勢いが微妙な感じがする。</p>
+</td><td colspan="1" rowspan="1"><p>生成後のアセットを直接いじるわけでは無いので、フレームワーク自体の今後を考慮する必要はあまり感じられないから無視できるかと。</p>
+</td></tr>
+<tr><td colspan="1" rowspan="1"><p>左上［×］によるバックが消せない。また最後の［Done］の行先が設定できない。</p>
+</td><td colspan="1" rowspan="1"><p>［x］はCSSをstorage.google.comではなく独自配信するようにしたうえで独自CSSを追記すれば回避可能だが、アップデート追従に配慮が必要。 (<code>export -prefix</code> で指定できる)</p>
+<p>［Done］は、、、どうする？［x］同様に消してしまうという回避策も考えられる。</p>
+</td></tr>
+<tr><td colspan="1" rowspan="1"><p><code>claat</code> コマンド実行環境が必要。</p>
+</td><td colspan="1" rowspan="1"><p>頑張ってください。</p>
+</td></tr>
+<tr><td colspan="1" rowspan="1"><p>Google Docsで指定したフォーマットが全て反映されるわけでは無い。</p>
+</td><td colspan="1" rowspan="1"><p>生成時の表現力の限界ではあるが、必要十分であると考えられる。逆に考えると、印刷用スタイルが設定できるという利点もある。</p>
+</td></tr>
+<tr><td colspan="1" rowspan="1"><p>Google Docs上で直接図形描画すると解像度が低い画像が生成される。</p>
+</td><td colspan="1" rowspan="1"><p>別途「図形描画」を作ってから［描画］&gt;［ドライブから］で取り込むことで回避できる。</p>
+<p>コピーは追従せず元の図形描画ファイルへのリンクとなるため、権限もしくはコピー後の差し替えが必要となるので注意。</p>
+</td></tr>
+<tr><td colspan="1" rowspan="1"><p>放っておくと <code>UA-49880327-14</code> にデータが送信される。</p>
+</td><td colspan="1" rowspan="1"><p><code>claat export</code> で <code>-ga GA_ID</code> を指定すればOK。GA_ID を <code>&#34;&#34;</code> と空にすればGAビーコン自体が飛ばなくなる。</p>
+</td></tr>
+<tr><td colspan="1" rowspan="1"><p>再生成の時に使われなくなった画像が消えない。</p>
+</td><td colspan="1" rowspan="1"><p><code>rm -rf claat_assets</code> をした後に改めて export する方法があります。</p>
+</td></tr>
+</table>
+
+
+      </google-codelab-step>
+    
+      <google-codelab-step label="次へのステップ" duration="0">
+        <ul>
+<li>アセットのアップロード</li>
+<li><a href="https://ma2shita.github.io/claat-serve/claat-google-analytics-200/" target="_blank">CLaaT Google Analytics 連携ハンズオン</a></li>
+</ul>
+
+
+      </google-codelab-step>
+    
+  </google-codelab>
+
+  <script src="https://storage.googleapis.com/codelab-elements/native-shim.js"></script>
+  <script src="https://storage.googleapis.com/codelab-elements/custom-elements.min.js"></script>
+  <script src="https://storage.googleapis.com/codelab-elements/prettify.js"></script>
+  <script src="https://storage.googleapis.com/codelab-elements/codelab-elements.js"></script>
+
+</body>
+</html>
