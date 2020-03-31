@@ -35,6 +35,7 @@ $ git add . && git commit -m "YOUR_COMMENT" && git push
 
 - Main recipes.
     - [door-monitoring-by-soracom-lte-m-button](https://soracom.github.io/iot-recipes/door-monitoring-by-soracom-lte-m-button) / `1UVakbTNl33Tml_wSB_zFd-YDV66S-puGXIjxRIlwiVw`
+    - [vehicle-tracking-by-meitrack-t366](https://soracom.github.io/iot-recipes/vehicle-tracking-by-meitrack-t366) / `1GozK8FEoxNNzzSRfWeMhFAqCr38myfsgybKIvOtrd1U`
 - Handson contents (Beta).
     - [wio-lte-handson-100](https://soracom.github.io/iot-recipes/wio-lte-handson-100) / `1WjXrAIr8DLeddNAP1s3vBcK7VWFejdkuewUzwTm4c_g`
 - Handson contents for sandbox. U can use for operation and Google Analytics tests.
