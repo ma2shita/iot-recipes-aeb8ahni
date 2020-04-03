@@ -3,7 +3,7 @@
 IoT Recipes for Marketplace items.
 
 - 公開先 (当面): GItHub Pages / https://soracom.github.io/iot-recipes/RECIPE_NAME/
-    - e.g.) https://soracom.github.io/iot-recipes/door-monitoring/
+    - e.g.) https://soracom.github.io/iot-recipes/door-monitoring-by-soracom-lte-m-button/
 
 ### Note;
 
