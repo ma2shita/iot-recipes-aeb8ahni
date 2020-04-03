@@ -1,7 +1,7 @@
 {
   "environment": "web",
   "format": "html",
-  "prefix": "https://storage.googleapis.com",
+  "prefix": "https://soracom.github.io/iot-recipes",
   "mainga": "UA-66865146-33",
   "updated": "2020-03-27T02:39:32Z",
   "id": "claat-start-100",
