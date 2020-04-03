@@ -27,7 +27,7 @@ This repository is used to delivers CLaaT content on GitHub Pages.
 
 ```
 $ cd docs/
-$ claat export -ga UA-66865146-33 GOOGLE_DOCS_ID
+$ claat export -ga UA-66865146-33 -prefix https://soracom.github.io/iot-recipes GOOGLE_DOCS_ID
 $ git add . && git commit -m "YOUR_COMMENT" && git push
 ```
 
@@ -49,13 +49,13 @@ $ utils/check_updates || utils/fetch_cssjs && utils/patch_cssjs
 #### Google Docs IDs
 
 - Main recipes.
-    - [door-monitoring-by-soracom-lte-m-button](https://soracom.github.io/iot-recipes/door-monitoring-by-soracom-lte-m-button) / `1UVakbTNl33Tml_wSB_zFd-YDV66S-puGXIjxRIlwiVw`
-    - [vehicle-tracking-by-meitrack-t366](https://soracom.github.io/iot-recipes/vehicle-tracking-by-meitrack-t366) / `1GozK8FEoxNNzzSRfWeMhFAqCr38myfsgybKIvOtrd1U`
+    - [door-monitoring-by-soracom-lte-m-button](https://soracom.github.io/iot-recipes/door-monitoring-by-soracom-lte-m-button) / [`1UVakbTNl33Tml_wSB_zFd-YDV66S-puGXIjxRIlwiVw`](https://docs.google.com/document/d/1UVakbTNl33Tml_wSB_zFd-YDV66S-puGXIjxRIlwiVw/edit?usp=sharing)
+    - [vehicle-tracking-by-meitrack-t366](https://soracom.github.io/iot-recipes/vehicle-tracking-by-meitrack-t366) / [`1GozK8FEoxNNzzSRfWeMhFAqCr38myfsgybKIvOtrd1U`](https://docs.google.com/document/d/1GozK8FEoxNNzzSRfWeMhFAqCr38myfsgybKIvOtrd1U/edit?usp=sharing)
 - Handson contents (Beta).
-    - [wio-lte-handson-100](https://soracom.github.io/iot-recipes/wio-lte-handson-100) / `1WjXrAIr8DLeddNAP1s3vBcK7VWFejdkuewUzwTm4c_g`
+    - [wio-lte-handson-100](https://soracom.github.io/iot-recipes/wio-lte-handson-100) / [`1WjXrAIr8DLeddNAP1s3vBcK7VWFejdkuewUzwTm4c_g`](https://docs.google.com/document/d/1WjXrAIr8DLeddNAP1s3vBcK7VWFejdkuewUzwTm4c_g/edit?usp=sharing)
 - Handson contents for sandbox. U can use for operation and Google Analytics tests.
-    - [claat-start-100](https://soracom.github.io/iot-recipes/claat-start-100) : `1GHDSvRgDdxNAKKH8Fz5T3DgaQMIdirIs8S-MJQ8poTg`
-    - [claat-google-analytics-200](https://soracom.github.io/iot-recipes/claat-google-analytics-200) : `1J9TGH-0R94Kp1chx0lHZpEbl5B4Jje9CZZgygMP7jus`
-    - [chrome-remotedesktop-100](https://soracom.github.io/iot-recipes/chrome-remotedesktop-100) / `1BLGPudU0piT7zlasXVCEgmv48n-YewfgStVz_jmhGD0`
+    - [claat-start-100](https://soracom.github.io/iot-recipes/claat-start-100) : [`1GHDSvRgDdxNAKKH8Fz5T3DgaQMIdirIs8S-MJQ8poTg`](https://docs.google.com/document/d/1GHDSvRgDdxNAKKH8Fz5T3DgaQMIdirIs8S-MJQ8poTg/edit?usp=sharing)
+    - [claat-google-analytics-200](https://soracom.github.io/iot-recipes/claat-google-analytics-200) : [`1J9TGH-0R94Kp1chx0lHZpEbl5B4Jje9CZZgygMP7jus`](https://docs.google.com/document/d/1J9TGH-0R94Kp1chx0lHZpEbl5B4Jje9CZZgygMP7jus/edit?usp=sharing)
+    - [chrome-remotedesktop-100](https://soracom.github.io/iot-recipes/chrome-remotedesktop-100) / [`1BLGPudU0piT7zlasXVCEgmv48n-YewfgStVz_jmhGD0`](https://docs.google.com/document/d/1BLGPudU0piT7zlasXVCEgmv48n-YewfgStVz_jmhGD0/edit?usp=sharing)
 
 EoT
