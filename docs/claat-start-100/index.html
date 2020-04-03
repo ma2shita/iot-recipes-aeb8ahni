@@ -25,9 +25,9 @@
                   id="claat-start-100"
                   title="CLaaT コンテンツ作成ハンズオン"
                   environment="web"
-                  feedback-link="">
+                  feedback-link="https://github.com/soracom/iot-recipes">
     
-      <google-codelab-step label="概要" duration="2">
+      <google-codelab-step label="概要" duration="3">
         <p>ハンズオンコンテンツ生成・ポータルフレームワーク &#34;<strong>CLaaT</strong>&#34; を利用した「ハンズオンコンテンツ製作のハンズオン」です。Google Docsで製作したドキュメントからHTMLや画像などのファイル一式を生成し、PC上で確認できるところまでを行います。</p>
 <p class="image-container"><img style="width: 602.00px" src="img/3f74e3756ec72a36.png"></p>
 <h2 is-upgraded>できるようになる事</h2>
@@ -56,11 +56,18 @@
 </td><td colspan="1" rowspan="1"><p>アセットの基となるMarkdownファイルやGoogle Docs</p>
 </td></tr>
 </table>
+<aside class="warning"><p>本コンテンツは現状のままで提供され、株式会社ソラコムは、誤りがないことの保証を含め、明示であると黙示であるとを問わず、本コンテンツの記載内容につき、いかなる種類の表明も保証も行いません。</p>
+<p>掲載情報の閲覧及び利用により、利用者自身、もしくは第三者が被った損害に対して、直接的、間接的を問わず、株式会社ソラコムは責任を負いかねます。</p>
+<p>本コンテンツを実践する中で用意された機器、利用されたサービスについてのご質問は、それぞれの機器やサービスの提供元にお問い合わせをお願いします。機器やサービスの仕様は、本コンテンツ作成当時のものです。</p>
+<p>本ドキュメントは <a href="https://github.com/googlecodelabs/tools" target="_blank">CLaaT</a> を用いて制作しています。</p>
+<p>LICENSE<br>Copyright (c) 2020 SORACOM, INC.<br>Released under the MIT license<br><a href="https://opensource.org/licenses/mit-license.php" target="_blank">https://opensource.org/licenses/mit-license.php</a></p>
+</aside>
+
 
 
       </google-codelab-step>
     
-      <google-codelab-step label="CLaaTとは" duration="3">
+      <google-codelab-step label="CLaaTとは" duration="5">
         <p>ハンズオンコンテンツを効率よく作成・配信するためのフレームワークです。コンテンツそのものを出力するジェネレータ機能と、コンテンツ群を列挙するポータル機能に分かれており、どちらかだけ利用することも可能です。基となるドキュメントはMarkdownもしくはGoogle Docsが利用できます。また、出力されるコンテンツは静的HTMLと画像群であるため、あらゆるサイトでの配信が可能です。Google社員によるボランティアプロジェクトでApache-2.0ライセンスで公開されています。CLaaT は &#34;<strong>C</strong>ode<strong>l</strong>abs <strong>a</strong>s <strong>a T</strong>hing&#34; から来ているそうです。</p>
 <p><a href="https://github.com/googlecodelabs/tools" target="_blank">https://github.com/googlecodelabs/tools</a></p>
 <h2 is-upgraded>CLaaT(+ Google Docs)の利点</h2>
@@ -83,7 +90,7 @@
 
       </google-codelab-step>
     
-      <google-codelab-step label="必要なものと準備" duration="0">
+      <google-codelab-step label="必要なものと準備" duration="15">
         <ul>
 <li>最新版Google Chrome</li>
 </ul>
@@ -119,7 +126,7 @@
 
       </google-codelab-step>
     
-      <google-codelab-step label="テンプレートファイルを準備する" duration="3">
+      <google-codelab-step label="テンプレートファイルを準備する" duration="5">
         <p>ゼロから作ってもいいですが、早く体験するためにもテンプレートファイルから始めましょう。</p>
 <ol type="1" start="1">
 <li><h3 is-upgraded><a href="https://drive.google.com/open?id=1FXJGzsrTjDkHTtfaOsZkzZeU7ZUZQ7M52hHuKm9Fl8o" target="_blank">テンプレートファイル</a>を開き［ファイル］&gt;［マイドライブに追加］をクリックします。</h3>
@@ -138,18 +145,15 @@
 <p class="image-container"><img style="width: 317.00px" src="img/5528448a96739ea6.png"></p>
 <aside class="special"><p><strong>Note:</strong> このとき基となった claat-template-100 は削除しても問題ありません。</p>
 </aside>
+<h2 is-upgraded>プレビューをしてみる</h2>
+<p><strong>claat-template-100 のコピー</strong>を開き、アドレスバー横の<img style="width: 97.00px" src="img/f1f4ebfa39f928cd.png">をクリックすると、新たなタブが開きプレビューが表示(以下、プレビュー)されます。</p>
 
 
       </google-codelab-step>
     
-      <google-codelab-step label="プレビューをしてみる" duration="0">
-        <p><strong>claat-template-100 のコピー</strong>を開き、アドレスバー横の<img style="width: 97.00px" src="img/f1f4ebfa39f928cd.png">をクリックすると、新たなタブが開きプレビューが表示(以下、プレビュー)されます。</p>
-
-
-      </google-codelab-step>
-    
-      <google-codelab-step label="編集をしてみる" duration="0">
-        <ol type="1" start="1">
+      <google-codelab-step label="編集をしてみる" duration="20">
+        <p><strong>claat-template-100 のコピー</strong> を開き、編集やプレビューをしながらコンテンツ作りを学びます。</p>
+<ol type="1" start="1">
 <li><h3 is-upgraded><strong>タイトル</strong>を<strong>ハンズオンテキスト</strong>に編集してから、プレビューで再読み込みしてみましょう。</h3>
 </li>
 </ol>
@@ -171,7 +175,7 @@
 
       </google-codelab-step>
     
-      <google-codelab-step label="アセットの生成" duration="0">
+      <google-codelab-step label="アセットの生成" duration="10">
         <p>claat コマンドでアセットを生成します。</p>
 <h2 is-upgraded>Google Docs ID を入手します</h2>
 <p>対象となる Google Docs を開いた時のアドレスバーから入手します。（それ以外の方法が無い！）</p>
@@ -198,13 +202,28 @@ Serving codelabs on localhost:9090, opening browser tab now...</code></pre>
 
       </google-codelab-step>
     
-      <google-codelab-step label="おわりに / 片付けなど" duration="0">
-        <p>あとでかく。</p>
+      <google-codelab-step label="おわりに（片付けなど）" duration="0">
+        <ul>
+<li>ローカルに出力された <code>claat-template-100</code> ディレクトリの削除</li>
+<li>Google Docs の <strong>claat-template-100 のコピー</strong> の削除</li>
+<li>(任意) <code>claat</code> コマンドの削除</li>
+</ul>
 
 
       </google-codelab-step>
     
-      <google-codelab-step label="付録1：実運用で考慮すること" duration="0">
+      <google-codelab-step label="次へのステップ" duration="0">
+        <p>お疲れ様でした。ハンズオンは終了です。</p>
+<p>この先で学べることは以下の通りです。</p>
+<ul>
+<li>CLaaT アセットのアップロード</li>
+<li><a href="https://ma2shita.github.io/claat-serve/claat-google-analytics-200/" target="_blank">CLaaT Google Analytics 連携ハンズオン</a></li>
+</ul>
+
+
+      </google-codelab-step>
+    
+      <google-codelab-step label="Appendix: 実運用で考慮すること" duration="0">
         <h2 is-upgraded>CLaaTの課題と回避策</h2>
 <table>
 <tr><td colspan="1" rowspan="1"><p>Polymer アプリで実装されているため、SEO的な観点でのアセットにはなっていない。</p>
@@ -234,15 +253,6 @@ Serving codelabs on localhost:9090, opening browser tab now...</code></pre>
 </td><td colspan="1" rowspan="1"><p><code>rm -rf claat_assets</code> をした後に改めて export する方法があります。</p>
 </td></tr>
 </table>
-
-
-      </google-codelab-step>
-    
-      <google-codelab-step label="次へのステップ" duration="0">
-        <ul>
-<li>アセットのアップロード</li>
-<li><a href="https://ma2shita.github.io/claat-serve/claat-google-analytics-200/" target="_blank">CLaaT Google Analytics 連携ハンズオン</a></li>
-</ul>
 
 
       </google-codelab-step>
