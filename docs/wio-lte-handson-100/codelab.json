@@ -1,26 +1,22 @@
 {
   "environment": "web",
   "format": "html",
-  "prefix": "https://storage.googleapis.com",
+  "prefix": "https://soracom.github.io/iot-recipes",
   "mainga": "UA-66865146-33",
-  "updated": "2020-03-15T01:46:12Z",
+  "updated": "2020-04-03T11:54:41Z",
   "id": "wio-lte-handson-100",
   "duration": 0,
   "title": "Wio LTE ハンズオン / 初級編",
   "authors": "SORACOM, INC.",
-  "summary": "デバイスのソフトウェア開発における手順や工数削減手法を、LTEモデム付きプロトタイプ向けデバイス \"Wio LTE\" とSORACOM Harvest や SORACOM Lagoon、そして SORACOM ならではの機能を活用した IoT システム作りを学んでいただけます。\nIoT システム構築に不可欠なデバイス開発の現場と課題、そして SORACOM が提供するサービスを活用することによるデバイス開発におけるメリットを、セミナーだけでなくハンズオンを通じて学ぶことができる内容となっています。",
+  "summary": "デバイスのソフトウェア開発における手順や工数削減手法を、LTEモデム付きプロトタイプ向けデバイス \"Wio LTE\" とSORACOM Harvest や SORACOM Lagoon、そして SORACOM ならではの機能を活用した IoT システム作りを学んでいただけます。IoT システム構築に不可欠なデバイス開発の現場と課題、そして SORACOM が提供するサービスを活用することによるデバイス開発におけるメリットを、セミナーだけでなくハンズオンを通じて学ぶことができる内容となっています。",
   "source": "1WjXrAIr8DLeddNAP1s3vBcK7VWFejdkuewUzwTm4c_g",
-  "theme": "wio",
+  "theme": "100-basic",
   "status": [
-    "published"
+    "draft"
   ],
   "category": [
-    "Wio"
+    "100-Basic"
   ],
-  "tags": [
-    "web"
-  ],
-  "feedback": "https://github.com/googlecodelabs/your-first-pwapp/issues",
-  "ga": "UA-160680510-1",
+  "tags": [],
   "url": "wio-lte-handson-100"
 }
