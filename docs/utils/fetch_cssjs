@@ -1,0 +1,12 @@
+#!/bin/bash
+
+FILES="codelab-elements.css native-shim.js custom-elements.min.js prettify.js codelab-elements.js"
+
+for f in $FILES
+do
+    URL="https://storage.googleapis.com/codelab-elements/${f}"
+    echo "Fetch ${URL}" >&2
+    curl -qsL "${URL}" > "codelab-elements/${f}"
+done
+
+exit 0

@@ -1,0 +1,11 @@
+#!/bin/bash
+
+diff -u <( curl -s https://storage.googleapis.com/codelab-elements/codelab-elements.css) codelab-elements/codelab-elements.css > file 2>&1
+if [ $? -eq 1 ]; then
+    echo "You've got the latest version. Nothing todo." >&2
+    R=0
+else
+    echo "Found newer version. Run 'utils/fetch_cssjs && utils/patch_css'."  >&2
+    R=1
+fi
+exit $R

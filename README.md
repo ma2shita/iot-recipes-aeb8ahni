@@ -31,6 +31,21 @@ $ claat export -ga UA-66865146-33 GOOGLE_DOCS_ID
 $ git add . && git commit -m "YOUR_COMMENT" && git push
 ```
 
+#### About docs/utils/* files;
+
+オリジナルのJS/CSSファイルにSORACOM独自のCSS/JSを追加して配信するため、ローカルに保存しています。
+
+- `check_updates`: 最新バージョンのチェックを行う
+- `fetch_cssjs`: オリジナルからCSS/JSを取得する
+- `patch_cssjs`: 取得したCSS/JSにパッチを当てる
+
+実行の仕方
+
+```
+$ cd docs/
+$ utils/check_updates || utils/fetch_cssjs && utils/patch_cssjs
+```
+
 #### Google Docs IDs
 
 - Main recipes.
