@@ -6,7 +6,7 @@ cat << _EOT_ >> codelab-elements/codelab-elements.css
 
 /* From here to the end of the file, the original codelab-elements.js has been modified. License is Apache 2.0. See https://github.com/soracom/iot-recipes */
 /* monkeypatch by patch_cssjs (Max) */
-#codelab-feedback {display:none !important}
+#drawer > div.metadata {display:none !important}
 #done {display:none !important}
 _EOT_
 

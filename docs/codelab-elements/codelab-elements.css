@@ -9,5 +9,5 @@ google-codelab-about .codelab-title{width:100%;text-align:center;font-size:32px;
 /*# sourceMappingURL=google_codelab_scss_bin.css.map */
 /* From here to the end of the file, the original codelab-elements.js has been modified. License is Apache 2.0. See https://github.com/soracom/iot-recipes */
 /* monkeypatch by patch_cssjs (Max) */
-#codelab-feedback {display:none !important}
+#drawer > div.metadata {display:none !important}
 #done {display:none !important}
