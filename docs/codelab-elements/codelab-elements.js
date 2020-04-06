@@ -268,4 +268,5 @@ function Qc(a){a.c=Array.from(a.querySelectorAll("google-codelab-step"));Lc(a,sc
     const e = document.getElementsByTagName('google-codelab')[0];
     const backurl = e.attributes["feedback-link"].value || 'https://soracom.jp';
     document.getElementById('arrow-back')['href'] = backurl;
+    document.getElementById('done')['href'] = backurl;
 }).call(this);
