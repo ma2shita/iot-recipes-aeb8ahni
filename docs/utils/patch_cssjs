@@ -7,7 +7,6 @@ cat << _EOT_ >> codelab-elements/codelab-elements.css
 /* From here to the end of the file, the original codelab-elements.js has been modified. License is Apache 2.0. See https://github.com/soracom/iot-recipes */
 /* monkeypatch by patch_cssjs (Max) */
 #drawer > div.metadata {display:none !important}
-#done {display:none !important}
 _EOT_
 
 cat << _EOT_ >> codelab-elements/codelab-elements.js
@@ -17,6 +16,7 @@ cat << _EOT_ >> codelab-elements/codelab-elements.js
     const e = document.getElementsByTagName('google-codelab')[0];
     const backurl = e.attributes["feedback-link"].value || 'https://soracom.jp';
     document.getElementById('arrow-back')['href'] = backurl;
+    document.getElementById('done')['href'] = backurl;
 }).call(this);
 _EOT_
 
