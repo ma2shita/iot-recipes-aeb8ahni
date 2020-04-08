@@ -1,0 +1,178 @@
+
+<!doctype html>
+
+<html>
+<head>
+  <meta name="viewport" content="width=device-width, minimum-scale=1.0, initial-scale=1.0, user-scalable=yes">
+  <meta name="theme-color" content="#4F7DC9">
+  <meta charset="UTF-8">
+  <title>SORACOM アカウントの作成 (JP)</title>
+  <link rel="stylesheet" href="//fonts.googleapis.com/css?family=Source+Code+Pro:400|Roboto:400,300,400italic,500,700|Roboto+Mono">
+  <link rel="stylesheet" href="//fonts.googleapis.com/icon?family=Material+Icons">
+  <link rel="stylesheet" href="https://soracom.github.io/iot-recipes/codelab-elements/codelab-elements.css">
+  <style>
+    .success {
+      color: #1e8e3e;
+    }
+    .error {
+      color: red;
+    }
+  </style>
+</head>
+<body>
+  <google-codelab-analytics gaid="UA-66865146-33"></google-codelab-analytics>
+  <google-codelab codelab-gaid=""
+                  id="create-account-soracom-jp"
+                  title="SORACOM アカウントの作成 (JP)"
+                  environment="web"
+                  feedback-link="">
+    
+      <google-codelab-step label="概要" duration="0">
+        <p>SORACOM アカウントの作成方法をゼロから学びます。</p>
+<h2 is-upgraded>できるようになる事</h2>
+<ul>
+<li>SORACOM アカウントの取得</li>
+<li>SORACOM のサービスを利用する際に必要となる「支払い方法」の登録</li>
+</ul>
+<h2 is-upgraded>このハンズオンでサポートしない事 (前提知識)</h2>
+<ul>
+<li>パソコンの操作やインターネットへの接続方法</li>
+</ul>
+
+
+      </google-codelab-step>
+    
+      <google-codelab-step label="準備するもの" duration="5">
+        <p>SORACOM アカウントを作成するにあたり、以下のものを用意、もしくは、確認・検討ください。</p>
+<table>
+<tr><td colspan="1" rowspan="1"><p>パソコン、 ブラウザー、インターネット接続環境</p>
+</td><td colspan="1" rowspan="1"><p>SORACOM ユーザーコンソールにアクセスする環境です。 </p>
+<p>Google Chrome 等の最新ブラウザーをお使いください。スマートフォンやタブレットでは操作が完了できない場合があります。</p>
+<p>また、社内システム設定等のアクセス制限がある場合は解除できるようにしてください。</p>
+</td></tr>
+<tr><td colspan="1" rowspan="1"><p>メールアドレス</p>
+</td><td colspan="1" rowspan="1"><p>SORACOM ユーザーコンソールへログインする際の ID となります。</p>
+<p>また、アカウント作成を完了するための確認メールや、パスワード再発行時の通知等、ソラコム側からの重要な連絡にも利用されます。そのため、すぐに見られる有効なアドレスを指定してください。</p>
+<p>複数の方への通知が必要な場合は、メーリングリストのご利用をご検討ください。アカウント作成後に変更できます。</p>
+</td></tr>
+<tr><td colspan="1" rowspan="1"><p>パスワード</p>
+</td><td colspan="1" rowspan="1"><p>SORACOM ユーザーコンソールへログインする際のパスワードとなります。</p>
+<p>8 文字以上で半角の英大文字（<code>A-Z</code>）、英小文字（<code>a-z</code>）、数字（<code>0-9</code>）をそれぞれ 1 つ以上含んでいる文字列です（例: <code>iEr4DLaf8</code>）。</p>
+<p>アカウント作成後の変更や、忘れてしまったとしても再設定が可能です。</p>
+</td></tr>
+<tr><td colspan="1" rowspan="1"><p>契約者情報</p>
+</td><td colspan="1" rowspan="1"><p>作成するアカウントの種類を個人もしくは法人のどちらかを選ぶことになります。</p>
+<p>個人アカウントから法人アカウントへの切り替えは、アカウント作成後にオンラインで変更いただけます。</p>
+</td></tr>
+<tr><td colspan="1" rowspan="1"><p>連絡先情報</p>
+</td><td colspan="1" rowspan="1"><p>SORACOM を利用するご契約者の情報となります。</p>
+<p>個人として利用する場合は<strong>名前</strong>、<strong>電話番号</strong>、<strong>住所</strong>をご用意ください。法人として利用する場合は追加で<strong>会社名</strong>、<strong>部署名</strong>が必要となります。また、名前は主担当者の氏名を使用してください。</p>
+</td></tr>
+<tr><td colspan="1" rowspan="1"><p>クレジットカード</p>
+</td><td colspan="1" rowspan="1"><p>SORACOM のサービス利用料のお支払い先として登録いただきます。</p>
+<p>ご利用いただけるカードのブランドは Visa / MasterCard / American Express / JCB です。プリペイドやデビットカードは利用できません。<strong>カード番号</strong>や<strong>有効期限</strong>の他、<strong>カード名義</strong>、<strong>セキュリティコード</strong>が必要となります。支払い先は、アカウント作成後にオンラインで追加・変更することがもできます。</p>
+</td></tr>
+</table>
+<aside class="special"><p><strong>契約者情報の「法人」とは？</strong></p>
+<p>SORACOM で<strong>法人アカウント</strong>として扱われることになります。法人アカウントは、料金の支払い方法に請求書払いを選ぶことができるようになります。</p>
+<p>法人アカウントは、SORACOM アカウント作成時に契約者情報で<strong>法人として利用</strong>を選択した場合、もしくは、個人として作成したアカウントで会社名、部署名を追加入力して<strong>契約者情報を更新</strong>すると、法人アカウントへ切り替わります。</p>
+<p>※ 一度法人アカウントにしてしまった SORACOM アカウントは、個人アカウントに移行できませんのでご注意ください。</p>
+</aside>
+
+
+      </google-codelab-step>
+    
+      <google-codelab-step label="SORACOM アカウント作成の手順: 1" duration="15">
+        <h2 is-upgraded>SORACOM ユーザーコンソールへアクセス</h2>
+<p>SORACOM ユーザーコンソールは、<a href="https://soracom.jp" target="_blank">ソラコムのホームページ</a>の右上 <strong>User Console</strong> をクリック、もしくは、直接<a href="https://console.soracom.io" target="_blank">ユーザーコンソール</a>を開くことで表示できます。</p>
+<p class="image-container"><img style="width: 602.00px" src="img/2a5b14af09e78e83.png"></p>
+<p>SORACOM ユーザーコンソールのログイン画面が表示されたら<strong>アカウントを作成</strong>をクリックします。</p>
+<p class="image-container"><img style="width: 602.00px" src="img/281f0c69523306ed.png"></p>
+<h2 is-upgraded>カバレッジタイプの選択</h2>
+<p><strong>カバレッジタイプ Japan</strong>をクリックします。</p>
+<p class="image-container"><img style="width: 602.00px" src="img/cff11bcb2ddf77b.png"></p>
+<aside class="special"><p><strong>カバレッジタイプとは？</strong></p>
+<p>ソラコムには、NTT ドコモ回線を利用した plan-D や、KDDI回線を利用した plan-K など、日本国内向けに提供しているサービスと、海外でもご利用いただける plan01s など、日本を含むグローバル向けに提供しているサービスが存在します。</p>
+<p>カバレッジタイプ (Coverage Type) とは、それらを区別するためのものです。日本向けのサービスはカバレッジタイプを「日本」、日本を含むグローバル向けのサービスはカバレッジタイプを「グローバル」としています。<strong>日本のお客様であれば一般的には「日本カバレッジ」</strong>となります。</p>
+<p>詳細や切り替え方法については<a href="https://soracom.zendesk.com/hc/ja/articles/360029339072" target="_blank">ソラコム FAQ「カバレッジタイプとは何ですか？」</a>をご覧ください。</p>
+</aside>
+<h2 is-upgraded>情報入力</h2>
+<p>カバレッジタイプを選ぶと情報入力画面が表示されます。以下を確認しつつ情報を埋めてください。</p>
+<ul>
+<li><code>*</code> となっている項目は必須入力となっています。</li>
+<li>メールアドレス、パスワード、契約者情報、住所等は準備しておいた情報をご利用ください。</li>
+<li><strong>利用規約およびフィルタリングサービスの確認</strong>は、それぞれ内容を確認し同意できたらチェックをつけます。</li>
+<li>最後に<strong>アカウントを作成</strong>をクリックします。</li>
+</ul>
+<aside class="warning"><p><strong>アカウントを作成がクリックできない場合は？</strong></p>
+<p>入力内容を再確認してください。特にパスワードやチェックボックスのつけ忘れが多く見られます。</p>
+</aside>
+<p class="image-container"><img style="width: 602.00px" src="img/5fdf92ac2aae126b.png"></p>
+<p>登録に使用したメールアドレスにメールを送信した事が表示されます。</p>
+<p class="image-container"><img style="width: 602.00px" src="img/feb7ee5e6e88c8a7.png"></p>
+
+
+      </google-codelab-step>
+    
+      <google-codelab-step label="SORACOM アカウント作成の手順: 2" duration="5">
+        <h2 is-upgraded>メールを確認する</h2>
+<p>メールソフトを開き、<strong>[SORACOM]ユーザー登録の確認</strong>という件名のメールを開きます。</p>
+<p>そして、メール本文のリンクをクリックしてください。確認処理が行われた後、 SORACOM ユーザーコンソールのログイン画面に遷移します。</p>
+<p class="image-container"><img style="width: 602.00px" src="img/1038e8bb95260b23.png"></p>
+<aside class="warning"><p><strong>メールが確認できない場合は？</strong></p>
+<p>SORACOM からは <code>no-reply@soracom.jp</code> というアドレスから、アカウント作成時に指定されたメールアドレスへ送信されます。迷惑メールフォルダや振り分けルールを確認してください。</p>
+</aside>
+<h2 is-upgraded>SORACOM ユーザーコンソールへのログイン</h2>
+<p>SORACOM ユーザーコンソールが表示されたら、アカウント作成に使用した<strong>メールアドレス</strong>と<strong>パスワード</strong>を利用してログインをします。</p>
+<p class="image-container"><img style="width: 602.00px" src="img/ece72a4612b5d666.png"></p>
+<p>ログインに成功すると SORACOM ユーザーコンソールの SIM 管理画面が表示されます。</p>
+<p>アカウント作成直後では SIM 等の登録が無いため<strong>SIM が見つかりませんと表示されますが正常</strong>です。</p>
+<p class="image-container"><img style="width: 602.00px" src="img/b3b4184a1fc4038b.png"></p>
+<aside class="warning"><p><strong>パスワードを忘れてしまった場合は？</strong></p>
+<p>ログインフォーム右下の<strong>パスワードを忘れた場合</strong>から、パスワードの再設定ができます。再設定用の情報はメールアドレスに届きます。</p>
+</aside>
+
+
+      </google-codelab-step>
+    
+      <google-codelab-step label="支払い情報の設定" duration="5">
+        <p>画面上部の<strong>今すぐ設定してください</strong>、もしくは SORACOM ユーザーコンソール右上のメールアドレスが表示されているボタンをクリックすると現れる<strong>お支払い方法設定</strong>から進みます。</p>
+<p class="image-container"><img style="width: 602.00px" src="img/e40ac7c203c5b591.png"></p>
+<aside class="special"><p>お支払方法が設定されると、「今すぐ設定してください」の赤いダイアログが消えます。</p>
+</aside>
+<p><strong>新しいクレジットカードを登録</strong>をクリックします。</p>
+<p class="image-container"><img style="width: 602.00px" src="img/ee5db260cdf9505e.png"></p>
+<p>表示されたフォームに、準備しておいたクレジットカード情報を入力し、最後に<strong>登録</strong>をクリックします。</p>
+<ul>
+<li>全ての項目が必須入力となっています。</li>
+<li>有効期限は「月/年（下 2 けた）」の順で入力してください。2025 年 12 月であれば <code>12</code> と <code>25</code> となります。</li>
+</ul>
+<p class="image-container"><img style="width: 602.00px" src="img/e176601f0281c888.png"></p>
+<p>登録に成功すると登録済みのクレジットカード情報が表示されます。登録したクレジットカードは下 4 桁のみを表示しています。</p>
+<p class="image-container"><img style="width: 602.00px" src="img/7b4075d3be438886.png"></p>
+
+
+      </google-codelab-step>
+    
+      <google-codelab-step label="次のステップ" duration="0">
+        <p>これで SORACOM ユーザーコンソールが利用可能となりました。これ以降の操作方法について解説します。</p>
+<h2 is-upgraded>各種メニューの表示の方法</h2>
+<p>SORACOM の通信やサービスの設定、 SIM やデバイスの発注をするためのメニューは SORACOM ユーザーコンソールの左上の<strong>Menu</strong>から進むことができます。</p>
+<p class="image-container"><img style="width: 344.00px" src="img/89777ada6cf27ebc.png"></p>
+<h2 is-upgraded>ログアウトの方法</h2>
+<p>SORACOM ユーザーコンソールからのログアウトは、右上のメールアドレスが表示されているボタンをクリックすると現れる<strong>ログアウト</strong>を使用します。</p>
+<h2 is-upgraded><img style="width: 507.00px" src="img/f42a64008cffce67.png"></h2>
+<p>以上で SORACOM アカウントの作成は終了です。</p>
+
+
+      </google-codelab-step>
+    
+  </google-codelab>
+
+  <script src="https://soracom.github.io/iot-recipes/codelab-elements/native-shim.js"></script>
+  <script src="https://soracom.github.io/iot-recipes/codelab-elements/custom-elements.min.js"></script>
+  <script src="https://soracom.github.io/iot-recipes/codelab-elements/prettify.js"></script>
+  <script src="https://soracom.github.io/iot-recipes/codelab-elements/codelab-elements.js"></script>
+
+</body>
+</html>
