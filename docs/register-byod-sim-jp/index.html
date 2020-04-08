@@ -1,0 +1,124 @@
+
+<!doctype html>
+
+<html>
+<head>
+  <meta name="viewport" content="width=device-width, minimum-scale=1.0, initial-scale=1.0, user-scalable=yes">
+  <meta name="theme-color" content="#4F7DC9">
+  <meta charset="UTF-8">
+  <title>通販サイトやイベント等で入手した SIM を登録する (JP)</title>
+  <link rel="stylesheet" href="//fonts.googleapis.com/css?family=Source+Code+Pro:400|Roboto:400,300,400italic,500,700|Roboto+Mono">
+  <link rel="stylesheet" href="//fonts.googleapis.com/icon?family=Material+Icons">
+  <link rel="stylesheet" href="https://soracom.github.io/iot-recipes/codelab-elements/codelab-elements.css">
+  <style>
+    .success {
+      color: #1e8e3e;
+    }
+    .error {
+      color: red;
+    }
+  </style>
+</head>
+<body>
+  <google-codelab-analytics gaid="UA-66865146-33"></google-codelab-analytics>
+  <google-codelab codelab-gaid=""
+                  id="register-byod-sim-jp"
+                  title="通販サイトやイベント等で入手した SIM を登録する (JP)"
+                  environment="web"
+                  feedback-link="">
+    
+      <google-codelab-step label="概要" duration="0">
+        <p>SORACOM Air for セルラーを利用する際、SORACOM アカウントに対して SORACOM IoT SIM を登録する必要があります。ここでは<strong>SORACOM ユーザーコンソールから発注して入手した SIM を SORACOM へ登録する方法</strong>を学びます。</p>
+<aside class="special"><p>SORACOM ユーザーコンソールから発注して入手した SIM を登録する方法は、<a href="https://soracom.github.io/iot-recipes/register-ordering-sim-jp/" target="_blank">こちら</a>をご覧ください。</p>
+</aside>
+<h2 is-upgraded>できるようになる事</h2>
+<ul>
+<li>SIM の登録</li>
+</ul>
+<h2 is-upgraded>このハンズオンでサポートしない事 (前提知識)</h2>
+<ul>
+<li>SORACOM アカウントの作成 (<a href="https://soracom.github.io/iot-recipes/create-account-soracom-jp/" target="_blank">こちら</a>で学べます)</li>
+<li>SIM の発注や入手方法 (発注はこちら(準備中)で学べます)</li>
+<li>SORACOM ユーザーコンソールの利用方法</li>
+</ul>
+<h2 is-upgraded>このコンテンツの進め方</h2>
+<p>ページの内容を読み、また作業を行ったら右下の［Next］を押して次のステップへ進みます。また、［Back］を使って戻ったり、左のナビゲーションメニューでもページの移動が可能です。</p>
+<p>左上の［×］を押してコンテンツを終了することができます。また、ページを開きなおすことで再開できます。ページのアドレスはブラウザの［履歴］メニューを利用してください。</p>
+
+<aside class="warning"><p>本コンテンツは現状のままで提供され、株式会社ソラコムは、誤りがないことの保証を含め、明示であると黙示であるとを問わず、本コンテンツの記載内容につき、いかなる種類の表明も保証も行いません。</p>
+<p>掲載情報の閲覧及び利用により、利用者自身、もしくは第三者が被った損害に対して、直接的、間接的を問わず、株式会社ソラコムは責任を負いかねます。</p>
+<p>本コンテンツを実践する中で用意された機器、利用されたサービスについてのご質問は、それぞれの機器やサービスの提供元にお問い合わせをお願いします。機器やサービスの仕様は、本コンテンツ作成当時のものです。</p>
+<p>本ドキュメントは <a href="https://github.com/googlecodelabs/tools" target="_blank">CLaaT</a> を用いて制作しています。</p>
+<p>LICENSE<br>Copyright (c) 2020 SORACOM, INC.<br>Released under the MIT license<br><a href="https://opensource.org/licenses/mit-license.php" target="_blank">https://opensource.org/licenses/mit-license.php</a></p>
+</aside>
+
+<p>ソースドキュメントは<a href="https://docs.google.com/document/d/1tnsn9E2HO1RI397ck2otl0I-LQGhtlMqrHj-Zu7zB54/edit?usp=sharing" target="_blank">こちら</a></p>
+
+
+      </google-codelab-step>
+    
+      <google-codelab-step label="準備するもの" duration="0">
+        <p>SIM をお手元に準備ください。その際、以下の情報が揃っているか確認ください。</p>
+<table>
+<tr><td colspan="1" rowspan="1"><p>IMSI</p>
+</td><td colspan="1" rowspan="1"><p>15桁の番号。</p>
+<p>SIM カードであれば、裏面に記載されています。</p>
+</td></tr>
+<tr><td colspan="1" rowspan="1"><p>パスコード</p>
+</td><td colspan="1" rowspan="1"><p>5桁の番号。</p>
+<p>SIM カードであれば、裏面に PASSCODE として記載されています。</p>
+</td></tr>
+</table>
+<h2 is-upgraded>SIM カードの例</h2>
+<p class="image-container"><img style="width: 602.00px" src="img/2607d9fe4b8e946.png"></p>
+
+
+      </google-codelab-step>
+    
+      <google-codelab-step label="SIM を「登録」" duration="5">
+        <p>SIM は SORACOM へ<strong>登録</strong>することで、利用可能な状態となります。登録作業は SORACOM ユーザーコンソールで行えます。</p>
+<p><a href="https://console.soracom.io/" target="_blank">SORACOM ユーザーコンソール</a>にログインをした後、左上の <strong>SIM 登録</strong> をクリックします。</p>
+<p class="image-container"><img style="width: 361.00px" src="img/50a81b179a50563a.png"></p>
+<p>表示されたフォームに、準備した情報を入力します。</p>
+<ul>
+<li><code>*</code> となっている項目は必須入力となっています。</li>
+<li><strong>技術基準適合証明等についての確認</strong>を行ったらチェックを付けます。</li>
+</ul>
+<p>以下は任意の入力となります。</p>
+<ul>
+<li>名前: SIM に<strong>名前</strong>をつけられます。複数の SIM を扱う際に有用です。日本語入力も可能です。利用者や登録日、用途（～～に設置したボタン）等が便利でしょう。</li>
+<li>グループ: SIM は<strong>グループ</strong>という単位で管理できます。すでに SIM グループが作成済みである場合、登録直後から SIM グループに所属させたい場合に指定します。</li>
+</ul>
+<p>最後に<strong>登録</strong>をクリックします。</p>
+<p class="image-container"><img style="width: 602.00px" src="img/8e4a5d4f85ce50be.png"></p>
+<p>SIM の登録に成功したら <strong>終了して元の画面に戻る</strong> をクリックすると SIM 一覧に戻ります。</p>
+<p class="image-container"><img style="width: 602.00px" src="img/cac5c7d8284ad14.png"></p>
+<p>以上で SIM の登録は完了です。</p>
+
+
+      </google-codelab-step>
+    
+      <google-codelab-step label="次のステップ" duration="0">
+        <h2 is-upgraded>登録された SIM を確認する</h2>
+<p>登録された SIM は、 SORACOM ユーザーコンソールの SIM 管理で確認できます。<br><strong>Menu</strong> から <strong>SIM 管理</strong> へ進んでください。</p>
+<p class="image-container"><img style="width: 563.00px" src="img/d1284e68a1323838.png"></p>
+<p>一覧に SIM が表示されていることが確認できます。</p>
+<p class="image-container"><img style="width: 602.00px" src="img/bd4b3fad10776bc0.png"></p>
+<aside class="special"><p>登録直後の SIM の状態は準備完了となっています。SIM の状態と料金の対応については <a href="https://soracom.jp/services/air/cellular/price_specific_area_sim" target="_blank">特定地域向け IoT SIM のご利用料金</a> をご覧ください。</p>
+</aside>
+<aside class="warning"><p><strong>受け取りに関しての注意点</strong></p>
+<p>SORACOM ユーザーコンソールから発注した SIM は、 SORACOM からの発送から 3 日経過すると自動的に登録されて<strong>準備完了</strong>状態となり、費用がかかり始めます。</p>
+</aside>
+
+
+      </google-codelab-step>
+    
+  </google-codelab>
+
+  <script src="https://soracom.github.io/iot-recipes/codelab-elements/native-shim.js"></script>
+  <script src="https://soracom.github.io/iot-recipes/codelab-elements/custom-elements.min.js"></script>
+  <script src="https://soracom.github.io/iot-recipes/codelab-elements/prettify.js"></script>
+  <script src="https://soracom.github.io/iot-recipes/codelab-elements/codelab-elements.js"></script>
+
+</body>
+</html>
