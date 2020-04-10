@@ -1,0 +1,307 @@
+
+<!doctype html>
+
+<html>
+<head>
+  <meta name="viewport" content="width=device-width, minimum-scale=1.0, initial-scale=1.0, user-scalable=yes">
+  <meta name="theme-color" content="#4F7DC9">
+  <meta charset="UTF-8">
+  <title>【IoT DIY レシピ】SORACOM LTE-M Buttonでできる、位置情報の通知ボタン</title>
+  <link rel="stylesheet" href="//fonts.googleapis.com/css?family=Source+Code+Pro:400|Roboto:400,300,400italic,500,700|Roboto+Mono">
+  <link rel="stylesheet" href="//fonts.googleapis.com/icon?family=Material+Icons">
+  <link rel="stylesheet" href="https://soracom.github.io/iot-recipes/codelab-elements/codelab-elements.css">
+  <style>
+    .success {
+      color: #1e8e3e;
+    }
+    .error {
+      color: red;
+    }
+  </style>
+</head>
+<body>
+  <google-codelab-analytics gaid="UA-66865146-33"></google-codelab-analytics>
+  <google-codelab codelab-gaid=""
+                  id="geo-position-by-soracom-lte-m-button"
+                  title="【IoT DIY レシピ】SORACOM LTE-M Buttonでできる、位置情報の通知ボタン"
+                  environment="web"
+                  feedback-link="https://soracom.jp/products/gadgets/enterprise_button/">
+    
+      <google-codelab-step label="SORACOM LTE-M Buttonでできる、位置情報の通知ボタン" duration="0">
+        <p>レシピ難易度：★☆☆☆☆</p>
+<p>人やモノの位置を簡単に知ることができれば、例えばお子様や高齢になった家族の見守りの一つの方法として利用できるのではないでしょうか。SORACOM LTE-M Button for Enterprise (Plus も同様。以下、 SORACOM LTE-M Button と称します) に内蔵されている SORACOM 特定地域向け IoT SIM の plan-KM1 が持つ「簡易位置測位機能」を使えば、複雑なハードウェアがなくとも実現できます。本レシピでは SORACOM LTE-M Button を利用して、ボタンの押した時の位置情報を通知する仕組みをご紹介します。</p>
+<p>本レシピは、動画コンテンツも用意しております。本レシピの動いている様子を、映像で確認できますので、ぜひ動画もご覧ください。</p>
+<iframe class="youtube-video" src="https://www.youtube.com/embed/pX6GFMb_MSc?rel=0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+<h2 is-upgraded>簡易位置測位機能の利用イメージ</h2>
+<p class="image-container"><img style="width: 602.00px" src="img/66bee3d59cc0e7d7.png"></p>
+<p>赤い線が実際に移動した時の線で、青いピンが「測位点」です。</p>
+<h2 is-upgraded>本レシピを行うのに必要な時間、概算費用</h2>
+<p>本レシピは以下の通りです。</p>
+<ul>
+<li>必要な時間: 約40分</li>
+<li>概算費用: 約6145円</li>
+</ul>
+<p>※ 概算費用: ハードウェアや SORACOM を始めとした各種サービスの概ねの費用 (税や送料などの付帯費用や無料枠適用は考慮しないものとしています)</p>
+<h2 is-upgraded>このコンテンツの進め方</h2>
+<p>ページの内容を読み、また作業を行ったら右下の［Next］を押して次のステップへ進みます。また、［Back］を使って戻ったり、左のナビゲーションメニューでもページの移動が可能です。</p>
+<p>左上の［×］を押してコンテンツを終了することができます。また、ページを開きなおすことで再開できます。ページのアドレスはブラウザの［履歴］メニューを利用してください。</p>
+
+<aside class="warning"><p>本コンテンツは現状のままで提供され、株式会社ソラコムは、誤りがないことの保証を含め、明示であると黙示であるとを問わず、本コンテンツの記載内容につき、いかなる種類の表明も保証も行いません。</p>
+<p>掲載情報の閲覧及び利用により、利用者自身、もしくは第三者が被った損害に対して、直接的、間接的を問わず、株式会社ソラコムは責任を負いかねます。</p>
+<p>本コンテンツを実践する中で用意された機器、利用されたサービスについてのご質問は、それぞれの機器やサービスの提供元にお問い合わせをお願いします。機器やサービスの仕様は、本コンテンツ作成当時のものです。</p>
+<p>株式会社ソラコムが提供する機器・サービスについてのご質問は、 <a href="https://soracom.jp/contact/" target="_blank">https://soracom.jp/contact/</a> をご確認の上、適切な窓口へのお問い合わせをお願いします。機器・サービスご利用前の導入相談は <a href="https://soracom.jp/contact/contactsales/" target="_blank">https://soracom.jp/contact/contactsales/</a> に、機器・サービスご利用開始後のサポートは、SORACOMユーザーコンソール内の<a href="https://soracom.zendesk.com/hc/ja/requests/" target="_blank">サポートサイトから「リクエストを送信」</a>(要ログイン)にてお問い合わせください。</p>
+<p>本ドキュメントは <a href="https://github.com/googlecodelabs/tools" target="_blank">CLaaT</a> を用いて制作しています。</p>
+<p>Copyright (c) 2020 SORACOM, INC.</p>
+</aside>
+
+
+
+      </google-codelab-step>
+    
+      <google-codelab-step label="準備" duration="0">
+        <p>本レシピを行うためには以下のものをご用意ください。</p>
+<h2 is-upgraded>ハードウェア</h2>
+<table>
+<tr><td colspan="1" rowspan="1"><p><strong>品名</strong></p>
+</td><td colspan="1" rowspan="1"><p><strong>数量</strong></p>
+</td><td colspan="1" rowspan="1"><p><strong>価格</strong></p>
+</td><td colspan="1" rowspan="1"><p><strong>購入先</strong></p>
+</td></tr>
+<tr><td colspan="1" rowspan="1"><p>SORACOM LTE-M Button for Enterprise※</p>
+</td><td colspan="1" rowspan="1"><p>1</p>
+</td><td colspan="1" rowspan="1"><p>5980円        </p>
+</td><td colspan="1" rowspan="1"><p><a href="https://soracom.jp/products/gadgets/enterprise_button/" target="_blank">ソラコム</a></p>
+</td></tr>
+</table>
+<p>※ 金額はレシピ作成時となります。税抜き・送料別です。<br>※ <a href="https://soracom.jp/products/gadgets/button_plus/" target="_blank">SORACOM LTE-M Button Plus</a> でも代用可能です。</p>
+<h2 is-upgraded>その他必要なもの</h2>
+<table>
+<tr><td colspan="1" rowspan="1"><p><strong>必要なもの</strong></p>
+</td><td colspan="1" rowspan="1"><p><strong>費用</strong></p>
+</td><td colspan="1" rowspan="1"><p><strong>作成方法など</strong></p>
+</td></tr>
+<tr><td colspan="1" rowspan="1"><p>SORACOM アカウント</p>
+</td><td colspan="1" rowspan="1"><p>無料※</p>
+</td><td colspan="1" rowspan="1"><p><a href="https://soracom.github.io/iot-recipes/create-account-soracom-jp/" target="_blank">SORACOM アカウントの作成 (JP)</a></p>
+</td></tr>
+</table>
+<p>※ アカウント作成・維持の費用の料金です。</p>
+
+
+      </google-codelab-step>
+    
+      <google-codelab-step label="SORACOM LTE-M Button が届いたら" duration="5">
+        <p>SORACOM LTE-M Button は、 SORACOM に登録することで様々なクラウドとの連携が可能となります。そのため、まず SORACOM LTE-M Button がお手元に届いたら、SORACOM へ登録をしましょう。<br>※ すでに登録済みの場合は次へお進みください。</p>
+<p>登録の方法は<a href="https://soracom.github.io/iot-recipes/register-ordering-sim-jp/" target="_blank">発注済みの SIM を登録する(JP)</a>をご覧ください。約5分で完了します。</p>
+<p>登録が完了すると SORACOM LTE-M Button が SIM 管理の一覧に表示されますので、確認ください。</p>
+<p class="image-container"><img style="width: 602.00px" src="img/f0af04540ce9c1c7.png"></p>
+<aside class="special"><p><strong>SORACOM の便利な使い方: SIM の「名前」機能</strong></p>
+<p>SIM には「名前」を付けることができ、これで整理が可能です。特に複数の SIM (ボタン含む) をお持ちの際には、名前を付けることを強くお勧めいたします。</p>
+<p>名前の付け方は <a href="https://dev.soracom.io/jp/start/console/#name_tag" target="_blank">SIM への名前の付け方</a>をご覧ください。</p>
+</aside>
+
+
+      </google-codelab-step>
+    
+      <google-codelab-step label="グループの作成と SIM の所属させる" duration="10">
+        <p>SORACOM の IoT データ収集・蓄積サービス <a href="https://soracom.jp/services/harvest/" target="_blank"><strong>SORACOM Harvest Data</strong></a> を利用して、データの可視化を簡単に実現してみましょう。</p>
+<p>まずは<strong>グループ</strong>の作成と、作成したグループへ SIM を所属させる事から始めます。</p>
+<aside class="special"><p><strong>SORACOM Harvest Data とは？</strong></p>
+<p>IoT デバイスからのデータの収集や蓄積、およびファイルを保存するサービスが SORACOM Harvest (ソラコム ハーベスト) です。IoT デバイスからのデータの収集・蓄積対応しているのが SORACOM Harvest Data、画像ファイルやログファイルといったファイルに対応しているのが SORACOM Harvest Files となります。</p>
+</aside>
+<aside class="special"><p><strong>グループとは？</strong></p>
+<p>SORACOM サービスのほとんどが<strong>グループ</strong>という単位に対して設定するようになっています。SORACOM Harvest Data 等、SORACOM サービスのほとんどが SIM に直接設定をするのではなくグループに設定をします。そして、SIM をグループに所属させることで SORACOM サービスが利用できるという間接的な仕組みです。<img style="width: 602.00px" src="img/5e0214fe25b9e9e8.png"></p>
+<p>グループを作成してから SIM を所属させる方法の他、グループの作成と SIM の所属を同時に行う方法もあります。本レシピでは後者の「同時に行う」手順で進めていきます。</p>
+</aside>
+<h2 is-upgraded><a href="https://console.soracom.io/" target="_blank">SORACOM ユーザーコンソール</a>にログインした後［Menu］&gt;［SIM 管理］とクリックして SIM 管理画面を開きます。</h2>
+<p class="image-container"><img style="width: 566.00px" src="img/c4968675c5a9a1c8.png"></p>
+<aside class="warning"><p><strong>［SIM 管理］をクリックしても画面が切り替わらない場合は？</strong></p>
+<p>すでに SIM 管理画面を開いている場合は、［SIM 管理］をクリックしても画面が切り替わることがありません。その場合、青の点線で囲まれている「SORACOM ロゴ」をクリックすることでメニューを閉じることができます。</p>
+</aside>
+<h2 is-upgraded>SORACOM Harvest Data でデータの収集を行いたい SIM (SORACOM LTE-M Button) にチェックを付け、［操作］&gt;［所属グループ変更］とクリックします。</h2>
+<p class="image-container"><img style="width: 602.00px" src="img/f27d0ddf2224ee5f.png"></p>
+<aside class="special"><p><strong>SORACOM の便利な使い方: 複数の SIM を同時に扱う</strong></p>
+<p>チェックをつける対象を複数にすれば、一度の複数の SIM を対象に操作が可能です。</p>
+</aside>
+<h2 is-upgraded>「新しい所属グループ」のプルダウンボックスをクリックした後、［新しいグループを作成...］をクリックします。</h2>
+<p class="image-container"><img style="width: 602.00px" src="img/9cf95365d7028f2c.png"></p>
+<h2 is-upgraded>「グループ作成」のグループ名を入力して［グループ作成］をクリックします。</h2>
+<table>
+<tr><td colspan="1" rowspan="1"><p><strong>項目</strong></p>
+</td><td colspan="1" rowspan="1"><p><strong>例</strong></p>
+</td><td colspan="1" rowspan="1"><p><strong>備考</strong></p>
+</td></tr>
+<tr><td colspan="1" rowspan="1"><p>グループ名</p>
+</td><td colspan="1" rowspan="1"><p><code>button-geo</code></p>
+</td><td colspan="1" rowspan="1"><p>自由に入力可能です。日本語も設定可能です。</p>
+</td></tr>
+</table>
+<p class="image-container"><img style="width: 385.00px" src="img/163ba7c54355e9a9.png"></p>
+<h2 is-upgraded>新しい所属グループが先ほど作成したグループになっていることを確認したら［グループ変更］をクリックします。</h2>
+<p class="image-container"><img style="width: 602.00px" src="img/ef73dbd81169cc84.png"></p>
+<h2 is-upgraded>自動的に SIM 管理画面に戻ります。<br>SIM の「グループ」に先ほど作ったグループが設定されていることを確認してください。</h2>
+<p class="image-container"><img style="width: 602.00px" src="img/4a3939a969bab67a.png"></p>
+<p>以上で、グループの作成と所属の作業は完了です。</p>
+
+
+      </google-codelab-step>
+    
+      <google-codelab-step label="グループの設定を行う" duration="15">
+        <p>グループに「<strong>バイナリ―パーサー機能</strong>」「<strong>簡易位置測位機能</strong>」「<strong>SORACOM Harvest Data</strong>」の3つの設定を行います。</p>
+<aside class="special"><p><strong>バイナリ―パーサー機能とは？</strong></p>
+<p>ハードウェア開発では容量を節約するために「バイナリ形式」のデータを用いることがあります。一方、昨今のクラウドはシステム開発を容易にするために「JSON 形式」のデータを扱うことが多くあります。バイナリ―パーサー機能は、SORACOM プラットフォーム上でバイナリからJSONへ変換する仕組みです。この機能を利用することで、データ変換用のシステムやプログラムが不要となります。詳細は<a href="https://dev.soracom.io/jp/docs/binary_parser/" target="_blank">リファレンス</a>をご覧ください。</p>
+</aside>
+<aside class="special"><p><strong>簡易位置測位機能とは？</strong></p>
+<p>携帯電話の基地局の位置情報や電波の強さを基に、LTE 通信の通信開始時点でのおおよその位置情報を取得して SORACOM サービスと連携できる機能です。LTE 通信のみで利用できることから GPS 等が無くとも位置測位が可能となります。利用可能な条件や精度などは<a href="https://dev.soracom.io/jp/docs/location_service/" target="_blank">簡易位置測位機能の設定ガイド</a>をご覧ください。</p>
+</aside>
+<h2 is-upgraded>SIM 管理画面から、SORACOM LTE-M Button に割り当てたグループ名をクリックします。</h2>
+<p class="image-container"><img style="width: 602.00px" src="img/7a2dec3390b6d302.png"></p>
+<h2 is-upgraded>［SORACOM Air for Cellular 設定］をクリックして設定ができるように開きます。</h2>
+<p class="image-container"><img style="width: 602.00px" src="img/28c1e31f576c8af5.png"></p>
+<h2 is-upgraded>「SORACOM Air for Cellular 設定」で以下のように設定します。</h2>
+<table>
+<tr><td colspan="1" rowspan="1"><p><strong>項目</strong></p>
+</td><td colspan="1" rowspan="1"><p><strong>設定値</strong></p>
+</td><td colspan="1" rowspan="1"><p><strong>備考</strong></p>
+</td></tr>
+<tr><td colspan="1" rowspan="1"><p>簡易位置測位機能</p>
+</td><td colspan="1" rowspan="1"><p>ON</p>
+</td><td colspan="1" rowspan="1"><p>―</p>
+</td></tr>
+<tr><td colspan="1" rowspan="1"><p>バイナリ―パーサー設定</p>
+</td><td colspan="1" rowspan="1"><p>ON</p>
+</td><td colspan="1" rowspan="1"><p>―</p>
+</td></tr>
+<tr><td colspan="1" rowspan="1"><p>バイナリ―パーサー設定 / フォーマット</p>
+</td><td colspan="1" rowspan="1"><p><code>@button</code></p>
+</td><td colspan="1" rowspan="1"><p>半角英数で入力してください。</p>
+</td></tr>
+</table>
+<p>スイッチはクリックすることで OFF から ON に切り替えることができます。</p>
+<p class="image-container"><img style="width: 509.00px" src="img/345f37bc479007b3.png"></p>
+<p>最後に［保存］をクリックしてください。</p>
+<h2 is-upgraded>同じページの中にある［SORACOM Harvest 設定］をクリックして設定ができるように開きます。</h2>
+<p class="image-container"><img style="width: 602.00px" src="img/221a89fc5ae1b779.png"></p>
+<h2 is-upgraded>「SORACOM Harvest 設定」で以下のように設定します。</h2>
+<table>
+<tr><td colspan="1" rowspan="1"><p><strong>項目</strong></p>
+</td><td colspan="1" rowspan="1"><p><strong>設定値</strong></p>
+</td><td colspan="1" rowspan="1"><p><strong>備考</strong></p>
+</td></tr>
+<tr><td colspan="1" rowspan="1"><p>（スイッチ）</p>
+</td><td colspan="1" rowspan="1"><p>ON</p>
+</td><td colspan="1" rowspan="1"><p>―</p>
+</td></tr>
+</table>
+<p>スイッチはクリックすることで OFF から ON に切り替えることができます。</p>
+<p class="image-container"><img style="width: 262.00px" src="img/b8dd4f4f9fc5f281.png"></p>
+<p>最後に［保存］をクリックしてください。<br>その後表示される「SORACOM Harvest が有効になっています」のダイアログでは［OK］をクリックしてください。</p>
+<p>以上で「バイナリ―パーサー機能」「簡易位置測位機能」「SORACOM Harvest Data」の3つの設定が完了しました。<br>すでに SORACOM LTE-M Button (の SIM)は、このグループに所属しているためこの時点から SORACOM LTE-M Button からのデータが SORACOM Harvest Data に表示されるようになります。</p>
+
+
+      </google-codelab-step>
+    
+      <google-codelab-step label="SORACOM Harvest Data でデータを確認する" duration="10">
+        <p>SORACOM LTE-M Button からのデータが SORACOM Harvest Data に表示されることを確認してみましょう。</p>
+<h2 is-upgraded>［Menu］&gt;［SIM 管理］とクリックして SIM 管理画面を開きます。</h2>
+<p class="image-container"><img style="width: 566.00px" src="img/c4968675c5a9a1c8.png"></p>
+<h2 is-upgraded>SORACOM Harvest Data でデータの表示を行いたい SIM (SORACOM LTE-M Button) にチェックを付け、［操作］&gt;［データを確認］とクリックします。</h2>
+<p class="image-container"><img style="width: 602.00px" src="img/931abc46460b7993.png"></p>
+<h2 is-upgraded>表示された画面で［自動更新］を ON にします。</h2>
+<p>この表示された画面が SORACOM Harvest Data の画面となります。</p>
+<aside class="special"><p><strong>自動更新とは？</strong></p>
+<p>画面を再読み込みしなくとも新しいデータが自動的に表示されるようにする機能です。5秒毎に新しいデータを表示するようになります。この機能が OFF の場合は、表示する期間を指定して［検索］をクリックすることで期間内のデータを表示できます。</p>
+</aside>
+<p class="image-container"><img style="width: 770.29px" src="img/65102e07fb744e69.png"></p>
+<h2 is-upgraded>SORACOM LTE-M Button を押してデータを確認する</h2>
+<p>SORACOM LTE-M Button のデータが SORACOM Harvest Data に表示されていることが確認できます。</p>
+<h3 is-upgraded>1件のデータが到着した様子</h3>
+<p class="image-container"><img style="width: 745.50px" src="img/c2124cf1b24be8b.png"></p>
+<h3 is-upgraded>データテーブルを表示する</h3>
+<p>データはグラフだけでは無く、ページの下の方でデータテーブルとして表示されます。ここで具体的な値を確認できます。</p>
+<p class="image-container"><img style="width: 836.11px" src="img/253bd75b943481f4.png"></p>
+<h3 is-upgraded>地図を表示する</h3>
+<p>ピンマークをクリックすると表示が地図に切り替わります。これでデータ内の <code>$metadata.lat</code> と <code>$metadata.lon</code> を基にした位置を描画しています。</p>
+<p class="image-container"><img style="width: 602.00px" src="img/5e87b7e67d2b47b6.png"></p>
+<aside class="warning"><p><strong>地図の表示がアメリカ合衆国になってしまったら？</strong></p>
+<p>地図上でドラッグしてピンが描画されている地域（おそらく日本）まで移動してください。</p>
+</aside>
+<p>自動更新が ON になっていれば、SORACOM LTE-M Button を押した時点での位置が描画され、最終的には以下の様に活用できます。<br>※ 地図上の赤のラインは別途レタッチソフトで描画しています。</p>
+<p class="image-container"><img style="width: 602.00px" src="img/66bee3d59cc0e7d7.png"></p>
+<p>以上で全ての作業は終了です。</p>
+<p>ここから先の発展のさせ方等については、この後の「次のステップ」をご覧ください。</p>
+
+
+      </google-codelab-step>
+    
+      <google-codelab-step label="あとかたづけと注意事項" duration="0">
+        <p>本レシピでは費用がかかるサービスを利用しています。<br>本項をよく読み、必要な操作や解除作業を行うようにして、想定外の費用が掛からないようにしてください。</p>
+<h2 is-upgraded>費用について</h2>
+<p>ここで記載している金額は全て税別、送料別となります。</p>
+<h3 is-upgraded>SORACOM LTE-M Button</h3>
+<p>販売価格 5980円(for Enterprise の場合) に加えて、ご利用にあたっては plan-KM1 の基本料金(月額100円)と、データ通信量に応じたデータ通信料※が発生します。<br>plan-KM1 の料金は<a href="https://soracom.jp/services/air/cellular/price_specific_area_sim/#plan-km1" target="_blank">ご利用料金 - 特定地域向け IoT SIM (plan-KM1)</a> をご確認ください。</p>
+<p>SORACOM Harvest Data を始めとした SORACOM プラットフォーム利用料は後述の通りかかります。</p>
+<p>※ 目安として、1送信あたり約 0.25 ~ 0.3 円程度</p>
+<h3 is-upgraded>SORACOM プラットフォームの利用料金</h3>
+<table>
+<tr><td colspan="1" rowspan="1"><p><strong>サービス／機能</strong></p>
+</td><td colspan="1" rowspan="1"><p><strong>料金</strong></p>
+</td></tr>
+<tr><td colspan="1" rowspan="1"><p><a href="https://soracom.jp/services/harvest/price/" target="_blank">SORACOM Harvest Data</a></p>
+</td><td colspan="1" rowspan="1"><ul>
+<li>本機能を有効にしたグループに所属する1SIMあたり5円/日 (2000リクエスト/日/SIMを含む)</li>
+<li>2000リクエスト/日を超えた分は0.004円/リクエスト</li>
+</ul>
+</td></tr>
+<tr><td colspan="1" rowspan="1"><p><a href="https://soracom.jp/services/air/cellular/price_specific_area_sim/#price_location_service" target="_blank">簡易位置測位機能</a></p>
+</td><td colspan="1" rowspan="1"><ul>
+<li>本機能を有効にしたグループに所属する1SIMあたり50円/月 (750リクエスト/月/SIMを含む)</li>
+<li>750リクエスト/月を超えた分は0.15円/リクエスト</li>
+</ul>
+</td></tr>
+</table>
+<p>※ 費用詳細はリンク先をご確認ください。</p>
+<aside class="special"><p><strong>無料利用枠について</strong></p>
+<p>SORACOM サービスでは一部サービスにおいて無料枠が設定されています。たとえば SORACOM Air for セルラーであればアカウント毎で30円/月の通信分や、SORACOM Harvest Data であれば31日分の書込みリクエストなどです。料金詳細に「無料利用枠」として掲載されていますので、ご確認ください。</p>
+</aside>
+<h2 is-upgraded>グループ解除</h2>
+<p>SORACOM Harvest Data 等、「機能が有効になっているグループに所属している SIM × 費用」となっているサービスにおいては、「機能を OFF にする」することで費用の発生を抑えることができます。またもう1つの方法として「グループに所属している SIM の数を減らす(= 解除する)」事でも費用を抑える事ができます。</p>
+<p>グループ解除の方法は<a href="https://soracom.github.io/iot-recipes/unjoin-from-group/" target="_blank">グループからの解除 (JP)</a>をご覧ください。</p>
+<h2 is-upgraded>SORACOM Harvest Data のデータ削除</h2>
+<p>SORACOM Harvest Data は基本的にはデータ保管料は無料※です。そのため、保存しておいても害はありませんが、デモ等で利用する際にはデータを綺麗にしておく必要が出てくるため、データ削除について解説します。</p>
+<p>※発生から40日を超えたデータは削除されます。40日以上データを保管したい場合は<a href="https://soracom.jp/services/harvest/price/" target="_blank">データ保持期間延長オプション利用料金</a>をご利用ください。</p>
+<p>SORACOM Harvest Data 画面 (［操作］&gt;［データを確認］) のデータテーブルで、削除したいデータのチェックボックスを付けた後に［削除］をクリックします。表示されたダイアログで改めて［削除］をクリックすると、削除されます。<br>※ 複数のデータにチェックをつければ一括で削除可能です。</p>
+<p class="image-container"><img style="width: 414.00px" src="img/637cac3bf206c47c.png"></p>
+<p><strong>データの復元はできません</strong>のでご注意ください。</p>
+
+
+      </google-codelab-step>
+    
+      <google-codelab-step label="次のステップ" duration="0">
+        <p>本レシピでは、SORACOM LTE-M Button の通信として利用されている plan-KM1 の簡易位置測位機能を解説しました。素材としての紹介となりましたが、応用例は様々です。</p>
+<p>本ページを参考に、是非とも SORACOM LTE-M Button をご活用ください。</p>
+<p><a href="https://soracom.jp/products/gadgets/enterprise_button/" target="_blank">商品ページへ戻る</a></p>
+<h2 is-upgraded>活用事例集</h2>
+<p>様々な活用事例がまとまっています</p>
+<p><a href="https://sorazine.soracom.jp/entry/2019/04/17/button_usecases" target="_blank">最新LPWA通信規格 &#34;LTE-M&#34; 搭載ボタンで何つくる？〜次々に身近なユースケースが生まれる理由〜</a></p>
+<h2 is-upgraded>活用のアイデア</h2>
+<p>LTE の電波を基にした仕組みであることから、GPS のように<strong>空が見えないような屋内でも位置の測位が可能</strong>です。</p>
+<p>ストラップの取り付け穴があり、また、人体に近づけても影響が無い事を示す Body‐SAR ガイドラインにも対応済みですので、持ち歩きの利用もできます。 (防水防塵ではありませんのでご注意ください)</p>
+<p class="image-container"><img style="width: 602.00px" src="img/31579bb41c3222ef.png"></p>
+<p>よくあるご質問は<a href="https://sorazine.soracom.jp/entry/2019/10/11/oct-webinar-report" target="_blank">Let&#39;s try IoT プロトタイピング ～ 位置情報取得ボタンを作ろう 〜 動画とQAのご紹介</a>でご案内しています。こちらもご覧ください。</p>
+<h2 is-upgraded>外部のクラウドと連携する方法</h2>
+<p>本レシピでは SORACOM Harvest Data の連携までとなりましたが、他の SORACOM サービスの利用で AWS (Amazon Web Services) を始めとしたクラウドや SaaS との連携が可能となります。</p>
+<p>具体的な方法は<a href="https://dev.soracom.io/jp/design_patterns/design_patterns_for_button/" target="_blank">SORACOM LTE-M Button を様々なクラウドや SaaS で活用するアーキテクチャー例</a>をご覧ください。</p>
+
+
+      </google-codelab-step>
+    
+  </google-codelab>
+
+  <script src="https://soracom.github.io/iot-recipes/codelab-elements/native-shim.js"></script>
+  <script src="https://soracom.github.io/iot-recipes/codelab-elements/custom-elements.min.js"></script>
+  <script src="https://soracom.github.io/iot-recipes/codelab-elements/prettify.js"></script>
+  <script src="https://soracom.github.io/iot-recipes/codelab-elements/codelab-elements.js"></script>
+
+</body>
+</html>

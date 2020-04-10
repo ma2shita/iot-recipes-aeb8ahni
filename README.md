@@ -51,6 +51,7 @@ $ utils/check_updates || utils/fetch_cssjs && utils/patch_cssjs
 - Main recipes.
     - door-monitoring-by-soracom-lte-m-button | [content](https://soracom.github.io/iot-recipes/door-monitoring-by-soracom-lte-m-button), [Docs](https://docs.google.com/document/d/1UVakbTNl33Tml_wSB_zFd-YDV66S-puGXIjxRIlwiVw/edit?usp=sharing) | `1UVakbTNl33Tml_wSB_zFd-YDV66S-puGXIjxRIlwiVw`
     - vehicle-tracking-by-meitrack-t366 | [content](https://soracom.github.io/iot-recipes/vehicle-tracking-by-meitrack-t366), [Docs](https://docs.google.com/document/d/1GozK8FEoxNNzzSRfWeMhFAqCr38myfsgybKIvOtrd1U/edit?usp=sharing) | `1GozK8FEoxNNzzSRfWeMhFAqCr38myfsgybKIvOtrd1U`
+    - geo-position-by-soracom-lte-m-button | [content](https://soracom.github.io/iot-recipes/geo-position-by-soracom-lte-m-button), [Docs](https://docs.google.com/document/d/1c033bHINYoVvMAEigqP-E-1SE7mMXGCFpp5SV83oORg/edit?usp=sharing) | `1c033bHINYoVvMAEigqP-E-1SE7mMXGCFpp5SV83oORg`
 - Handson contents for sandbox. U can use for operation and Google Analytics tests.
     - create-account-soracom-jp | [content](https://soracom.github.io/iot-recipes/create-account-soracom-jp), [Docs](https://docs.google.com/document/d/1aOA8X9ru25EbBKqikVlxLrWTe-dJZDUOZVhqjYJL7mI/edit?usp=sharing) | `1aOA8X9ru25EbBKqikVlxLrWTe-dJZDUOZVhqjYJL7mI`
     - register-ordering-sim-jp | [content](https://soracom.github.io/iot-recipes/register-ordering-sim-jp), [Docs](https://docs.google.com/document/d/1ytB9ZMEl3WwP_o9rqTggWtFzLVlgOz7CJ9QEfzTH9Uw/edit?usp=sharing) | `1ytB9ZMEl3WwP_o9rqTggWtFzLVlgOz7CJ9QEfzTH9Uw`
