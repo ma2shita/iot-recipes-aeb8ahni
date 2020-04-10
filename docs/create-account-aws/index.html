@@ -1,0 +1,281 @@
+
+<!doctype html>
+
+<html>
+<head>
+  <meta name="viewport" content="width=device-width, minimum-scale=1.0, initial-scale=1.0, user-scalable=yes">
+  <meta name="theme-color" content="#4F7DC9">
+  <meta charset="UTF-8">
+  <title>【SORACOM ハンズオン】AWS アカウントの作成</title>
+  <link rel="stylesheet" href="//fonts.googleapis.com/css?family=Source+Code+Pro:400|Roboto:400,300,400italic,500,700|Roboto+Mono">
+  <link rel="stylesheet" href="//fonts.googleapis.com/icon?family=Material+Icons">
+  <link rel="stylesheet" href="https://soracom.github.io/iot-recipes/codelab-elements/codelab-elements.css">
+  <style>
+    .success {
+      color: #1e8e3e;
+    }
+    .error {
+      color: red;
+    }
+  </style>
+</head>
+<body>
+  <google-codelab-analytics gaid="UA-66865146-33"></google-codelab-analytics>
+  <google-codelab codelab-gaid=""
+                  id="create-account-aws"
+                  title="【SORACOM ハンズオン】AWS アカウントの作成"
+                  environment="web"
+                  feedback-link="">
+    
+      <google-codelab-step label="概要" duration="1">
+        <p>AWS(Amazon Web Services) のアカウント作成を行います。</p>
+<h2 is-upgraded>できるようになる事</h2>
+<ul>
+<li>AWS アカウントの取得</li>
+<li>AWS のサービスを利用する際に必要となる「支払い方法」の登録</li>
+</ul>
+<h2 is-upgraded>このハンズオンでサポートしない事 (前提知識)</h2>
+<ul>
+<li>パソコンの操作やインターネットへの接続方法</li>
+</ul>
+<h2 is-upgraded>このコンテンツの進め方</h2>
+<p>ページの内容を読み、また作業を行ったら右下の［Next］を押して次のステップへ進みます。また、［Back］を使って戻ったり、左のナビゲーションメニューでもページの移動が可能です。</p>
+<p>左上の［×］を押してコンテンツを終了することができます。また、ページを開きなおすことで再開できます。ページのアドレスはブラウザの［履歴］メニューを利用してください。</p>
+
+<aside class="warning"><p>本コンテンツは現状のままで提供され、株式会社ソラコムは、誤りがないことの保証を含め、明示であると黙示であるとを問わず、本コンテンツの記載内容につき、いかなる種類の表明も保証も行いません。</p>
+<p>掲載情報の閲覧及び利用により、利用者自身、もしくは第三者が被った損害に対して、直接的、間接的を問わず、株式会社ソラコムは責任を負いかねます。</p>
+<p>本コンテンツを実践する中で用意された機器、利用されたサービスについてのご質問は、それぞれの機器やサービスの提供元にお問い合わせをお願いします。機器やサービスの仕様は、本コンテンツ作成当時のものです。</p>
+<p>株式会社ソラコムが提供する機器・サービスについてのご質問は、 <a href="https://soracom.jp/contact/" target="_blank">https://soracom.jp/contact/</a> をご確認の上、適切な窓口へのお問い合わせをお願いします。機器・サービスご利用前の導入相談は <a href="https://soracom.jp/contact/contactsales/" target="_blank">https://soracom.jp/contact/contactsales/</a> に、機器・サービスご利用開始後のサポートは、SORACOMユーザーコンソール内の<a href="https://soracom.zendesk.com/hc/ja/requests/" target="_blank">サポートサイトから「リクエストを送信」</a>(要ログイン)にてお問い合わせください。</p>
+<p>本ドキュメントは <a href="https://github.com/googlecodelabs/tools" target="_blank">CLaaT</a> を用いて制作しています。</p>
+<p>Copyright (c) 2020 SORACOM, INC.</p>
+</aside>
+
+<aside class="warning"><p>本コンテンツはソラコムによって作成されたものです。対象となる事業者へのお問い合わせはお控えいただくようお願いいたします。</p>
+</aside>
+
+
+      </google-codelab-step>
+    
+      <google-codelab-step label="準備するもの" duration="1">
+        <p>SORACOM アカウントを作成するにあたり、以下のものを用意、もしくは、確認・検討ください。</p>
+<table>
+<tr><td colspan="1" rowspan="1"><p>パソコン、 ブラウザー、インターネット接続環境</p>
+</td><td colspan="1" rowspan="1"><p>AWS マネジメントコンソールにアクセスする環境です。</p>
+<p>Google Chrome 等の最新ブラウザーをお使いください。スマートフォンやタブレットでは操作が完了できない場合があります。また、社内システム設定等のアクセス制限がある場合は解除できるようにしてください。</p>
+</td></tr>
+<tr><td colspan="1" rowspan="1"><p>メールアドレス</p>
+</td><td colspan="1" rowspan="1"><p>AWS マネージメントコンソールへサインインする際の ID となります。</p>
+<p>また、 AWS 側からの重要な通知等にも利用されます。複数の方への通知が必要な場合は、メーリングリストのご利用をご検討ください。</p>
+<p>アカウント作成後に変更できます。</p>
+</td></tr>
+<tr><td colspan="1" rowspan="1"><p>パスワード</p>
+</td><td colspan="1" rowspan="1"><p>8 文字以上で半角の英大文字（<code>A-Z</code>）、英小文字（<code>a-z</code>）、数字（<code>0-9</code>）をそれぞれ 1 つ以上含んでいる文字列です（例: <code>iEr4DLaf8</code>）。</p>
+<p>アカウント作成後の変更や、忘れてしまったとしても再設定が可能です。</p>
+</td></tr>
+<tr><td colspan="1" rowspan="1"><p>連絡先情報（英語表記）</p>
+</td><td colspan="1" rowspan="1"><p>AWS を利用するご契約者の情報となります。</p>
+<p>全て英語表記となりますのでご注意ください。個人として利用する場合は<strong>名前</strong>、<strong>電話番号</strong>、<strong>住所</strong>をご用意ください。法人として利用する場合は追加で<strong>会社名</strong>が必要となります。また、名前は主担当者の氏名を使用してください。</p>
+<p>アカウント作成後に変更できます。</p>
+</td></tr>
+<tr><td colspan="1" rowspan="1"><p>クレジットカード</p>
+</td><td colspan="1" rowspan="1"><p>AWS のサービス利用料のお支払いに利用します。</p>
+<p>ご利用いただけるブランドは Visa / MasterCard / American Express / Diners / Discover / JCB / China Union Pay となっています。<strong>カード番号</strong>や<strong>有効期限</strong>の他、<strong>カード名義</strong>が必要となります。</p>
+<p>アカウント作成後に追加や変更できます。</p>
+</td></tr>
+<tr><td colspan="1" rowspan="1"><p>請求先情報（英語表記）</p>
+</td><td colspan="1" rowspan="1"><p>AWS の使用料金支払いにおける連絡先となります。</p>
+<p>連絡先と同じものが利用可能です。</p>
+<p>アカウント作成後に追加や変更できます。</p>
+</td></tr>
+<tr><td colspan="1" rowspan="1"><p>SMS(ショートメッセージ)が受信もしくは音声による受電（音声電話の着信）可能な電話番号と電話機</p>
+</td><td colspan="1" rowspan="1"><p>アカウント作成時の本人確認に使用されます。</p>
+<p>アカウント作成の手順の中で SMS もしくは電話によって検証コードが送付されます。そのため、すぐに受け付けられる電話番号をご利用ください。音声の場合は非通知からの架電となるため、着信拒否設定が必要となる場合があります。</p>
+<p>また、電話番号自体はこの確認のためだけに利用され、他で利用されることはありません。</p>
+</td></tr>
+<tr><td colspan="1" rowspan="1"><p>AWS サポートプラン</p>
+</td><td colspan="1" rowspan="1"><p>AWS によって提供されるサポートプランです。様々なプランがありますが、アカウント作成時に有償サポートを必要としていない場合は無料の<strong>ベーシックプラン</strong>で構いません。ベーシック以外のプランについては<a href="https://aws.amazon.com/jp/premiumsupport/plans/" target="_blank">AWS サポートのプラン比較</a>をご覧ください。</p>
+<p>アカウント作成後に追加や変更できます。</p>
+</td></tr>
+</table>
+
+
+      </google-codelab-step>
+    
+      <google-codelab-step label="AWS アカウント作成の開始" duration="5">
+        <p><a href="https://aws.amazon.com/jp/" target="_blank">AWS のホームページ</a>を開き、<strong>今すぐ無料サインアップ ≫</strong> をクリックします。</p>
+<p class="image-container"><img style="width: 602.00px" src="img/edf99f5f457ef286.png"></p>
+<h2 is-upgraded>AWS アカウント情報</h2>
+<p>AWS マネジメントコンソールへログインするために必要な情報を設定します。</p>
+<p>一番最初に右上の言語が<strong>日本語</strong>になっているか確認してください。なっていない場合は<strong>日本語</strong>に変更してから進めてください。</p>
+<p>フォームは全ての項目が必須入力となっています。準備しておいた情報を利用します。</p>
+<table>
+<tr><td colspan="1" rowspan="1"><p><strong>項目</strong></p>
+</td><td colspan="1" rowspan="1"><p><strong>解説</strong></p>
+</td></tr>
+<tr><td colspan="1" rowspan="1"><p>E メールアドレス</p>
+</td><td colspan="1" rowspan="1"><p>AWS マネジメントコンソールへログインする際の ID を指定します。</p>
+</td></tr>
+<tr><td colspan="1" rowspan="1"><p>パスワード / パスワードの確認</p>
+</td><td colspan="1" rowspan="1"><p>パスワードで利用できる文字の条件を満たすように入力します。</p>
+<p>パスワードの確認には同じものを入力します。</p>
+</td></tr>
+<tr><td colspan="1" rowspan="1"><p>AWS アカウント名</p>
+</td><td colspan="1" rowspan="1"><p>ご利用者※の氏名を英語表記（アルファベットで「名 性」の順）で入力します。</p>
+</td></tr>
+</table>
+<p class="image-container"><img style="width: 602.00px" src="img/f3a9e563a933cd5c.png"></p>
+<p>全てを入力したら［続行］をクリックします。</p>
+
+
+      </google-codelab-step>
+    
+      <google-codelab-step label="連絡先情報の入力" duration="5">
+        <p>準備しておいた連絡先の情報を入力します。</p>
+<table>
+<tr><td colspan="1" rowspan="1"><p><strong>項目</strong></p>
+</td><td colspan="1" rowspan="1"><p><strong>解説</strong></p>
+</td></tr>
+<tr><td colspan="1" rowspan="1"><p>アカウントの種類</p>
+</td><td colspan="1" rowspan="1"><p>AWS アカウントをパーソナル(個人)もしくはプロフェッショナル(法人)どちらで利用するかを選びます。</p>
+<p>作成時点で不明な場合は<strong>パーソナル</strong>を選び、後ほど AWS マネジメントコンソール上でプロフェッショナルへ切り替えることも可能です。</p>
+</td></tr>
+<tr><td colspan="1" rowspan="1"><p>フルネーム</p>
+</td><td colspan="1" rowspan="1"><p>名前を英語表記（アルファベットで「名 性」の順）で入力します。</p>
+<p>ひとつ前のフォームから引き継がれていれば、その情報を利用できます。</p>
+</td></tr>
+<tr><td colspan="1" rowspan="1"><p>電話番号</p>
+</td><td colspan="1" rowspan="1"><p>電話番号をハイフンや記号なしで入力します。</p>
+<p>例: <code>08012343344</code></p>
+</td></tr>
+<tr><td colspan="1" rowspan="1"><p>国/地域</p>
+</td><td colspan="1" rowspan="1"><p>国を選んでください。</p>
+</td></tr>
+<tr><td colspan="1" rowspan="1"><p>アドレス</p>
+</td><td colspan="1" rowspan="1"><p>住所を英語表記で入力します。</p>
+<p>例: <code>8F Sankaido Bldg, 1-9-13, Akasaka</code></p>
+</td></tr>
+<tr><td colspan="1" rowspan="1"><p>市区町村</p>
+</td><td colspan="1" rowspan="1"><p>住所の市区町村名を英語表記で入力します。</p>
+<p>例: <code>Minato-Ku</code></p>
+</td></tr>
+<tr><td colspan="1" rowspan="1"><p>都道府県</p>
+</td><td colspan="1" rowspan="1"><p>住所の都道府県名を英語表記で入力します。</p>
+<p>例: <code>Tokyo</code></p>
+</td></tr>
+<tr><td colspan="1" rowspan="1"><p>郵便番号</p>
+</td><td colspan="1" rowspan="1"><p>住所の郵便番号をハイフン込みで入力します。</p>
+<p>例: <code>107-0052</code></p>
+</td></tr>
+<tr><td colspan="1" rowspan="1"><p>AWS カスタマーアグリーメントの確認</p>
+</td><td colspan="1" rowspan="1"><p>内容を確認し同意できたらチェックをつけます。</p>
+</td></tr>
+</table>
+<aside class="special"><p><strong>「パーソナル」「プロフェッショナル」の違いは？</strong></p>
+<p>パーソナルとプロフェッショナルは、アカウント作成時の入力項目が異なるものの、 AWS 上における特徴や機能は同じものとなります。</p>
+</aside>
+<p class="image-container"><img style="width: 602.00px" src="img/85a284c1cf959d1e.png"></p>
+<p>全てを入力したら［アカウントを作成して続行］をクリックします。</p>
+<aside class="warning"><p><strong>アカウントを作成して続行がクリックできない場合は？</strong></p>
+<p>入力内容を再確認してください。全角文字が入っていたり、パスワードで必要な文字が含まれていない等の不備や、チェックボックスのつけ忘れが多く見られます。</p>
+</aside>
+
+
+      </google-codelab-step>
+    
+      <google-codelab-step label="支払い情報の入力" duration="5">
+        <p>準備しておいた AWS サービスの支払いに使用する情報を入力します。</p>
+<table>
+<tr><td colspan="1" rowspan="1"><p><strong>項目</strong></p>
+</td><td colspan="1" rowspan="1"><p><strong>解説</strong></p>
+</td></tr>
+<tr><td colspan="1" rowspan="1"><p>クレジット/デビットカード番号</p>
+</td><td colspan="1" rowspan="1"><p>カード番号を入力します。</p>
+</td></tr>
+<tr><td colspan="1" rowspan="1"><p>有効期限</p>
+</td><td colspan="1" rowspan="1"><p>月/年の順で入力します。</p>
+</td></tr>
+<tr><td colspan="1" rowspan="1"><p>カード保有者の氏名</p>
+</td><td colspan="1" rowspan="1"><p>カード名義をクレジットカードに記載されている表示通りに入力します。</p>
+</td></tr>
+<tr><td colspan="1" rowspan="1"><p>請求先住所</p>
+</td><td colspan="1" rowspan="1"><p>先ほど入力した連絡先と同一の場合は「連絡先住所を使用する」を、別の場所を設定したい場合は「新しい住所を使用する」を選び、表示されたフォームに入力してください。</p>
+</td></tr>
+</table>
+<p class="image-container"><img style="width: 602.00px" src="img/f7d5c8ebcc25a68a.png"></p>
+<p>全てを入力したら［検証して追加する］をクリックします。</p>
+
+
+      </google-codelab-step>
+    
+      <google-codelab-step label="本人確認を行う" duration="5">
+        <p>SMS(ショートメッセージ) もしくは電話を利用した本人確認が行われます。電話番号を入力すると「認証コード」が届き、その内容をフォームに入力することで完了します。</p>
+<p>スマートフォン等の電話機をお手元に用意してください。</p>
+<table>
+<tr><td colspan="1" rowspan="1"><p><strong>項目</strong></p>
+</td><td colspan="1" rowspan="1"><p><strong>解説</strong></p>
+</td></tr>
+<tr><td colspan="1" rowspan="1"><p>検証コードをどのように受けとりますか？</p>
+</td><td colspan="1" rowspan="1"><p>どちらかを選んでください。</p>
+</td></tr>
+<tr><td colspan="1" rowspan="1"><p>国またはリージョンコード</p>
+</td><td colspan="1" rowspan="1"><p>日本（+81）を選びます。</p>
+</td></tr>
+<tr><td colspan="1" rowspan="1"><p>電話番号</p>
+</td><td colspan="1" rowspan="1"><p>先頭の <code>0</code> を除いたハイフン無しの電話番号を入力します。</p>
+<p>例: <code>080-01234-3344</code> であれば <code>80012343344</code> と入力します。</p>
+</td></tr>
+<tr><td colspan="1" rowspan="1"><p>セキュリティチェック</p>
+</td><td colspan="1" rowspan="1"><p>画像上の文字を大文字／小文字など含め正確に入力します。</p>
+<p>判別ができない場合はリロードマークで新しい画像を表示させることができます。</p>
+</td></tr>
+</table>
+<p class="image-container"><img style="width: 602.00px" src="img/272908c7d4c5c36f.png"></p>
+<p>全てを入力したら［SMS を送信する］（もしくは［問い合わせてください］）をクリックします。</p>
+<h2 is-upgraded>認証コードの検証</h2>
+<p>しばらくすると SMS もしくは電話で認証コードが届きます。<br>入力フォームに入力して［コードを検証］をクリックします。</p>
+<p class="image-container"><img style="width: 602.00px" src="img/d93e21d67120cfc8.png"></p>
+<p>認証コードが正しい場合は<strong>本人確認が終了しました</strong>と表示されるので、［続行］をクリックします。</p>
+<p class="image-container"><img style="width: 602.00px" src="img/83485bab8bca8f1a.png"></p>
+
+
+      </google-codelab-step>
+    
+      <google-codelab-step label="AWS サポートプランの選択～完了" duration="5">
+        <p>AWS のサポートプランの選択を行います。<br>この時点でアカウント作成時に有償サポートを必要としていない場合は無料の<strong>ベーシックプラン</strong>で構いません。アカウント作成後に追加や変更できます。</p>
+<p class="image-container"><img style="width: 602.00px" src="img/c0fd946af748f0f0.png"></p>
+<h2 is-upgraded>アカウント作成の完了</h2>
+<p>以上で AWS アカウント作成の作業は完了です。</p>
+<p>しばらくすると<strong>お客様の AWS アカウントの準備ができました - 今すぐ始めましょう</strong>という件名のメールが AWS アカウント作成で使用したメールアドレスに届きます。<br>これで AWS マネジメントコンソールが利用可能となります。</p>
+
+
+      </google-codelab-step>
+    
+      <google-codelab-step label="次のステップ" duration="1">
+        <p>これで AWS マネジメントコンソールが利用可能となりました。これ以降の操作方法について解説します。</p>
+<h2 is-upgraded>サインイン(ログイン)の方法</h2>
+<p>AWS マネジメントコンソールへのサインインは <a href="https://aws.amazon.com/jp/" target="_blank">AWS のホームページ</a>右上の<strong>コンソールにサインイン</strong>をクリックすることで表示できます。</p>
+<p class="image-container"><img style="width: 602.00px" src="img/cdf735cf8fb65fa1.png"></p>
+<p>サインインはメールアドレス・パスワードをそれぞれ入力していきます。</p>
+<p class="image-container"><img style="width: 602.00px" src="img/70a3a149bba02382.png"></p>
+<p>サインインに成功すると AWS マネジメントコンソールが表示されます。</p>
+<p class="image-container"><img style="width: 602.00px" src="img/21e4f410378366c9.png"></p>
+<h2 is-upgraded>サインアウト(ログアウト)の方法</h2>
+<p>AWS マネジメントコンソールからのサインアウトは、右上のアカウント名が表示されているボタンをクリックすると現れる<strong>サインアウト</strong>を使用します。</p>
+<p class="image-container"><img style="width: 602.00px" src="img/125974e3100a96e4.png"></p>
+<h2 is-upgraded>Appendix: より安全に AWS を利用するための設定</h2>
+<p>作成した AWS アカウントは<strong>ルートアカウント</strong>（またはルートユーザー）と呼ばれる、<strong>全ての権限を有する特権アカウント</strong>となります。</p>
+<p> AWS をより安心してお使いいただくための情報が公開されていますのでご利用ください。</p>
+<p><a href="https://docs.aws.amazon.com/ja_jp/IAM/latest/UserGuide/best-practices.html" target="_blank">IAM のベストプラクティス</a></p>
+
+
+      </google-codelab-step>
+    
+  </google-codelab>
+
+  <script src="https://soracom.github.io/iot-recipes/codelab-elements/native-shim.js"></script>
+  <script src="https://soracom.github.io/iot-recipes/codelab-elements/custom-elements.min.js"></script>
+  <script src="https://soracom.github.io/iot-recipes/codelab-elements/prettify.js"></script>
+  <script src="https://soracom.github.io/iot-recipes/codelab-elements/codelab-elements.js"></script>
+
+</body>
+</html>
