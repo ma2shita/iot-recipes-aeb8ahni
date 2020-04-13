@@ -1,0 +1,22 @@
+{
+  "environment": "web",
+  "format": "html",
+  "prefix": "https://soracom.github.io/iot-recipes",
+  "mainga": "UA-66865146-33",
+  "updated": "2020-04-13T03:43:16Z",
+  "id": "arduino-ide-macos",
+  "duration": 16,
+  "title": "【SORACOM ハンズオン】Arduino IDE セットアップ for macOS",
+  "authors": "SORACOM, INC.",
+  "summary": "Arduino IDE のセットアップを macOS パソコンで行います。",
+  "source": "1pYZvu6HhgPuLgvNC5mSer9VDkTERM2-3_yEiYIUSZk4",
+  "theme": "100-basic",
+  "status": [
+    "published"
+  ],
+  "category": [
+    "100-Basic"
+  ],
+  "tags": [],
+  "url": "arduino-ide-macos"
+}

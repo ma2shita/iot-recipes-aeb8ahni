@@ -1,0 +1,110 @@
+
+<!doctype html>
+
+<html>
+<head>
+  <meta name="viewport" content="width=device-width, minimum-scale=1.0, initial-scale=1.0, user-scalable=yes">
+  <meta name="theme-color" content="#4F7DC9">
+  <meta charset="UTF-8">
+  <title>【SORACOM ハンズオン】Arduino IDE セットアップ for macOS</title>
+  <link rel="stylesheet" href="//fonts.googleapis.com/css?family=Source+Code+Pro:400|Roboto:400,300,400italic,500,700|Roboto+Mono">
+  <link rel="stylesheet" href="//fonts.googleapis.com/icon?family=Material+Icons">
+  <link rel="stylesheet" href="https://soracom.github.io/iot-recipes/codelab-elements/codelab-elements.css">
+  <style>
+    .success {
+      color: #1e8e3e;
+    }
+    .error {
+      color: red;
+    }
+  </style>
+</head>
+<body>
+  <google-codelab-analytics gaid="UA-66865146-33"></google-codelab-analytics>
+  <google-codelab codelab-gaid=""
+                  id="arduino-ide-macos"
+                  title="【SORACOM ハンズオン】Arduino IDE セットアップ for macOS"
+                  environment="web"
+                  feedback-link="">
+    
+      <google-codelab-step label="概要" duration="0">
+        <p>Arduino IDE のセットアップを macOS パソコンで行います。</p>
+<h2 is-upgraded>できるようになる事</h2>
+<ul>
+<li>Arduino IDE のセットアップ</li>
+</ul>
+<h2 is-upgraded>このハンズオンでサポートしない事 (前提知識)</h2>
+<ul>
+<li>パソコンの操作やインターネットへの接続方法</li>
+<li>Wio LTE JP Version や M5Stack といった機種セットアップ</li>
+</ul>
+<h2 is-upgraded>このコンテンツの進め方</h2>
+<p>ページの内容を読み、また作業を行ったら右下の［Next］を押して次のステップへ進みます。また、［Back］を使って戻ったり、左のナビゲーションメニューでもページの移動が可能です。</p>
+<p>左上の［×］を押してコンテンツを終了することができます。また、ページを開きなおすことで再開できます。ページのアドレスはブラウザの［履歴］メニューを利用してください。</p>
+
+<aside class="warning"><p>本コンテンツは現状のままで提供され、株式会社ソラコムは、誤りがないことの保証を含め、明示であると黙示であるとを問わず、本コンテンツの記載内容につき、いかなる種類の表明も保証も行いません。</p>
+<p>掲載情報の閲覧及び利用により、利用者自身、もしくは第三者が被った損害に対して、直接的、間接的を問わず、株式会社ソラコムは責任を負いかねます。</p>
+<p>本コンテンツを実践する中で用意された機器、利用されたサービスについてのご質問は、それぞれの機器やサービスの提供元にお問い合わせをお願いします。機器やサービスの仕様は、本コンテンツ作成当時のものです。</p>
+<p>株式会社ソラコムが提供する機器・サービスについてのご質問は、 <a href="https://soracom.jp/contact/" target="_blank">https://soracom.jp/contact/</a> をご確認の上、適切な窓口へのお問い合わせをお願いします。機器・サービスご利用前の導入相談は <a href="https://soracom.jp/contact/contactsales/" target="_blank">https://soracom.jp/contact/contactsales/</a> に、機器・サービスご利用開始後のサポートは、SORACOMユーザーコンソール内の<a href="https://soracom.zendesk.com/hc/ja/requests/" target="_blank">サポートサイトから「リクエストを送信」</a>(要ログイン)にてお問い合わせください。</p>
+<p>本ドキュメントは <a href="https://github.com/googlecodelabs/tools" target="_blank">CLaaT</a> を用いて制作しています。</p>
+<p>Copyright (c) 2020 SORACOM, INC.</p>
+</aside>
+
+
+
+      </google-codelab-step>
+    
+      <google-codelab-step label="準備するもの" duration="1">
+        <p>SORACOM アカウントを作成するにあたり、以下のものを用意、もしくは、確認・検討ください。</p>
+<table>
+<tr><td colspan="1" rowspan="1"><p>パソコン、 ブラウザー、インターネット接続環境</p>
+</td><td colspan="1" rowspan="1"><ul>
+<li>インターネット接続が可能でサイトへの接続が自由であること。<br>※ 約 120 MB のファイルをダウンロードすることになります。</li>
+<li>OS は macOS (10.11 El Capitan 以上)。</li>
+<li>管理者権限を有しており、アプリケーションやドライバソフトウェアのインストールが自由であること。</li>
+</ul>
+</td></tr>
+</table>
+
+
+      </google-codelab-step>
+    
+      <google-codelab-step label="ダウンロード" duration="10">
+        <p><a href="https://www.arduino.cc/en/Main/Software" target="_blank">Arduino のダウンロードページ</a>を開き、<strong>Mac OS X</strong>をクリックします。</p>
+<p class="image-container"><img style="width: 602.00px" src="img/77ef7db722dd9a30.png"></p>
+<p>そのあと表示されるページでは<strong>JUST DOWNLOAD</strong>をクリックします。</p>
+<p class="image-container"><img style="width: 602.00px" src="img/6bc033139938ed7e.png"></p>
+<aside class="special"><p>CONTRIBUTE &amp; DOWNLOADをクリックすると「支援するページ」を経由してからダウンロードとなります。Arduinoは多くの開発者と支援で成り立っています。支援は必須ではありませんが、頻繁に利用する場合は支援を検討ください。詳しくは <a href="https://www.arduino.cc/en/Main/ContributionFAQ" target="_blank">Contribution to the Arduino Software Development FAQ</a>もご覧ください。</p>
+</aside>
+
+
+      </google-codelab-step>
+    
+      <google-codelab-step label="インストールとArduino IDE の起動・終了" duration="5">
+        <p>ダウンロードした ZIP ファイルをダブルクリックすると ZIP ファイルの中身が展開されます。</p>
+<p class="image-container"><img style="width: 602.00px" src="img/2e08a3756209adb4.png"></p>
+<p>展開後の <strong>Arduino</strong> アイコンを<strong>アプリケーションフォルダへ移動</strong>してください。</p>
+<p class="image-container"><img style="width: 562.00px" src="img/d9f48014534da105.png"></p>
+<p>以上でインストール完了です。</p>
+<h2 is-upgraded>Arduino IDE の起動方法</h2>
+<p>アプリケーションフォルダ内の Arduino が「Arduino IDE」です。これをダブルクリックで Arduino IDE を起動することになります</p>
+<p class="image-container"><img style="width: 95.00px" src="img/85131ba9ae6dac05.png"></p>
+<h3 is-upgraded>Arduino IDE の起動時にダイアログが表示された場合</h3>
+<p>Arduino IDE の初回起動時にダイアログが表示されることがあります。［開く］をくりっくしてください。</p>
+<p class="image-container"><img style="width: 583.00px" src="img/82f447a45517b219.png"></p>
+<h3 is-upgraded>Arduino IDE の終了方法</h3>
+<p>Arduino IDE を終了させるには［ファイル］&gt;［終了］をクリックするか、ウィンドウ右上の閉じるボタンで全てのウィンドウを閉じます。</p>
+<p>以上で Arduino IDE のセットアップは終了です。<br></p>
+
+
+      </google-codelab-step>
+    
+  </google-codelab>
+
+  <script src="https://soracom.github.io/iot-recipes/codelab-elements/native-shim.js"></script>
+  <script src="https://soracom.github.io/iot-recipes/codelab-elements/custom-elements.min.js"></script>
+  <script src="https://soracom.github.io/iot-recipes/codelab-elements/prettify.js"></script>
+  <script src="https://soracom.github.io/iot-recipes/codelab-elements/codelab-elements.js"></script>
+
+</body>
+</html>
