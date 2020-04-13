@@ -1,0 +1,980 @@
+
+<!doctype html>
+
+<html>
+<head>
+  <meta name="viewport" content="width=device-width, minimum-scale=1.0, initial-scale=1.0, user-scalable=yes">
+  <meta name="theme-color" content="#4F7DC9">
+  <meta charset="UTF-8">
+  <title>【IoT DIY レシピ】M5Stackと3G拡張ボードで作る「雨雲レーダー表示デバイス」</title>
+  <link rel="stylesheet" href="//fonts.googleapis.com/css?family=Source+Code+Pro:400|Roboto:400,300,400italic,500,700|Roboto+Mono">
+  <link rel="stylesheet" href="//fonts.googleapis.com/icon?family=Material+Icons">
+  <link rel="stylesheet" href="https://soracom.github.io/iot-recipes/codelab-elements/codelab-elements.css">
+  <style>
+    .success {
+      color: #1e8e3e;
+    }
+    .error {
+      color: red;
+    }
+  </style>
+</head>
+<body>
+  <google-codelab-analytics gaid="UA-66865146-33"></google-codelab-analytics>
+  <google-codelab codelab-gaid=""
+                  id="rain-monitoring-by-m5stack"
+                  title="【IoT DIY レシピ】M5Stackと3G拡張ボードで作る「雨雲レーダー表示デバイス」"
+                  environment="web"
+                  feedback-link="https://soracom.jp/products/kit/3g_module_m5stack_set/">
+    
+      <google-codelab-step label="M5Stackと3G拡張ボードで作る「雨雲レーダー表示デバイス」" duration="1">
+        <p>レシピ難易度：★★★☆☆</p>
+<p>LCD付きプロトタイピング向けマイコンキット &#34;M5Stack&#34; にモバイルデータ通信機能を加える &#34;3G 拡張モジュール&#34; を組み合わせて、いつでもどこでも情報が得られる情報表示端末「インフォメーター」を作ります。表示する情報は「雨雲レーダー」の情報です。</p>
+<p class="image-container"><img style="width: 602.00px" src="img/c68617e2f6135e2e.png"></p>
+<p>本レシピは、動画コンテンツも用意しております。本レシピの動いている様子を、映像で確認できますので、ぜひ動画もご覧ください。</p>
+<h3 is-upgraded>M5Stack と 3G 拡張ボード解説、開発環境の整備と &#34;Hello World&#34;、World Time API で時刻を表示</h3>
+<iframe class="youtube-video" src="https://www.youtube.com/embed/MFzd2zv2IHQ?rel=0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+<h3 is-upgraded>雨雲レーダーの表示、SORACOM Beam 活用</h3>
+<iframe class="youtube-video" src="https://www.youtube.com/embed/_EmMrDTD3SU?rel=0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+<h2 is-upgraded>本レシピを行うのに必要な時間、概算費用</h2>
+<p>本レシピは以下の通りです。</p>
+<ul>
+<li>必要な時間: 約2時間30分</li>
+<li>概算費用: 約14,100円</li>
+</ul>
+<p>※ 概算費用: ハードウェアや SORACOM を始めとした各種サービスの概ねの費用 (税や送料などの付帯費用や無料枠適用は考慮しないものとしています)</p>
+<h2 is-upgraded>このコンテンツの進め方</h2>
+<p>ページの内容を読み、また作業を行ったら右下の［Next］を押して次のステップへ進みます。また、［Back］を使って戻ったり、左のナビゲーションメニューでもページの移動が可能です。</p>
+<p>左上の［×］を押してコンテンツを終了することができます。また、ページを開きなおすことで再開できます。ページのアドレスはブラウザの［履歴］メニューを利用してください。</p>
+
+<aside class="warning"><p>本コンテンツは現状のままで提供され、株式会社ソラコムは、誤りがないことの保証を含め、明示であると黙示であるとを問わず、本コンテンツの記載内容につき、いかなる種類の表明も保証も行いません。</p>
+<p>掲載情報の閲覧及び利用により、利用者自身、もしくは第三者が被った損害に対して、直接的、間接的を問わず、株式会社ソラコムは責任を負いかねます。</p>
+<p>本コンテンツを実践する中で用意された機器、利用されたサービスについてのご質問は、それぞれの機器やサービスの提供元にお問い合わせをお願いします。機器やサービスの仕様は、本コンテンツ作成当時のものです。</p>
+<p>株式会社ソラコムが提供する機器・サービスについてのご質問は、 <a href="https://soracom.jp/contact/" target="_blank">https://soracom.jp/contact/</a> をご確認の上、適切な窓口へのお問い合わせをお願いします。機器・サービスご利用前の導入相談は <a href="https://soracom.jp/contact/contactsales/" target="_blank">https://soracom.jp/contact/contactsales/</a> に、機器・サービスご利用開始後のサポートは、SORACOMユーザーコンソール内の<a href="https://soracom.zendesk.com/hc/ja/requests/" target="_blank">サポートサイトから「リクエストを送信」</a>(要ログイン)にてお問い合わせください。</p>
+<p>本ドキュメントは <a href="https://github.com/googlecodelabs/tools" target="_blank">CLaaT</a> を用いて制作しています。</p>
+<p>Copyright (c) 2020 SORACOM, INC.</p>
+</aside>
+
+
+
+      </google-codelab-step>
+    
+      <google-codelab-step label="準備" duration="1">
+        <p>本レシピを行うためには以下のものをご用意ください。</p>
+<h2 is-upgraded>ハードウェア</h2>
+<table>
+<tr><td colspan="1" rowspan="1"><p><strong>品名</strong></p>
+</td><td colspan="1" rowspan="1"><p><strong>数量</strong></p>
+</td><td colspan="1" rowspan="1"><p><strong>価格</strong></p>
+</td><td colspan="1" rowspan="1"><p><strong>購入先</strong></p>
+</td><td colspan="1" rowspan="1"><p><strong>備考</strong></p>
+</td></tr>
+<tr><td colspan="1" rowspan="1"><p>M5Stack Basic 3G 拡張ボード セット※1</p>
+</td><td colspan="1" rowspan="1"><p>1</p>
+</td><td colspan="1" rowspan="1"><p>12,800円</p>
+</td><td colspan="1" rowspan="1"><p><a href="https://soracom.jp/products/kit/3g_module_m5stack_set/" target="_blank">ソラコム</a></p>
+</td><td colspan="1" rowspan="1"><p>M5Stack と <a href="https://soracom.jp/products/kit/3g_module_m5stack/" target="_blank">M5Stack 用 3G 拡張ボード</a>をそれぞれ準備いただいてもレシピを進めることができます。</p>
+<p>M5Stack 用 3G 拡張ボードが対応している M5Stack は <a href="https://www.switch-science.com/catalog/3647/" target="_blank">Basic</a> と <a href="https://www.switch-science.com/catalog/3648/" target="_blank">Gray</a> の2モデルです。M5Stack FIRE は非対応ですのでご注意ください。</p>
+</td></tr>
+<tr><td colspan="1" rowspan="1"><p>対辺1.5mm 六角レンチ(ドライバー)</p>
+</td><td colspan="1" rowspan="1"><p>1</p>
+</td><td colspan="1" rowspan="1"><p>410円</p>
+</td><td colspan="1" rowspan="1"><p><a href="https://www.amazon.co.jp/dp/B00B4TCYIW/" target="_blank">Amazon.co.jp</a></p>
+</td><td colspan="1" rowspan="1"><p>M5Stack 用 3G 拡張ボードへ SIM を挿す際にボードの取り付け・取り外しに使用します。</p>
+</td></tr>
+<tr><td colspan="1" rowspan="1"><p>SORACOM 特定地域向け IoT SIM (plan-D / データ通信のみ / nanoSIM サイズ)</p>
+</td><td colspan="1" rowspan="1"><p>1</p>
+</td><td colspan="1" rowspan="1"><p>852円</p>
+</td><td colspan="1" rowspan="1"><p><a href="https://soracom.jp/products/sim/plan-d/" target="_blank">ソラコム</a></p>
+<p><a href="https://www.amazon.co.jp/dp/B07WMQ49W3/" target="_blank">Amazon.co.jp</a></p>
+</td><td colspan="1" rowspan="1"><p>サイズは nano をお求めください。「マルチカット」には nano サイズが含まれています。</p>
+</td></tr>
+</table>
+<p>※1 ※ 金額はレシピ作成時となります。ソラコムで販売している金額は税抜き・送料別です。</p>
+<h2 is-upgraded>その他必要なもの</h2>
+<table>
+<tr><td colspan="1" rowspan="1"><p><strong>必要なもの</strong></p>
+</td><td colspan="1" rowspan="1"><p><strong>費用</strong></p>
+</td><td colspan="1" rowspan="1"><p><strong>作成方法など</strong></p>
+</td></tr>
+<tr><td colspan="1" rowspan="1"><p>SORACOM アカウント</p>
+</td><td colspan="1" rowspan="1"><p>無料※</p>
+</td><td colspan="1" rowspan="1"><p><a href="https://soracom.github.io/iot-recipes/create-account-soracom-jp/" target="_blank">SORACOM アカウントの作成 (JP)</a></p>
+</td></tr>
+<tr><td colspan="1" rowspan="1"><p>Yahoo! JAPAN ID</p>
+</td><td colspan="1" rowspan="1"><p>無料※</p>
+</td><td colspan="1" rowspan="1"><p><a href="https://knowledge.support.yahoo-net.jp/PccLogin/s/article/H000010762" target="_blank">Yahoo! JAPAN IDを登録するには</a></p>
+</td></tr>
+<tr><td colspan="1" rowspan="1"><p>開発用パソコン</p>
+</td><td colspan="1" rowspan="1"><p>―</p>
+</td><td colspan="1" rowspan="1"><ul>
+<li>インターネット接続が可能でサイトへの接続が自由であること。</li>
+<li>USB ポートが最低1つ以上あり、利用可能なこと。<br>※ パソコンの USB ポートが Type-C のみでセットに付属のUSBケーブルを利用する場合は Type-A への変換アダプタ、または Type-C↔Type-C ケーブルのいずれかを別途準備してください。</li>
+<li>USB ポートからの電力供給が1A以上であること。<br>※ 変換アダプタを利用する際には特にご注意ください。USB 3.0対応とあれば安心です。</li>
+<li>OS は macOS(10.11 El Capitan 以上) もしくは Windows(8.1 以上)。</li>
+<li>管理者権限を有しており、アプリケーションやドライバソフトウェアのインストールが自由であること。</li>
+</ul>
+</td></tr>
+</table>
+<p>※ アカウント作成・維持の費用の料金です。</p>
+
+
+      </google-codelab-step>
+    
+      <google-codelab-step label="M5Stack 用 3G 拡張ボードに SIM を取り付ける" duration="15">
+        <p>M5Stack 用 3G 拡張ボード(以下、3G拡張ボード)には SIM スロットが備わっており、ここに SIM を入れることで 3G 通信が可能となります。 SIM の取り付け・取り外しは 3G拡張ボードをケースから取り外す必要があります。</p>
+<h2 is-upgraded>3G拡張ボードをケースから取り外す</h2>
+<p>3G拡張ボードの四隅にあるネジを取り外します。ネジは紛失しないようにしてください。</p>
+<p class="image-container"><img style="width: 602.00px" src="img/55460decc2ab9d1f.png"></p>
+<h2 is-upgraded>SIM を取り付ける（取り外し方法含む）</h2>
+<p>SIM のサイズは nano です。取り付けはSIMをスロットに挿入したら「カチッ」と音が鳴るまで押し込みます。音が鳴ったら完了です。取り外しはSIMを奥まで押し込み「カチッ」と音が鳴ればSIMが出てきますので取り外しできます。</p>
+<p class="image-container"><img style="width: 426.00px" src="img/f50325f437657f30.gif"></p>
+<h2 is-upgraded>3G拡張ボードをケースに取り付ける</h2>
+<p>再度3G拡張ボードをケースに取り付けます。取り付け向きはピンが外側 (ケースから飛び出るように) します。逆向き (ピンがケースの内側を向いてしまっている) には取り付け内でください。</p>
+<p>最後はネジで固定します。</p>
+<p class="image-container"><img style="width: 602.00px" src="img/b1d8421c392ce1f7.png"></p>
+<h2 is-upgraded>重ねる</h2>
+<p>取り付け終わったら一番下から「BOTTOM」「3G拡張ボード」「Core※」と重ねていきます。</p>
+<p>※ Core = M5Stack の LCD(モニター)やボタンがついているモジュール</p>
+<p>以上で3G 拡張ボードへの SIM 取り付け作業は完了です。</p>
+
+
+      </google-codelab-step>
+    
+      <google-codelab-step label="開発環境のセットアップ" duration="40">
+        <h2 is-upgraded>Arduino IDE のセットアップ</h2>
+<p>Arduino IDE のインストールはArduino IDE セットアップ (<a href="https://soracom.github.io/iot-recipes/arduino-ide-windows/" target="_blank">Windows 編</a> / <a href="https://soracom.github.io/iot-recipes/arduino-ide-macos/" target="_blank">macOS 編</a>) をご覧ください。約15～20分ほどかかります。</p>
+<h2 is-upgraded>ESP32 用ボード定義のインストール</h2>
+<p>M5StackはマイコンにESP32を使用しています。Arduino IDEは標準ではESP32の開発環境が入っていませんが、環境設定から追加することができるため、その設定をおこないます。</p>
+<h3 is-upgraded>Arduino IDEのメニューから環境設定を開きます。</h3>
+<ul>
+<li>Windows の場合: ［ファイル］&gt;［環境設定］</li>
+<li>macOS の場合: ［Arduino］&gt;［Preferences...］</li>
+</ul>
+<p class="image-container"><img style="width: 524.00px" src="img/9db00416a5c4dd88.png"></p>
+<h3 is-upgraded><strong>追加のボードマネージャのURL</strong> の <img style="width: 35.00px" src="img/9f8203d4f688dc21.png"> をクリックします</h3>
+<p class="image-container"><img style="width: 602.00px" src="img/e4f171021e892774.png"></p>
+<p>※ 画面は macOS ですが、Windows も同様です。</p>
+<h3 is-upgraded>ボード定義の URL を入力します</h3>
+<p>テキストボックスに以下の URL を入力します。</p>
+<p><code>https://dl.espressif.com/dl/package_esp32_index.json</code></p>
+<p class="image-container"><img style="width: 602.00px" src="img/a24aaca857741c5f.png"></p>
+<p>入力したら［OK］をクリックします。</p>
+<aside class="special"><p><strong>すでに URL が入力されていたら？</strong></p>
+<p>別の開発を行っていてすでに URL が入力されていた場合は、一番下に追加してください。</p>
+<p class="image-container"><img style="width: 587.00px" src="img/dcfc74116ecf41c.png"></p>
+</aside>
+<h3 is-upgraded>OK をクリックします</h3>
+<p>環境設定のウィンドウに戻ってきたら［OK］をクリックします。</p>
+<p class="image-container"><img style="width: 602.00px" src="img/d0515e2cfa704058.png"></p>
+<h3 is-upgraded>［ツール］&gt;［ボード: ...］&gt;［ボードマネージャ...］をクリックします</h3>
+<p class="image-container"><img style="width: 602.00px" src="img/ee45150049592919.png"></p>
+<p>※ 画面は macOS ですが、Windows も同様です。</p>
+<h3 is-upgraded>&#34;esp32&#34; をインストールする</h3>
+<p>ボードマネージャの一覧から <strong>esp32</strong> (by Espressif Systems) を選んで［インストール］をクリックします。</p>
+<p>バージョンはインストール時における最新バージョンを選んでください。</p>
+<p>※ 約37MBのダウンロードが発生します。</p>
+<p class="image-container"><img style="width: 602.00px" src="img/8f20bebbb26a69d9.png"></p>
+<p>インストールが終了したら［閉じる］をクリックします。</p>
+<aside class="special"><p><strong>&#34;esp32&#34; を簡単に探し出す方法</strong></p>
+<p>検索用のテキストボックスへ <code>esp32</code> と入力すると素早く見つけることができます。</p>
+<p class="image-container"><img style="width: 587.00px" src="img/51573e2afd1e75c0.png"></p>
+</aside>
+<p>以上で、ESP32 用ボード定義のインストールは完了です。</p>
+<h2 is-upgraded>M5Stack 用ライブラリのインストール</h2>
+<p>M5Stack用のライブラリをインストールします。</p>
+<h3 is-upgraded>［スケッチ］&gt;［ライブラリをインクルード］&gt;［ライブラリを管理...］をクリックします</h3>
+<p class="image-container"><img style="width: 602.00px" src="img/41f6da411abfe840.png"></p>
+<p>※ 画面は macOS ですが、Windows も同様です。</p>
+<h3 is-upgraded>&#34;M5Stack&#34; をインストールする</h3>
+<p>ライブラリマネージャの一覧から <strong>M5Stack</strong> (by M5Stack) を選んで［インストール］をクリックします。</p>
+<p>バージョンはインストール時における最新バージョンを選んでください。</p>
+<p>※ 約6MBのダウンロードが発生します。</p>
+<p class="image-container"><img style="width: 602.00px" src="img/47c00c910bf6643f.png"></p>
+<p>インストールが終了したら［閉じる］をクリックします。</p>
+<p>※ 画面上は &#34;OK&#34; となっていますが、インストールが完了すると &#34;閉じる&#34; になります。</p>
+<aside class="special"><p><strong>&#34;M5Stack&#34; を簡単に探し出す方法</strong></p>
+<p>検索用のテキストボックスへ <code>m5stack core</code> と入力すると素早く見つけることができます。</p>
+<p class="image-container"><img style="width: 587.00px" src="img/1fad6eb935880211.png"></p>
+</aside>
+<h2 is-upgraded>仮想シリアルポートドライバのインストール</h2>
+<p>M5Stack へのプログラム書込みや、M5Stack の出力のモニタリングは仮想的なシリアルポートを通じて行います。</p>
+<p><a href="https://m5stack.com/pages/download" target="_blank">M5Stack 公式サイトのダウンロードページ</a>の <strong>CP2104 Driver</strong> をお使いのOSに合わせてダウンロードします。</p>
+<p class="image-container"><img style="width: 515.00px" src="img/3d23de9ba643d58e.png"></p>
+<h3 is-upgraded>インストール: Windows の場合</h3>
+<p>ZIP ファイルを展開し、中の <code>CP210xVCPInstaller_x64_v6.7.0.0.exe</code> をダブルクリックして実行し、表示されるダイアログにしたがってインストールを完了してください。</p>
+<aside class="warning"><p>似たようなファイル名がありますが、ファイル名の中に <strong>x64</strong> が含まれているものがインストーラーです。</p>
+</aside>
+<h3 is-upgraded>インストール: macOS の場合</h3>
+<p>ZIP ファイルを展開し、中の <code>SiLabsUSBDriverDisk.dmg</code> をダブルクリックします。その後表示される <code>Silicon Labs VCP Driver.pkg</code> をダブルクリックして、表示されるダイアログにしたがってインストールを完了してください。</p>
+<aside class="special"><p>インストールが完了したら、Finder のデバイスに表示されている <strong>Silicon Labs VCP Driver Install Disk</strong> は不要となります。取出しをしてください。</p>
+</aside>
+<p>ここまでで M5Stack の開発環境の準備は完了です。</p>
+
+
+      </google-codelab-step>
+    
+      <google-codelab-step label="開発環境の整備状況を確認する (サンプルスケッチのコンパイル)" duration="15">
+        <p>ここまでのセットアップが正常にできているか、実際にサンプルのプログラム (スケッチと呼ばれる) をコンパイルしてみます。</p>
+<p>ここでは M5Stack 実機はまだ使用しません。</p>
+<h2 is-upgraded>ボード定義を &#34;M5Stack-Core-EPS32&#34; に変更する</h2>
+<p>［ツール］&gt;［ボード: ...］&gt;［M5Stack-Core-ESP32］をクリックします。</p>
+<p class="image-container"><img style="width: 593.00px" src="img/6e4ccad4f9b0cb44.png"></p>
+<p>※ 画面は Windows ですが macOS も同様です。</p>
+<aside class="warning"><p><strong>M5Stack-Core-ESP32 が見つからなかったら？</strong></p>
+<ul>
+<li><strong>リストの下の方までスクロールしてみてください。</strong>リストが多い事から埋もれてしまっていることがあります。</li>
+<li>一つ前のページに戻り、 <strong>ESP32 用ボード定義のインストール</strong>を行ってください。</li>
+</ul>
+</aside>
+<h2 is-upgraded>サンプルスケッチ &#34;HelloWorld&#34; を開く</h2>
+<p>［ファイル］&gt;［スケッチ例］&gt;［M5Stack］&gt;［Basics］&gt;［HelloWorld］をクリックします。</p>
+<p class="image-container"><img style="width: 602.00px" src="img/364c59585db32b07.png"></p>
+<aside class="warning"><p><strong>&#34;スケッチ例&#34; に M5Stack が見つからなかったら？</strong></p>
+<ul>
+<li>一つ前の手順に戻り、<strong>ボードで M5Stack-Core-ESP32 を選んでください</strong>。<br>※ 今選択されているボードは Arduino IDE ウィンドウの右下に表示されています。<br><img style="width: 448.00px" src="img/c9436ede52bedb20.png"></li>
+<li>一つ前のページに戻り、 <strong>M5Stack 用ライブラリのインストール</strong>を行ってください。</li>
+</ul>
+</aside>
+<h2 is-upgraded>コンパイルをする</h2>
+<p>新しく開いたウィンドウで<img style="width: 33.00px" src="img/9951d88204453fb.png">ボタンをクリックします。スケッチのコンパイルが始まります。</p>
+<p>ウィンドウの下部で進行状況が確認できます。</p>
+<p class="image-container"><img style="width: 420.00px" src="img/5c9c20eee8f82c21.png"></p>
+<aside class="special"><p>ボタンの代わりに［スケッチ］&gt;［検証・コンパイル］でも同じです。</p>
+</aside>
+<p>進行状況の部分に<strong>コンパイルが完了しました。</strong>と表示されれば、開発環境は正しくセットアップできています。</p>
+<p class="image-container"><img style="width: 354.00px" src="img/9969ceb4e8dd3ee9.png"></p>
+<aside class="warning"><p><strong>コンパイルの時間について</strong></p>
+<p>コンパイルで必要とする時間はパソコンのスペックに寄ります。早くて 1~2分、遅いと5分程度掛かることがあります。なるべくスペックの良いパソコンで行うことをお勧めいたします。</p>
+</aside>
+<h3 is-upgraded>エラー発生時の対処</h3>
+<p>コンパイル時にエラーが発生すると以下のように表示されます。</p>
+<p>ここまでのセットアップで不備が無かったか、再度確認してください。</p>
+<p class="image-container"><img style="width: 602.00px" src="img/c5221d0096063ce4.png"></p>
+<p>※ エラーメッセージは一例です。他にも複数のパターンがあります。</p>
+
+
+      </google-codelab-step>
+    
+      <google-codelab-step label="開発環境の整備状況を確認する (サンプルスケッチを実行する)" duration="20">
+        <p>いよいよ M5Stack 本体でスケッチを実行します。</p>
+<h2 is-upgraded>M5Stack をパソコンにつなげる</h2>
+<p>M5Stack 本体と USB ケーブルを用意して接続してください。</p>
+<p>この時 M5Stack の電源が自動的に ON になる場合もありますが特に問題ありません。</p>
+<p class="image-container"><img style="width: 602.00px" src="img/bea6b51b8cf33f60.png"></p>
+<h2 is-upgraded>サンプルスケッチ &#34;HelloWorld&#34; を開く</h2>
+<p>［ファイル］&gt;［スケッチ例］&gt;［M5Stack］&gt;［Basics］&gt;［HelloWorld］をクリックします。</p>
+<aside class="special"><p>すでに開いている &#34;HelloWorld&#34; があれば、それを利用することもできます。</p>
+</aside>
+<h2 is-upgraded>マイコンボードに書き込む</h2>
+<p>&#34;HelloWorld&#34; を表示しているウィンドウで<img style="width: 33.00px" src="img/6eda9a3a4a4958d7.png">ボタンをクリックします。スケッチのコンパイルと、スケッチの書き込みが始まります。</p>
+<aside class="special"><p>ボタンの代わりに［スケッチ］&gt;［マイコンボードに書き込む］でも同じです。</p>
+</aside>
+<p><strong>ボードへの書き込みが完了しました。</strong>と表示されたら正常終了です。</p>
+<p class="image-container"><img style="width: 400.00px" src="img/fc1fbc9ddc0a9784.png"></p>
+<h3 is-upgraded>エラーが発生した場合</h3>
+<table>
+<tr><td colspan="1" rowspan="1"><p><strong>そのポートは存在しないか、ボードが接続されていません</strong></p>
+</td><td colspan="1" rowspan="1"><p>複数のシリアルポートが存在する場合に表示されることがあります。</p>
+<p>M5Stack が接続されているシリアルポートを指定するようにしてください。(シリアルポートをいくつか試してみるのも一つの方法です。特に破損するようなことはありません)</p>
+<p>シリアルポートは［ツール］&gt;［シリアルポート: ...］で変更できます。</p>
+<p class="image-container"><img style="width: 414.50px" src="img/cb96c175f61ac9c1.png"></p>
+<p>※ この例では M5Stack は COM12 として認識されているため COM12 への変更が必要。</p>
+<p>macOS の場合は <code>/dev/tty.SLAB_USBtoUART</code> といったデバイス名で認識されています。</p>
+</td></tr>
+<tr><td colspan="1" rowspan="1"><p><strong>Failed to connect to ESP32</strong></p>
+</td><td colspan="1" rowspan="1"><p>何らかの理由で M5Stack が認識されなかった可能で氏があります。</p>
+<p>M5Stack の USB ケーブルを挿し直してみてください。</p>
+</td></tr>
+</table>
+<h2 is-upgraded>実行の様子</h2>
+<p>書き込みが完了すると M5Stack の電源が自動的に入り直し(リセット)され、中のスケッチが実行されます。</p>
+<p>M5Stack の画面に <strong>HelloWorld</strong> と表示されれば成功です。</p>
+<p class="image-container"><img style="width: 602.00px" src="img/967152896b42e41.png"></p>
+<h2 is-upgraded>その他のサンプルスケッチを実行してみる</h2>
+<p>［ファイル］&gt;［スケッチ例］&gt;［M5Stack］&gt;［Basics］&gt;［Display］では以下のように表示されます。</p>
+<p class="image-container"><img style="width: 426.00px" src="img/b4c51f3f4097f1d2.gif"></p>
+
+
+      </google-codelab-step>
+    
+      <google-codelab-step label="SORACOM Air を利用してセルラー通信をしてみる" duration="15">
+        <p>3G 拡張ボードを使って SORACOM Air によるセルラー通信を行い、3G 拡張ボードの動作確認を行います。</p>
+<h2 is-upgraded>セルラー通信ライブラリのインストール</h2>
+<p>3G 拡張ボードで利用できる通信ライブラリをインストールします。今回は <a href="https://github.com/vshymanskyy/TinyGSM" target="_blank">TinyGSM</a> というオープンソースライブラリを利用して、世界時計を M5Stack で表示してみます。</p>
+<h3 is-upgraded>［スケッチ］&gt;［ライブラリをインクルード］&gt;［ライブラリを管理...］をクリックします</h3>
+<p class="image-container"><img style="width: 602.00px" src="img/41f6da411abfe840.png"></p>
+<p>※ 画面は macOS ですが、Windows も同様です。</p>
+<h3 is-upgraded>&#34;TinyGSM&#34; をインストールする</h3>
+<p>ライブラリマネージャの一覧から <strong>TinyGSM </strong>(by Volodymyr Shymanskyy) を選んで［インストール］をクリックします。</p>
+<p>バージョンはインストール時における最新バージョンを選んでください。</p>
+<p class="image-container"><img style="width: 602.00px" src="img/681ffa7927b99280.png"></p>
+<p>インストールが終了したら［閉じる］をクリックします。</p>
+<aside class="special"><p><strong>&#34;TinyGSM&#34; を簡単に探し出す方法</strong></p>
+<p>検索用のテキストボックスへ <code>tinygsm</code> と入力すると素早く見つけることができます。</p>
+<p class="image-container"><img style="width: 587.00px" src="img/57e36a8bda8fcd71.png"></p>
+</aside>
+<h2 is-upgraded>World Time API を取得して表示するスケッチ</h2>
+<p>動作テストを兼ねて世界時計を API で提供している <a href="http://worldtimeapi.org" target="_blank">World Time API</a> から日時を取得して表示します。 </p>
+<aside class="special"><p><strong>ブラウザで試してみるには？</strong></p>
+<p>World Time API を始めとした、いわゆる Web API はブラウザでも実行できることがあります。今回の World Time API であればブラウザで <a href="http://worldtimeapi.org/api/timezone/Asia/Tokyo.txt" target="_blank"><code>http://worldtimeapi.org/api/timezone/Asia/Tokyo.txt</code></a> を開いてみると、API で取得できる値をブラウザで表示できます。</p>
+</aside>
+<p>Arduino IDE を起動し［ファイル］&gt;［新規ファイル］を開くと <code>void setup() {</code> から始まる「空のスケッチ」が表示されます。</p>
+<p>一度スケッチの内容を削除してから、後述のスケッチで置き換えてください。</p>
+<p class="image-container"><img style="width: 849.70px" src="img/22e611963f846c4f.png"></p>
+<h3 is-upgraded><a href="https://gist.github.com/ma2shita/abba497ebc2a4d93ca4b3e3bda2bb2fc" target="_blank">m5stack_3gextboard_worldclock.ino</a></h3>
+<pre><code>/*
+ * Copyright (c) 2019 Kohei &#34;Max&#34; MATSUSHITA
+ * Released under the MIT license
+ * https://opensource.org/licenses/mit-license.php
+*/
+#include &lt;M5Stack.h&gt;
+
+#define TINY_GSM_MODEM_UBLOX
+#include &lt;TinyGsmClient.h&gt;
+
+TinyGsm modem(Serial2); /* 3G board modem */
+TinyGsmClient ctx(modem);
+
+void setup() {
+  Serial.begin(115200);
+  M5.begin();
+  M5.Lcd.clear(BLACK);
+  M5.Lcd.setTextColor(WHITE);
+  M5.Lcd.println(F(&#34;M5Stack + 3G Module&#34;));
+
+  M5.Lcd.print(F(&#34;modem.restart()&#34;));
+  Serial2.begin(115200, SERIAL_8N1, 16, 17);
+  modem.restart();
+  M5.Lcd.println(F(&#34;done&#34;));
+
+  M5.Lcd.print(F(&#34;getModemInfo:&#34;));
+  String modemInfo = modem.getModemInfo();
+  M5.Lcd.println(modemInfo);
+
+  M5.Lcd.print(F(&#34;waitForNetwork()&#34;));
+  while (!modem.waitForNetwork()) M5.Lcd.print(&#34;.&#34;);
+  M5.Lcd.println(F(&#34;Ok&#34;));
+
+  M5.Lcd.print(F(&#34;gprsConnect(soracom.io)&#34;));
+  modem.gprsConnect(&#34;soracom.io&#34;, &#34;sora&#34;, &#34;sora&#34;);
+  M5.Lcd.println(F(&#34;done&#34;));
+
+  M5.Lcd.print(F(&#34;isNetworkConnected()&#34;));
+  while (!modem.isNetworkConnected()) M5.Lcd.print(&#34;.&#34;);
+  M5.Lcd.println(F(&#34;Ok&#34;));
+
+  M5.Lcd.print(F(&#34;My IP addr: &#34;));
+  IPAddress ipaddr = modem.localIP();
+  M5.Lcd.print(ipaddr);
+  delay(2000);
+}
+
+void loop() {
+  M5.update();
+
+  M5.Lcd.clear(BLACK);
+  M5.Lcd.setCursor(0, 0);
+  M5.Lcd.println(F(&#34;World Clock from worldtimeapi.org&#34;));
+
+  /* HTTP GET example */
+  if (!ctx.connect(&#34;worldtimeapi.org&#34;, 80)) {
+    Serial.println(F(&#34;Connect failed.&#34;));
+    return;
+  }
+  Serial.println(F(&#34;connected.&#34;));
+
+  /* send request */
+  ctx.println(&#34;GET /api/timezone/Asia/Tokyo.txt HTTP/1.0&#34;);
+  ctx.println(&#34;Host: worldtimeapi.org&#34;);
+  ctx.println();
+  Serial.println(&#34;sent.&#34;);
+
+  /* receive response */
+  while (ctx.connected()) {
+    String line = ctx.readStringUntil(&#39;\n&#39;);
+    Serial.println(line);
+    if (line == &#34;\r&#34;) {
+      Serial.println(&#34;headers received.&#34;);
+      break;
+    }
+  }
+  char buf[1 * 1024] = {0};
+  ctx.readBytes(buf, sizeof(buf)); /* body */
+  ctx.stop();
+  M5.Lcd.println(buf);
+
+  delay(1000 * 10);
+}</code></pre>
+<h2 is-upgraded>マイコンボードに書き込む</h2>
+<p>Arduino IDE で<img style="width: 33.00px" src="img/6eda9a3a4a4958d7.png">ボタンをクリックします。<strong>ボードへの書き込みが完了しました。</strong>と表示されたら正常終了です。</p>
+<aside class="special"><p><strong>ファイルの保存ダイアログが表示されたら</strong></p>
+<p>ファイルを保存してください。ファイル名は任意ですが <code>m5stack_3gextboard_worldclock</code> というファイル名はどうでしょうか。</p>
+<p>ファイルを保存しない (キャンセル) してもコンパイルとスケッチの転送はされます。</p>
+</aside>
+<h2 is-upgraded>実行の様子</h2>
+<p>最初にモデムの型番や IP アドレスを表示した後に World Time API から取得したデータを表示します。</p>
+<aside class="special"><p><code>gprsConnect(soracom.io)</code> から実際に IP アドレスが表示される(= 接続される)までに30~45秒程度掛かりますが正常です。</p>
+</aside>
+<p class="image-container"><img style="width: 602.00px" src="img/bc9d861d2195eaf6.png"></p>
+<p class="image-container"><img style="width: 602.00px" src="img/512538b4a3fe59f8.png"></p>
+<h2 is-upgraded>うまく動作しなかった場合</h2>
+<table>
+<tr><td colspan="1" rowspan="1"><p>症状</p>
+</td><td colspan="1" rowspan="1"><p>考えられる原因</p>
+</td><td colspan="1" rowspan="1"><p>対策</p>
+</td></tr>
+<tr><td colspan="1" rowspan="1"><p><code>getModemInfo()</code> の結果が <code>SARA-U201...</code> と表示されない(空の場合など)</p>
+</td><td colspan="1" rowspan="1"><p>3G 拡張ボードで内部エラーが発生している可能性がある</p>
+</td><td colspan="1" rowspan="1"><p><a href="https://soracom.zendesk.com/hc/ja/requests/" target="_blank">カスタマーサポート</a>へご連絡ください。</p>
+</td></tr>
+<tr><td colspan="1" rowspan="4"><p><code>waitForNetwork()</code> より先に進まない</p>
+</td><td colspan="1" rowspan="1"><p>SIM が取り付けられていない。(もしくは SORACOM IoT SIM ではない)</p>
+</td><td colspan="1" rowspan="1"><p>SORACOM 特定地域向け IoT SIM plan-D を取り付けてください。</p>
+</td></tr>
+<tr><td colspan="1" rowspan="1"><p>電波が圏外もしくは微弱である可能性がある</p>
+</td><td colspan="1" rowspan="1"><p>窓際等、通信条件が良い環境でお試しください。</p>
+</td></tr>
+<tr><td colspan="1" rowspan="1"><p>SIM が SORACOM に登録されていない</p>
+<p>※ <a href="https://console.soracom.io/" target="_blank">SORACOM ユーザーコンソール</a>で確認できます ( &#34;登録されてない&#34; 事が確認できます)</p>
+</td><td colspan="1" rowspan="1"><p><a href="https://soracom.github.io/iot-recipes/register-ordering-sim-jp/" target="_blank">発注済みの SIM を登録する</a> もしくは <a href="https://soracom.github.io/iot-recipes/register-byod-sim-jp/" target="_blank">通販サイトやイベント等で入手した SIM を登録する</a> を行ってください。</p>
+</td></tr>
+<tr><td colspan="1" rowspan="1"><p>SIM の「状態」が &#34;準備完了&#34; となっている（ &#34;使用中&#34; でない）</p>
+<p>※ <a href="https://console.soracom.io/" target="_blank">SORACOM ユーザーコンソール</a>で確認できます</p>
+</td><td colspan="1" rowspan="1"><p>当該 SIM のチェックボックスをチェックしてから［操作］&gt;［使用開始］をクリックして &#34;使用中&#34; に変更してください。</p>
+</td></tr>
+</table>
+<p>以上で M5Stack の開発環境から M5Stack 本体と 3G 拡張ボードの動作確認が完了しました。</p>
+
+
+      </google-codelab-step>
+    
+      <google-codelab-step label="Yahoo! デベロッパーネットワークへのアプリケーション登録" duration="15">
+        <p>雨雲レーダーの情報は Yahoo! デベロッパーネットワーク (YOLP) を利用します。YOLPに「アプリケーション登録」すると、Web API で利用できる情報が入手できます。</p>
+<h3 is-upgraded><a href="https://e.developer.yahoo.co.jp/dashboard/" target="_blank">YOLP アプリケーションの管理</a>を開き［新しいアプリケーションを開発］をクリックします</h3>
+<p class="image-container"><img style="width: 602.00px" src="img/40dd5f09f4d55c9a.png"></p>
+<h3 is-upgraded>アプリケーション情報の入力で以下のように入力します</h3>
+<table>
+<tr><td colspan="1" rowspan="1"><p>アプリケーションの種類</p>
+</td><td colspan="1" rowspan="1"><p>サーバーサイド（Yahoo! ID連携 v2）</p>
+</td></tr>
+<tr><td colspan="1" rowspan="1"><p>アプリケーション名</p>
+</td><td colspan="1" rowspan="1"><p><code>M5Stack RainRadar app</code></p>
+<p>※ 任意のアプリケーション名で構いません</p>
+</td></tr>
+<tr><td colspan="1" rowspan="1"><p>サイトURL</p>
+</td><td colspan="1" rowspan="1"><p>(ご自分のブログや会社のURLを記入ください)</p>
+</td></tr>
+</table>
+<p>※ アプリケーションの説明、利用するスコープは編集の必要はありません。</p>
+<p>ガイドラインに同意しますか？を［同意する］にチェックをしてから［確認］をクリックします。</p>
+<p><strong>入力内容の確認</strong>で内容を確認したら［登録］をクリックします。登録が完了すると Client ID とシークレットが入手できます。この2つの情報をメモしたうえで漏洩しないようにしてください。<img style="width: 602.00px" src="img/da33017a078bbe99.png"></p>
+<h2 is-upgraded>ブラウザでテストする</h2>
+<p>先ほど入手した <code>Client ID</code> を使って、まずはブラウザで雨雲レーダーの画像を表示してみます。以下のURLをブラウザのアドレスバーに入力してください。</p>
+<p>その際、 <code>&lt;YOUR_CLIENT_ID&gt;</code> を先ほど入手した <code>Client ID</code> に置き換えてください。</p>
+<pre><code>https://map.yahooapis.jp/map/V1/static?appid=&lt;YOUR_CLIENT_ID&gt;&amp;output=jpg&amp;quality=50&amp;width=320&amp;height=208&amp;overlay=type:rainfall%7Cdatelabel:off&amp;mode=map&amp;style=base:simple&amp;z=8&amp;lat=35.6313456&amp;lon=139.7312189</code></pre>
+<p>以下のようにブラウザに地図が表示されれば成功です。(表示したときの雨雲の状況によって水色の掛かり具合は異なります)</p>
+<p class="image-container"><img style="width: 602.00px" src="img/7d10745594de5371.png"></p>
+
+
+      </google-codelab-step>
+    
+      <google-codelab-step label="M5Stack で雨雲レーダーを表示する (直接アクセス版)" duration="10">
+        <p>YOLP から取得した雨雲レーダーの画像を M5Stack で表示します。</p>
+<p>Arduino IDE を起動し［ファイル］&gt;［新規ファイル］を開き、以下のスケッチを貼り付けます。</p>
+<p>M5Stack から YOLP のURL を直接アクセスするため、スケッチ内の103行目の <code>&lt;YOUR_CLIENT_ID&gt;</code> を <code>Client ID</code> で置き換えるようにしてください。</p>
+<h3 is-upgraded><a href="https://gist.github.com/ma2shita/e78bea1fbecac40f76a099e05520dd32" target="_blank">m5stack_rainradar.ino</a></h3>
+<pre><code>/*
+ * Copyright (c) 2019 Kohei &#34;Max&#34; MATSUSHITA
+ * Released under the MIT license
+ * https://opensource.org/licenses/mit-license.php
+*/
+#include &lt;M5Stack.h&gt;
+#define CONSOLE Serial
+#define MODEM Serial2 /* Serial2 is Modem of 3G Module */
+#include &lt;string.h&gt;
+
+#define TINY_GSM_MODEM_UBLOX
+#include &lt;TinyGsmClient.h&gt;
+TinyGsm modem(MODEM);
+TinyGsmClientSecure ctx(modem);
+
+void modem_enabler();
+void render_rain_radar();
+void print_top();
+void print_bottom();
+uint16_t getColor(uint8_t red, uint8_t green, uint8_t blue);
+
+void setup() {
+  M5.begin();
+  CONSOLE.begin(115200);
+  M5.Lcd.clear(BLACK);
+  M5.Lcd.setTextSize(2);
+  
+  print_top();
+  print_bottom();
+  M5.Lcd.setTextColor(WHITE);
+  M5.Lcd.setCursor(0, 16);
+  M5.Lcd.println(&#34;## Congrats,&#34;);
+  M5.Lcd.println(&#34;## Boot successfuly!&#34;);
+}
+
+void loop() {
+  if (M5.BtnA.wasReleased()) {
+    M5.Lcd.setTextColor(WHITE);
+    M5.Lcd.setCursor(218, 0);
+    M5.Lcd.print(F(&#34;(prog...&#34;));
+    modem_enabler();
+    get_and_render_rain_radar();
+    print_top();
+    print_bottom();
+    modem.gprsDisconnect();
+  }
+  M5.update();
+}
+
+/* ------------------------------------------------------------*/
+
+void modem_enabler() {
+  M5.Lcd.setTextColor(WHITE);
+  MODEM.begin(115200, SERIAL_8N1, 16, 17);
+
+  M5.Lcd.fillRect(0, 224, 320, 16, BLACK); /* clean up */
+  M5.Lcd.setCursor(0, 224);
+  M5.Lcd.println(F(&#34;modem.restart()&#34;));
+  CONSOLE.println(F(&#34;modem.restart()&#34;));
+  modem.restart();
+  
+  M5.Lcd.fillRect(0, 224, 320, 16, BLACK); /* clean up */
+  M5.Lcd.setCursor(0, 224);
+  M5.Lcd.println(F(&#34;waitForNetwork()&#34;));
+  CONSOLE.println(F(&#34;waitForNetwork()&#34;));
+  while (!modem.waitForNetwork()) M5.Lcd.print(&#34;.&#34;);
+
+  M5.Lcd.fillRect(0, 224, 320, 16, BLACK); /* clean up */
+  M5.Lcd.setCursor(0, 224);
+  M5.Lcd.println(F(&#34;gprsConnect(soracom.io)&#34;));
+  CONSOLE.println(F(&#34;gprsConnect(soracom.io)&#34;));
+  modem.gprsConnect(&#34;soracom.io&#34;, &#34;sora&#34;, &#34;sora&#34;);
+
+  M5.Lcd.fillRect(0, 224, 320, 16, BLACK); /* clean up */
+  M5.Lcd.setCursor(0, 224);
+  M5.Lcd.println(F(&#34;isNetworkConnected()&#34;));
+  CONSOLE.println(F(&#34;isNetworkConnected()&#34;));
+  while (!modem.isNetworkConnected()) M5.Lcd.print(&#34;.&#34;);
+
+  M5.Lcd.fillRect(0, 224, 320, 16, BLACK); /* clean up */
+  M5.Lcd.setCursor(0, 224);
+  M5.Lcd.print(F(&#34;MyIP:&#34;));
+  CONSOLE.print(F(&#34;MyIP: &#34;));
+  IPAddress ipaddr = modem.localIP();
+  M5.Lcd.println(ipaddr);
+  CONSOLE.println(ipaddr);
+}
+
+char _buf[32*1024] = {0}; /* store for JPG image data */
+void get_and_render_rain_radar() {
+  /* connect to host */
+  const char *host = &#34;map.yahooapis.jp&#34;;
+  const int port = 443;
+  int timeout_s = 60;
+  CONSOLE.print(&#34;Connecting:&#34;);
+  CONSOLE.println(host);
+  if (!ctx.connect(host, port, timeout_s)) {
+    CONSOLE.println(&#34;fail&#34;);
+    return;
+  }
+
+  /* send request */
+  const char *path = &#34;GET /map/V1/static?appid=&lt;YOUR_CLIENT_ID&gt;&amp;output=jpg&amp;quality=50&amp;width=320&amp;height=208&amp;overlay=type:rainfall%7Cdatelabel:off&amp;mode=map&amp;style=base:simple&amp;z=8&amp;lat=35.6313456&amp;lon=139.7312189 HTTP/1.0&#34;;
+  CONSOLE.println(path);
+  ctx.println(path);
+  ctx.print(&#34;Host: &#34;);
+  ctx.println(host);
+  ctx.println();
+  Serial.println(&#34;sent.&#34;);
+
+  /* receive response */
+  while (ctx.connected()) {
+    String line = ctx.readStringUntil(&#39;\n&#39;);
+    CONSOLE.println(line);
+    if (line == &#34;\r&#34;) {
+      CONSOLE.println(&#34;headers received.&#34;);
+      break;
+    }
+  }
+  ctx.readBytes(_buf, sizeof(_buf)); /* body */
+  ctx.stop();
+  
+  /* rendering */
+  size_t _buf_s = strlen(_buf);
+  CONSOLE.println(_buf_s);
+  CONSOLE.println(_buf);
+  M5.Lcd.drawJpg((const unsigned char *)_buf, _buf_s, 0, 16);
+  _buf[0] = &#39;\0&#39;; /* cleanup */
+  CONSOLE.println(&#34;done.&#34;);
+}
+
+void print_top() {
+  M5.Lcd.fillRect(0, 0, 320, 16, getColor(51, 244, 204));
+  M5.Lcd.setTextColor(BLACK);
+  M5.Lcd.setCursor(0, 0);
+  M5.Lcd.print(F(&#34;RainRadar by YOLP&#34;));
+}
+
+void print_bottom() {
+  M5.Lcd.fillRect(0, 224, 320, 16, BLACK); /* clean up */
+  M5.Lcd.setTextColor(WHITE);
+  M5.Lcd.setCursor(0, 224);
+  M5.Lcd.print(F(&#34;Btn =&gt; Retreve RainRadar&#34;));
+}
+
+uint16_t getColor(uint8_t red, uint8_t green, uint8_t blue) {
+  return ((red&gt;&gt;3)&lt;&lt;11) | ((green&gt;&gt;2)&lt;&lt;5) | (blue&gt;&gt;3);
+}</code></pre>
+<h2 is-upgraded>実際の動作</h2>
+<p>このスケッチは M5Stack の一番左のボタンを押したときに 3G 接続～雨雲レーダー画像の取得までを行います。(押下毎に接続から取得までを行います)</p>
+<p class="image-container"><img style="width: 450.00px" src="img/9ab4f1c5422ac63d.png"></p>
+<p class="image-container"><img style="width: 449.95px" src="img/73a33ea9558f5a49.png"></p>
+
+
+      </google-codelab-step>
+    
+      <google-codelab-step label="M5Stack で雨雲レーダーを表示する (SORACOM Beam 経由版): 概要" duration="1">
+        <p>ここまでで M5Stack とクラウドサービス(API)をセルラー通信で連携できるようになりました。直接アクセスする場合は Client ID をプログラム(URL)の中に埋め込むことを行いました。</p>
+<p>この場合 Client ID を再発行したり、URL に基づいたパラメータの変更を行うためには<strong>毎度プログラムを書き換える必要があり</strong>、書き換え環境が無ければ何もできなくなります。</p>
+<p>この手間を軽減するのが <a href="https://soracom.jp/services/beam/" target="_blank">SORACOM Beam</a> / <a href="https://soracom.jp/services/funnel/" target="_blank">SORACOM Funnel</a> / <a href="https://soracom.jp/services/funk/" target="_blank">SORACOM Funk</a> といった SORACOM のサービスです。Client ID やアクセス先の URL をプログラムに埋め込むのではなく、「設定情報」としてSORACOM に保管します。そして<strong> SIM が持つ固有の情報で設定情報の引き出しを行い、その情報に基づいて URLやサービスへのアクセスを中継する仕組み</strong>です。</p>
+<p class="image-container"><img style="width: 602.00px" src="img/fe2e2cbac02ec113.png"></p>
+<p>ここからは直接アクセス方法から SORACOM Beam を中継する方法へ切り替えていきます。</p>
+
+
+      </google-codelab-step>
+    
+      <google-codelab-step label="M5Stack で雨雲レーダーを表示する (SORACOM Beam 経由版): SORACOM Beam 設定" duration="15">
+        <p>SORACOM Beam では <code>http://beam.soracom.io/rainradar</code> へのアクセスを YOLP へのアクセスとして中継する設定とします。</p>
+<aside class="special"><p><strong>beam.soracom.io へのアクセスは http で大丈夫？</strong></p>
+<p>M5Stack から beam.soracom.io (以下beam) へのアクセスは &#34;http://&#34; と暗号化されていませんが、安全なのでしょうか？結果から言えば、安全であると言えます。これは M5Stack から beam までで使われている 3G や LTE と呼ばれる「セルラー通信」は、その通信自体が暗号化されているためです。一方、スマートフォンのアプリケーションは暗号化通信を行っていますが、これはセルラー通信のその先にあるインターネット上のサービスと通信するため、本来不要であるはずのセルラー通信の区間も暗号化しています。</p>
+<p>SORACOM Beam 等のサービスはアクセス先の中継だけでなく、SORACOM とインターネット上のサービスとの通信区間の暗号化も肩代わります。このため、M5Stack のようなデバイスで暗号化処理が不要になり、プログラムの負担や暗号化に伴うオーバーヘッド通信も削減しつつも、安全にインターネット上のサービスと通信する事ができます。</p>
+<p class="image-container"><img style="width: 587.00px" src="img/20805db2984126e.png"></p>
+</aside>
+<p>まずはグループの作成と、作成したグループへ SIM を所属させる事から始めます。</p>
+<aside class="special"><p><strong>グループとは？</strong></p>
+<p>SORACOM サービスのほとんどが<strong>グループ</strong>という単位に対して設定するようになっています。SORACOM Harvest Data 等、SORACOM サービスのほとんどが SIM に直接設定をするのではなくグループに設定をします。そして、SIM をグループに所属させることで SORACOM サービスが利用できるという間接的な仕組みです。<img style="width: 602.00px" src="img/fd2af18169d2111a.png"></p>
+<p>グループを作成してから SIM を所属させる方法の他、グループの作成と SIM の所属を同時に行う方法もあります。本レシピでは後者の「同時に行う」手順で進めていきます。</p>
+</aside>
+<h3 is-upgraded><a href="https://console.soracom.io/" target="_blank">SORACOM ユーザーコンソール</a>にログインした後［Menu］&gt;［SIM 管理］とクリックして SIM 管理画面を開きます。</h3>
+<p class="image-container"><img style="width: 566.00px" src="img/c4968675c5a9a1c8.png"></p>
+<aside class="warning"><p><strong>［SIM 管理］をクリックしても画面が切り替わらない場合は？</strong></p>
+<p>すでに SIM 管理画面を開いている場合は、［SIM 管理］をクリックしても画面が切り替わることがありません。その場合、青の点線で囲まれている「SORACOM ロゴ」をクリックすることでメニューを閉じることができます。</p>
+</aside>
+<h3 is-upgraded>M5Stack に取り付けた SIM にチェックを付け、［操作］&gt;［所属グループ変更］とクリックします。</h3>
+<p class="image-container"><img style="width: 602.00px" src="img/f27d0ddf2224ee5f.png"></p>
+<aside class="special"><p><strong>SORACOM の便利な使い方: 複数の SIM を同時に扱う</strong></p>
+<p>チェックをつける対象を複数にすれば、一度の複数の SIM を対象に操作が可能です。</p>
+</aside>
+<h3 is-upgraded>「新しい所属グループ」のプルダウンボックスをクリックした後、［新しいグループを作成...］をクリックします。</h3>
+<p class="image-container"><img style="width: 602.00px" src="img/9cf95365d7028f2c.png"></p>
+<h3 is-upgraded>「グループ作成」のグループ名を入力して［グループ作成］をクリックします。</h3>
+<table>
+<tr><td colspan="1" rowspan="1"><p><strong>項目</strong></p>
+</td><td colspan="1" rowspan="1"><p><strong>例</strong></p>
+</td><td colspan="1" rowspan="1"><p><strong>備考</strong></p>
+</td></tr>
+<tr><td colspan="1" rowspan="1"><p>グループ名</p>
+</td><td colspan="1" rowspan="1"><p><code>yahooapis-for-m5stack</code></p>
+</td><td colspan="1" rowspan="1"><p>自由に入力可能です。日本語も設定可能です。</p>
+</td></tr>
+</table>
+<p class="image-container"><img style="width: 385.00px" src="img/f9baefb1e651ba53.png"></p>
+<h3 is-upgraded>新しい所属グループが先ほど作成したグループになっていることを確認したら［グループ変更］をクリックします。</h3>
+<p class="image-container"><img style="width: 602.00px" src="img/2f0c04d1ec751165.png"></p>
+<h3 is-upgraded>自動的に SIM 管理画面に戻ります。<br>SIM の「グループ」に先ほど作ったグループが設定されていることを確認してください。</h3>
+<p class="image-container"><img style="width: 602.00px" src="img/38d24ad0c9f7f898.png"></p>
+<p>以上で、グループの作成と所属の作業は完了です。</p>
+<h3 is-upgraded>SIM 管理画面から、先ほど割り当てたグループ名をクリックします。</h3>
+<p class="image-container"><img style="width: 602.00px" src="img/806e78c3af226e3.png"></p>
+<h3 is-upgraded>［SORACOM Beam 設定］をクリックして設定ができるように開きます。</h3>
+<p class="image-container"><img style="width: 557.00px" src="img/4e71a7d1f0b44cd0.png"></p>
+<h3 is-upgraded>SORACOM Beam 設定の<img style="width: 58.00px" src="img/411d3d044b4247dd.png">をクリックして表示されたメニューの中から HTTP エントリーポイントをクリックします。</h3>
+<p class="image-container"><img style="width: 306.00px" src="img/468b1f5f68281f8c.png"></p>
+<h3 is-upgraded>「SORACOM Beam - HTTP 設定」では以下のように入力します。</h3>
+<table>
+<tr><td colspan="1" rowspan="1"><p>エントリポイント</p>
+</td><td colspan="1" rowspan="1"><p>パス</p>
+</td><td colspan="1" rowspan="1"><p><code>/rainradar</code></p>
+</td></tr>
+<tr><td colspan="1" rowspan="4"><p>転送先</p>
+</td><td colspan="1" rowspan="1"><p>プロトコル</p>
+</td><td colspan="1" rowspan="1"><p><strong>HTTPS</strong></p>
+</td></tr>
+<tr><td colspan="1" rowspan="1"><p>ホスト名</p>
+</td><td colspan="1" rowspan="1"><p><code>map.yahooapis.jp</code></p>
+</td></tr>
+<tr><td colspan="1" rowspan="1"><p>ポート番号</p>
+</td><td colspan="1" rowspan="1"><p>(なにも入力しません)</p>
+</td></tr>
+<tr><td colspan="1" rowspan="1"><p>パス</p>
+</td><td colspan="1" rowspan="1"><p><code>後述の「パス」を入力してください。</code></p>
+<p>※ <code>&lt;YOUR_CLIENT_ID&gt;</code> を <strong>Client ID</strong> に置き換えてください</p>
+</td></tr>
+<tr><td colspan="1" rowspan="1"><p>ヘッダ操作</p>
+</td><td colspan="2" rowspan="1"><p>(変更する場所はありません)</p>
+</td></tr>
+</table>
+<p>パス</p>
+<pre><code>/map/V1/static?appid=&lt;YOUR_CLIENT_ID&gt;&amp;output=jpg&amp;quality=50&amp;width=320&amp;height=208&amp;overlay=type:rainfall%7Cdatelabel:off&amp;mode=map&amp;style=base:simple&amp;z=8&amp;lat=35.6313456&amp;lon=139.7312189</code></pre>
+<p class="image-container"><img style="width: 586.00px" src="img/eb1e8e3756f02e86.png"></p>
+<p>入力したら［保存］をクリックします。SORACOM Beam の設定に、今設定した内容が表示されていることを確認します。</p>
+<p class="image-container"><img style="width: 860.50px" src="img/46b76d2e1a2aa138.png"></p>
+
+
+      </google-codelab-step>
+    
+      <google-codelab-step label="M5Stack で雨雲レーダーを表示する (SORACOM Beam 経由版): スケッチ" duration="10">
+        <p>YOLP から取得した雨雲レーダーの画像を SORACOM Beam を中継して取得し、 M5Stack で表示します。</p>
+<p>Arduino IDE を起動し［ファイル］&gt;［新規ファイル］を開き、以下のスケッチを貼り付けます。</p>
+<p>貼り付ける際、<strong>スケッチの編集は不要</strong>です。</p>
+<h3 is-upgraded><a href="https://gist.github.com/ma2shita/ab62674a73fdb5e8861ea3cabdaacfa2" target="_blank">m5stack_rainradar_with_soracom_beam.ino</a></h3>
+<pre><code>/*
+ * Copyright (c) 2019 Kohei &#34;Max&#34; MATSUSHITA
+ * Released under the MIT license
+ * https://opensource.org/licenses/mit-license.php
+*/
+#include &lt;M5Stack.h&gt;
+#define CONSOLE Serial
+#define MODEM Serial2 /* Serial2 is Modem of 3G Module */
+#include &lt;string.h&gt;
+
+#define TINY_GSM_MODEM_UBLOX
+#include &lt;TinyGsmClient.h&gt;
+TinyGsm modem(MODEM);
+TinyGsmClient ctx(modem);
+
+void modem_enabler();
+void render_rain_radar();
+void print_top();
+void print_bottom();
+uint16_t getColor(uint8_t red, uint8_t green, uint8_t blue);
+
+void setup() {
+  M5.begin();
+  CONSOLE.begin(115200);
+  M5.Lcd.clear(BLACK);
+  M5.Lcd.setTextSize(2);
+  
+  print_top();
+  print_bottom();
+  M5.Lcd.setTextColor(WHITE);
+  M5.Lcd.setCursor(0, 16);
+  M5.Lcd.println(&#34;## Congrats,&#34;);
+  M5.Lcd.println(&#34;## Boot successfully!&#34;);
+}
+
+void loop() {
+  if (M5.BtnA.wasReleased()) {
+    M5.Lcd.setTextColor(WHITE);
+    M5.Lcd.setCursor(218, 0);
+    M5.Lcd.print(F(&#34;(prog...&#34;));
+    modem_enabler();
+    get_and_render_rain_radar();
+    print_top();
+    print_bottom();
+    modem.gprsDisconnect();
+  }
+  M5.update();
+}
+
+/* ------------------------------------------------------------*/
+
+void modem_enabler() {
+  M5.Lcd.setTextColor(WHITE);
+  MODEM.begin(115200, SERIAL_8N1, 16, 17);
+
+  M5.Lcd.fillRect(0, 224, 320, 16, BLACK); /* clean up */
+  M5.Lcd.setCursor(0, 224);
+  M5.Lcd.println(F(&#34;modem.restart()&#34;));
+  CONSOLE.println(F(&#34;modem.restart()&#34;));
+  modem.restart();
+  
+  M5.Lcd.fillRect(0, 224, 320, 16, BLACK); /* clean up */
+  M5.Lcd.setCursor(0, 224);
+  M5.Lcd.println(F(&#34;waitForNetwork()&#34;));
+  CONSOLE.println(F(&#34;waitForNetwork()&#34;));
+  while (!modem.waitForNetwork()) M5.Lcd.print(&#34;.&#34;);
+
+  M5.Lcd.fillRect(0, 224, 320, 16, BLACK); /* clean up */
+  M5.Lcd.setCursor(0, 224);
+  M5.Lcd.println(F(&#34;gprsConnect(soracom.io)&#34;));
+  CONSOLE.println(F(&#34;gprsConnect(soracom.io)&#34;));
+  modem.gprsConnect(&#34;soracom.io&#34;, &#34;sora&#34;, &#34;sora&#34;);
+
+  M5.Lcd.fillRect(0, 224, 320, 16, BLACK); /* clean up */
+  M5.Lcd.setCursor(0, 224);
+  M5.Lcd.println(F(&#34;isNetworkConnected()&#34;));
+  CONSOLE.println(F(&#34;isNetworkConnected()&#34;));
+  while (!modem.isNetworkConnected()) M5.Lcd.print(&#34;.&#34;);
+
+  M5.Lcd.fillRect(0, 224, 320, 16, BLACK); /* clean up */
+  M5.Lcd.setCursor(0, 224);
+  M5.Lcd.print(F(&#34;MyIP:&#34;));
+  CONSOLE.print(F(&#34;MyIP: &#34;));
+  IPAddress ipaddr = modem.localIP();
+  M5.Lcd.println(ipaddr);
+  CONSOLE.println(ipaddr);
+}
+
+char _buf[32*1024] = {0}; /* store for JPG image data */
+void get_and_render_rain_radar() {
+  /* connect to host */
+  const char *host = &#34;beam.soracom.io&#34;;
+  const int port = 8888;
+  int timeout_s = 60;
+  CONSOLE.print(&#34;Connecting:&#34;);
+  CONSOLE.println(host);
+  if (!ctx.connect(host, port, timeout_s)) {
+    CONSOLE.println(&#34;fail&#34;);
+    return;
+  }
+
+  /* send request */
+  const char *path = &#34;GET /rainradar HTTP/1.0&#34;;
+  CONSOLE.println(path);
+  ctx.println(path);
+  ctx.print(&#34;Host: &#34;);
+  ctx.println(host);
+  ctx.println();
+  Serial.println(&#34;sent.&#34;);
+
+  /* receive response */
+  while (ctx.connected()) {
+    String line = ctx.readStringUntil(&#39;\n&#39;);
+    CONSOLE.println(line);
+    if (line == &#34;\r&#34;) {
+      CONSOLE.println(&#34;headers received.&#34;);
+      break;
+    }
+  }
+  ctx.readBytes(_buf, sizeof(_buf)); /* body */
+  ctx.stop();
+  
+  /* rendering */
+  size_t _buf_s = strlen(_buf);
+  CONSOLE.println(_buf_s);
+  CONSOLE.println(_buf);
+  M5.Lcd.drawJpg((const unsigned char *)_buf, _buf_s, 0, 16);
+  _buf[0] = &#39;\0&#39;; /* cleanup */
+  CONSOLE.println(&#34;done.&#34;);
+}
+
+void print_top() {
+  M5.Lcd.fillRect(0, 0, 320, 16, getColor(51, 244, 204));
+  M5.Lcd.setTextColor(BLACK);
+  M5.Lcd.setCursor(0, 0);
+  M5.Lcd.print(F(&#34;RainRadar by YOLP&#34;));
+}
+
+void print_bottom() {
+  M5.Lcd.fillRect(0, 224, 320, 16, BLACK); /* clean up */
+  M5.Lcd.setTextColor(WHITE);
+  M5.Lcd.setCursor(0, 224);
+  M5.Lcd.print(F(&#34;Btn =&gt; Retreve RainRadar&#34;));
+}
+
+uint16_t getColor(uint8_t red, uint8_t green, uint8_t blue) {
+  return ((red&gt;&gt;3)&lt;&lt;11) | ((green&gt;&gt;2)&lt;&lt;5) | (blue&gt;&gt;3);
+}</code></pre>
+<h2 is-upgraded>実際の動作</h2>
+<p>動作自体は直接アクセス版と同じとなります。M5Stack の一番左のボタンを押したときに 3G 接続～雨雲レーダー画像の取得までを行います。(押下毎に接続から取得までを行います)</p>
+<h3 is-upgraded>直接アクセス版との差分</h3>
+<ul>
+<li>TLS (暗号化処理) が不要となった</li>
+<li>接続先ホストが <code>map.yahooapis.jp</code> から <code>beam.soracom.io</code> へ変更となった</li>
+<li>接続先パスが <code>/map/V1/static?.....</code> から <code>/rainradar</code> へ変更となった</li>
+</ul>
+<pre><code>--- m5stack_rainradar.ino       2019-08-21 08:43:01.819963700 +0900
++++ m5stack_rainradar_with_soracom_beam.ino     2019-08-21 08:42:25.247913200 +0900
+@@ -11,7 +11,7 @@
+ #define TINY_GSM_MODEM_UBLOX
+ #include &lt;TinyGsmClient.h&gt;
+ TinyGsm modem(MODEM);
+-TinyGsmClientSecure ctx(modem);
++TinyGsmClient ctx(modem);
+
+ void modem_enabler();
+ void render_rain_radar();
+@@ -89,8 +89,8 @@
+ char _buf[32*1024] = {0}; /* store for JPG image data */
+ void get_and_render_rain_radar() {
+   /* connect to host */
+-  const char *host = &#34;map.yahooapis.jp&#34;;
+-  const int port = 443;
++  const char *host = &#34;beam.soracom.io&#34;;
++  const int port = 8888;
+   int timeout_s = 60;
+   CONSOLE.print(&#34;Connecting:&#34;);
+   CONSOLE.println(host);
+@@ -100,7 +100,7 @@
+   }
+
+   /* send request */
+-  const char *path = &#34;GET /map/V1/static?appid=&lt;YOUR_CLIENT_ID&gt;&amp;output=jpg&amp;quality=50&amp;width=320&amp;height=208&amp;overlay=type:rainfall%7Cdatelabel:off&amp;mode=map&amp;style=base:simple&amp;z=8&amp;lat=35.6313456&amp;lon=139.7312189 HTTP/1.0&#34;;
++  const char *path = &#34;GET /rainradar HTTP/1.0&#34;;
+   CONSOLE.println(path);
+   ctx.println(path);
+   ctx.print(&#34;Host: &#34;);</code></pre>
+<h2 is-upgraded>URL を変更してみる</h2>
+<p>アクセス先 URL は SORACOM Beam に設定という形で保管されるようになったため、 URL 内のパラメータの変更は M5Stack の書き換えが不要となったことを確認してみます。</p>
+<p>ここでは表示位置の経度を表す lon パラメータの値を東京近辺(東経139.xx度)から京都周辺(東経135.xx度)に変更し、M5Stack のボタンを押して画像の再取得を行っています。</p>
+<iframe class="youtube-video" src="https://www.youtube.com/embed/ZqnSSP1xUfk?rel=0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+<p>このようにスケッチの書き換えが不要になったことが確認できました。</p>
+
+
+      </google-codelab-step>
+    
+      <google-codelab-step label="あとかたづけと注意事項" duration="1">
+        <p>本レシピでは費用がかかるサービスを利用しています。<br>本項をよく読み、必要な操作や解除作業を行うようにして、想定外の費用が掛からないようにしてください。</p>
+<h2 is-upgraded>費用について</h2>
+<p>ここで記載している金額は全て税別、送料別となります。</p>
+<h3 is-upgraded>SORACOM プラットフォームの利用料金</h3>
+<table>
+<tr><td colspan="1" rowspan="1"><p><strong>サービス／機能</strong></p>
+</td><td colspan="1" rowspan="1"><p><strong>料金</strong></p>
+</td></tr>
+<tr><td colspan="1" rowspan="1"><p><a href="https://soracom.jp/services/air/cellular/price_specific_area_sim/" target="_blank">SORACOM Air (plan-D)</a></p>
+</td><td colspan="1" rowspan="1"><p>基本料: 10円/日</p>
+<p>通信料: 0.2円~/MB</p>
+<p>(今回の利用であれば 1MB 以内で収まる範囲)</p>
+</td></tr>
+<tr><td colspan="1" rowspan="1"><p><a href="https://soracom.jp/services/beam/price/" target="_blank">SORACOM Beam</a></p>
+</td><td colspan="1" rowspan="1"><p>0.0018円/リクエスト<br>(SORACOM への IN で 0.0009円/リクエスト、SORACOM からの OUT で 0.0009円/リクエストであるが、今回の利用方法だとIN/OUTが1:1であるため1リクエスト当たり0.0018円となる)</p>
+</td></tr>
+</table>
+<p>※ 費用詳細はリンク先をご確認ください。</p>
+<aside class="special"><p><strong>無料利用枠について</strong></p>
+<p>SORACOM サービスでは一部サービスにおいて無料枠が設定されています。たとえば SORACOM Air for セルラーであればアカウント毎で30円/月の通信分や、SORACOM Beam であれば100,000リクエスト分などです。料金詳細に「無料利用枠」として掲載されていますので、ご確認ください。</p>
+</aside>
+<h2 is-upgraded>グループ解除</h2>
+<p>SORACOM Beam はリクエスト発生時毎の従量課金となっているため、作成したグループ内の設定が SORACOM Beam のみであれば、存在し続けることによる費用の発生はありませんが、後日利用の目途がない場合は早々にグループからの解除をお勧めいたします。</p>
+<p>グループ解除の方法は<a href="https://soracom.github.io/iot-recipes/unjoin-from-group/" target="_blank">グループからの解除 (JP)</a>をご覧ください。</p>
+
+
+      </google-codelab-step>
+    
+      <google-codelab-step label="次のステップ" duration="1">
+        <p>本レシピでは、M5Stack と 3G 拡張ボードを組み合わせた「情報表示端末」を作りました。M5Stack は文字だけでなく画像表示も可能であるため、表現力は非常に高いデバイスと言えます。</p>
+<p>元々 M5Stack が採用している ESP32 というマイコンは Wi-Fi 通信機能が搭載されていますが、3G 拡張ボードを用いることで SSID といった設定が無くともインターネット上のサービスと接続できるといった利点、そして SORACOM サービスを組み合わせることによる「変化・変更に強いデバイス」を学んでいただけたら幸いです。</p>
+<p><a href="https://soracom.jp/products/kit/3g_module_m5stack_set/" target="_blank">商品ページへ戻る</a></p>
+<p>よくあるご質問は<a href="https://sorazine.soracom.jp/entry/2019/09/09/aug-webinar-report" target="_blank">Let&#39;s try IoT プロトタイピング ～ 雨雲レーダー表示デバイスを M5Stack で作ってみよう 〜 動画とQAのご紹介</a>でご案内しています。こちらもご覧ください。</p>
+
+
+      </google-codelab-step>
+    
+  </google-codelab>
+
+  <script src="https://soracom.github.io/iot-recipes/codelab-elements/native-shim.js"></script>
+  <script src="https://soracom.github.io/iot-recipes/codelab-elements/custom-elements.min.js"></script>
+  <script src="https://soracom.github.io/iot-recipes/codelab-elements/prettify.js"></script>
+  <script src="https://soracom.github.io/iot-recipes/codelab-elements/codelab-elements.js"></script>
+
+</body>
+</html>
