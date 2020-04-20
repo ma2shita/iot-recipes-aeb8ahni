@@ -1,0 +1,347 @@
+
+<!doctype html>
+
+<html>
+<head>
+  <meta name="viewport" content="width=device-width, minimum-scale=1.0, initial-scale=1.0, user-scalable=yes">
+  <meta name="theme-color" content="#4F7DC9">
+  <meta charset="UTF-8">
+  <title>【SORACOM ハンズオン】Wio LTE 開発環境セットアップ (macOS)</title>
+  <link rel="stylesheet" href="//fonts.googleapis.com/css?family=Source+Code+Pro:400|Roboto:400,300,400italic,500,700|Roboto+Mono">
+  <link rel="stylesheet" href="//fonts.googleapis.com/icon?family=Material+Icons">
+  <link rel="stylesheet" href="https://soracom.github.io/iot-recipes/codelab-elements/codelab-elements.css">
+  <style>
+    .success {
+      color: #1e8e3e;
+    }
+    .error {
+      color: red;
+    }
+  </style>
+</head>
+<body>
+  <google-codelab-analytics gaid="UA-66865146-33"></google-codelab-analytics>
+  <google-codelab codelab-gaid=""
+                  id="setup-for-wiolte-with-arduino-ide-macos"
+                  title="【SORACOM ハンズオン】Wio LTE 開発環境セットアップ (macOS)"
+                  environment="web"
+                  feedback-link="">
+    
+      <google-codelab-step label="概要" duration="1">
+        <p>Arduino IDE は標準では Wio LTE の開発環境が入っていませんが、環境設定から追加することができるため、その設定をおこないます。</p>
+<h2 is-upgraded>できるようになる事</h2>
+<ul>
+<li>Arduino IDE にて Wio LTE を用いた開発</li>
+</ul>
+<h2 is-upgraded>このハンズオンでサポートしない事 (前提知識)</h2>
+<ul>
+<li>Arduino IDE のセットアップ (<a href="https://soracom.github.io/iot-recipes/arduino-ide-macos/" target="_blank">macOS 編</a> をご覧ください (約15～20分))</li>
+</ul>
+<h2 is-upgraded>このコンテンツの進め方</h2>
+<p>ページの内容を読み、また作業を行ったら右下の［Next］を押して次のステップへ進みます。また、［Back］を使って戻ったり、左のナビゲーションメニューでもページの移動が可能です。</p>
+<p>左上の［×］を押してコンテンツを終了することができます。また、ページを開きなおすことで再開できます。ページのアドレスはブラウザの［履歴］メニューを利用してください。</p>
+
+<aside class="warning"><p>本コンテンツは現状のままで提供され、株式会社ソラコムは、誤りがないことの保証を含め、明示であると黙示であるとを問わず、本コンテンツの記載内容につき、いかなる種類の表明も保証も行いません。</p>
+<p>掲載情報の閲覧及び利用により、利用者自身、もしくは第三者が被った損害に対して、直接的、間接的を問わず、株式会社ソラコムは責任を負いかねます。</p>
+<p>本コンテンツを実践する中で用意された機器、利用されたサービスについてのご質問は、それぞれの機器やサービスの提供元にお問い合わせをお願いします。機器やサービスの仕様は、本コンテンツ作成当時のものです。</p>
+<p>株式会社ソラコムが提供する機器・サービスについてのご質問は、 <a href="https://soracom.jp/contact/" target="_blank">https://soracom.jp/contact/</a> をご確認の上、適切な窓口へのお問い合わせをお願いします。機器・サービスご利用前の導入相談は <a href="https://soracom.jp/contact/contactsales/" target="_blank">https://soracom.jp/contact/contactsales/</a> に、機器・サービスご利用開始後のサポートは、SORACOMユーザーコンソール内の<a href="https://soracom.zendesk.com/hc/ja/requests/" target="_blank">サポートサイトから「リクエストを送信」</a>(要ログイン)にてお問い合わせください。</p>
+<p>本ドキュメントは <a href="https://github.com/googlecodelabs/tools" target="_blank">CLaaT</a> を用いて制作しています。</p>
+<p>Copyright (c) 2020 SORACOM, INC.</p>
+</aside>
+
+
+
+      </google-codelab-step>
+    
+      <google-codelab-step label="準備するもの" duration="1">
+        <h2 is-upgraded>ハードウェア</h2>
+<table>
+<tr><td colspan="1" rowspan="1"><p><strong>品名</strong></p>
+</td><td colspan="1" rowspan="1"><p><strong>数量</strong></p>
+</td><td colspan="1" rowspan="1"><p><strong>価格</strong></p>
+</td><td colspan="1" rowspan="1"><p><strong>購入先</strong></p>
+</td><td colspan="1" rowspan="1"><p><strong>備考</strong></p>
+</td></tr>
+<tr><td colspan="1" rowspan="1"><p>Wio LTE JP Version</p>
+</td><td colspan="1" rowspan="1"><p>1</p>
+</td><td colspan="1" rowspan="1"><p>9,800円</p>
+</td><td colspan="1" rowspan="1"><p><a href="https://soracom.jp/products/module/wio_lte/" target="_blank">ソラコム</a> 等</p>
+</td><td colspan="1" rowspan="1"><p>手元くなくても「サンプルスケッチの実行」までは進めることができます。</p>
+<p><a href="https://soracom.jp/products/kit/grovestarter_kit_lte/" target="_blank">その他のキット</a>に同梱されている Wio LTE でも OK です。</p>
+</td></tr>
+<tr><td colspan="1" rowspan="1"><p>microUSB ケーブル</p>
+</td><td colspan="1" rowspan="1"><p>1</p>
+</td><td colspan="1" rowspan="1"><p>―</p>
+</td><td colspan="1" rowspan="1"><p>―</p>
+</td><td colspan="1" rowspan="1"><p>Wio LTE JP Version に付属しています。</p>
+<p>それ以外のものを利用する場合は 1A 以上の電力が利用可能な品質のものをご利用ください。</p>
+</td></tr>
+<tr><td colspan="1" rowspan="1"><p>(必要な方のみ)</p>
+<p>USB 変換アダプタ</p>
+</td><td colspan="1" rowspan="1"><p>―</p>
+</td><td colspan="1" rowspan="1"><p>―</p>
+</td><td colspan="1" rowspan="1"><p>―</p>
+</td><td colspan="1" rowspan="1"><p>Wio LTE とパソコンを USB ケーブルで接続する際に利用します。</p>
+<p>1A 以上の電力が供給できるものを利用してください。(USB 3.0以上に対応していれば概ね安心です)</p>
+</td></tr>
+</table>
+<p>※ 金額は本コンテンツ作成時となります。ソラコムで販売している金額は税抜き・送料別です。</p>
+<h2 is-upgraded>それ以外で必要となるもの</h2>
+<table>
+<tr><td colspan="1" rowspan="1"><p>Arduino IDE がセットアップ済みのパソコン</p>
+</td><td colspan="1" rowspan="1"><ul>
+<li>インターネット接続が可能でサイトへの接続が自由であること。<br>※ 約 370MB のファイルをダウンロードすることになります。</li>
+<li>管理者権限を有しており、アプリケーションやドライバソフトウェアのインストールが自由であること。</li>
+<li>USB ポートが最低1つ以上あり、利用可能なこと。<br>※ パソコンの USB ポートが Type-C のみでセットに付属のUSBケーブルを利用する場合は Type-A への変換アダプタ、または Type-C↔microUSB ケーブルのいずれかを別途準備してください。</li>
+<li>USB ポートからの電力供給が1A以上であること。<br>※ 変換アダプタを利用する際には特にご注意ください。USB 3.0対応とあれば安心です。</li>
+</ul>
+</td></tr>
+</table>
+
+
+      </google-codelab-step>
+    
+      <google-codelab-step label="Wio LTE 用ボード定義のインストール" duration="30">
+        <h2 is-upgraded>Arduino IDE を起動したら［Arduino］&gt;［Preferences...］を開きます。</h2>
+<p class="image-container"><img style="width: 284.72px" src="img/80fb77c3155ff563.png"></p>
+<h2 is-upgraded><strong>追加のボードマネージャのURL</strong> の <img style="width: 35.00px" src="img/9f8203d4f688dc21.png"> をクリックします。</h2>
+<p class="image-container"><img style="width: 602.00px" src="img/e4f171021e892774.png"></p>
+<h2 is-upgraded>ボード定義の URL を入力します。</h2>
+<p>テキストボックスに以下の URL を入力します。(&#34;.json&#34; まで1行で入力してください)</p>
+<p><code>https://www.seeed.co.jp/package_SeeedJP_index.json</code></p>
+<p class="image-container"><img style="width: 602.00px" src="img/eaf0e07abcb3e8bf.png"></p>
+<p>入力したら［OK］をクリックします。</p>
+<aside class="special"><p><strong>すでに URL が入力されていたら？</strong></p>
+<p>別の開発を行っていてすでに URL が入力されていた場合は、一番下に追加してください。</p>
+<p class="image-container"><img style="width: 587.00px" src="img/9aa7bd0cbe3d62f5.png"></p>
+</aside>
+<h2 is-upgraded>環境設定の OK をクリックします。</h2>
+<p>環境設定のウィンドウに戻ってきたら［OK］をクリックします。</p>
+<p class="image-container"><img style="width: 602.00px" src="img/d0515e2cfa704058.png"></p>
+<h2 is-upgraded>Arduino IDE の［ツール］&gt;［ボード: ...］&gt;［ボードマネージャ...］をクリックします。</h2>
+<p class="image-container"><img style="width: 602.00px" src="img/a588ed41e6399539.png"></p>
+<h2 is-upgraded>&#34;SeeedJP STM32 Boards&#34; をインストールします。</h2>
+<p>ボードマネージャの一覧から <strong>SeeedJP STM32 Boards</strong> (by Seeed K.K.) を選んで［インストール］をクリックします。</p>
+<p>バージョンはインストール時における最新バージョンを選んでください。</p>
+<p>※ 約350MBのダウンロードが発生します。早くても 20分、遅いと 60分以上かかることがあります。</p>
+<p class="image-container"><img style="width: 602.00px" src="img/11d30f6baab11bf8.png"></p>
+<p>インストールが終了したら［閉じる］をクリックします。</p>
+<aside class="special"><p><strong>&#34;SeeedJP STM32 Boards&#34; を簡単に探し出す方法</strong></p>
+<p>検索用のテキストボックスへ <code>wio</code> と入力すると素早く見つけることができます。</p>
+<p class="image-container"><img style="width: 587.00px" src="img/477294ad78996c0f.png"></p>
+</aside>
+<p>以上で、Wio LTE 用ボード定義のインストールは完了です。</p>
+
+
+      </google-codelab-step>
+    
+      <google-codelab-step label="&#34;Wio LTE for Arduino&#34; のインストール" duration="5">
+        <h2 is-upgraded>Arduino IDE の［スケッチ］&gt;［ライブラリをインクルード］&gt;［ライブラリを管理...］をクリックします。</h2>
+<p class="image-container"><img style="width: 602.00px" src="img/cfcc61d653cf85a5.png"></p>
+<h2 is-upgraded>Wio LTE for Arduino をインストールします。</h2>
+<p>ライブラリマネージャの一覧から <strong>Wio LTE for Arduino</strong> (by Seeed K.K.) を選んで［インストール］をクリックします。</p>
+<p>バージョンはインストール時における最新バージョンを選んでください。</p>
+<p>※ 約 54KBのダウンロードが発生します。</p>
+<p class="image-container"><img style="width: 602.00px" src="img/6ca2a3147fec8c7c.png"></p>
+<p>インストールが終了したら［閉じる］をクリックします。</p>
+<aside class="special"><p><strong>&#34;Wio LTE for Arduino&#34; を簡単に探し出す方法</strong></p>
+<p>検索用のテキストボックスへ <code>wio</code> と入力すると素早く見つけることができます。</p>
+<p class="image-container"><img style="width: 587.00px" src="img/c1fbd5a9e17392ca.png"></p>
+</aside>
+
+
+      </google-codelab-step>
+    
+      <google-codelab-step label="ここまでの作業状況を確認する (サンプルスケッチのコンパイル)" duration="10">
+        <p>ここまでのセットアップが正常にできているか、実際にサンプルのプログラム (スケッチと呼ばれる) をコンパイルしてみます。</p>
+<p>ここでは Wio LTE 実機はまだ使用しません。</p>
+<h2 is-upgraded>ボード定義を &#34;Seeed Wio LTE Cat.1&#34; に変更する</h2>
+<p>［ツール］&gt;［ボード: ...］&gt;［Seeed Wio LTE Cat.1］をクリックします。</p>
+<p class="image-container"><img style="width: 593.00px" src="img/f5603965db009482.png"></p>
+<aside class="warning"><p><strong>Seeed Wio LTE Cat.1 が見つからなかったら？</strong></p>
+<ul>
+<li><strong>リストの下の方までスクロールしてみてください。</strong>リストが多い事から埋もれてしまっていることがあります。</li>
+<li><strong>Wio LTE 用ボード定義のインストール</strong>に戻り作業を行ってください。</li>
+</ul>
+</aside>
+<h2 is-upgraded>サンプルスケッチ &#34;LedSetRGB&#34; を開く</h2>
+<p>［ファイル］&gt;［スケッチ例］&gt;［Wio LTE for Arduino］&gt;［basic］&gt;［LedSetLGB］をクリックします。</p>
+<p class="image-container"><img style="width: 602.00px" src="img/98eb4bd0932b196a.png"></p>
+<aside class="warning"><p><strong>&#34;スケッチ例&#34; に Wio LTE for Arduino が見つからなかったら？</strong></p>
+<ul>
+<li>一つ前の手順に戻り、<strong>ボードで Seeed Wio LTE Cat.1 を選んでください</strong>。<br>※ 今選択されているボードは Arduino IDE ウィンドウの右下に表示されています。<br><img style="width: 448.00px" src="img/f1795be242bdd8f6.png"></li>
+<li><strong>&#34;Wio LTE for Arduino&#34; のインストール</strong>に戻り作業を行ってください。</li>
+</ul>
+</aside>
+<h2 is-upgraded>コンパイルをする</h2>
+<p>新しく開いたウィンドウで<img style="width: 33.00px" src="img/9951d88204453fb.png">ボタンをクリックします。スケッチのコンパイルが始まります。</p>
+<p class="image-container"><img style="width: 304.00px" src="img/5fdee871d759b7b8.png"></p>
+<p>ウィンドウの下部で進行状況が確認できます。</p>
+<p class="image-container"><img style="width: 420.00px" src="img/5c9c20eee8f82c21.png"></p>
+<aside class="special"><p><img style="width: 33.00px" src="img/9951d88204453fb.png">ボタンの代わりにArduino IDE の［スケッチ］&gt;［検証・コンパイル］でも同じです。</p>
+</aside>
+<p>進行状況の部分に<strong>コンパイルが完了しました。</strong>と表示されれば、開発環境は正しくセットアップできています。</p>
+<p class="image-container"><img style="width: 354.00px" src="img/9969ceb4e8dd3ee9.png"></p>
+<aside class="warning"><p><strong>コンパイルの時間について</strong></p>
+<p>コンパイルで必要とする時間はパソコンのスペックに寄ります。早くて 1~2分、遅いと5分程度掛かることがあります。なるべくスペックの良いパソコンで行うことをお勧めいたします。</p>
+</aside>
+<h3 is-upgraded>エラー発生時の対処</h3>
+<p>コンパイル時にエラーが発生すると以下のように表示されます。</p>
+<p>ここまでのセットアップで不備が無かったか、再度確認してください。</p>
+<p class="image-container"><img style="width: 602.00px" src="img/c5221d0096063ce4.png"></p>
+<p>※ エラーメッセージは一例です。他にも複数のパターンがあります。</p>
+
+
+      </google-codelab-step>
+    
+      <google-codelab-step label="Homebrew のインストール" duration="10">
+        <p>後述する libusb をインストールするために必要です。</p>
+<h2 is-upgraded>［Finder］&gt;［アプリケーション］&gt;［ユーティリティ］&gt;［ターミナル］を起動します。</h2>
+<aside class="special"><p>Spotlight (検索) から &#34;Terminal.app&#34; を探して起動する方法もあります。</p>
+</aside>
+<h2 is-upgraded>Terminal.app 内で下記コマンドを実行します。</h2>
+<pre><code>/usr/bin/ruby -e &#34;$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)&#34;</code></pre>
+<p>※途中でパスワード入力を求められたら macOS ログイン時のパスワードを入力してください</p>
+<p>最終的に下記のように表示されればインストール成功です。</p>
+<pre><code>==&gt; Next steps:
+- Run `brew help` to get started
+- Further documentation:
+   https://docs.brew.sh</code></pre>
+
+
+      </google-codelab-step>
+    
+      <google-codelab-step label="libusb のインストール" duration="5">
+        <p>Wio LTE を DFU(Device Firmware Upgrade) モード に切り替えてファイル書き込みを行う際に必要なドライバです。</p>
+<h2 is-upgraded>［Finder］&gt;［アプリケーション］&gt;［ユーティリティ］&gt;［ターミナル］を起動します。</h2>
+<aside class="special"><p>すでにターミナルが起動していれば、そのまま使うことができます。</p>
+</aside>
+<h2 is-upgraded>Terminal.app 内で下記コマンドを実行します。</h2>
+<pre><code>brew install libusb</code></pre>
+<p>※途中でパスワード入力を求められたら macOS ログイン時のパスワードを入力してください</p>
+<p>最終的に下記のように表示されればインストール成功です。</p>
+<pre><code>==&gt; Downloading https://homebrew.bintray.com/bottles/libusb-1.0.21.el_capitan.bo
+######################################################################## 100.0%
+==&gt; Pouring libusb-1.0.21.el_capitan.bottle.tar.gz
+🍺  /usr/local/Cellar/libusb/1.0.21: 29 files, 510.5KB</code></pre>
+
+
+      </google-codelab-step>
+    
+      <google-codelab-step label="Wio LTE の動作モードを確認する" duration="10">
+        <p>ここまでのセットアップで「システムレポート」(システム情報) で Wio LTE の動作モードが確認できます。</p>
+<p>システム情報は［🍎］&gt;［このMacについて］で表示されたウィンドウの［システムレポート］で表示する事ができます。</p>
+<p class="image-container"><img style="width: 602.00px" src="img/efe3990f34da83d9.png"></p>
+<h2 is-upgraded>Wio LTE の動作モードとは？</h2>
+<p>Wio LTE は 2 つのモードを持っています。このモードを切り替えていくことで、プログラムを書き込んだり、実行したりする事になります。</p>
+<p>電源 ON (= microUSB を接続した直後) は、通常モードで動き出します。</p>
+<table>
+<tr><td colspan="1" rowspan="1"><p><strong>モード</strong></p>
+</td><td colspan="1" rowspan="1"><p><strong>利用シーン</strong></p>
+</td></tr>
+<tr><td colspan="1" rowspan="1"><p>通常モード</p>
+</td><td colspan="1" rowspan="1"><p>書き込まれたプログラムを実行するときに使用</p>
+</td></tr>
+<tr><td colspan="1" rowspan="1"><p>DFUモード</p>
+</td><td colspan="1" rowspan="1"><p>プログラムを書き込む時に使用</p>
+</td></tr>
+</table>
+<p class="image-container"><img style="width: 602.00px" src="img/7bba135394cb34eb.png"></p>
+<h2 is-upgraded>切り替え方と確認方法</h2>
+<h3 is-upgraded>DFU モードへの切り替え</h3>
+<p>Wio LTE とパソコンが microUSB でつながれた状態で、下記の操作を行います。(いつ行っても構いません)</p>
+<ol type="1" start="1">
+<li>Wio LTE の BOOTボタンを押し、 <strong>押し続けてください</strong></li>
+<li>Wio LTE の RSTボタンを押し、すぐ離します</li>
+<li>押し続けていた BOOTボタン を離します</li>
+</ol>
+<p class="image-container"><img style="width: 602.00px" src="img/c13b66c707c92242.gif"></p>
+<p><strong>確認方法:</strong> システムレポートを起動し、一覧の中で <strong>USB</strong> の一覧に <strong>STM32 BOOTLOADER</strong> が表示されていれば、DFUモードで動作しています。</p>
+<p class="image-container"><img style="width: 602.00px" src="img/92ac23bfd1fada1c.png"></p>
+<p><strong>システムレポートの表示は自動的に切り替わりません。<br>［ファイル］&gt;［情報の更新］で最新の情報を表示するようにしてください。</strong></p>
+<h3 is-upgraded>通常モードへの切り替え</h3>
+<p>Wio LTE とパソコンが microUSB でつながれた状態で、下記の操作を行います。(いつ行っても構いません)</p>
+<ol type="1" start="1">
+<li>Wio LTE の RSTボタンを押し、すぐ離します</li>
+</ol>
+<p class="image-container"><img style="width: 602.00px" src="img/f5f4a67a2c86302d.gif"></p>
+<p><strong>確認方法:</strong> デバイスマネージャを起動し、一覧の中で<strong>USB</strong>の一覧に <strong>STM32 Virtual ComPort in FS Mode</strong> が表示されていれば、通常モードで動作しています。</p>
+<p class="image-container"><img style="width: 602.00px" src="img/3dba0df9f568ff8e.png"></p>
+<p><strong>システムレポートの表示は自動的に切り替わりません。<br>［ファイル］&gt;［情報の更新］で最新の情報を表示するようにしてください。</strong></p>
+
+
+      </google-codelab-step>
+    
+      <google-codelab-step label="サンプルスケッチ (LED 点灯) を実行してみる" duration="5">
+        <p>いよいよ Wio LTE 本体でスケッチを実行します。</p>
+<h2 is-upgraded>Wio LTE をパソコンにつなげる</h2>
+<p>Wio TE 本体と USB ケーブルを用意して接続してください。</p>
+<p>この時 Wio LTE の電源が自動的に ON になりますが特に問題ありません。</p>
+<p class="image-container"><img style="width: 602.00px" src="img/305e1aad04cd6e8a.png"></p>
+<h2 is-upgraded>サンプルスケッチ &#34;LedSetRGB&#34; を開く</h2>
+<p>［ファイル］&gt;［スケッチ例］&gt;［Wio LTE for Arduino］&gt;［basic］&gt;［LedSetLGB］をクリックします。</p>
+<aside class="special"><p>すでに開いている &#34;LedSetLGB&#34; があれば、それを利用することもできます。</p>
+</aside>
+<h2 is-upgraded>Wio LTE を DFU モードにする</h2>
+<p>Wio LTE を DFU モードにしてください。</p>
+<h2 is-upgraded>マイコンボードに書き込む</h2>
+<p>&#34;LedSetLGB&#34; を表示しているウィンドウで<img style="width: 33.00px" src="img/6eda9a3a4a4958d7.png">ボタンをクリックします。</p>
+<p class="image-container"><img style="width: 301.00px" src="img/b5b594e049b3fe09.png"></p>
+<p>スケッチのコンパイルと、スケッチの書き込みが始まります。</p>
+<aside class="special"><p>ボタンの代わりに［スケッチ］&gt;［マイコンボードに書き込む］でも同じです。</p>
+</aside>
+<p><strong>ボードへの書き込みが完了しました。</strong>と表示されたら正常終了です。</p>
+<p class="image-container"><img style="width: 400.00px" src="img/fc1fbc9ddc0a9784.png"></p>
+<h3 is-upgraded>エラーが発生した場合</h3>
+<table>
+<tr><td colspan="1" rowspan="1"><p><strong>「マイコンボードに書き込む」を実行した結果、ウィンドウに下記のように表示された</strong></p>
+<p><code>exit status 1</code></p>
+<p><code>ボードArduino/Genuino Unoに対するコンパイル時にエラーが発生しました。</code></p>
+</td><td colspan="1" rowspan="1"><p>&#34;ボード&#34; が &#34;Seeed Wio LTE Cat.1&#34; になっていません。メニューの［ツール］&gt;［ボード: ...］ から <strong>Seeed Wio LTE Cat.1</strong> を選択してください。</p>
+</td></tr>
+<tr><td colspan="1" rowspan="1"><p><strong>「マイコンボードに書き込む」を実行した結果、ウィンドウに下記のように表示された</strong></p>
+<p><code>No DFU capable USB device available</code></p>
+<p><code>DFU end</code></p>
+</td><td colspan="1" rowspan="1"><p>Wio LTE が「通常モード」の状態、もしくはつながっていない状態で書き込もうとしています。Wio LTE を「DFU モード」にしてから、再度「マイコンボードに書き込む」を実行してください。</p>
+</td></tr>
+<tr><td colspan="1" rowspan="1"><p><strong>「マイコンボードに書き込む」を実行した結果、ウィンドウに下記のように表示された</strong></p>
+<p><code>java.io.IOException: jssc.SerialPortException: ....</code></p>
+<p><code>    ... 色々表示されて ...</code></p>
+<p><code>    ... 4 more もしくは ... 6 more</code></p>
+</td><td colspan="1" rowspan="1"><p>主に Windows で発生するエラーです。Arduino IDE のシリアルモニタ―を表示ている状態で発生します。原因はシリアルポートの解放に失敗しています。Arduino IDE 1.18.10 以降であれば発生しにくいエラーですが、発生してしまった場合は Arduino IDE 終了＆再度立ち上げてから書き込みを行ってください。また Arduino IDE のシリアルモニターは使わずに <a href="https://ttssh2.osdn.jp/" target="_blank">TeraTerm</a> を使うことで回避しやすくなります。</p>
+</td></tr>
+<tr><td colspan="1" rowspan="1"><p><strong>「マイコンボードに書き込む」を実行した結果、ウィンドウに下記のように表示された</strong></p>
+<p><code>dyld: Library not loaded: /opt/local/lib/libusb-1.0.0.dylib</code></p>
+<p><code>  Referenced from: /Users/.../dfu-util/dfu-util</code></p>
+<p><code>  Reason: image not found</code></p>
+<p><code>/Users/.../dfu_upload: line 5: 15851 Abort trap: 6           $(dirname $0)/dfu-util/dfu-util -d $2 -a $1 -D $3 -s $4 -R</code></p>
+<p><code>DFU end</code></p>
+</td><td colspan="1" rowspan="1"><p>macOS で発生するエラーです。 libusb がインストールされていません。 libusb のインストールを参照して作業してから、再度「マイコンボードに書き込む」を実行してください。</p>
+</td></tr>
+<tr><td colspan="1" rowspan="1"><p><strong>「マイコンボードに書き込む」を実行した結果、ウィンドウに下記のように表示された</strong></p>
+<p><code>Please select a Port before upload</code></p>
+</td><td colspan="1" rowspan="1"><p>Arduino IDE 1.8.8 以降の最新版をインストールしてください。もしくは、一度 Wio LTE を通常モードにした後 Arduino IDE の [ツール] &gt; [シリアルポート] に表示される一覧の中から Wio LTE として認識されているシリアルポートを選択してください。その後に Wio LTE を DFU モードにして、再度「マイコンボードに書き込む」を実行してください。</p>
+<p><strong>シリアルポートの選択方法 (Windows):</strong></p>
+<p>シリアルポートが複数表示される場合はデバイスマネージャーの「ポート」から STMicroelectoronics Virtual COM Port を探して割り当てられている番号のものを選択してください。(Wio LTE が接続されたシリアルポートが表示されない場合は Virtual COM Port ドライバのインストールが終わっていません。 Wio LTE 開発環境の準備 / Virtual COM Port ドライバのインストール をご覧いただき再確認をしてください。特に「終わってる」と思っていてもよくある間違いがあります。)</p>
+<p><strong>シリアルポートの選択方法(macOS):</strong></p>
+<p>シリアルポートが複数表示される場合は <code>/dev/tty.usbmodem1411</code> もしくは <code>/dev/tty.usb...</code> で始まるものをいくつか選んでみてください。</p>
+</td></tr>
+</table>
+<h2 is-upgraded>実行の様子</h2>
+<p>書き込みが完了したら Wio LTE を「通常モード」にします。すると Wio LTE に書き込んだプログラムが実行されます。</p>
+<p>Wio LTE 上の LED が点灯したら成功です。</p>
+<p class="image-container"><img style="width: 480.00px" src="img/456f3a4438617c31.gif"></p>
+<p>以上で Wio LTE 開発環境を Arduino IDE への追加するハンズオンは終了です。</p>
+
+
+      </google-codelab-step>
+    
+  </google-codelab>
+
+  <script src="https://soracom.github.io/iot-recipes/codelab-elements/native-shim.js"></script>
+  <script src="https://soracom.github.io/iot-recipes/codelab-elements/custom-elements.min.js"></script>
+  <script src="https://soracom.github.io/iot-recipes/codelab-elements/prettify.js"></script>
+  <script src="https://soracom.github.io/iot-recipes/codelab-elements/codelab-elements.js"></script>
+
+</body>
+</html>
