@@ -1,0 +1,471 @@
+
+<!doctype html>
+
+<html>
+<head>
+  <meta name="viewport" content="width=device-width, minimum-scale=1.0, initial-scale=1.0, user-scalable=yes">
+  <meta name="theme-color" content="#4F7DC9">
+  <meta charset="UTF-8">
+  <title>【IoT DIY レシピ】GPS マルチユニット SORACOM Edition で作る「健康管理や肌の乾燥を防ぐ温湿度計」</title>
+  <link rel="stylesheet" href="//fonts.googleapis.com/css?family=Source+Code+Pro:400|Roboto:400,300,400italic,500,700|Roboto+Mono">
+  <link rel="stylesheet" href="//fonts.googleapis.com/icon?family=Material+Icons">
+  <link rel="stylesheet" href="https://soracom.github.io/iot-recipes/codelab-elements/codelab-elements.css">
+  <style>
+    .success {
+      color: #1e8e3e;
+    }
+    .error {
+      color: red;
+    }
+  </style>
+</head>
+<body>
+  <google-codelab-analytics gaid="UA-66865146-33"></google-codelab-analytics>
+  <google-codelab codelab-gaid=""
+                  id="air-environment-by-gps-multiunit"
+                  title="【IoT DIY レシピ】GPS マルチユニット SORACOM Edition で作る「健康管理や肌の乾燥を防ぐ温湿度計」"
+                  environment="web"
+                  feedback-link="https://soracom.jp/products/kit/gps_multiunit/">
+    
+      <google-codelab-step label="GPS マルチユニット SORACOM Edition で作る「健康管理や肌の乾燥を防ぐ温湿度計」" duration="1">
+        <p>レシピ難易度：★☆☆☆☆</p>
+<p>4種のセンサーとバッテリーを内蔵した LTE-M 通信 IoT デバイス「GPS マルチユニット SORACOM Edition」(以下、GPS マルチユニット)を活用して、室内の温湿度をモニタリングして健康管理に役立てるレシピです。</p>
+<p class="image-container"><img style="width: 702.53px" src="img/f28d5cc3868a8d13.jpeg"></p>
+<p class="image-container"><img style="width: 602.00px" src="img/7d9684b11ff45d9.gif"></p>
+<p>本レシピは、動画コンテンツも用意しております。本レシピの動いている様子を、映像で確認できますので、ぜひ動画もご覧ください。</p>
+<iframe class="youtube-video" src="https://www.youtube.com/embed/feYp5Bw_tdo?rel=0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+<h2 is-upgraded>本レシピを行うのに必要な時間、概算費用</h2>
+<p>本レシピは以下の通りです。</p>
+<ul>
+<li>必要な時間: 約2時間30分</li>
+<li>概算費用: 約11,100円</li>
+</ul>
+<p>※ 概算費用: ハードウェアや SORACOM を始めとした各種サービスの概ねの費用 (税や送料などの付帯費用や無料枠適用は考慮しないものとしています)</p>
+<h2 is-upgraded>このコンテンツの進め方</h2>
+<p>ページの内容を読み、また作業を行ったら右下の［Next］を押して次のステップへ進みます。また、［Back］を使って戻ったり、左のナビゲーションメニューでもページの移動が可能です。</p>
+<p>左上の［×］を押してコンテンツを終了することができます。また、ページを開きなおすことで再開できます。ページのアドレスはブラウザの［履歴］メニューを利用してください。</p>
+
+<aside class="warning"><p>本コンテンツは現状のままで提供され、株式会社ソラコムは、誤りがないことの保証を含め、明示であると黙示であるとを問わず、本コンテンツの記載内容につき、いかなる種類の表明も保証も行いません。</p>
+<p>掲載情報の閲覧及び利用により、利用者自身、もしくは第三者が被った損害に対して、直接的、間接的を問わず、株式会社ソラコムは責任を負いかねます。</p>
+<p>本コンテンツを実践する中で用意された機器、利用されたサービスについてのご質問は、それぞれの機器やサービスの提供元にお問い合わせをお願いします。機器やサービスの仕様は、本コンテンツ作成当時のものです。</p>
+<p>株式会社ソラコムが提供する機器・サービスについてのご質問は、 <a href="https://soracom.jp/contact/" target="_blank">https://soracom.jp/contact/</a> をご確認の上、適切な窓口へのお問い合わせをお願いします。機器・サービスご利用前の導入相談は <a href="https://soracom.jp/contact/contactsales/" target="_blank">https://soracom.jp/contact/contactsales/</a> に、機器・サービスご利用開始後のサポートは、SORACOMユーザーコンソール内の<a href="https://soracom.zendesk.com/hc/ja/requests/" target="_blank">サポートサイトから「リクエストを送信」</a>(要ログイン)にてお問い合わせください。</p>
+<p>本ドキュメントは <a href="https://github.com/googlecodelabs/tools" target="_blank">CLaaT</a> を用いて制作しています。</p>
+<p>Copyright (c) 2020 SORACOM, INC.</p>
+</aside>
+
+
+
+      </google-codelab-step>
+    
+      <google-codelab-step label="準備" duration="1">
+        <p>本レシピを行うためには以下のものをご用意ください。</p>
+<h2 is-upgraded>ハードウェア</h2>
+<table>
+<tr><td colspan="1" rowspan="1"><p><strong>品名</strong></p>
+</td><td colspan="1" rowspan="1"><p><strong>数量</strong></p>
+</td><td colspan="1" rowspan="1"><p><strong>価格</strong></p>
+</td><td colspan="1" rowspan="1"><p><strong>購入先</strong></p>
+</td><td colspan="1" rowspan="1"><p><strong>備考</strong></p>
+</td></tr>
+<tr><td colspan="1" rowspan="1"><p>GPSマルチユニットSORACOM Edition（バッテリー内蔵タイプ）スターターキット</p>
+</td><td colspan="1" rowspan="1"><p>1</p>
+</td><td colspan="1" rowspan="1"><p>11,000円</p>
+</td><td colspan="1" rowspan="1"><p><a href="https://soracom.jp/products/kit/gps_multiunit/" target="_blank">ソラコム</a></p>
+</td><td colspan="1" rowspan="1"><p>キットの中には以下のものが含まれています。</p>
+<ul>
+<li>GPS マルチユニット SORACOM Edition 本体 x 1</li>
+<li>SORACOM 特定地域向け IoT SIM (plan-D ナノサイズ) x 1</li>
+<li>microUSB ケーブル x 1</li>
+</ul>
+</td></tr>
+<tr><td colspan="1" rowspan="1"><p>(必要な方のみ)</p>
+<p>USB 型 AC アダプタ</p>
+</td><td colspan="1" rowspan="1"><p>―</p>
+</td><td colspan="1" rowspan="1"><p>―</p>
+</td><td colspan="1" rowspan="1"><p>―</p>
+</td><td colspan="1" rowspan="1"><p>GPS マルチユニット SORACOM Edition の充電に利用します。パソコンからの給電でも代用可能です。</p>
+</td></tr>
+<tr><td colspan="1" rowspan="1"><p>(必要な方のみ)</p>
+<p>キッチン用スポンジ入れ</p>
+</td><td colspan="1" rowspan="1"><p>―</p>
+</td><td colspan="1" rowspan="1"><p>―</p>
+</td><td colspan="1" rowspan="1"><p>―</p>
+</td><td colspan="1" rowspan="1"><p>GPS マルチユニット SORACOM Editionの設置用です。</p>
+<p>100円ショップ等で入手可能です。</p>
+</td></tr>
+</table>
+<p>※ 金額はレシピ作成時となります。ソラコムで販売している金額は税抜き・送料別です。</p>
+<h2 is-upgraded>その他必要なもの</h2>
+<table>
+<tr><td colspan="1" rowspan="1"><p><strong>必要なもの</strong></p>
+</td><td colspan="1" rowspan="1"><p><strong>費用</strong></p>
+</td><td colspan="1" rowspan="1"><p><strong>作成方法など</strong></p>
+</td></tr>
+<tr><td colspan="1" rowspan="1"><p>SORACOM アカウント</p>
+</td><td colspan="1" rowspan="1"><p>無料※</p>
+</td><td colspan="1" rowspan="1"><p><a href="https://soracom.github.io/iot-recipes/create-account-soracom-jp/" target="_blank">SORACOM アカウントの作成 (JP)</a></p>
+</td></tr>
+<tr><td colspan="1" rowspan="1"><p>パソコン</p>
+</td><td colspan="1" rowspan="1"><p>―</p>
+</td><td colspan="1" rowspan="1"><ul>
+<li>インターネット接続が可能でサイトへの接続が自由であること。</li>
+<li>Google Chrome 等の最新ブラウザーが利用可能な事。</li>
+</ul>
+</td></tr>
+</table>
+<p>※ アカウント作成・維持の費用の料金です。</p>
+
+
+      </google-codelab-step>
+    
+      <google-codelab-step label="GPS マルチユニットが届いたら" duration="5">
+        <p>GPS マルチユニットは SIM を挿入することでセルラー通信(LTE-M)を通じて、クラウドと連携できるようになります。そのため、まず GPS マルチユニットに同梱されている SIM を SORACOM へ登録をしましょう。<br>※ すでに登録済み、もしくは登録済みの別の SIM を利用する場合は次へお進みください。</p>
+<p>登録の方法は<a href="https://soracom.github.io/iot-recipes/register-ordering-sim-jp/" target="_blank">発注済みの SIM を登録する(JP)</a>をご覧ください。約5分で完了します。</p>
+<p>登録が完了すると SIM 管理の一覧に表示されますので、確認ください。</p>
+<p class="image-container"><img style="width: 602.00px" src="img/f0af04540ce9c1c7.png"></p>
+<aside class="special"><p><strong>SORACOM の便利な使い方: SIM の「名前」機能</strong></p>
+<p>SIM には「名前」を付けることができ、これで整理が可能です。特に複数の SIM (ボタン含む) をお持ちの際には、名前を付けることを強くお勧めいたします。</p>
+<p>名前の付け方は <a href="https://dev.soracom.io/jp/start/console/#name_tag" target="_blank">SIM への名前の付け方</a>をご覧ください。</p>
+</aside>
+
+
+      </google-codelab-step>
+    
+      <google-codelab-step label="SIM を GPS マルチユニットに取り付ける" duration="5">
+        <p>SORACOM 特定地域向け IoT SIM (以下 SIM) をカードから切り離し、GPS マルチユニットの側面に挿入します。</p>
+<h2 is-upgraded>GPS マルチユニットの側面を開け、SIM トレイ (赤色) を取り出す。</h2>
+<p>爪で引っ掛けるようにして取り出します。</p>
+<p class="image-container"><img style="width: 602.00px" src="img/961f6484b7c60f7b.png"></p>
+<h2 is-upgraded>SIM を SIM トレイに乗せる。</h2>
+<p>SIM トレイに収まるように SIM を乗せます。SIM の方向に気をつけてください。また、<strong>SIM トレイは無くさないようにしてください。</strong></p>
+<p class="image-container"><img style="width: 529.00px" src="img/de54657d5ea8fad2.png"></p>
+<h2 is-upgraded>SIM トレイごと GPS マルチユニットに挿入する。</h2>
+<p>元々入ってた向きで SIM トレイごと SIM を GPS マルチユニットに挿入します。このとき、SIM トレイから SIM が飛び出ないように気をつけてください。</p>
+<p class="image-container"><img style="width: 468.00px" src="img/7d4693ac501d2a58.png"></p>
+<p>最後に側面を閉じて終了です。</p>
+<p class="image-container"><img style="width: 602.00px" src="img/5202d33a26a08ae5.png"></p>
+<p>GPS マルチユニットに挿入した SIM の IMSI (クレジットカードサイズのカードの裏面に記載されている 15 桁の番号) を使用しますので、すぐ取り出せるようにしておいてください。</p>
+<h3 is-upgraded>ここでの作業は動画 (約1分) でもご覧いただけます。</h3>
+<iframe class="youtube-video" src="https://www.youtube.com/embed/OmOoXtNY4jQ?rel=0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+
+
+      </google-codelab-step>
+    
+      <google-codelab-step label="GPS マルチユニットの設定を行う" duration="10">
+        <p>GPS マルチユニットの設定は SORACOM ユーザコンソール上で行います。</p>
+<h2 is-upgraded><a href="https://console.soracom.io/" target="_blank">SORACOM ユーザーコンソール</a>にログインした後［Menu］&gt;［ガジェット管理］&gt;［GPS マルチユニット］とクリックします。</h2>
+<p class="image-container"><img style="width: 547.00px" src="img/f81382cd3d4455a4.png"></p>
+<p>GPS マルチユニット管理画面が表示されます。ここには、GPS マルチユニットとして利用しているSIM一覧が表示されます。初めて利用する場合は「データが見つかりません」と表示されますが、正常です。</p>
+<h2 is-upgraded>［新規デバイス設定］をクリックします。</h2>
+<p class="image-container"><img style="width: 602.00px" src="img/5d15a7d482bda46.png"></p>
+<h2 is-upgraded>GPS マルチユニットに挿入した SIM にチェックをつけてから［次へ：グループを選択］をクリックします。</h2>
+<p>複数 SIM を持っている場合は IMSI で見つけ出すようにしてください。<br>※図では「名前」を登録してあるため、見つけやすくなっています。</p>
+<p class="image-container"><img style="width: 602.00px" src="img/de64f1e37490ff0d.png"></p>
+<h2 is-upgraded>&#34;新規グループを作成&#34; をクリックし、グループ名入力してから［次へ：設定を編集］をクリックします。</h2>
+<p>グループ名は任意です。日本語も利用可能です。ここでは <code>GPSマ</code>ルチユニットとしています。</p>
+<p class="image-container"><img style="width: 465.00px" src="img/daad986a2fc914ed.png"></p>
+<h2 is-upgraded>GPSマルチユニットの設定を行います。</h2>
+<h3 is-upgraded>送信内容</h3>
+<p>「温度」「湿度」にチェックがついているようにします。(位置情報のチェックは外します)</p>
+<p class="image-container"><img style="width: 255.00px" src="img/823ff2f97541b75.png"></p>
+<h3 is-upgraded>送信先</h3>
+<p>「SORACOM Harvest (Lagoon)」 にチェックをつけます。</p>
+<p class="image-container"><img style="width: 329.00px" src="img/e7825c9869049a82.png"></p>
+<h3 is-upgraded>送信モード</h3>
+<p>「定期送信 ― 手動モード」にチェックをつけます。</p>
+<p class="image-container"><img style="width: 602.00px" src="img/41d67e056ed1606c.png"></p>
+<h3 is-upgraded>定期送信 ― 手動モード 詳細設定</h3>
+<p>送信間隔を <code>1</code> と入力します。</p>
+<p class="image-container"><img style="width: 476.00px" src="img/566fa56cce021dc1.png"></p>
+<p>ここまで入力が完了したら、最後に［保存］をクリックします。</p>
+<p>すると以下のダイアログが表示されるので［デバイス一覧に戻る］をクリックします。</p>
+<p class="image-container"><img style="width: 602.00px" src="img/724373cc49283d98.png"></p>
+<p>GPS マルチユニット管理画面に戻りますが、先ほど設定した SIM が一覧に表示されていることが確認できます。</p>
+<p class="image-container"><img style="width: 602.00px" src="img/25dfcf98d4b91319.png"></p>
+<h3 is-upgraded>設定を GPS マルチユニット本体に反映させる。</h3>
+<p>GPS マルチユニットのファンクションボタン（本体表面の四角のボタン）を1秒ほど押します。すると LED が緑色に点灯します。</p>
+<p class="image-container"><img style="width: 602.00px" src="img/29a821786b385382.gif"></p>
+<p>GPS マルチユニット本体から SORACOM に保存されている設定情報を取得して設定が反映されます。また、設定が反映された GPS マルチユニットは新たな設定で動き続けるようになります。</p>
+<p>以上で GPS マルチユニットの設定は終了となります。</p>
+
+
+      </google-codelab-step>
+    
+      <google-codelab-step label="SORACOM Harvest Data で設定の確認を行う" duration="5">
+        <p>SORACOM Harvest Data を利用して、設定が正しく反映されているか確認します。</p>
+<h2 is-upgraded>GPS マルチユニット管理画面で、先ほど設定したSIMにチェックを付けて［データを確認］をクリックします。</h2>
+<p class="image-container"><img style="width: 602.00px" src="img/b9a7092f3482e4dc.png"></p>
+<aside class="special"><p>SIM 管理画面からチェックをつけて［操作］&gt;［データを確認］でも同様のことができます。</p>
+</aside>
+<p>以下のようにグラフが確認できます。SORACOM Harvest Data の操作として、画面左側のグラフ種類を選んだり、画面中央の「自動更新」で自動的に新たなデータを表示できます。</p>
+<p class="image-container"><img style="width: 602.00px" src="img/8a458604be6c216a.png"></p>
+<p>「temp(温度)」「humi(湿度)」「rs(電波強度)」「bat(電池残量)」「type(送信モード)」の 5つの値が1分間隔で送信されていれば、設定成功です。</p>
+<aside class="special"><p><strong>rs, bat, type について</strong></p>
+<p>これらの値は必ず送信されてくるようになっています。値の意味については<a href="https://dev.soracom.io/jp/gps_multiunit/how-it-works/" target="_blank">GPS マルチユニット SORACOM Edition 機能の説明</a>をご覧ください。</p>
+</aside>
+
+
+      </google-codelab-step>
+    
+      <google-codelab-step label="GPS マルチユニットを設置する" duration="15">
+        <p>センシングデータが確認できるようになったので、GPS マルチユニットを設置して環境情報の取得を行います。今回は室内へ設置してみました。</p>
+<p>両面テープ等で直接固定しても良いのですが、100円ショップなどで手に入る「キッチン用スポンジ置き」が GPS マルチユニットを入れるのにちょうどいいサイズだったので利用してみました。プラスチック製で水切りができるタイプは軽量かつ通気性もよいため、センシングへの影響も最小限で済みます。</p>
+<p class="image-container"><img style="width: 442.00px" src="img/9f23e239beb8e50a.png"></p>
+<p>様々な設置方法が考えられるでしょう。100円ショップや DIY ストア等、特にキッチンや文具などの収納関係を見てみると、良さそうなものがあるかもしれません。</p>
+
+
+      </google-codelab-step>
+    
+      <google-codelab-step label="SORACOM Lagoon でダッシュボードを作成する（有効化まで）" duration="10">
+        <p>設定と設置が完了したら、蓄積されたデータを SORACOM Lagoon で活用していきます。</p>
+<h3 is-upgraded>SORACOM Lagoon 用語解説</h3>
+<p>ここで SORACOM Lagoon で使われる用語を解説します。</p>
+<table>
+<tr><td colspan="1" rowspan="1"><p><strong>用語</strong></p>
+</td><td colspan="1" rowspan="1"><p><strong>意味</strong></p>
+</td></tr>
+<tr><td colspan="1" rowspan="1"><p>プラン</p>
+</td><td colspan="1" rowspan="1"><p>SORACOM Lagoon の契約プランです。機能と料金が異なります。<a href="https://soracom.jp/services/lagoon/price/" target="_blank">SORACOM Lagoon のご利用料金</a>に機能や料金の比較表があります。</p>
+</td></tr>
+<tr><td colspan="1" rowspan="1"><p>メトリクス</p>
+<p>(メトリック)</p>
+</td><td colspan="1" rowspan="1"><p>データが格納されている先です。SORACOM Lagoon では以下の4つの中から選び、その中からノード(SIMや回線)を選択します。</p>
+<ul>
+<li>Air = SORACOM Air for セルラー</li>
+<li>LoRa = SORACOM Air for LoRaWAN</li>
+<li>Sigfox = SORACOM Air for Sigfox</li>
+<li>Device = SORACOM Inventory デバイス</li>
+</ul>
+</td></tr>
+<tr><td colspan="1" rowspan="1"><p>データソース</p>
+</td><td colspan="1" rowspan="1"><p>メトリクスの参照先です。SORACOM Lagoon では &#34;Harvest&#34; (= SORACOM Harvest) を選ぶとメトリクスが展開されます。 Grafana ではテスト用のランダムデータが表示されます。</p>
+</td></tr>
+<tr><td colspan="1" rowspan="1"><p>パネル</p>
+</td><td colspan="1" rowspan="1"><p>パネルはデータを表示する領域です。データソースとメトリクスを指定すると、そのメトリクス(たとえばSIM)のデータをパネルで使えるようになります。</p>
+<p>様々なパネルが存在します。</p>
+</td></tr>
+<tr><td colspan="1" rowspan="1"><p>ダッシュボード</p>
+</td><td colspan="1" rowspan="1"><p>複数のパネルを束ねて「1枚の画面」にしたものがダッシュボードです。共有の単位となります。</p>
+</td></tr>
+<tr><td colspan="1" rowspan="1"><p>SORACOM Lagoon ユーザー</p>
+<p>(Lagoon ユーザー)</p>
+</td><td colspan="1" rowspan="1"><p>SORACOM Lagoon へログインするためのユーザー(IDとパスワードの組)</p>
+<p>SORACOM ユーザコンソールへのログインとは異なるユーザ一覧となり、皆さん自身で登録・削除が可能です。ダッシュボードやパネルを編集できる「編集可能」と表示専用の「読み取り」の2段階の権限を設定できます。</p>
+<p>作成可能数はプランによります。</p>
+</td></tr>
+<tr><td colspan="1" rowspan="1"><p>データリフレッシュ</p>
+</td><td colspan="1" rowspan="1"><p>SORACOM Harvest から SORACOM Lagoon へデータが反映される事、もしくは反映タイミングとなります。反映タイミングはプランによります。</p>
+</td></tr>
+<tr><td colspan="1" rowspan="1"><p>アラート</p>
+</td><td colspan="1" rowspan="1"><p>メトリクスのデータに対して条件を設定し、その条件を満たしたら通知を行う仕組みの事です。</p>
+</td></tr>
+</table>
+<h2 is-upgraded><a href="https://console.soracom.io/" target="_blank">SORACOM ユーザーコンソール</a>の［Menu］&gt;［データ収集・蓄積・可視化］&gt;［SORACOM Lagoon］とクリックします。</h2>
+<p class="image-container"><img style="width: 547.00px" src="img/3d0a1446447997dd.png"></p>
+<h2 is-upgraded>［SORACOM Lagoon の利用を開始する］をクリックします。</h2>
+<p class="image-container"><img style="width: 602.00px" src="img/4a10b1d6ed1f5cc0.png"></p>
+<h2 is-upgraded>プランのうち［Free］を選択したあと［続行する］をクリックします。</h2>
+<p class="image-container"><img style="width: 602.00px" src="img/748cdbb71537788c.png"></p>
+<h2 is-upgraded>SORACOM Lagoon ユーザーの初期ユーザーに設定するパスワードを入力した後、［利用開始］をクリックします。</h2>
+<p class="image-container"><img style="width: 602.00px" src="img/f2b324c51b7a071e.png"></p>
+<aside class="special"><p><strong>SORACOM Lagoon ユーザーの初期ユーザの ID は？</strong></p>
+<p>ID は SORACOM ユーザコンソールにログインしたときのメールアドレスが使われることになります。そのため、ここではパスワードのみ設定することになります。<strong>SORACOM ユーザコンソールへのログインとは異なるパスワードを設定する事を強くお勧めします。</strong></p>
+</aside>
+<aside class="warning"><p><strong>利用開始がクリックできない場合は？</strong></p>
+<p>パスワードの条件が不足しています。全てに✔がつくようにパスワードを設定してください。</p>
+</aside>
+<p>SORACOM Lagoon の有効化に成功すると、以下のように SORACOM Lagoon コンソールへのリンクと、Lagoon ユーザーの一覧が管理できるようになります。</p>
+<p>この画面を SORACOM Lagoon 管理画面と呼びます。</p>
+<p class="image-container"><img style="width: 602.00px" src="img/6c91011f8fa4eb2.png"></p>
+<p>SORACOM Lagoon 管理画面は、SORACOM Lagoon が有効化されている間は ［Menu］&gt;［データ収集・蓄積・可視化］&gt;［SORACOM Lagoon］で表示する事ができます。</p>
+
+
+      </google-codelab-step>
+    
+      <google-codelab-step label="SORACOM Lagoon でダッシュボードを作成する（パネル作成まで）" duration="15">
+        <h2 is-upgraded>SORACOM Lagoon 管理画面を表示したあと、［SORACOM Lagoon console にアクセス］をクリックします。</h2>
+<p>※ SORACOM Lagoon 管理画面は ［Menu］&gt;［データ収集・蓄積・可視化］&gt;［SORACOM Lagoon］で表示する事ができます。</p>
+<p class="image-container"><img style="width: 602.00px" src="img/e056d4558913af2.png"></p>
+<h2 is-upgraded>SORACOM Lagoon へログインします。</h2>
+<p>メールアドレス (SORACOM ユーザコンソールへログインする際のメールアドレス) と、SORACOM Lagoon 初期ユーザ作成時に利用したパスワードでログインします。</p>
+<p class="image-container"><img style="width: 602.00px" src="img/d442ea101d6ae875.png"></p>
+<p>ログインに成功すると、以下のような画面が表示されます。これが SORACOM Lagoon ログイン直後の画面です。ここから「ダッシュボード」や「パネル」を作成していきます。</p>
+<p class="image-container"><img style="width: 838.50px" src="img/1b5745e822b81074.png"></p>
+<h2 is-upgraded>作成アイコン<img style="width: 40.00px" src="img/940a7161e06b7174.png">にカーソルを乗せると表示される「作成」メニューから［ダッシュボード］をクリックします。</h2>
+<p class="image-container"><img style="width: 297.00px" src="img/3efe197697d950a1.png"></p>
+<h2 is-upgraded>［Graph］ をクリックします。</h2>
+<p class="image-container"><img style="width: 602.00px" src="img/c3360800d3def06.png"></p>
+<aside class="special"><p>ダッシュボードが新規作成されると、最初のパネルも自動的にされます。パネルを追加したい場合は画面右上の<img style="width: 271.00px" src="img/ba6e7c6ec8c48277.png">で新たなパネルを追加できます。</p>
+</aside>
+<h2 is-upgraded>&#34;Panel Title&#34; &gt;［編集］をクリックします。</h2>
+<p class="image-container"><img style="width: 602.00px" src="img/78d86dcd59a18a6e.png"></p>
+<h2 is-upgraded>&#34;メトリック&#34; タブでノード(= SIM) をクリックし、GPS マルチユニットに紐づいている SIM を選びます。</h2>
+<p>データソースは &#34;default&#34; に、メトリクスは &#34;Air&#34; になっているので、あとはノード(= SIM) を選びます。</p>
+<p class="image-container"><img style="width: 602.00px" src="img/21939b6890dfe6bb.png"></p>
+<p>選んだ時点で、全データが表示されます。</p>
+<aside class="special"><p><strong>データが表示されていない？</strong></p>
+<p>データを蓄積し始めてから間もない場合、グラフの右端に「少しだけ」表示されている場合があります。これは、パネルの表示時間の標準が「過去6時間分」を表示するようになっているからです。</p>
+<p class="image-container"><img style="width: 771.33px" src="img/5b0eb2c6e78099d1.png"></p>
+<p>右上の「時間」ボタンで表示範囲を設定可能です。まずは「過去15分間」くらいが良いでしょう。</p>
+<p class="image-container"><img style="width: 587.00px" src="img/76a64d941a095f3.png"></p>
+<p>それでもデータが表示されていない場合は、いったん SORACOM Harvest Data データの蓄積具合を確認するようにしてください。</p>
+</aside>
+<h2 is-upgraded>表示データを &#34;temp&#34; のみにします。</h2>
+<p>データの項目リストをクリックして &#34;temp&#34; をクリックします。</p>
+<p class="image-container"><img style="width: 602.00px" src="img/32a3d51790c803f6.png"></p>
+<p>選ぶと、即時グラフに反映されます。</p>
+<h2 is-upgraded>［クエリを追加］をクリックします。</h2>
+<p>同じデバイスから出てきている「別のデータ」を表示するには、新たに系列を追加することになります。</p>
+<p class="image-container"><img style="width: 602.00px" src="img/25aa84ae6e4073cc.png"></p>
+<h2 is-upgraded>ノード(= SIM) を同じように選択した後、データ項目を &#34;humi&#34; とします。</h2>
+<p>操作は先ほどと同様です。</p>
+<p class="image-container"><img style="width: 602.00px" src="img/2a145c18485c217d.png"></p>
+<p>ここまでの操作で「特定の SIM から出力された温度と湿度を一つのグラフに表示する」事が出来ました。（表示範囲を「過去15分間」としています）</p>
+<p class="image-container"><img style="width: 602.00px" src="img/ff166c366b56fac4.png"></p>
+<h2 is-upgraded>画面右上のダッシュボードに戻る<img style="width: 54.00px" src="img/2c69286f16fd7716.png">ボタンをクリックします。</h2>
+<p class="image-container"><img style="width: 493.00px" src="img/9196ca6f166013da.png"></p>
+<h2 is-upgraded>ここからの作業</h2>
+<p>ダッシュボードでは、右上の保存ボタン<img style="width: 33.00px" src="img/6780dfe4cd33f2a0.png">でダッシュボードを保存したり、パネルを追加ボタン<img style="width: 45.00px" src="img/26a41e8f56714b95.png">でパネルをダッシュボードに追加していくことになります。<br>また、既存のパネルは &#34;Panel Title&#34; のクリックで表示される［編集］から内容を変更できます。</p>
+<p class="image-container"><img style="width: 602.00px" src="img/8a2bcc70f5d4ec2f.png"></p>
+<p>以上の作業を繰り返して、ダッシュボードを構築していくことになります。</p>
+<aside class="special"><p><strong>背景を白くしたい</strong></p>
+<p>SORACOM Lagoon の標準では背景が黒となっています。これは設定で変更が可能です。</p>
+<p>右下のアイコンにカーソルを合わせて表示される［設定］をクリックします。</p>
+<p class="image-container"><img style="width: 342.00px" src="img/8cec8a9120d25dcd.png"></p>
+<p>設定画面に &#34;テーマ&#34; を &#34;Light&#34; に変更して［保存］すると、背景が白くなります。</p>
+<p class="image-container"><img style="width: 502.00px" src="img/69d5628454a7662a.png"></p>
+</aside>
+
+
+      </google-codelab-step>
+    
+      <google-codelab-step label="グラフのカスタマイズ" duration="10">
+        <p>グラフの表現として以下のカスタマイズをしてみましょう。</p>
+<ul>
+<li>パネルタイトルを「温湿度」</li>
+<li>Y軸の単位、表示レンジ、ラベル</li>
+<li>凡例を右側に表示</li>
+<li>折れ線グラフのデータポイントに点を描画</li>
+<li>折れ線グラフの系列を「温度＝暖色、左のY軸」「湿度＝寒色、右のY軸」</li>
+</ul>
+<p>これらの設定を行った結果が以下の図です。 (背景を Light に設定しています)</p>
+<p class="image-container"><img style="width: 602.00px" src="img/37903d68b0da86d3.png"></p>
+<h2 is-upgraded>パネルタイトルを「温湿度」</h2>
+<p>&#34;全般&#34; タブの &#34;タイトル&#34; を入力すると、パネル上部の &#34;Panel Title&#34; の部分が、タイトルで入力した内容になります。</p>
+<p class="image-container"><img style="width: 535.00px" src="img/e5002c25688e800b.png"></p>
+<h2 is-upgraded>Y軸の単位、表示レンジ、ラベル</h2>
+<p>&#34;軸&#34; タブで設定します。最終的には以下のように設定します。</p>
+<p class="image-container"><img style="width: 602.00px" src="img/2cc22ced3fb65dfb.png"></p>
+<h3 is-upgraded>単位</h3>
+<p>「左 Y」や「右 Y」でそれぞれ必要な単位を選んでいきます。</p>
+<p>今回は左Yには &#34;℃&#34; 、右Y は &#34;%H&#34; を指定しています。</p>
+<p class="image-container"><img style="width: 602.00px" src="img/5c5722474363defb.png"></p>
+<h3 is-upgraded>表示レンジ</h3>
+<p>「最小」と「最大」を設定することで表示レンジを指定できます。空白にするとデータの表示が収まるようにレンジが動的に変化します。</p>
+<p>今回は左(温度) は「-10 ～ 45」、右(湿度)は「0 ～ 100」としました。</p>
+<h3 is-upgraded>ラベル</h3>
+<p>ラベルはそれぞれ「左 ＝ 温度」「右 ＝ 湿度」と入力しています。</p>
+<h2 is-upgraded>凡例を右側に表示</h2>
+<p>標準では凡例はパネルの左下に表示されます。これを右上にできます。</p>
+<p>&#34;凡例&#34; タブから &#34;右側に表示&#34; にチェックをつけるだけです。</p>
+<p class="image-container"><img style="width: 456.00px" src="img/bfbf7b2efb3ab1d6.png"></p>
+<h2 is-upgraded>折れ線グラフのデータポイントに点を描画</h2>
+<p>&#34;表示&#34; タブで設定します。［描画オプション］をクリックしたあと、 &#34;描画モード&#34; の &#34;点&#34; にチェックを入れます。天の半径を調整 (今回は 4 にしています) します。</p>
+<p class="image-container"><img style="width: 579.00px" src="img/f245ef946b00e376.png"></p>
+<p>以下のように、折れ線グラフの計測点部分に点が付与されるようになります。</p>
+<p class="image-container"><img style="width: 467.00px" src="img/b7027598d7cc7d96.png"></p>
+<h2 is-upgraded>折れ線グラフの系列を「温度＝暖色、左のY軸」「湿度＝寒色、右のY軸」</h2>
+<p>このままだと、温度湿度共に左Y軸にデータが割り当てられている状態ですので、ここから湿度を右Y軸に割り当てます。同時に色も変更します。</p>
+<p>&#34;表示&#34; タブで設定します。［系列のオーバーライド］をクリックしたあと［オーバーライドを追加］をクリックします。</p>
+<p class="image-container"><img style="width: 498.00px" src="img/5065053d8e82c436.png"></p>
+<p>&#34;エイリアスもしくは正規表現&#34; に <code>humi</code> と入力します。</p>
+<p class="image-container"><img style="width: 465.00px" src="img/6d326d42bd1df28d.png"></p>
+<aside class="special"><p><strong>「エイリアスもしくは正規表現」とは？</strong></p>
+<p>ここで入力している情報 (今回は humi) とは、 &#34;メトリック&#34; タブで設定したデータの項目に対して検索されます。ですので、「メトリックタブでのデータの項目が &#34;humi&#34; となっているものが、これから指定するグラフの属性情報で &#34;オーバーライド = 上書きする&#34; という宣言になります。</p>
+</aside>
+<p><img style="width: 35.00px" src="img/9074958002ca4898.png">をクリックします。すると様々な「グラフ属性」が表示されます。</p>
+<p class="image-container"><img style="width: 465.00px" src="img/d0a689d01fa9661f.png"></p>
+<p>「グラフ属性」の中から［Y-axis］&gt;［2］をクリックします。<br>Y-axis の 1 が「左Y軸」、2が「右Y軸」となります。これで &#34;humi&#34; は &#34;右Y軸&#34; に割り当たるように「属性が上書き」されたわけです。上部に表示されているグラフにも変化が出たと思うので確認してください。</p>
+<p class="image-container"><img style="width: 305.00px" src="img/d9422b8d76f2e891.png"></p>
+<p>今度は &#34;humi&#34; の折れ線グラフ色を変更してみます。先ほど同様に &#34;humi&#34; の<img style="width: 35.00px" src="img/9074958002ca4898.png">をクリックします。次は ［color］&gt;［change］をクリックします。</p>
+<p class="image-container"><img style="width: 330.00px" src="img/32be278e28970d83.png"></p>
+<p>カラーパレットが表示されるので、好きな色 (今回は寒色系の色) を選ぶ、もしくはカラーコード等で色を指定してください。</p>
+<p class="image-container"><img style="width: 269.00px" src="img/7bff9b86a904aa57.png"></p>
+<p>以下のように色が変化したことが見て取れるでしょう。</p>
+<p class="image-container"><img style="width: 260.00px" src="img/ed029f8ee81cd7ea.png"></p>
+<p>最後に「温度」を暖色系にしてみます。<br><img style="width: 175.00px" src="img/8f37a80335035794.png">をクリックし、 &#34;エイリアスもしくは正規表現&#34; には <code>temp</code> と入力します。</p>
+<p class="image-container"><img style="width: 458.00px" src="img/459bccc3a294acaf.png"></p>
+<p> &#34;temp&#34; の<img style="width: 35.00px" src="img/9074958002ca4898.png">をクリックします。次は ［color］&gt;［change］をクリックし、カラーパレットから暖色を選びます。</p>
+<p class="image-container"><img style="width: 330.00px" src="img/32be278e28970d83.png"></p>
+<p>最終的には「系列のオーバーライド」は以下のようになります。</p>
+<p class="image-container"><img style="width: 602.00px" src="img/b1afb7c0004d2e68.png"></p>
+<aside class="special"><p>データは標準で Y-axis = 1 に設定されるため、 &#34;temp&#34; では明示しませんでした。</p>
+</aside>
+<p>ほかにも様々な属性情報の設定が可能ですので、試してみてください。</p>
+
+
+      </google-codelab-step>
+    
+      <google-codelab-step label="あとかたづけと注意事項" duration="1">
+        <p>本レシピでは費用がかかるサービスを利用しています。<br>本項をよく読み、必要な操作や解除作業を行うようにして、想定外の費用が掛からないようにしてください。</p>
+<h2 is-upgraded>費用について</h2>
+<p>ここで記載している金額は全て税別、送料別となります。</p>
+<h3 is-upgraded>SORACOM プラットフォームの利用料金</h3>
+<table>
+<tr><td colspan="1" rowspan="1"><p><strong>サービス／機能</strong></p>
+</td><td colspan="1" rowspan="1"><p><strong>料金</strong></p>
+</td></tr>
+<tr><td colspan="1" rowspan="1"><p><a href="https://soracom.jp/services/air/cellular/price_specific_area_sim/" target="_blank">SORACOM Air (plan-D)</a></p>
+</td><td colspan="1" rowspan="1"><ul>
+<li>基本料: 10円/日</li>
+<li>通信料: 0.2円~/MB</li>
+</ul>
+<p>(今回の利用であれば 1MB 以内で収まる範囲)</p>
+</td></tr>
+<tr><td colspan="1" rowspan="1"><p><a href="https://soracom.jp/services/harvest/price/" target="_blank">SORACOM Harvest Data</a></p>
+</td><td colspan="1" rowspan="1"><ul>
+<li>本機能を有効にしたグループに所属する1SIMあたり5円/日 (2000リクエスト/日/SIMを含む)</li>
+<li>2000リクエスト/日を超えた分は0.004円/リクエスト</li>
+</ul>
+</td></tr>
+<tr><td colspan="1" rowspan="1"><p><a href="https://soracom.jp/services/lagoon/price/" target="_blank">SORACOM Lagoon</a></p>
+</td><td colspan="1" rowspan="1"><p>今回は Free プラン(無料)を使用しました。</p>
+</td></tr>
+</table>
+<p>※ 費用詳細はリンク先をご確認ください。</p>
+<aside class="special"><p><strong>無料利用枠について</strong></p>
+<p>SORACOM サービスでは一部サービスにおいて無料枠が設定されています。たとえば SORACOM Air for セルラーであればアカウント毎で30円/月の通信分や、SORACOM Harvest Data であれば31日分の書込みリクエストなどです。料金詳細に「無料利用枠」として掲載されていますので、ご確認ください。</p>
+</aside>
+<h2 is-upgraded>グループ解除</h2>
+<p>SORACOM Harvest Data 等、「機能が有効になっているグループに所属している SIM × 費用」となっているサービスにおいては、「機能を OFF にする」することで費用の発生を抑えることができます。またもう1つの方法として「グループに所属している SIM の数を減らす(= 解除する)」事でも費用を抑える事ができます。</p>
+<p>グループ解除の方法は<a href="https://soracom.github.io/iot-recipes/unjoin-from-group/" target="_blank">グループからの解除 (JP)</a>をご覧ください。</p>
+<h2 is-upgraded>SORACOM Harvest Data のデータ削除</h2>
+<p>SORACOM Harvest Data は基本的にはデータ保管料は無料※です。そのため、保存しておいても害はありませんが、デモ等で利用する際にはデータを綺麗にしておく必要が出てくるため、データ削除について解説します。</p>
+<p>※発生から40日を超えたデータは削除されます。40日以上データを保管したい場合は<a href="https://soracom.jp/services/harvest/price/" target="_blank">データ保持期間延長オプション利用料金</a>をご利用ください。</p>
+<p>SORACOM Harvest Data 画面 (［操作］&gt;［データを確認］) のデータテーブルで、削除したいデータのチェックボックスを付けた後に［削除］をクリックします。表示されたダイアログで改めて［削除］をクリックすると、削除されます。<br>※ 複数のデータにチェックをつければ一括で削除可能です。</p>
+<p class="image-container"><img style="width: 414.00px" src="img/637cac3bf206c47c.png"></p>
+<p><strong>データの復元はできません</strong>のでご注意ください。</p>
+<h2 is-upgraded>SORACOM Lagoon の解約</h2>
+<p>SORACOM Lagoon はオンラインで解約が可能です。 Free プランであれば有効化しておいても費用は発生しませんが、長期に渡って利用しない場合には解約も選択いただけます。</p>
+<p>解約の方法は<a href="https://soracom.github.io/iot-recipes/disable-soracom-lagoon" target="_blank">SORACOM Lagoon の解約(JP)</a>をご覧ください。</p>
+
+
+      </google-codelab-step>
+    
+      <google-codelab-step label="次のステップ" duration="1">
+        <p>本レシピでは、センサーや電源の事を考えなくとも利用可能なデバイスで、「簡単に現場のデジタル化」を実現しました。SORACOM Lagoon を活用すれば、アプリケーション開発の手間も減らすことができるため、「IoT の全体像を知りたい」といった方にも向いているかと思います。</p>
+<p><a href="https://soracom.jp/products/kit/gps_multiunit/" target="_blank">商品ページへ戻る</a></p>
+<p>よくあるご質問は<a href="https://sorazine.soracom.jp/entry/2020/03/13/march-webinar-report" target="_blank">Let&#39;s try IoT プロトタイピング ～ 健康管理や肌の乾燥を防ぐ仕組みを作ろう 〜 動画とQAのご紹介</a>でご案内しています。こちらもご覧ください。</p>
+
+
+      </google-codelab-step>
+    
+  </google-codelab>
+
+  <script src="https://soracom.github.io/iot-recipes/codelab-elements/native-shim.js"></script>
+  <script src="https://soracom.github.io/iot-recipes/codelab-elements/custom-elements.min.js"></script>
+  <script src="https://soracom.github.io/iot-recipes/codelab-elements/prettify.js"></script>
+  <script src="https://soracom.github.io/iot-recipes/codelab-elements/codelab-elements.js"></script>
+
+</body>
+</html>
