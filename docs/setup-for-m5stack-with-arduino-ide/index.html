@@ -1,0 +1,244 @@
+
+<!doctype html>
+
+<html>
+<head>
+  <meta name="viewport" content="width=device-width, minimum-scale=1.0, initial-scale=1.0, user-scalable=yes">
+  <meta name="theme-color" content="#4F7DC9">
+  <meta charset="UTF-8">
+  <title>【SORACOM ハンズオン】M5Stack 開発環境セットアップ (Windows / macOS 共通)</title>
+  <link rel="stylesheet" href="//fonts.googleapis.com/css?family=Source+Code+Pro:400|Roboto:400,300,400italic,500,700|Roboto+Mono">
+  <link rel="stylesheet" href="//fonts.googleapis.com/icon?family=Material+Icons">
+  <link rel="stylesheet" href="https://soracom.github.io/iot-recipes/codelab-elements/codelab-elements.css">
+  <style>
+    .success {
+      color: #1e8e3e;
+    }
+    .error {
+      color: red;
+    }
+  </style>
+</head>
+<body>
+  <google-codelab-analytics gaid="UA-66865146-33"></google-codelab-analytics>
+  <google-codelab codelab-gaid=""
+                  id="setup-for-m5stack-with-arduino-ide"
+                  title="【SORACOM ハンズオン】M5Stack 開発環境セットアップ (Windows / macOS 共通)"
+                  environment="web"
+                  feedback-link="">
+    
+      <google-codelab-step label="概要" duration="1">
+        <p>Arduino IDE は標準では Wio LTE の開発環境が入っていませんが、環境設定から追加することができるため、その設定をおこないます。</p>
+<h2 is-upgraded>できるようになる事</h2>
+<ul>
+<li>Arduino IDE にて Wio LTE を用いた開発</li>
+</ul>
+<h2 is-upgraded>このハンズオンでサポートしない事 (前提知識)</h2>
+<ul>
+<li>Arduino IDE のセットアップ (<a href="https://soracom.github.io/iot-recipes/arduino-ide-windows/" target="_blank">Windows 編</a> もしくは <a href="https://soracom.github.io/iot-recipes/arduino-ide-macos/" target="_blank">macOS 編</a> をご覧ください (約15～20分))</li>
+</ul>
+<h2 is-upgraded>このコンテンツの進め方</h2>
+<p>ページの内容を読み、また作業を行ったら右下の［Next］を押して次のステップへ進みます。また、［Back］を使って戻ったり、左のナビゲーションメニューでもページの移動が可能です。</p>
+<p>左上の［×］を押してコンテンツを終了することができます。また、ページを開きなおすことで再開できます。ページのアドレスはブラウザの［履歴］メニューを利用してください。</p>
+
+<aside class="warning"><p>本コンテンツは現状のままで提供され、株式会社ソラコムは、誤りがないことの保証を含め、明示であると黙示であるとを問わず、本コンテンツの記載内容につき、いかなる種類の表明も保証も行いません。</p>
+<p>掲載情報の閲覧及び利用により、利用者自身、もしくは第三者が被った損害に対して、直接的、間接的を問わず、株式会社ソラコムは責任を負いかねます。</p>
+<p>本コンテンツを実践する中で用意された機器、利用されたサービスについてのご質問は、それぞれの機器やサービスの提供元にお問い合わせをお願いします。機器やサービスの仕様は、本コンテンツ作成当時のものです。</p>
+<p>株式会社ソラコムが提供する機器・サービスについてのご質問は、 <a href="https://soracom.jp/contact/" target="_blank">https://soracom.jp/contact/</a> をご確認の上、適切な窓口へのお問い合わせをお願いします。機器・サービスご利用前の導入相談は <a href="https://soracom.jp/contact/contactsales/" target="_blank">https://soracom.jp/contact/contactsales/</a> に、機器・サービスご利用開始後のサポートは、SORACOMユーザーコンソール内の<a href="https://soracom.zendesk.com/hc/ja/requests/" target="_blank">サポートサイトから「リクエストを送信」</a>(要ログイン)にてお問い合わせください。</p>
+<p>本ドキュメントは <a href="https://github.com/googlecodelabs/tools" target="_blank">CLaaT</a> を用いて制作しています。</p>
+<p>Copyright (c) 2020 SORACOM, INC.</p>
+</aside>
+
+
+
+      </google-codelab-step>
+    
+      <google-codelab-step label="準備するもの" duration="1">
+        <table>
+<tr><td colspan="1" rowspan="1"><p>Arduino IDE がセットアップ済みのパソコン</p>
+</td><td colspan="1" rowspan="1"><ul>
+<li>インターネット接続が可能でサイトへの接続が自由であること。<br>※ 約 40MB のファイルをダウンロードすることになります。</li>
+<li>管理者権限を有しており、アプリケーションやドライバソフトウェアのインストールが自由であること。</li>
+</ul>
+</td></tr>
+</table>
+
+
+      </google-codelab-step>
+    
+      <google-codelab-step label="ESP32 用ボード定義のインストール" duration="1">
+        <p>M5StackはマイコンにESP32を使用しています。Arduino IDEは標準ではESP32の開発環境が入っていませんが、環境設定から追加することができるため、その設定をおこないます。</p>
+<h2 is-upgraded>Arduino IDEのメニューから環境設定を開きます。</h2>
+<ul>
+<li>Windows の場合: ［ファイル］&gt;［環境設定］</li>
+<li>macOS の場合: ［Arduino］&gt;［Preferences...］</li>
+</ul>
+<p class="image-container"><img style="width: 524.00px" src="img/9db00416a5c4dd88.png"></p>
+<h2 is-upgraded><strong>追加のボードマネージャのURL</strong> の <img style="width: 35.00px" src="img/9f8203d4f688dc21.png"> をクリックします</h2>
+<p class="image-container"><img style="width: 602.00px" src="img/e4f171021e892774.png"></p>
+<p>※ 画面は macOS ですが、Windows も同様です。</p>
+<h2 is-upgraded>ボード定義の URL を入力します。</h2>
+<p>テキストボックスに以下の URL を入力します。</p>
+<p><code>https://dl.espressif.com/dl/package_esp32_index.json</code></p>
+<p class="image-container"><img style="width: 602.00px" src="img/a24aaca857741c5f.png"></p>
+<p>入力したら［OK］をクリックします。</p>
+<aside class="special"><p><strong>すでに URL が入力されていたら？</strong></p>
+<p>別の開発を行っていてすでに URL が入力されていた場合は、一番下に追加してください。</p>
+<p class="image-container"><img style="width: 587.00px" src="img/dcfc74116ecf41c.png"></p>
+</aside>
+<h2 is-upgraded>環境設定の OK をクリックします。</h2>
+<p>環境設定のウィンドウに戻ってきたら［OK］をクリックします。</p>
+<p class="image-container"><img style="width: 602.00px" src="img/d0515e2cfa704058.png"></p>
+<h2 is-upgraded>Arduino IDE の［ツール］&gt;［ボード: ...］&gt;［ボードマネージャ...］をクリックします。</h2>
+<p class="image-container"><img style="width: 602.00px" src="img/ee45150049592919.png"></p>
+<p>※ 画面は macOS ですが、Windows も同様です。</p>
+<h2 is-upgraded>&#34;esp32&#34; をインストールする</h2>
+<p>ボードマネージャの一覧から <strong>esp32</strong> (by Espressif Systems) を選んで［インストール］をクリックします。</p>
+<p>バージョンはインストール時における最新バージョンを選んでください。</p>
+<p>※ 約37MBのダウンロードとファイルの展開が行われます。</p>
+<p class="image-container"><img style="width: 602.00px" src="img/8f20bebbb26a69d9.png"></p>
+<p>インストールが終了したら［閉じる］をクリックします。</p>
+<aside class="special"><p><strong>&#34;esp32&#34; を簡単に探し出す方法</strong></p>
+<p>検索用のテキストボックスへ <code>esp32</code> と入力すると素早く見つけることができます。</p>
+<p class="image-container"><img style="width: 587.00px" src="img/51573e2afd1e75c0.png"></p>
+</aside>
+<p>以上で、ESP32 用ボード定義のインストールは完了です。</p>
+
+
+      </google-codelab-step>
+    
+      <google-codelab-step label="M5Stack 用ライブラリのインストール" duration="1">
+        <p>M5Stack用のライブラリをインストールします。</p>
+<h2 is-upgraded>Arduino IDE の［スケッチ］&gt;［ライブラリをインクルード］&gt;［ライブラリを管理...］をクリックします。</h2>
+<p class="image-container"><img style="width: 602.00px" src="img/41f6da411abfe840.png"></p>
+<p>※ 画面は macOS ですが、Windows も同様です。</p>
+<h2 is-upgraded>&#34;M5Stack&#34; をインストールします。</h2>
+<p>ライブラリマネージャの一覧から <strong>M5Stack</strong> (by M5Stack) を選んで［インストール］をクリックします。</p>
+<p>バージョンはインストール時における最新バージョンを選んでください。</p>
+<p>※ 約6MBのダウンロードが発生します。</p>
+<p class="image-container"><img style="width: 602.00px" src="img/47c00c910bf6643f.png"></p>
+<p>インストールが終了したら［閉じる］をクリックします。</p>
+<p>※ 画面上は &#34;OK&#34; となっていますが、インストールが完了すると &#34;閉じる&#34; になります。</p>
+<aside class="special"><p><strong>&#34;M5Stack&#34; を簡単に探し出す方法</strong></p>
+<p>検索用のテキストボックスへ <code>m5stack core</code> と入力すると素早く見つけることができます。</p>
+<p class="image-container"><img style="width: 587.00px" src="img/1fad6eb935880211.png"></p>
+</aside>
+
+
+      </google-codelab-step>
+    
+      <google-codelab-step label="仮想シリアルポートドライバのインストール" duration="1">
+        <p>M5Stack へのプログラム書込みや、M5Stack の出力のモニタリングは仮想的なシリアルポートを通じて行います。</p>
+<p><a href="https://m5stack.com/pages/download" target="_blank">M5Stack 公式サイトのダウンロードページ</a>の <strong>CP2104 Driver</strong> をお使いのOSに合わせてダウンロードします。</p>
+<p class="image-container"><img style="width: 515.00px" src="img/3d23de9ba643d58e.png"></p>
+<h2 is-upgraded>インストール: Windows の場合</h2>
+<p>ZIP ファイルを展開し、中の <code>CP210xVCPInstaller_x64_v6.7.0.0.exe</code> をダブルクリックして実行し、表示されるダイアログにしたがってインストールを完了してください。</p>
+<aside class="warning"><p>似たようなファイル名がありますが、ファイル名の中に <strong>x64</strong> が含まれているものがインストーラーです。</p>
+</aside>
+<h2 is-upgraded>インストール: macOS の場合</h2>
+<p>ZIP ファイルを展開し、中の <code>SiLabsUSBDriverDisk.dmg</code> をダブルクリックします。その後表示される <code>Silicon Labs VCP Driver.pkg</code> をダブルクリックして、表示されるダイアログにしたがってインストールを完了してください。</p>
+<aside class="special"><p>インストールが完了したら、Finder のデバイスに表示されている <strong>Silicon Labs VCP Driver Install Disk</strong> は不要となります。取出しをしてください。</p>
+</aside>
+<p>ここまでで M5Stack の開発環境の準備は完了です。</p>
+
+
+      </google-codelab-step>
+    
+      <google-codelab-step label="開発環境の整備状況を確認する (サンプルスケッチのコンパイル)" duration="10">
+        <p>ここまでのセットアップが正常にできているか、実際にサンプルのプログラム (スケッチと呼ばれる) をコンパイルしてみます。</p>
+<p>ここでは M5Stack 実機はまだ使用しません。</p>
+<h2 is-upgraded>ボード定義を &#34;M5Stack-Core-EPS32&#34; に変更する</h2>
+<p>［ツール］&gt;［ボード: ...］&gt;［M5Stack-Core-ESP32］をクリックします。</p>
+<p class="image-container"><img style="width: 593.00px" src="img/6e4ccad4f9b0cb44.png"></p>
+<p>※ 画面は Windows ですが macOS も同様です。</p>
+<aside class="warning"><p><strong>M5Stack-Core-ESP32 が見つからなかったら？</strong></p>
+<ul>
+<li><strong>リストの下の方までスクロールしてみてください。</strong>リストが多い事から埋もれてしまっていることがあります。</li>
+<li><strong>ESP32 用ボード定義のインストール</strong>に戻り作業を行ってください。</li>
+</ul>
+</aside>
+<h2 is-upgraded>サンプルスケッチ &#34;HelloWorld&#34; を開く</h2>
+<p>［ファイル］&gt;［スケッチ例］&gt;［M5Stack］&gt;［Basics］&gt;［HelloWorld］をクリックします。</p>
+<p class="image-container"><img style="width: 602.00px" src="img/364c59585db32b07.png"></p>
+<p>※ 画面は Windows ですが macOS も同様です。</p>
+<aside class="warning"><p><strong>&#34;スケッチ例&#34; に M5Stack が見つからなかったら？</strong></p>
+<ul>
+<li>一つ前の手順に戻り、<strong>ボードで M5Stack-Core-ESP32 を選んでください</strong>。<br>※ 今選択されているボードは Arduino IDE ウィンドウの右下に表示されています。<br><img style="width: 448.00px" src="img/c9436ede52bedb20.png"></li>
+<li><strong>M5Stack 用ライブラリのインストール</strong>に戻り作業を行ってください。</li>
+</ul>
+</aside>
+<h2 is-upgraded>コンパイルをする</h2>
+<p>新しく開いたウィンドウで<img style="width: 33.00px" src="img/9951d88204453fb.png">ボタンをクリックします。スケッチのコンパイルが始まります。</p>
+<p class="image-container"><img style="width: 304.00px" src="img/33a73da8c287e202.png"></p>
+<p>ウィンドウの下部で進行状況が確認できます。</p>
+<p class="image-container"><img style="width: 420.00px" src="img/5c9c20eee8f82c21.png"></p>
+<aside class="special"><p><img style="width: 33.00px" src="img/9951d88204453fb.png">ボタンの代わりに［スケッチ］&gt;［検証・コンパイル］でも同じです。</p>
+</aside>
+<p>進行状況の部分に<strong>コンパイルが完了しました。</strong>と表示されれば、開発環境は正しくセットアップできています。</p>
+<p class="image-container"><img style="width: 354.00px" src="img/9969ceb4e8dd3ee9.png"></p>
+<aside class="warning"><p><strong>コンパイルの時間について</strong></p>
+<p>コンパイルで必要とする時間はパソコンのスペックに寄ります。早くて 1~2分、遅いと5分程度掛かることがあります。なるべくスペックの良いパソコンで行うことをお勧めいたします。</p>
+</aside>
+<h3 is-upgraded>エラー発生時の対処</h3>
+<p>コンパイル時にエラーが発生すると以下のように表示されます。</p>
+<p>ここまでのセットアップで不備が無かったか、再度確認してください。</p>
+<p class="image-container"><img style="width: 602.00px" src="img/c5221d0096063ce4.png"></p>
+<p>※ エラーメッセージは一例です。他にも複数のパターンがあります。</p>
+
+
+      </google-codelab-step>
+    
+      <google-codelab-step label="開発環境の整備状況を確認する (サンプルスケッチを実行する)" duration="10">
+        <p>いよいよ M5Stack 本体でスケッチを実行します。</p>
+<h2 is-upgraded>M5Stack をパソコンにつなげる</h2>
+<p>M5Stack 本体と USB ケーブルを用意して接続してください。</p>
+<p>この時 M5Stack の電源が自動的に ON になる場合もありますが特に問題ありません。</p>
+<p class="image-container"><img style="width: 602.00px" src="img/bea6b51b8cf33f60.png"></p>
+<h2 is-upgraded>サンプルスケッチ &#34;HelloWorld&#34; を開く</h2>
+<p>［ファイル］&gt;［スケッチ例］&gt;［M5Stack］&gt;［Basics］&gt;［HelloWorld］をクリックします。</p>
+<aside class="special"><p>すでに開いている &#34;HelloWorld&#34; があれば、それを利用することもできます。</p>
+</aside>
+<h2 is-upgraded>マイコンボードに書き込む</h2>
+<p>&#34;HelloWorld&#34; を表示しているウィンドウで<img style="width: 33.00px" src="img/6eda9a3a4a4958d7.png">ボタンをクリックします。</p>
+<p class="image-container"><img style="width: 301.00px" src="img/5d0e89810950c92c.png"></p>
+<p>スケッチのコンパイルと、スケッチの書き込みが始まります。</p>
+<aside class="special"><p>ボタンの代わりに［スケッチ］&gt;［マイコンボードに書き込む］でも同じです。</p>
+</aside>
+<p><strong>ボードへの書き込みが完了しました。</strong>と表示されたら正常終了です。</p>
+<p class="image-container"><img style="width: 400.00px" src="img/fc1fbc9ddc0a9784.png"></p>
+<h3 is-upgraded>エラーが発生した場合</h3>
+<table>
+<tr><td colspan="1" rowspan="1"><p><strong>そのポートは存在しないか、ボードが接続されていません</strong></p>
+</td><td colspan="1" rowspan="1"><p>複数のシリアルポートが存在する場合に表示されることがあります。</p>
+<p>M5Stack が接続されているシリアルポートを指定するようにしてください。(シリアルポートをいくつか試してみるのも一つの方法です。特に破損するようなことはありません)</p>
+<p>シリアルポートは［ツール］&gt;［シリアルポート: ...］で変更できます。</p>
+<p class="image-container"><img style="width: 414.50px" src="img/cb96c175f61ac9c1.png"></p>
+<p>※ この例では M5Stack は COM12 として認識されているため COM12 への変更が必要。</p>
+<p>macOS の場合は <code>/dev/tty.SLAB_USBtoUART</code> といったデバイス名で認識されています。</p>
+</td></tr>
+<tr><td colspan="1" rowspan="1"><p><strong>Failed to connect to ESP32</strong></p>
+</td><td colspan="1" rowspan="1"><p>何らかの理由で M5Stack が認識されなかった可能で氏があります。</p>
+<p>M5Stack の USB ケーブルを挿し直してみてください。</p>
+</td></tr>
+</table>
+<h2 is-upgraded>実行の様子</h2>
+<p>書き込みが完了すると M5Stack の電源が自動的に入り直し(リセット)され、中のスケッチが実行されます。</p>
+<p>M5Stack の画面に <strong>HelloWorld</strong> と表示されれば成功です。</p>
+<p class="image-container"><img style="width: 602.00px" src="img/967152896b42e41.png"></p>
+<h2 is-upgraded>その他のサンプルスケッチを実行してみる</h2>
+<p>［ファイル］&gt;［スケッチ例］&gt;［M5Stack］&gt;［Basics］&gt;［Display］では以下のように表示されます。</p>
+<p class="image-container"><img style="width: 426.00px" src="img/b4c51f3f4097f1d2.gif"></p>
+<p>以上で M5Stack 開発環境を Arduino IDE への追加するハンズオンは終了です。</p>
+
+
+      </google-codelab-step>
+    
+  </google-codelab>
+
+  <script src="https://soracom.github.io/iot-recipes/codelab-elements/native-shim.js"></script>
+  <script src="https://soracom.github.io/iot-recipes/codelab-elements/custom-elements.min.js"></script>
+  <script src="https://soracom.github.io/iot-recipes/codelab-elements/prettify.js"></script>
+  <script src="https://soracom.github.io/iot-recipes/codelab-elements/codelab-elements.js"></script>
+
+</body>
+</html>

@@ -113,6 +113,7 @@
 <li>USB ポートからの電力供給が1A以上であること。<br>※ 変換アダプタを利用する際には特にご注意ください。USB 3.0対応とあれば安心です。</li>
 <li>OS は macOS(10.11 El Capitan 以上) もしくは Windows(8.1 以上)。</li>
 <li>管理者権限を有しており、アプリケーションやドライバソフトウェアのインストールが自由であること。</li>
+<li>Arduino IDE と M5Stack 開発環境が整っていること (セットアップ方法は <a href="https://soracom.github.io/iot-recipes/setup-for-m5stack-with-arduino-ide/" target="_blank">【SORACOM ハンズオン】M5Stack 開発環境セットアップ (Windows / macOS 共通) (全体で約90分)</a> をご覧ください)</li>
 </ul>
 </td></tr>
 </table>
@@ -140,163 +141,6 @@
 <p>取り付け終わったら一番下から「BOTTOM」「3G拡張ボード」「Core※」と重ねていきます。</p>
 <p>※ Core = M5Stack の LCD(モニター)やボタンがついているモジュール</p>
 <p>以上で3G 拡張ボードへの SIM 取り付け作業は完了です。</p>
-
-
-      </google-codelab-step>
-    
-      <google-codelab-step label="開発環境のセットアップ" duration="40">
-        <h2 is-upgraded>Arduino IDE のセットアップ</h2>
-<p>Arduino IDE のインストールはArduino IDE セットアップ (<a href="https://soracom.github.io/iot-recipes/arduino-ide-windows/" target="_blank">Windows 編</a> / <a href="https://soracom.github.io/iot-recipes/arduino-ide-macos/" target="_blank">macOS 編</a>) をご覧ください。約15～20分ほどかかります。</p>
-<h2 is-upgraded>ESP32 用ボード定義のインストール</h2>
-<p>M5StackはマイコンにESP32を使用しています。Arduino IDEは標準ではESP32の開発環境が入っていませんが、環境設定から追加することができるため、その設定をおこないます。</p>
-<h3 is-upgraded>Arduino IDEのメニューから環境設定を開きます。</h3>
-<ul>
-<li>Windows の場合: ［ファイル］&gt;［環境設定］</li>
-<li>macOS の場合: ［Arduino］&gt;［Preferences...］</li>
-</ul>
-<p class="image-container"><img style="width: 524.00px" src="img/9db00416a5c4dd88.png"></p>
-<h3 is-upgraded><strong>追加のボードマネージャのURL</strong> の <img style="width: 35.00px" src="img/9f8203d4f688dc21.png"> をクリックします</h3>
-<p class="image-container"><img style="width: 602.00px" src="img/e4f171021e892774.png"></p>
-<p>※ 画面は macOS ですが、Windows も同様です。</p>
-<h3 is-upgraded>ボード定義の URL を入力します</h3>
-<p>テキストボックスに以下の URL を入力します。</p>
-<p><code>https://dl.espressif.com/dl/package_esp32_index.json</code></p>
-<p class="image-container"><img style="width: 602.00px" src="img/a24aaca857741c5f.png"></p>
-<p>入力したら［OK］をクリックします。</p>
-<aside class="special"><p><strong>すでに URL が入力されていたら？</strong></p>
-<p>別の開発を行っていてすでに URL が入力されていた場合は、一番下に追加してください。</p>
-<p class="image-container"><img style="width: 587.00px" src="img/dcfc74116ecf41c.png"></p>
-</aside>
-<h3 is-upgraded>OK をクリックします</h3>
-<p>環境設定のウィンドウに戻ってきたら［OK］をクリックします。</p>
-<p class="image-container"><img style="width: 602.00px" src="img/d0515e2cfa704058.png"></p>
-<h3 is-upgraded>［ツール］&gt;［ボード: ...］&gt;［ボードマネージャ...］をクリックします</h3>
-<p class="image-container"><img style="width: 602.00px" src="img/ee45150049592919.png"></p>
-<p>※ 画面は macOS ですが、Windows も同様です。</p>
-<h3 is-upgraded>&#34;esp32&#34; をインストールする</h3>
-<p>ボードマネージャの一覧から <strong>esp32</strong> (by Espressif Systems) を選んで［インストール］をクリックします。</p>
-<p>バージョンはインストール時における最新バージョンを選んでください。</p>
-<p>※ 約37MBのダウンロードが発生します。</p>
-<p class="image-container"><img style="width: 602.00px" src="img/8f20bebbb26a69d9.png"></p>
-<p>インストールが終了したら［閉じる］をクリックします。</p>
-<aside class="special"><p><strong>&#34;esp32&#34; を簡単に探し出す方法</strong></p>
-<p>検索用のテキストボックスへ <code>esp32</code> と入力すると素早く見つけることができます。</p>
-<p class="image-container"><img style="width: 587.00px" src="img/51573e2afd1e75c0.png"></p>
-</aside>
-<p>以上で、ESP32 用ボード定義のインストールは完了です。</p>
-<h2 is-upgraded>M5Stack 用ライブラリのインストール</h2>
-<p>M5Stack用のライブラリをインストールします。</p>
-<h3 is-upgraded>［スケッチ］&gt;［ライブラリをインクルード］&gt;［ライブラリを管理...］をクリックします</h3>
-<p class="image-container"><img style="width: 602.00px" src="img/41f6da411abfe840.png"></p>
-<p>※ 画面は macOS ですが、Windows も同様です。</p>
-<h3 is-upgraded>&#34;M5Stack&#34; をインストールする</h3>
-<p>ライブラリマネージャの一覧から <strong>M5Stack</strong> (by M5Stack) を選んで［インストール］をクリックします。</p>
-<p>バージョンはインストール時における最新バージョンを選んでください。</p>
-<p>※ 約6MBのダウンロードが発生します。</p>
-<p class="image-container"><img style="width: 602.00px" src="img/47c00c910bf6643f.png"></p>
-<p>インストールが終了したら［閉じる］をクリックします。</p>
-<p>※ 画面上は &#34;OK&#34; となっていますが、インストールが完了すると &#34;閉じる&#34; になります。</p>
-<aside class="special"><p><strong>&#34;M5Stack&#34; を簡単に探し出す方法</strong></p>
-<p>検索用のテキストボックスへ <code>m5stack core</code> と入力すると素早く見つけることができます。</p>
-<p class="image-container"><img style="width: 587.00px" src="img/1fad6eb935880211.png"></p>
-</aside>
-<h2 is-upgraded>仮想シリアルポートドライバのインストール</h2>
-<p>M5Stack へのプログラム書込みや、M5Stack の出力のモニタリングは仮想的なシリアルポートを通じて行います。</p>
-<p><a href="https://m5stack.com/pages/download" target="_blank">M5Stack 公式サイトのダウンロードページ</a>の <strong>CP2104 Driver</strong> をお使いのOSに合わせてダウンロードします。</p>
-<p class="image-container"><img style="width: 515.00px" src="img/3d23de9ba643d58e.png"></p>
-<h3 is-upgraded>インストール: Windows の場合</h3>
-<p>ZIP ファイルを展開し、中の <code>CP210xVCPInstaller_x64_v6.7.0.0.exe</code> をダブルクリックして実行し、表示されるダイアログにしたがってインストールを完了してください。</p>
-<aside class="warning"><p>似たようなファイル名がありますが、ファイル名の中に <strong>x64</strong> が含まれているものがインストーラーです。</p>
-</aside>
-<h3 is-upgraded>インストール: macOS の場合</h3>
-<p>ZIP ファイルを展開し、中の <code>SiLabsUSBDriverDisk.dmg</code> をダブルクリックします。その後表示される <code>Silicon Labs VCP Driver.pkg</code> をダブルクリックして、表示されるダイアログにしたがってインストールを完了してください。</p>
-<aside class="special"><p>インストールが完了したら、Finder のデバイスに表示されている <strong>Silicon Labs VCP Driver Install Disk</strong> は不要となります。取出しをしてください。</p>
-</aside>
-<p>ここまでで M5Stack の開発環境の準備は完了です。</p>
-
-
-      </google-codelab-step>
-    
-      <google-codelab-step label="開発環境の整備状況を確認する (サンプルスケッチのコンパイル)" duration="15">
-        <p>ここまでのセットアップが正常にできているか、実際にサンプルのプログラム (スケッチと呼ばれる) をコンパイルしてみます。</p>
-<p>ここでは M5Stack 実機はまだ使用しません。</p>
-<h2 is-upgraded>ボード定義を &#34;M5Stack-Core-EPS32&#34; に変更する</h2>
-<p>［ツール］&gt;［ボード: ...］&gt;［M5Stack-Core-ESP32］をクリックします。</p>
-<p class="image-container"><img style="width: 593.00px" src="img/6e4ccad4f9b0cb44.png"></p>
-<p>※ 画面は Windows ですが macOS も同様です。</p>
-<aside class="warning"><p><strong>M5Stack-Core-ESP32 が見つからなかったら？</strong></p>
-<ul>
-<li><strong>リストの下の方までスクロールしてみてください。</strong>リストが多い事から埋もれてしまっていることがあります。</li>
-<li>一つ前のページに戻り、 <strong>ESP32 用ボード定義のインストール</strong>を行ってください。</li>
-</ul>
-</aside>
-<h2 is-upgraded>サンプルスケッチ &#34;HelloWorld&#34; を開く</h2>
-<p>［ファイル］&gt;［スケッチ例］&gt;［M5Stack］&gt;［Basics］&gt;［HelloWorld］をクリックします。</p>
-<p class="image-container"><img style="width: 602.00px" src="img/364c59585db32b07.png"></p>
-<aside class="warning"><p><strong>&#34;スケッチ例&#34; に M5Stack が見つからなかったら？</strong></p>
-<ul>
-<li>一つ前の手順に戻り、<strong>ボードで M5Stack-Core-ESP32 を選んでください</strong>。<br>※ 今選択されているボードは Arduino IDE ウィンドウの右下に表示されています。<br><img style="width: 448.00px" src="img/c9436ede52bedb20.png"></li>
-<li>一つ前のページに戻り、 <strong>M5Stack 用ライブラリのインストール</strong>を行ってください。</li>
-</ul>
-</aside>
-<h2 is-upgraded>コンパイルをする</h2>
-<p>新しく開いたウィンドウで<img style="width: 33.00px" src="img/9951d88204453fb.png">ボタンをクリックします。スケッチのコンパイルが始まります。</p>
-<p>ウィンドウの下部で進行状況が確認できます。</p>
-<p class="image-container"><img style="width: 420.00px" src="img/5c9c20eee8f82c21.png"></p>
-<aside class="special"><p>ボタンの代わりに［スケッチ］&gt;［検証・コンパイル］でも同じです。</p>
-</aside>
-<p>進行状況の部分に<strong>コンパイルが完了しました。</strong>と表示されれば、開発環境は正しくセットアップできています。</p>
-<p class="image-container"><img style="width: 354.00px" src="img/9969ceb4e8dd3ee9.png"></p>
-<aside class="warning"><p><strong>コンパイルの時間について</strong></p>
-<p>コンパイルで必要とする時間はパソコンのスペックに寄ります。早くて 1~2分、遅いと5分程度掛かることがあります。なるべくスペックの良いパソコンで行うことをお勧めいたします。</p>
-</aside>
-<h3 is-upgraded>エラー発生時の対処</h3>
-<p>コンパイル時にエラーが発生すると以下のように表示されます。</p>
-<p>ここまでのセットアップで不備が無かったか、再度確認してください。</p>
-<p class="image-container"><img style="width: 602.00px" src="img/c5221d0096063ce4.png"></p>
-<p>※ エラーメッセージは一例です。他にも複数のパターンがあります。</p>
-
-
-      </google-codelab-step>
-    
-      <google-codelab-step label="開発環境の整備状況を確認する (サンプルスケッチを実行する)" duration="20">
-        <p>いよいよ M5Stack 本体でスケッチを実行します。</p>
-<h2 is-upgraded>M5Stack をパソコンにつなげる</h2>
-<p>M5Stack 本体と USB ケーブルを用意して接続してください。</p>
-<p>この時 M5Stack の電源が自動的に ON になる場合もありますが特に問題ありません。</p>
-<p class="image-container"><img style="width: 602.00px" src="img/bea6b51b8cf33f60.png"></p>
-<h2 is-upgraded>サンプルスケッチ &#34;HelloWorld&#34; を開く</h2>
-<p>［ファイル］&gt;［スケッチ例］&gt;［M5Stack］&gt;［Basics］&gt;［HelloWorld］をクリックします。</p>
-<aside class="special"><p>すでに開いている &#34;HelloWorld&#34; があれば、それを利用することもできます。</p>
-</aside>
-<h2 is-upgraded>マイコンボードに書き込む</h2>
-<p>&#34;HelloWorld&#34; を表示しているウィンドウで<img style="width: 33.00px" src="img/6eda9a3a4a4958d7.png">ボタンをクリックします。スケッチのコンパイルと、スケッチの書き込みが始まります。</p>
-<aside class="special"><p>ボタンの代わりに［スケッチ］&gt;［マイコンボードに書き込む］でも同じです。</p>
-</aside>
-<p><strong>ボードへの書き込みが完了しました。</strong>と表示されたら正常終了です。</p>
-<p class="image-container"><img style="width: 400.00px" src="img/fc1fbc9ddc0a9784.png"></p>
-<h3 is-upgraded>エラーが発生した場合</h3>
-<table>
-<tr><td colspan="1" rowspan="1"><p><strong>そのポートは存在しないか、ボードが接続されていません</strong></p>
-</td><td colspan="1" rowspan="1"><p>複数のシリアルポートが存在する場合に表示されることがあります。</p>
-<p>M5Stack が接続されているシリアルポートを指定するようにしてください。(シリアルポートをいくつか試してみるのも一つの方法です。特に破損するようなことはありません)</p>
-<p>シリアルポートは［ツール］&gt;［シリアルポート: ...］で変更できます。</p>
-<p class="image-container"><img style="width: 414.50px" src="img/cb96c175f61ac9c1.png"></p>
-<p>※ この例では M5Stack は COM12 として認識されているため COM12 への変更が必要。</p>
-<p>macOS の場合は <code>/dev/tty.SLAB_USBtoUART</code> といったデバイス名で認識されています。</p>
-</td></tr>
-<tr><td colspan="1" rowspan="1"><p><strong>Failed to connect to ESP32</strong></p>
-</td><td colspan="1" rowspan="1"><p>何らかの理由で M5Stack が認識されなかった可能で氏があります。</p>
-<p>M5Stack の USB ケーブルを挿し直してみてください。</p>
-</td></tr>
-</table>
-<h2 is-upgraded>実行の様子</h2>
-<p>書き込みが完了すると M5Stack の電源が自動的に入り直し(リセット)され、中のスケッチが実行されます。</p>
-<p>M5Stack の画面に <strong>HelloWorld</strong> と表示されれば成功です。</p>
-<p class="image-container"><img style="width: 602.00px" src="img/967152896b42e41.png"></p>
-<h2 is-upgraded>その他のサンプルスケッチを実行してみる</h2>
-<p>［ファイル］&gt;［スケッチ例］&gt;［M5Stack］&gt;［Basics］&gt;［Display］では以下のように表示されます。</p>
-<p class="image-container"><img style="width: 426.00px" src="img/b4c51f3f4097f1d2.gif"></p>
 
 
       </google-codelab-step>
@@ -454,7 +298,7 @@ void loop() {
     
       <google-codelab-step label="Yahoo! デベロッパーネットワークへのアプリケーション登録" duration="15">
         <p>雨雲レーダーの情報は Yahoo! デベロッパーネットワーク (YOLP) を利用します。YOLPに「アプリケーション登録」すると、Web API で利用できる情報が入手できます。</p>
-<h3 is-upgraded><a href="https://e.developer.yahoo.co.jp/dashboard/" target="_blank">YOLP アプリケーションの管理</a>を開き［新しいアプリケーションを開発］をクリックします</h3>
+<h2 is-upgraded><a href="https://e.developer.yahoo.co.jp/dashboard/" target="_blank">YOLP アプリケーションの管理</a>を開き［新しいアプリケーションを開発］をクリックします</h2>
 <p class="image-container"><img style="width: 602.00px" src="img/40dd5f09f4d55c9a.png"></p>
 <h3 is-upgraded>アプリケーション情報の入力で以下のように入力します</h3>
 <table>
@@ -665,19 +509,19 @@ uint16_t getColor(uint8_t red, uint8_t green, uint8_t blue) {
 <p>SORACOM サービスのほとんどが<strong>グループ</strong>という単位に対して設定するようになっています。SORACOM Harvest Data 等、SORACOM サービスのほとんどが SIM に直接設定をするのではなくグループに設定をします。そして、SIM をグループに所属させることで SORACOM サービスが利用できるという間接的な仕組みです。<img style="width: 602.00px" src="img/fd2af18169d2111a.png"></p>
 <p>グループを作成してから SIM を所属させる方法の他、グループの作成と SIM の所属を同時に行う方法もあります。本レシピでは後者の「同時に行う」手順で進めていきます。</p>
 </aside>
-<h3 is-upgraded><a href="https://console.soracom.io/" target="_blank">SORACOM ユーザーコンソール</a>にログインした後［Menu］&gt;［SIM 管理］とクリックして SIM 管理画面を開きます。</h3>
+<h2 is-upgraded><a href="https://console.soracom.io/" target="_blank">SORACOM ユーザーコンソール</a>にログインした後［Menu］&gt;［SIM 管理］とクリックして SIM 管理画面を開きます。</h2>
 <p class="image-container"><img style="width: 566.00px" src="img/c4968675c5a9a1c8.png"></p>
 <aside class="warning"><p><strong>［SIM 管理］をクリックしても画面が切り替わらない場合は？</strong></p>
 <p>すでに SIM 管理画面を開いている場合は、［SIM 管理］をクリックしても画面が切り替わることがありません。その場合、青の点線で囲まれている「SORACOM ロゴ」をクリックすることでメニューを閉じることができます。</p>
 </aside>
-<h3 is-upgraded>M5Stack に取り付けた SIM にチェックを付け、［操作］&gt;［所属グループ変更］とクリックします。</h3>
+<h2 is-upgraded>M5Stack に取り付けた SIM にチェックを付け、［操作］&gt;［所属グループ変更］とクリックします。</h2>
 <p class="image-container"><img style="width: 602.00px" src="img/f27d0ddf2224ee5f.png"></p>
 <aside class="special"><p><strong>SORACOM の便利な使い方: 複数の SIM を同時に扱う</strong></p>
 <p>チェックをつける対象を複数にすれば、一度の複数の SIM を対象に操作が可能です。</p>
 </aside>
-<h3 is-upgraded>「新しい所属グループ」のプルダウンボックスをクリックした後、［新しいグループを作成...］をクリックします。</h3>
+<h2 is-upgraded>「新しい所属グループ」のプルダウンボックスをクリックした後、［新しいグループを作成...］をクリックします。</h2>
 <p class="image-container"><img style="width: 602.00px" src="img/9cf95365d7028f2c.png"></p>
-<h3 is-upgraded>「グループ作成」のグループ名を入力して［グループ作成］をクリックします。</h3>
+<h2 is-upgraded>「グループ作成」のグループ名を入力して［グループ作成］をクリックします。</h2>
 <table>
 <tr><td colspan="1" rowspan="1"><p><strong>項目</strong></p>
 </td><td colspan="1" rowspan="1"><p><strong>例</strong></p>
@@ -689,18 +533,18 @@ uint16_t getColor(uint8_t red, uint8_t green, uint8_t blue) {
 </td></tr>
 </table>
 <p class="image-container"><img style="width: 385.00px" src="img/f9baefb1e651ba53.png"></p>
-<h3 is-upgraded>新しい所属グループが先ほど作成したグループになっていることを確認したら［グループ変更］をクリックします。</h3>
+<h2 is-upgraded>新しい所属グループが先ほど作成したグループになっていることを確認したら［グループ変更］をクリックします。</h2>
 <p class="image-container"><img style="width: 602.00px" src="img/2f0c04d1ec751165.png"></p>
-<h3 is-upgraded>自動的に SIM 管理画面に戻ります。<br>SIM の「グループ」に先ほど作ったグループが設定されていることを確認してください。</h3>
+<h2 is-upgraded>自動的に SIM 管理画面に戻ります。<br>SIM の「グループ」に先ほど作ったグループが設定されていることを確認してください。</h2>
 <p class="image-container"><img style="width: 602.00px" src="img/38d24ad0c9f7f898.png"></p>
 <p>以上で、グループの作成と所属の作業は完了です。</p>
-<h3 is-upgraded>SIM 管理画面から、先ほど割り当てたグループ名をクリックします。</h3>
+<h2 is-upgraded>SIM 管理画面から、先ほど割り当てたグループ名をクリックします。</h2>
 <p class="image-container"><img style="width: 602.00px" src="img/806e78c3af226e3.png"></p>
-<h3 is-upgraded>［SORACOM Beam 設定］をクリックして設定ができるように開きます。</h3>
+<h2 is-upgraded>［SORACOM Beam 設定］をクリックして設定ができるように開きます。</h2>
 <p class="image-container"><img style="width: 557.00px" src="img/4e71a7d1f0b44cd0.png"></p>
-<h3 is-upgraded>SORACOM Beam 設定の<img style="width: 58.00px" src="img/411d3d044b4247dd.png">をクリックして表示されたメニューの中から HTTP エントリーポイントをクリックします。</h3>
+<h2 is-upgraded>SORACOM Beam 設定の<img style="width: 58.00px" src="img/411d3d044b4247dd.png">をクリックして表示されたメニューの中から HTTP エントリーポイントをクリックします。</h2>
 <p class="image-container"><img style="width: 306.00px" src="img/468b1f5f68281f8c.png"></p>
-<h3 is-upgraded>「SORACOM Beam - HTTP 設定」では以下のように入力します。</h3>
+<h2 is-upgraded>「SORACOM Beam - HTTP 設定」では以下のように入力します。</h2>
 <table>
 <tr><td colspan="1" rowspan="1"><p>エントリポイント</p>
 </td><td colspan="1" rowspan="1"><p>パス</p>
