@@ -1,0 +1,672 @@
+
+<!doctype html>
+
+<html>
+<head>
+  <meta name="viewport" content="width=device-width, minimum-scale=1.0, initial-scale=1.0, user-scalable=yes">
+  <meta name="theme-color" content="#4F7DC9">
+  <meta charset="UTF-8">
+  <title>【IoT DIY レシピ】Raspberry Pi と USB カメラで作る「定点カメラデバイス」</title>
+  <link rel="stylesheet" href="//fonts.googleapis.com/css?family=Source+Code+Pro:400|Roboto:400,300,400italic,500,700|Roboto+Mono">
+  <link rel="stylesheet" href="//fonts.googleapis.com/icon?family=Material+Icons">
+  <link rel="stylesheet" href="https://soracom.github.io/iot-recipes/codelab-elements/codelab-elements.css">
+  <style>
+    .success {
+      color: #1e8e3e;
+    }
+    .error {
+      color: red;
+    }
+  </style>
+</head>
+<body>
+  <google-codelab-analytics gaid="UA-66865146-33"></google-codelab-analytics>
+  <google-codelab codelab-gaid=""
+                  id="site-viewer-by-raspberry-pi"
+                  title="【IoT DIY レシピ】Raspberry Pi と USB カメラで作る「定点カメラデバイス」"
+                  environment="web"
+                  feedback-link="https://soracom.jp/products/kit/camera_kit/">
+    
+      <google-codelab-step label="Raspberry Pi と USB カメラで作る「定点カメラデバイス」" duration="1">
+        <p>レシピ難易度：★★★★☆</p>
+<p>お家のペットやご家族の見守りがしたい、防犯用にカメラを取り付けたいと思ったことはありませんか？本レシピでは、プロトタイピングから実際のビジネス現場でも幅広く活用される Raspberry Pi と USB カメラを使い、DIYで作る簡単な定点カメラデバイスを作成します。</p>
+<p class="image-container"><img style="width: 602.00px" src="img/3bdf4d74a1b8e59c.png"></p>
+<p>本レシピは、動画コンテンツも用意しております。本レシピの動いている様子を、映像で確認できますので、ぜひ動画もご覧ください。</p>
+<h3 is-upgraded>Raspberry Pi と USB カメラの接続・認識まで</h3>
+<iframe class="youtube-video" src="https://www.youtube.com/embed/TTH5BCXSEwk?rel=0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+<h3 is-upgraded>定点画像を SORACOM Lagoon で表示</h3>
+<iframe class="youtube-video" src="https://www.youtube.com/embed/MlAJKAlZjno?rel=0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+<h2 is-upgraded>本レシピを行うのに必要な時間、概算費用</h2>
+<p>本レシピは以下の通りです。</p>
+<ul>
+<li>必要な時間: 約2時間30分</li>
+<li>概算費用: 約20,500円</li>
+</ul>
+<p>※ 概算費用: ハードウェアや SORACOM を始めとした各種サービスの概ねの費用 (税や送料などの付帯費用や無料枠適用は考慮しないものとしています)</p>
+<h2 is-upgraded>このコンテンツの進め方</h2>
+<p>ページの内容を読み、また作業を行ったら右下の［Next］を押して次のステップへ進みます。また、［Back］を使って戻ったり、左のナビゲーションメニューでもページの移動が可能です。</p>
+<p>左上の［×］を押してコンテンツを終了することができます。また、ページを開きなおすことで再開できます。ページのアドレスはブラウザの［履歴］メニューを利用してください。</p>
+
+<aside class="warning"><p>本コンテンツは現状のままで提供され、株式会社ソラコムは、誤りがないことの保証を含め、明示であると黙示であるとを問わず、本コンテンツの記載内容につき、いかなる種類の表明も保証も行いません。</p>
+<p>掲載情報の閲覧及び利用により、利用者自身、もしくは第三者が被った損害に対して、直接的、間接的を問わず、株式会社ソラコムは責任を負いかねます。</p>
+<p>本コンテンツを実践する中で用意された機器、利用されたサービスについてのご質問は、それぞれの機器やサービスの提供元にお問い合わせをお願いします。機器やサービスの仕様は、本コンテンツ作成当時のものです。</p>
+<p>株式会社ソラコムが提供する機器・サービスについてのご質問は、 <a href="https://soracom.jp/contact/" target="_blank">https://soracom.jp/contact/</a> をご確認の上、適切な窓口へのお問い合わせをお願いします。機器・サービスご利用前の導入相談は <a href="https://soracom.jp/contact/contactsales/" target="_blank">https://soracom.jp/contact/contactsales/</a> に、機器・サービスご利用開始後のサポートは、SORACOMユーザーコンソール内の<a href="https://soracom.zendesk.com/hc/ja/requests/" target="_blank">サポートサイトから「リクエストを送信」</a>(要ログイン)にてお問い合わせください。</p>
+<p>本ドキュメントは <a href="https://github.com/googlecodelabs/tools" target="_blank">CLaaT</a> を用いて制作しています。</p>
+<p>Copyright (c) 2020 SORACOM, INC.</p>
+</aside>
+
+
+
+      </google-codelab-step>
+    
+      <google-codelab-step label="準備" duration="1">
+        <p>本レシピを行うためには以下のものをご用意ください。</p>
+<h2 is-upgraded>ハードウェア</h2>
+<table>
+<tr><td colspan="1" rowspan="1"><p><strong>品名</strong></p>
+</td><td colspan="1" rowspan="1"><p><strong>数量</strong></p>
+</td><td colspan="1" rowspan="1"><p><strong>価格</strong></p>
+</td><td colspan="1" rowspan="1"><p><strong>購入先</strong></p>
+</td><td colspan="1" rowspan="1"><p><strong>備考</strong></p>
+</td></tr>
+<tr><td colspan="1" rowspan="1"><p>IoT 体験キット 〜簡易監視カメラ〜</p>
+</td><td colspan="1" rowspan="1"><p>1</p>
+</td><td colspan="1" rowspan="1"><p>16,980円</p>
+</td><td colspan="1" rowspan="1"><p><a href="https://soracom.jp/products/kit/camera_kit/" target="_blank">ソラコム</a></p>
+</td><td colspan="1" rowspan="1"><p>キットの中には以下のものが含まれています。(それぞれを個別に準備しても構いません)</p>
+<ul>
+<li>Raspberry Pi 3 Model B+ 本体 x 1</li>
+<li>Raspberry Pi 3 用電源アダプタ x 1</li>
+<li>microSD (16GB以上) x 1</li>
+<li>USB カメラ (UVC 対応型) x 1</li>
+<li>AK-020 (USB ドングル型モデム) x 1</li>
+<li>SORACOM 特定地域向け IoT SIM (plan-D 標準サイズ) x 1</li>
+</ul>
+</td></tr>
+<tr><td colspan="1" rowspan="1"><p>microSD カードリーダー</p>
+</td><td colspan="1" rowspan="1"><p>1</p>
+</td><td colspan="1" rowspan="1"><p>約1,600円</p>
+</td><td colspan="1" rowspan="1"><p>―</p>
+</td><td colspan="1" rowspan="1"><p>microSD にパソコンから書き込めるようにするために必要です。(例: <a href="https://www.amazon.co.jp/dp/B00TMYLK1I/" target="_blank">エレコム カードリーダー MR3-C008BK</a>)</p>
+</td></tr>
+<tr><td colspan="1" rowspan="1"><p>有線 LAN (USB 型のアダプタ等形状問わず)</p>
+</td><td colspan="1" rowspan="1"><p>1</p>
+</td><td colspan="1" rowspan="1"><p>約1,600円</p>
+</td><td colspan="1" rowspan="1"><p>―</p>
+</td><td colspan="1" rowspan="1"><p>パソコンと Raspberry Pi の通信に必要です。(例: <a href="https://www.amazon.co.jp/dp/B07VG66XX3/" target="_blank">BUFFALO 有線LANアダプター LUA4-U3-AGTE-NBK</a>)</p>
+</td></tr>
+<tr><td colspan="1" rowspan="1"><p>有線 LAN ケーブル</p>
+</td><td colspan="1" rowspan="1"><p>1</p>
+</td><td colspan="1" rowspan="1"><p>―</p>
+</td><td colspan="1" rowspan="1"><p>―</p>
+</td><td colspan="1" rowspan="1"><p>パソコンと Raspberry Pi の通信に必要です。</p>
+</td></tr>
+</table>
+<p>※ 金額はレシピ作成時となります。ソラコムで販売している金額は税抜き・送料別です。</p>
+<h2 is-upgraded>その他必要なもの</h2>
+<table>
+<tr><td colspan="1" rowspan="1"><p><strong>必要なもの</strong></p>
+</td><td colspan="1" rowspan="1"><p><strong>費用</strong></p>
+</td><td colspan="1" rowspan="1"><p><strong>作成方法など</strong></p>
+</td></tr>
+<tr><td colspan="1" rowspan="1"><p>SORACOM アカウント</p>
+</td><td colspan="1" rowspan="1"><p>無料※</p>
+</td><td colspan="1" rowspan="1"><p><a href="https://soracom.github.io/iot-recipes/create-account-soracom-jp/" target="_blank">SORACOM アカウントの作成 (JP)</a></p>
+</td></tr>
+<tr><td colspan="1" rowspan="1"><p>パソコン</p>
+</td><td colspan="1" rowspan="1"><p>―</p>
+</td><td colspan="1" rowspan="1"><ul>
+<li>インターネット接続が可能でサイトへの接続が自由であること。</li>
+<li>Google Chrome 等の最新ブラウザーが利用可能な事。</li>
+<li>USB ポートが1つ以上あること。</li>
+</ul>
+</td></tr>
+</table>
+<p>※ アカウント作成・維持の費用の料金です。</p>
+
+
+      </google-codelab-step>
+    
+      <google-codelab-step label="IoT 体験キット 〜簡易監視カメラ〜 が届いたら" duration="5">
+        <p>IoT 体験キット 〜簡易監視カメラ〜(以下、IoT 体験キット) に同梱されている SIM は、SORACOM に登録することで通信が出来るようになります。そのため、まず IoT 体験キットに同梱されている SIM を SORACOM へ登録をしましょう。<br>※ すでに登録済み、もしくは登録済みの別の SIM を利用する場合は次へお進みください。</p>
+<p>登録の方法は<a href="https://soracom.github.io/iot-recipes/register-ordering-sim-jp/" target="_blank">発注済みの SIM を登録する(JP)</a>をご覧ください。約5分で完了します。</p>
+<p>登録が完了すると SIM 管理の一覧に表示されますので、確認ください。</p>
+<p class="image-container"><img style="width: 602.00px" src="img/f0af04540ce9c1c7.png"></p>
+<aside class="special"><p><strong>SORACOM の便利な使い方: SIM の「名前」機能</strong></p>
+<p>SIM には「名前」を付けることができ、これで整理が可能です。特に複数の SIM (ボタン含む) をお持ちの際には、名前を付けることを強くお勧めいたします。</p>
+<p>名前の付け方は <a href="https://dev.soracom.io/jp/start/console/#name_tag" target="_blank">SIM への名前の付け方</a>をご覧ください。</p>
+</aside>
+
+
+      </google-codelab-step>
+    
+      <google-codelab-step label="Raspberry Pi 用 OS &#34;Raspbian&#34; を microSD に書き込む" duration="20">
+        <h2 is-upgraded>Raspberry Pi Imager をダウンロードします。</h2>
+<p><a href="https://www.raspberrypi.org/downloads/" target="_blank">Raspberry Pi のダウンロードページ</a>を開き、OS に合った Raspberry Pi Imager をダウンロードします。</p>
+<p class="image-container"><img style="width: 602.00px" src="img/4be71d714f9c35.png"></p>
+<h2 is-upgraded>Raspberry Pi Imager をインストールします。</h2>
+<h3 is-upgraded>Windows の場合</h3>
+<p>ダウンロードした <code>imager.exe</code> を実行し、インストーラーの指示に従ってインストールを完了します。</p>
+<p class="image-container"><img style="width: 596.00px" src="img/a86cce01b57fd6c0.png"></p>
+<p>インストール完了時の &#34;Run Raspberry Pi Imager&#34; はチェックを外した状態で［Finish］をクリックします。</p>
+<h3 is-upgraded>macOS の場合</h3>
+<p>ダウンロードした <code>imager.dmg</code> を実行し、 <strong>Raspberry Pi Imager</strong> を Applications (アプリケーション) フォルダへコピーします。</p>
+<p class="image-container"><img style="width: 562.00px" src="img/93f4bbaf28bf9e1c.png"></p>
+<aside class="special"><p>インストールが完了したら、Finder のデバイスに表示されている <strong>Raspberry Pi Imager</strong> は不要となります。取出しをしてください。</p>
+</aside>
+<h2 is-upgraded>Raspberry Pi Imager を利用して microSD カードに書き込む</h2>
+<p>手順は動画をご覧ください。</p>
+<iframe class="youtube-video" src="https://www.youtube.com/embed/J024soVgEeM?rel=0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+<h3 is-upgraded>注意点: STEP2 における Raspberry Pi Imager の起動の方法</h3>
+<table>
+<tr><td colspan="1" rowspan="1"><p>Windows</p>
+</td><td colspan="1" rowspan="1"><p>［スタートメニュー］&gt; &#34;Raspberry Pi Imager&#34;</p>
+</td></tr>
+<tr><td colspan="1" rowspan="1"><p>macOS</p>
+</td><td colspan="1" rowspan="1"><p>［Finder］&gt;［アプリケーション フォルダ］&gt; &#34;Raspberry Pi Imager&#34;</p>
+</td></tr>
+</table>
+<p>macOS で初回起動時に「インターネットからダウンロードされたアプリケーションです」のダイアログが表示された場合は［OK］をクリックして進めてください。</p>
+<p>書き込みが完了したら microSD カードを取り出してください。</p>
+
+
+      </google-codelab-step>
+    
+      <google-codelab-step label="microSD に追加の設定を書き込む / SSH サービス有効化と Wi-Fi の事前設定" duration="10">
+        <p>Raspberry Pi の起動時に、Wi-Fi への接続と SSH サービスの待ち受けをするように設定を加えます。</p>
+<h2 is-upgraded>ファイルの作成</h2>
+<p>以下二つのファイルを作成します。テキストエディタで作成してください。</p>
+<ul>
+<li>wpa_supplicant.conf</li>
+<li>ssh</li>
+</ul>
+<h3 is-upgraded>wpa_supplicant.conf</h3>
+<pre><code>ctrl_interface=DIR=/var/run/wpa_supplicant GROUP=netdev
+country=JP
+update_config=1
+
+network={
+    ssid=&#34;YOUR_WIFI_AP_SSID1&#34;
+    psk=&#34;password1&#34;
+}
+
+network={
+    ssid=&#34;YOUR_WIFI_AP_SSID2&#34;
+    psk=&#34;password2&#34;
+}</code></pre>
+<p>このファイルは Raspberry Pi 起動時に接続する Wi-Fi のアクセスポイントをあらかじめ書いておくことができます。 <code>YOUR_WIFI_AP_SSID1</code> や <code>password1</code> を皆さんのご家庭もしくは職場の環境に合わせて書き換えてください。</p>
+<ul>
+<li><code>network={...</code> の <code>ssid=</code> には SSID を、 <code>psk=</code> にはパスフレーズを書きます。</li>
+<li><code>network={...}</code> は複数書くことができるので、家や職場を指定しておくと便利です。(一つでも問題ありません)</li>
+</ul>
+<aside class="warning"><p>特に職場の Wi-Fi を利用する際には、ネットワーク管理者の了解を取るようにしてください。また、Wi-Fi 接続時に Web ブラウザ等による認証が必要なネットワークは利用できません。</p>
+</aside>
+<h3 is-upgraded>ssh</h3>
+<pre><code></code></pre>
+<p>このファイルは「存在する事」が重要です。ファイルの中身は「空 (=0バイト)」にしてください。</p>
+<h2 is-upgraded>2ファイルを microSD の &#34;boot&#34; にコピーする</h2>
+<p>一度取り出した microSD を再度パソコンに取り付けます。boot と表示されたディスクが現れるのを確認してください。</p>
+<p>その後、先ほどの 2 ファイルを &#34;boot&#34; にコピーします。</p>
+<p class="image-container"><img style="width: 594.00px" src="img/b3c9a091ac92f113.png"></p>
+<p>※画面は macOSですが、Windows も同様です。</p>
+<p>コピーが完了したら microSD を取り出してください。</p>
+
+
+      </google-codelab-step>
+    
+      <google-codelab-step label="Raspberry Pi の起動から SSH ログイン、OS の最新化まで" duration="20">
+        <h2 is-upgraded>Raspberry Pi の電源 ON</h2>
+<h3 is-upgraded>microSD を Raspberry Pi に取り付けます</h3>
+<p>少し残りますが奥までしっかりと刺さっていれば問題ありません。</p>
+<p class="image-container"><img style="width: 602.00px" src="img/b6a6709f57a7fe94.png"></p>
+<h3 is-upgraded>有線 LAN で Raspberry Pi とパソコンを接続</h3>
+<p>Raspberry Pi の有線 LAN ポートと、パソコンの有線 LAN ポートをケーブルで接続します。</p>
+<h3 is-upgraded>Raspberry Pi に microUSB (電源ケーブル) を接続</h3>
+<p>ケーブルを挿すと、電源 ON となります。（電源スイッチのようなものがありません）</p>
+<p class="image-container"><img style="width: 602.00px" src="img/b6df23dd8c412c12.png"></p>
+<p>しばらく経過(約1~2分)すると macOS もしくは Windows 10 から Raspberry Pi へリモートログイン出来るようになります。</p>
+<h2 is-upgraded>SSH リモートログインの方法</h2>
+<h3 is-upgraded>Windows の場合</h3>
+<p>スタートメニューから「コマンドプロンプト」を起動します。</p>
+<p>コマンドプロンプトで以下のように入力して実行します。</p>
+<pre><code>ssh pi@raspberrypi.local</code></pre>
+<ul>
+<li><code>Are you sure you want to continue connecting (yes/no)?</code> との問いには yes と入力します。</li>
+<li>初期パスワードは <a href="https://www.raspberrypi.org/documentation/linux/usage/users.md" target="_blank">Raspbian のドキュメント</a> に記載されていますので、それを利用してログインしてください。</li>
+</ul>
+<aside class="warning"><p>Windows 10の以前の場合(Windows 10 の最新版でない場合も同様)は、 <a href="https://support.apple.com/ja_JP/downloads/itunes" target="_blank">Windows 用 Apple iTunes をインストール</a>しないと Host not found となり、接続ができない場合があります。 (原因は mDNS が必要なため)</p>
+<p>また、Raspberry Pi の<strong>電源が ON になる前</strong>にパソコンと有線 LAN で接続しないと、SSH リモートログインできない場合があります。</p>
+</aside>
+<h3 is-upgraded>macOS の場合</h3>
+<p>［Finder］&gt;［アプリケーション］&gt;［ユーティリティ］&gt;［ターミナル］を起動します。</p>
+<aside class="special"><p>Spotlight (検索) から &#34;Terminal.app&#34; を探して起動する方法もあります。</p>
+</aside>
+<p>Terminal.app で以下のように入力して実行します。</p>
+<pre><code>ssh pi@raspberrypi.local</code></pre>
+<ul>
+<li><code>Are you sure you want to continue connecting (yes/no)?</code> との問いには yes と入力します。</li>
+<li>初期パスワードは <a href="https://www.raspberrypi.org/documentation/linux/usage/users.md" target="_blank">Raspbian のドキュメント</a> に記載されていますので、それを利用してログインしてください。</li>
+</ul>
+<h2 is-upgraded>OS の最新化</h2>
+<p>以降は Windows、macOS 共通の作業です。</p>
+<p>Raspberry Pi へ SSH リモートログインしたあと、Raspberry Pi 側で以下を実行します。</p>
+<pre><code>sudo timedatectl set-timezone Asia/Tokyo
+sudo apt update &amp;&amp; sudo apt upgrade -y
+sudo systemctl reboot</code></pre>
+<p>最後の1行で再起動となります。</p>
+<aside class="special"><p><strong>SSH リモートログイン終了の方法</strong></p>
+<p>Raspberry Pi 側で以下を実行します。</p>
+<p><code>exit</code></p>
+<p>これで終了となります。コマンドプロンプト、もしくは Terminal.app を閉じることができます。</p>
+</aside>
+<aside class="special"><p><strong>電源 OFF の方法</strong></p>
+<p>電源を OFF にする場合は SSH リモートログインした後、Raspberry Pi 側で以下を実行します。</p>
+<p><code>sudo systemctl poweroff</code></p>
+<p>この後 1分ほど経過して緑色 LED の点滅が止んだら microUSB ケーブルを抜きます。これで OFF にできます。</p>
+</aside>
+
+
+      </google-codelab-step>
+    
+      <google-codelab-step label="USB カメラの動作を確認する" duration="20">
+        <p>Raspberry Pi 起動し SSH リモートログインが出来ることを確認してください。以降は、特に断りを入れない場合は SSH リモートログイン後の Raspberry Pi 側で実行します。</p>
+<h2 is-upgraded>USB カメラを認識しているか確認する</h2>
+<p>USB カメラを Raspberry Pi に接続します。接続先 USB ポートはどこでも構いません。</p>
+<p>USB カメラが接続されている状態で、 以下を実行します。</p>
+<pre><code>v4l2-ctl --list-devices</code></pre>
+<p>このような出力ならば USB カメラが認識できています。</p>
+<pre><code>bcm2835-codec-decode (platform:bcm2835-codec):
+        /dev/video10
+        /dev/video11
+        /dev/video12
+
+BUFFALO BSWHD06M USB Camera
+:  (usb-3f980000.usb-1.1.2):
+        /dev/video0
+        /dev/video1</code></pre>
+<aside class="warning"><p><strong>Cannot open device ... と表示されてしまったら？</strong></p>
+<p>以下のように出力された場合は USB カメラが認識できていません。</p>
+<p><code>bcm2835-codec-decode (platform:bcm2835-codec):</code></p>
+<p><code>        /dev/video10</code></p>
+<p><code>        /dev/video11</code></p>
+<p><code>        /dev/video12</code></p>
+<p><code>Cannot open device /dev/video0, exiting.</code></p>
+<p>USB カメラを挿し直したり、他のカメラと変更してみてください。</p>
+</aside>
+<p>もし認識できていない場合は以下のように <code>Cannot open device ...</code> と表示されます。USB カメラを挿し直したり、他のカメラと変更してみてください。</p>
+<h2 is-upgraded>USB カメラを動かしてみる</h2>
+<p>USB カメラの認識ができている事が確認できたら、以下を実行します。</p>
+<pre><code>sudo apt install fswebcam -y
+fswebcam -q --device /dev/video0 test1.jpg
+python3 -m http.server 8000</code></pre>
+<p>簡易的な Web サーバが Raspberry Pi 上で起動しました。</p>
+<p>ここでホスト側のブラウザから <a href="http://raspberrypi.local:8000" target="_blank"><code>http://raspberrypi.local:8000</code></a> を開き、ファイル一覧の中に表示された test1.jpg をクリックします。</p>
+<p class="image-container"><img style="width: 392.00px" src="img/3f4b9d3044763c15.png"></p>
+<p>カメラの画像が確認できればカメラが正常に動作している確認となります。</p>
+<p>Raspberry Pi 側に戻り <code>CTRL + C</code> を押して、Webサーバを止めます。</p>
+
+
+      </google-codelab-step>
+    
+      <google-codelab-step label="SORACOM Air によるインターネット接続" duration="10">
+        <p>Raspberry Pi へ SSH リモートログインが出来ることを確認してください。以降は、特に断りを入れない場合は SSH リモートログイン後の Raspberry Pi 側で実行します。</p>
+<h2 is-upgraded>setup_air.sh の実行</h2>
+<p>USB ドングル型モデムで SORACOM Air によるインターネット接続の一連の設定を自動化する setup_air.sh を実行します。</p>
+<p>以下を実行してください。</p>
+<pre><code>curl -O https://soracom-files.s3.amazonaws.com/setup_air.sh
+sudo bash setup_air.sh</code></pre>
+<h2 is-upgraded>USB ドングル型モデム (AK-020) に SIM を取り付け、Raspberry Pi に接続する</h2>
+<p>以下の図を参考に取り付けてください。</p>
+<p class="image-container"><img style="width: 602.00px" src="img/8c36e7519ddd583e.png"></p>
+<p>Raspberry Pi の USB ポートはどこでも構いませんが、この後に接続する USB カメラとの位置で競合しないようにしてください。USB ドングル型モデム、USB カメラ共に Raspberry Pi の電源が ON 状態でもいつでも抜き挿し可能です。</p>
+<h2 is-upgraded>接続を確認する</h2>
+<p>USB ドングル型モデムの LED を見ながら接続状態になったのを見計らって、以下を実行します。</p>
+<pre><code>ping -c 4 pong.soracom.io</code></pre>
+<p>この時、期待される出力は以下の通りです。</p>
+<pre><code>PING pong.soracom.io (100.127.100.127) 56(84) bytes of data.
+64 bytes from 100.127.100.127 (100.127.100.127): icmp_seq=1 ttl=64 time=75.6 ms
+64 bytes from 100.127.100.127 (100.127.100.127): icmp_seq=2 ttl=64 time=58.8 ms
+64 bytes from 100.127.100.127 (100.127.100.127): icmp_seq=3 ttl=64 time=55.4 ms
+64 bytes from 100.127.100.127 (100.127.100.127): icmp_seq=4 ttl=64 time=43.4 ms</code></pre>
+<p>これで Raspberry Pi から SORACOM Air を通じてインターネット接続が可能になりました。</p>
+
+
+      </google-codelab-step>
+    
+      <google-codelab-step label="カメラの画像を SORACOM Harvest Files にアップロードする" duration="20">
+        <p>IoT ファイルの保管サービス「SORACOM Harvest Files」へ、定点カメラの画像をアップロードできるようにします。</p>
+<h2 is-upgraded><a href="https://console.soracom.io/" target="_blank">SORACOM ユーザーコンソール</a>にログインした後［Menu］&gt;［SIM 管理］とクリックして SIM 管理画面を開きます。</h2>
+<p class="image-container"><img style="width: 566.00px" src="img/c4968675c5a9a1c8.png"></p>
+<aside class="warning"><p><strong>［SIM 管理］をクリックしても画面が切り替わらない場合は？</strong></p>
+<p>すでに SIM 管理画面を開いている場合は、［SIM 管理］をクリックしても画面が切り替わることがありません。その場合、青の点線で囲まれている「SORACOM ロゴ」をクリックすることでメニューを閉じることができます。</p>
+</aside>
+<h2 is-upgraded>USB ドングル型モデムに取り付けた SIM にチェックを付け、［操作］&gt;［所属グループ変更］とクリックします。</h2>
+<p class="image-container"><img style="width: 602.00px" src="img/f27d0ddf2224ee5f.png"></p>
+<aside class="special"><p><strong>SORACOM の便利な使い方: 複数の SIM を同時に扱う</strong></p>
+<p>チェックをつける対象を複数にすれば、一度の複数の SIM を対象に操作が可能です。</p>
+</aside>
+<h2 is-upgraded>「新しい所属グループ」のプルダウンボックスをクリックした後、［新しいグループを作成...］をクリックします。</h2>
+<p class="image-container"><img style="width: 602.00px" src="img/9cf95365d7028f2c.png"></p>
+<h2 is-upgraded>「グループ作成」のグループ名を入力して［グループ作成］をクリックします。</h2>
+<table>
+<tr><td colspan="1" rowspan="1"><p><strong>項目</strong></p>
+</td><td colspan="1" rowspan="1"><p><strong>例</strong></p>
+</td><td colspan="1" rowspan="1"><p><strong>備考</strong></p>
+</td></tr>
+<tr><td colspan="1" rowspan="1"><p>グループ名</p>
+</td><td colspan="1" rowspan="1"><p><code>site-viewer</code></p>
+</td><td colspan="1" rowspan="1"><p>自由に入力可能です。日本語も設定可能です。</p>
+</td></tr>
+</table>
+<p class="image-container"><img style="width: 385.00px" src="img/a7ea3591ec5bfe05.png"></p>
+<h2 is-upgraded>新しい所属グループが先ほど作成したグループになっていることを確認したら［グループ変更］をクリックします。</h2>
+<p class="image-container"><img style="width: 602.00px" src="img/deb6408e6a995d3e.png"></p>
+<h2 is-upgraded>自動的に SIM 管理画面に戻ります。<br>SIM の「グループ」に先ほど作ったグループが設定されていることを確認してください。</h2>
+<p class="image-container"><img style="width: 602.00px" src="img/7641e187c7ccb2d3.png"></p>
+<p>以上で、グループの作成と所属の作業は完了です。</p>
+<h2 is-upgraded>SIM 管理画面から、先ほど割り当てたグループ名をクリックします。</h2>
+<p class="image-container"><img style="width: 602.00px" src="img/7a1e3344750312ad.png"></p>
+<h2 is-upgraded>［SORACOM Harvest Files 設定］をクリックし設定画面を開いた後、［ON］をクリックして設定できるようにします。その後以下のように設定します。</h2>
+<table>
+<tr><td colspan="1" rowspan="1"><p><strong>項目</strong></p>
+</td><td colspan="1" rowspan="1"><p><strong>値</strong></p>
+</td></tr>
+<tr><td colspan="1" rowspan="1"><p>デフォルトパス</p>
+</td><td colspan="1" rowspan="1"><p><code>/online-seminar/:time.jpg</code></p>
+</td></tr>
+<tr><td colspan="1" rowspan="1"><p>ロール</p>
+</td><td colspan="1" rowspan="1"><p>(空)</p>
+</td></tr>
+</table>
+<p class="image-container"><img style="width: 602.00px" src="img/5e1d28d04af49de8.png"></p>
+<p>最後に［保存］をクリックしてください。</p>
+<h2 is-upgraded>SORACOM Harvest Files へテストでアップロードしてみる</h2>
+<p>以下を実行します。</p>
+<pre><code>fswebcam -q --device /dev/video0 test2.jpg
+curl -X POST -H &#39;Content-Type: image/jpeg&#39; --data-binary &#39;@test2.jpg&#39; harvest-files.soracom.io</code></pre>
+<h3 is-upgraded>SORACOM Harvest Files 上にファイルができているか、確認します。</h3>
+<p class="image-container"><img style="width: 593.00px" src="img/91fb37bc149984ca.png"></p>
+<p>これで、カメラの画像を手動で SORACOM Harvest Files にアップロードできるようになりました。</p>
+<aside class="special"><p><strong>送信先は </strong><strong><code>harvest-files.soracom.io</code></strong><strong> と固定なのに、ファイルは上書きされない？</strong></p>
+<p>SORACO Harvest Files には「プレースホルダ機能」があります。これは「デフォルトパス」に書かれたルールに従って、アップロードされた時の情報に自動的に置き換えられるものです。今回は <code>:time</code> というプレースホルダを利用しました。これはアップロード時の日時に自動置換されるため、アップロードの日時が異なればファイル名も異なるため、上書きされることはありません。</p>
+</aside>
+<aside class="special"><p><strong>ファイルを作らずに直接送信できないか？</strong></p>
+<p>先ほどの例だと test2.jpg というファイルを作ってから送信するようにしていました。そうなると、Raspberry Pi 上でファイルの管理を行う手間が発生します。OS の &#34;パイプ&#34; を使うことで解決できます。</p>
+<p><code>fswebcam -q --device /dev/video0 - | curl -X POST -H &#39;Content-Type: image/jpeg&#39; --data-binary &#39;@-&#39; harvest-files.soracom.io</code></p>
+<p>こうすることで、fswebcam の撮影データを直接 curl へ横流しする事ができるため、SORACOM Harvest Files のデフォルトパスのプレースホルダ機能と合わせると極めて強力となります。</p>
+</aside>
+
+
+      </google-codelab-step>
+    
+      <google-codelab-step label="SORACOM Harvest Files と SORACOM Lagoon を連動させる (Harvest Data での確認まで)" duration="10">
+        <p>SORACOM Harvest Files は「ダウンロード」することでファイルの中身を確認できます。ところが画像ファイルであれば SORACOM Lagoon でも直接表示する事ができるので、連動させてみます。</p>
+<h2 is-upgraded>SORACOM Harvest Files の追加設定</h2>
+<h3 is-upgraded>SIM 管理画面から、先ほど割り当てたグループ名をクリックします。</h3>
+<p class="image-container"><img style="width: 602.00px" src="img/7a1e3344750312ad.png"></p>
+<h3 is-upgraded>［SORACOM Harvest Files 設定］をクリックし設定画面を開いた後、Harvest Data 連携設定を［ON］にしたあと、追加で以下の設定します。</h3>
+<table>
+<tr><td colspan="1" rowspan="1"><p>項目</p>
+</td><td colspan="1" rowspan="1"><p>値</p>
+</td></tr>
+<tr><td colspan="1" rowspan="1"><p>保存対象のパス</p>
+</td><td colspan="1" rowspan="1"><p><code>/online-seminar/</code></p>
+</td></tr>
+</table>
+<p class="image-container"><img style="width: 750.50px" src="img/adc30efbc3f9c3b6.png"></p>
+<p>最後に［保存］をクリックしてください。</p>
+<h2 is-upgraded>SORACOM Harvest Files へテストでアップロードしてみる</h2>
+<p>以下を実行します。</p>
+<pre><code>fswebcam -q --device /dev/video0 - | curl -X POST -H &#39;Content-Type: image/jpeg&#39; --data-binary &#39;@-&#39; harvest-files.soracom.io</code></pre>
+<h2 is-upgraded>SORACOM Harvest Data を確認する</h2>
+<p>SORACOM Lagoon と SORACOM Harvest Files の連携は「SORACOM Harvest Data に格納されているデータを SORACOM Lagoon が読み取る」ことで実現しています。<br>そのため、SORACOM Harvest <strong>Data</strong> にデータが作成されているかを確認します。</p>
+<h3 is-upgraded>［Menu］&gt;［SIM 管理］とクリックして SIM 管理画面を開きます。</h3>
+<p class="image-container"><img style="width: 566.00px" src="img/c4968675c5a9a1c8.png"></p>
+<h3 is-upgraded>SORACOM Harvest Data でデータの表示を行いたい SIM (USB ドングル型モデムに挿した SIM) にチェックを付け、［操作］&gt;［データを確認］とクリックします。</h3>
+<p class="image-container"><img style="width: 602.00px" src="img/931abc46460b7993.png"></p>
+<p>以下のようにデータテーブルに <code>url</code> が入ってれば成功です。</p>
+<p class="image-container"><img style="width: 912.65px" src="img/ec699ee6ff2cdc31.png"></p>
+
+
+      </google-codelab-step>
+    
+      <google-codelab-step label="SORACOM Lagoon でダッシュボードを作成する（有効化まで）" duration="10">
+        <p>設定と設置が完了したら、蓄積されたデータを SORACOM Lagoon で活用していきます。</p>
+<h3 is-upgraded>SORACOM Lagoon 用語解説</h3>
+<p>ここで SORACOM Lagoon で使われる用語を解説します。</p>
+<table>
+<tr><td colspan="1" rowspan="1"><p><strong>用語</strong></p>
+</td><td colspan="1" rowspan="1"><p><strong>意味</strong></p>
+</td></tr>
+<tr><td colspan="1" rowspan="1"><p>プラン</p>
+</td><td colspan="1" rowspan="1"><p>SORACOM Lagoon の契約プランです。機能と料金が異なります。<a href="https://soracom.jp/services/lagoon/price/" target="_blank">SORACOM Lagoon のご利用料金</a>に機能や料金の比較表があります。</p>
+</td></tr>
+<tr><td colspan="1" rowspan="1"><p>メトリクス</p>
+<p>(メトリック)</p>
+</td><td colspan="1" rowspan="1"><p>データが格納されている先です。SORACOM Lagoon では以下の4つの中から選び、その中からノード(SIMや回線)を選択します。</p>
+<ul>
+<li>Air = SORACOM Air for セルラー</li>
+<li>LoRa = SORACOM Air for LoRaWAN</li>
+<li>Sigfox = SORACOM Air for Sigfox</li>
+<li>Device = SORACOM Inventory デバイス</li>
+</ul>
+</td></tr>
+<tr><td colspan="1" rowspan="1"><p>データソース</p>
+</td><td colspan="1" rowspan="1"><p>メトリクスの参照先です。SORACOM Lagoon では &#34;Harvest&#34; (= SORACOM Harvest) を選ぶとメトリクスが展開されます。 Grafana ではテスト用のランダムデータが表示されます。</p>
+</td></tr>
+<tr><td colspan="1" rowspan="1"><p>パネル</p>
+</td><td colspan="1" rowspan="1"><p>パネルはデータを表示する領域です。データソースとメトリクスを指定すると、そのメトリクス(たとえばSIM)のデータをパネルで使えるようになります。</p>
+<p>様々なパネルが存在します。</p>
+</td></tr>
+<tr><td colspan="1" rowspan="1"><p>ダッシュボード</p>
+</td><td colspan="1" rowspan="1"><p>複数のパネルを束ねて「1枚の画面」にしたものがダッシュボードです。共有の単位となります。</p>
+</td></tr>
+<tr><td colspan="1" rowspan="1"><p>SORACOM Lagoon ユーザー</p>
+<p>(Lagoon ユーザー)</p>
+</td><td colspan="1" rowspan="1"><p>SORACOM Lagoon へログインするためのユーザー(IDとパスワードの組)</p>
+<p>SORACOM ユーザコンソールへのログインとは異なるユーザ一覧となり、皆さん自身で登録・削除が可能です。ダッシュボードやパネルを編集できる「編集可能」と表示専用の「読み取り」の2段階の権限を設定できます。</p>
+<p>作成可能数はプランによります。</p>
+</td></tr>
+<tr><td colspan="1" rowspan="1"><p>データリフレッシュ</p>
+</td><td colspan="1" rowspan="1"><p>SORACOM Harvest から SORACOM Lagoon へデータが反映される事、もしくは反映タイミングとなります。反映タイミングはプランによります。</p>
+</td></tr>
+<tr><td colspan="1" rowspan="1"><p>アラート</p>
+</td><td colspan="1" rowspan="1"><p>メトリクスのデータに対して条件を設定し、その条件を満たしたら通知を行う仕組みの事です。</p>
+</td></tr>
+</table>
+<h2 is-upgraded><a href="https://console.soracom.io/" target="_blank">SORACOM ユーザーコンソール</a>の［Menu］&gt;［データ収集・蓄積・可視化］&gt;［SORACOM Lagoon］とクリックします。</h2>
+<p class="image-container"><img style="width: 547.00px" src="img/df078d78ef3c64c9.png"></p>
+<h2 is-upgraded>［SORACOM Lagoon の利用を開始する］をクリックします。</h2>
+<p class="image-container"><img style="width: 602.00px" src="img/4a10b1d6ed1f5cc0.png"></p>
+<h2 is-upgraded>プランのうち［Free］を選択したあと［続行する］をクリックします。</h2>
+<p class="image-container"><img style="width: 602.00px" src="img/748cdbb71537788c.png"></p>
+<h2 is-upgraded>SORACOM Lagoon ユーザーの初期ユーザーに設定するパスワードを入力した後、［利用開始］をクリックします。</h2>
+<p class="image-container"><img style="width: 602.00px" src="img/f2b324c51b7a071e.png"></p>
+<aside class="special"><p><strong>SORACOM Lagoon ユーザーの初期ユーザの ID は？</strong></p>
+<p>ID は SORACOM ユーザコンソールにログインしたときのメールアドレスが使われることになります。そのため、ここではパスワードのみ設定することになります。<strong>SORACOM ユーザコンソールへのログインとは異なるパスワードを設定する事を強くお勧めします。</strong></p>
+</aside>
+<aside class="warning"><p><strong>利用開始がクリックできない場合は？</strong></p>
+<p>パスワードの条件が不足しています。全てに✔がつくようにパスワードを設定してください。</p>
+</aside>
+<p>SORACOM Lagoon の有効化に成功すると、以下のように SORACOM Lagoon コンソールへのリンクと、Lagoon ユーザーの一覧が管理できるようになります。</p>
+<p>この画面を SORACOM Lagoon 管理画面と呼びます。</p>
+<p class="image-container"><img style="width: 602.00px" src="img/6c91011f8fa4eb2.png"></p>
+<p>SORACOM Lagoon 管理画面は、SORACOM Lagoon が有効化されている間は ［Menu］&gt;［データ収集・蓄積・可視化］&gt;［SORACOM Lagoon］で表示する事ができます。</p>
+
+
+      </google-codelab-step>
+    
+      <google-codelab-step label="SORACOM Lagoon でダッシュボードを作成する（パネル作成まで）" duration="10">
+        <h2 is-upgraded>SORACOM Lagoon 管理画面を表示したあと、［SORACOM Lagoon console にアクセス］をクリックします。</h2>
+<p>※ SORACOM Lagoon 管理画面は ［Menu］&gt;［データ収集・蓄積・可視化］&gt;［SORACOM Lagoon］で表示する事ができます。</p>
+<p class="image-container"><img style="width: 602.00px" src="img/e056d4558913af2.png"></p>
+<h2 is-upgraded>SORACOM Lagoon へログインします。</h2>
+<p>メールアドレス (SORACOM ユーザコンソールへログインする際のメールアドレス) と、SORACOM Lagoon 初期ユーザ作成時に利用したパスワードでログインします。</p>
+<p class="image-container"><img style="width: 602.00px" src="img/d442ea101d6ae875.png"></p>
+<p>ログインに成功すると、以下のような画面が表示されます。これが SORACOM Lagoon ログイン直後の画面です。ここから「ダッシュボード」や「パネル」を作成していきます。</p>
+<p class="image-container"><img style="width: 602.00px" src="img/efbd59d7e7831f8f.png"></p>
+<h2 is-upgraded>作成アイコン<img style="width: 40.00px" src="img/940a7161e06b7174.png">にカーソルを乗せると表示される「作成」メニューから［ダッシュボード］をクリックします。</h2>
+<p class="image-container"><img style="width: 297.00px" src="img/3efe197697d950a1.png"></p>
+<h2 is-upgraded>SORACOM Dynamic Image Panel をクリック</h2>
+<p>以下の設定をします。</p>
+<table>
+<tr><td colspan="1" rowspan="1"><p><strong>タブ</strong></p>
+</td><td colspan="1" rowspan="1"><p><strong>項目</strong></p>
+</td><td colspan="1" rowspan="1"><p><strong>作業・設定</strong></p>
+</td></tr>
+<tr><td colspan="1" rowspan="1"><p>メトリック</p>
+</td><td colspan="1" rowspan="1"><p>メトリック</p>
+</td><td colspan="1" rowspan="1"><ul>
+<li>USB ドングル型モデムに挿した SIM を選択。</li>
+<li>値から <code>url</code> を選択。</li>
+</ul>
+</td></tr>
+<tr><td colspan="1" rowspan="2"><p>設定</p>
+</td><td colspan="1" rowspan="1"><p>モード</p>
+</td><td colspan="1" rowspan="1"><p>Harvest Files</p>
+</td></tr>
+<tr><td colspan="1" rowspan="1"><p>名前</p>
+</td><td colspan="1" rowspan="1"><p>A-url</p>
+</td></tr>
+</table>
+<p>最終的には以下のようになります。</p>
+<p class="image-container"><img style="width: 602.00px" src="img/a90acbd382935a29.png"></p>
+<p>SORACOM Harvest Data に蓄積された最新データに <code>url</code> が含まれていれば、その URL にしたがって SORACOM Lagoon は画像を表示します。 <code>/v1/files/...</code> のURLは SORACOM Harvest Files を指すため、Harvest Files の画像を表示する仕組みです。</p>
+<p>これで、「画像が送信されたら SORACOM Lagoon に最新画像が表示される」が実現できました。</p>
+<p>ただし、肝心の画像送信が手動ですので、最後に自動化します。</p>
+
+
+      </google-codelab-step>
+    
+      <google-codelab-step label="タイマーで定期的にカメラ撮影を行い、SORACOM Harvest Files へアップロードする" duration="1">
+        <h2 is-upgraded>カメラの撮影管理</h2>
+<h3 is-upgraded>撮影指示を受ける側</h3>
+<p>以下を実行します。</p>
+<pre><code>sudo loginctl enable-linger $USER
+curl -O https://gist.githubusercontent.com/ma2shita/e0545e6c1b51ac32026f1ae197226512/raw/ee292aaba9f319167e4de50a599725fdb959e34c/camera_shooting.bash
+curl -O https://gist.githubusercontent.com/ma2shita/c79aad276c0b0f3eccb8e0040b5bc106/raw/2fc0171be99191d3b67490d3d167db42ffac1b1a/camera_shooting@.service
+curl -O https://gist.githubusercontent.com/ma2shita/61ba5f98b3e50a025e0b51a43417d6e2/raw/258c0b8749cbba6ac3f4164049997e974ef14553/camera_shooting.socket
+systemctl --user enable $PWD/camera_shooting.socket
+systemctl --user enable $PWD/camera_shooting@.service
+systemctl --user start camera_shooting.socket
+journalctl -n 1</code></pre>
+<p>最後の journalctl で期待される出力は以下の通りです。</p>
+<pre><code>Nov 05 12:55:57 raspberrypi systemd[677]: Listening on Shooting camera server (listener).</code></pre>
+<h3 is-upgraded>カメラの撮影指示をする側</h3>
+<p>期待通りであれば、続けて以下を実行します。</p>
+<pre><code>echo &#34;shooting!&#34; | nc 127.0.0.1 19000
+journalctl -n 6</code></pre>
+<p>最後の journalctl で期待される出力は以下の通りです。</p>
+<pre><code>Nov 05 12:56:34 raspberrypi systemd[677]: Started Shooting camera server (implementation) (127.0.0.1:53164).
+Nov 05 12:56:34 raspberrypi bash[2505]: Taking a Photo!
+Nov 05 12:56:36 raspberrypi bash[2505]:   % Total    % Received % Xferd  Average Speed   Time    Time     Time  Current
+Nov 05 12:56:36 raspberrypi bash[2505]:                                  Dload  Upload   Total   Spent    Left  Speed
+Nov 05 12:56:37 raspberrypi bash[2505]: [237B blob data]
+Nov 05 12:56:37 raspberrypi systemd[677]: camera_shooting@6-127.0.0.1:19000-127.0.0.1:53164.service: Succeeded.</code></pre>
+<p>うまく動作していれば、また新たな画像が SORACOM Harvest Files にアップロードされているので、SORACOM Lagoon 上で確認することができます。</p>
+<aside class="warning"><p><strong><code>{&#34;message&#34;:&#34;Harvest files is disabled. Please set { enabled: true }&#34;}</code></strong><strong> と表示されたら？</strong></p>
+<p>SORACOM Harvest Files の設定が完了してません。SIM グループの設定や SORACOM Harvest Files の設定を見直してください。</p>
+</aside>
+<h2 is-upgraded>タイマー管理</h2>
+<p>期待通りであれば、続けて以下を実行します。</p>
+<pre><code>curl -O https://gist.githubusercontent.com/ma2shita/ce40d5794146dbd147d5cb63eb3eb841/raw/22248196a776adac0b92d995865e3eebbd6f412a/timer_shooting.bash
+curl -O https://gist.githubusercontent.com/ma2shita/7004d3f35f03a67815e734042eea9cf2/raw/4d5cbc3985a9dd4bbd494ee3b6da6b306d4aa7b1/timer_shooting.service
+curl -O https://gist.githubusercontent.com/ma2shita/97519a3f0a6cb936f7480b5de11dc444/raw/9d607f3a86f1bcae07e824b821c284e0a5e30f53/timer_shooting.timer
+systemctl --user enable $PWD/timer_shooting.timer
+systemctl --user enable $PWD/timer_shooting.service
+systemctl --user start timer_shooting.timer</code></pre>
+<p>これで、10分に1回カメラ撮影がされて SORACOM Harvest Files にアップロードされるようになりました。</p>
+<p>次回の起動までの残り時間といった状態は以下のコマンドで確認できます。</p>
+<pre><code>systemctl --user status timer_shooting.timer</code></pre>
+<h2 is-upgraded>この章で行った構成の相関図</h2>
+<p class="image-container"><img style="width: 602.00px" src="img/c0de3b9a122a4966.png"></p>
+<p>※ gpio6_shooting については Appendix で解説します。</p>
+
+
+      </google-codelab-step>
+    
+      <google-codelab-step label="あとかたづけと注意事項" duration="1">
+        <p>本レシピでは費用がかかるサービスを利用しています。<br>本項をよく読み、必要な操作や解除作業を行うようにして、想定外の費用が掛からないようにしてください。</p>
+<h2 is-upgraded>費用について</h2>
+<p>ここで記載している金額は全て税別、送料別となります。</p>
+<h3 is-upgraded>SORACOM プラットフォームの利用料金</h3>
+<table>
+<tr><td colspan="1" rowspan="1"><p><strong>サービス／機能</strong></p>
+</td><td colspan="1" rowspan="1"><p><strong>料金</strong></p>
+</td></tr>
+<tr><td colspan="1" rowspan="1"><p><a href="https://soracom.jp/services/air/cellular/price_specific_area_sim/" target="_blank">SORACOM Air (plan-D)</a></p>
+</td><td colspan="1" rowspan="1"><ul>
+<li>基本料: 10円/日</li>
+<li>通信料: 0.2円~/MB</li>
+</ul>
+<p>(今回の利用であれば 100MB 以内で収まる範囲)</p>
+</td></tr>
+<tr><td colspan="1" rowspan="1"><p><a href="https://soracom.jp/services/harvest/price/" target="_blank">SORACOM Harvest Files</a></p>
+</td><td colspan="1" rowspan="1"><p>SORACOM Harvest FIles は一般的なファイル管理サービスとは異なり「データ転送量」に応じた課金体系です。保管されているファイル(サイズ)には費用は発生しません。例えば先月に1GBのファイルのアップロードを行った場合、1GBの転送に関して課金されます。翌月の転送が0バイトだった場合、先月の1GB分は保管されていますが、このファイルには費用は発生しません。</p>
+<p>また、SORACOM Harvest Files の &#34;Harvest Data 連携&#34; にて作成されたデータは SORACOM Harvest Data の課金対象外となっています。</p>
+<p>(今回の利用であれば 1GB(=200円)以内で収まる範囲)</p>
+</td></tr>
+<tr><td colspan="1" rowspan="1"><p><a href="https://soracom.jp/services/lagoon/price/" target="_blank">SORACOM Lagoon</a></p>
+</td><td colspan="1" rowspan="1"><p>今回は Free プラン(無料)を使用しました。</p>
+</td></tr>
+</table>
+<p>※ 費用詳細はリンク先をご確認ください。</p>
+<aside class="special"><p><strong>無料利用枠について</strong></p>
+<p>SORACOM サービスでは一部サービスにおいて無料枠が設定されています。たとえば SORACOM Air for セルラーであればアカウント毎で30円/月の通信分や、SORACOM Harvest Data であれば31日分の書込みリクエストなどです。料金詳細に「無料利用枠」として掲載されていますので、ご確認ください。</p>
+</aside>
+<h2 is-upgraded>グループ解除</h2>
+<p>SORACOM Harvest Data 等、「機能が有効になっているグループに所属している SIM × 費用」となっているサービスにおいては、「機能を OFF にする」することで費用の発生を抑えることができます。またもう1つの方法として「グループに所属している SIM の数を減らす(= 解除する)」事でも費用を抑える事ができます。</p>
+<p>グループ解除の方法は<a href="https://soracom.github.io/iot-recipes/unjoin-from-group/" target="_blank">グループからの解除 (JP)</a>をご覧ください。</p>
+<h2 is-upgraded>SORACOM Lagoon の解約</h2>
+<p>SORACOM Lagoon はオンラインで解約が可能です。 Free プランであれば有効化しておいても費用は発生しませんが、長期に渡って利用しない場合には解約も選択いただけます。</p>
+<p>解約の方法は<a href="https://soracom.github.io/iot-recipes/disable-soracom-lagoon" target="_blank">SORACOM Lagoon の解約(JP)</a>をご覧ください。</p>
+
+
+      </google-codelab-step>
+    
+      <google-codelab-step label="次のステップ" duration="1">
+        <p>本レシピでは、安価なデバイスを用いて定点カメラの仕組みを SORACOM サービスと組み合わせて実現しました。本来であればファイルサーバや画像を見るためのアプリケーション開発が必要なところを、様々組み合わせることで実現しています。今回は「全てをクラウドに送って、そこで利用する」方式でしたが、「デバイス上で判定してからクラウドと通信する」といったエッジコンピューティングの流れもあります。どちらにしても、カメラは高度なセンシングデバイスとして、より発展していくことが考えられます。</p>
+<p><a href="https://soracom.jp/products/kit/camera_kit/" target="_blank">商品ページへ戻る</a></p>
+<p>よくあるご質問は<a href="https://sorazine.soracom.jp/entry/2019/12/17/dec-webinar-report" target="_blank">Let&#39;s try IoT プロトタイピング ～ 定点カメラデバイスを作ろう 〜 動画とQAのご紹介</a>でご案内しています。こちらもご覧ください。</p>
+
+
+      </google-codelab-step>
+    
+      <google-codelab-step label="Appendix: GPIO からの信号をきっかけにカメラ撮影(gpio6_shooting)" duration="1">
+        <p>GPIO からの信号をきっかけにカメラ撮影が可能です。例としてタクトスイッチを利用しています。</p>
+<h2 is-upgraded>GPIO の BCM Pin 番号の 6 と GND に接続します。</h2>
+<p class="image-container"><img style="width: 574.00px" src="img/2eca37aa1f7ba02.png"></p>
+<aside class="special"><p><strong>「抵抗」は無くても大丈夫なの？</strong></p>
+<p>Raspberry Pi 3 modeb B+ は <a href="https://github.com/raspberrypilearning/physical-computing-guide/blob/master/pull_up_down.md" target="_blank">内部にプルアップ/プルダウン抵抗を持っている</a> ため、タクトスイッチのようなセンサーを直接接続することが可能です。</p>
+<p>また、同様のセンサーとしては CdS セル(フォトトランジスタ; 光量の強弱で抵抗値が変化)するものや、磁気式リードスイッチといったものがあり、これらの入力をトリガーに GPIO の値を変化させることが可能です。</p>
+</aside>
+<p>以下を実行します。</p>
+<pre><code>sudo apt install wiringpi -y
+curl -O https://gist.githubusercontent.com/ma2shita/22d5161ee03da4971560bb96078a1596/raw/596a724365b972b7689922851498ba29d4506f18/gpio6_shooting.bash
+bash gpio6_shooting.bash</code></pre>
+<p>テストをしてみます。タクトスイッチは押されると <code>0</code> として認識されます。(普段が <code>1</code> です)</p>
+<p>そのため <code>1</code> から <code>0</code> に変化したときに TCP localhost:19000 を呼び出す(= camera_shooting を起動) するようになっています。</p>
+<p>動作の様子は以下の通りです。</p>
+<pre><code>gpio6_shooting.bash
+Diff!: 1 -&gt; 0
+gpio6_shooting.bash END
+gpio6_shooting.bash
+Diff!: 0 -&gt; 1
+gpio6_shooting.bash END</code></pre>
+<p>あとはこのプログラム(<code>gpio6_shooting.bash</code>)がバックグラウンドで起動するようにします。以下を実行します。</p>
+<pre><code>curl -O https://gist.githubusercontent.com/ma2shita/8ee3f93a209025433c5a44bddbcdaaba/raw/2d62931aadf85807b98c3d356617798fc942ce2c/gpio6_shooting.service
+systemctl --user enable $PWD/gpio6_shooting.service
+systemctl --user start gpio6_shooting.service</code></pre>
+
+
+      </google-codelab-step>
+    
+  </google-codelab>
+
+  <script src="https://soracom.github.io/iot-recipes/codelab-elements/native-shim.js"></script>
+  <script src="https://soracom.github.io/iot-recipes/codelab-elements/custom-elements.min.js"></script>
+  <script src="https://soracom.github.io/iot-recipes/codelab-elements/prettify.js"></script>
+  <script src="https://soracom.github.io/iot-recipes/codelab-elements/codelab-elements.js"></script>
+
+</body>
+</html>
