@@ -1,0 +1,863 @@
+
+<!doctype html>
+
+<html>
+<head>
+  <meta name="viewport" content="width=device-width, minimum-scale=1.0, initial-scale=1.0, user-scalable=yes">
+  <meta name="theme-color" content="#4F7DC9">
+  <meta charset="UTF-8">
+  <title>【IoT DIY レシピ】SORACOM LTE-M Button powered by AWS と LINE で作る「今から帰りますボタン」</title>
+  <link rel="stylesheet" href="//fonts.googleapis.com/css?family=Source+Code+Pro:400|Roboto:400,300,400italic,500,700|Roboto+Mono">
+  <link rel="stylesheet" href="//fonts.googleapis.com/icon?family=Material+Icons">
+  <link rel="stylesheet" href="https://soracom.github.io/iot-recipes/codelab-elements/codelab-elements.css">
+  <style>
+    .success {
+      color: #1e8e3e;
+    }
+    .error {
+      color: red;
+    }
+  </style>
+</head>
+<body>
+  <google-codelab-analytics gaid="UA-66865146-33"></google-codelab-analytics>
+  <google-codelab codelab-gaid=""
+                  id="ill-be-back-by-soracom-lte-m-button-powered-by-aws"
+                  title="【IoT DIY レシピ】SORACOM LTE-M Button powered by AWS と LINE で作る「今から帰りますボタン」"
+                  environment="web"
+                  feedback-link="https://soracom.jp/products/gadgets/aws_button/">
+    
+      <google-codelab-step label="SORACOM LTE-M Button powered by AWS と LINE で作る「今から帰りますボタン」" duration="1">
+        <p>レシピ難易度：★★☆☆☆</p>
+<p>塾のお迎え連絡の為だけに子供にスマートフォンを持たせるのはちょっと、、、とお悩みの方へ。省電力のモバイル通信「LTE-M」を搭載した乾電池動作するボタンデバイス「SORACOM LTE-M Button powered by AWS」を使ってみませんか。ボタンを押した後の通知先は AWS Lambda で自由にプログラミングが可能なこのデバイスで LINE へ「今から帰ります」を通知してみます。</p>
+<p class="image-container"><img style="width: 602.00px" src="img/91b5898f4857bf62.png"></p>
+<p>本レシピは、動画コンテンツも用意しております。本レシピの動いている様子を、映像で確認できますので、ぜひ動画もご覧ください。</p>
+<h3 is-upgraded>SORACOM LTE-M Button powered by AWS のセットアップ方法まで</h3>
+<iframe class="youtube-video" src="https://www.youtube.com/embed/HsQLPPIFkk8?rel=0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+<h3 is-upgraded>実際の開発の様子</h3>
+<iframe class="youtube-video" src="https://www.youtube.com/embed/GIvhwo1yCJ8?rel=0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+<h2 is-upgraded>本レシピを行うのに必要な時間、概算費用</h2>
+<p>本レシピは以下の通りです。</p>
+<ul>
+<li>必要な時間: 約1時間30分</li>
+<li>概算費用: 約8,000円</li>
+</ul>
+<p>※ 概算費用: ハードウェアや SORACOM を始めとした各種サービスの概ねの費用 (税や送料などの付帯費用や無料枠適用は考慮しないものとしています)</p>
+<h2 is-upgraded>このコンテンツの進め方</h2>
+<p>ページの内容を読み、また作業を行ったら右下の［Next］を押して次のステップへ進みます。また、［Back］を使って戻ったり、左のナビゲーションメニューでもページの移動が可能です。</p>
+<p>左上の［×］を押してコンテンツを終了することができます。また、ページを開きなおすことで再開できます。ページのアドレスはブラウザの［履歴］メニューを利用してください。</p>
+
+<aside class="warning"><p>本コンテンツは現状のままで提供され、株式会社ソラコムは、誤りがないことの保証を含め、明示であると黙示であるとを問わず、本コンテンツの記載内容につき、いかなる種類の表明も保証も行いません。</p>
+<p>掲載情報の閲覧及び利用により、利用者自身、もしくは第三者が被った損害に対して、直接的、間接的を問わず、株式会社ソラコムは責任を負いかねます。</p>
+<p>本コンテンツを実践する中で用意された機器、利用されたサービスについてのご質問は、それぞれの機器やサービスの提供元にお問い合わせをお願いします。機器やサービスの仕様は、本コンテンツ作成当時のものです。</p>
+<p>株式会社ソラコムが提供する機器・サービスについてのご質問は、 <a href="https://soracom.jp/contact/" target="_blank">https://soracom.jp/contact/</a> をご確認の上、適切な窓口へのお問い合わせをお願いします。機器・サービスご利用前の導入相談は <a href="https://soracom.jp/contact/contactsales/" target="_blank">https://soracom.jp/contact/contactsales/</a> に、機器・サービスご利用開始後のサポートは、SORACOMユーザーコンソール内の<a href="https://soracom.zendesk.com/hc/ja/requests/" target="_blank">サポートサイトから「リクエストを送信」</a>(要ログイン)にてお問い合わせください。</p>
+<p>本ドキュメントは <a href="https://github.com/googlecodelabs/tools" target="_blank">CLaaT</a> を用いて制作しています。</p>
+<p>Copyright (c) 2020 SORACOM, INC.</p>
+</aside>
+
+
+
+      </google-codelab-step>
+    
+      <google-codelab-step label="準備" duration="1">
+        <p>本レシピを行うためには以下のものをご用意ください。</p>
+<h2 is-upgraded>ハードウェア</h2>
+<table>
+<tr><td colspan="1" rowspan="1"><p><strong>品名</strong></p>
+</td><td colspan="1" rowspan="1"><p><strong>数量</strong></p>
+</td><td colspan="1" rowspan="1"><p><strong>価格</strong></p>
+</td><td colspan="1" rowspan="1"><p><strong>購入先</strong></p>
+</td><td colspan="1" rowspan="1"><p><strong>備考</strong></p>
+</td></tr>
+<tr><td colspan="1" rowspan="1"><p>SORACOM LTE-M Button powered by AWS</p>
+</td><td colspan="1" rowspan="1"><p>1</p>
+</td><td colspan="1" rowspan="1"><p>7,980円</p>
+</td><td colspan="1" rowspan="1"><p><a href="https://soracom.jp/products/gadgets/aws_button/" target="_blank">ソラコム</a></p>
+</td></tr>
+<tr><td colspan="1" rowspan="1"><p>パソコン</p>
+</td><td colspan="1" rowspan="1"><p>1</p>
+</td><td colspan="1" rowspan="1"><p>―</p>
+</td><td colspan="1" rowspan="1"><p>―</p>
+</td><td colspan="1" rowspan="1"><ul>
+<li>インターネット接続が可能でサイトへの接続が自由であること。</li>
+<li>Google Chrome 等の最新ブラウザーが利用可能な事。</li>
+</ul>
+</td></tr>
+<tr><td colspan="1" rowspan="1"><p>スマートフォン</p>
+</td><td colspan="1" rowspan="1"><p>1</p>
+</td><td colspan="1" rowspan="1"><p>―</p>
+</td><td colspan="1" rowspan="1"><p>―</p>
+</td><td colspan="1" rowspan="1"><p>LINE の通知確認に利用します。タブレット、またはパソコンの LINE アプリでも代用可能です。</p>
+</td></tr>
+</table>
+<p>※ 金額はレシピ作成時となります。ソラコムで販売している金額は税抜き・送料別です。</p>
+<h2 is-upgraded>その他必要なもの</h2>
+<table>
+<tr><td colspan="1" rowspan="1"><p><strong>必要なもの</strong></p>
+</td><td colspan="1" rowspan="1"><p><strong>費用</strong></p>
+</td><td colspan="1" rowspan="1"><p><strong>作成方法など</strong></p>
+</td></tr>
+<tr><td colspan="1" rowspan="1"><p>AWS アカウント</p>
+</td><td colspan="1" rowspan="1"><p>無料※</p>
+</td><td colspan="1" rowspan="1"><p><a href="https://soracom.github.io/iot-recipes/create-account-aws/" target="_blank">AWS アカウントの作成 (JP)</a></p>
+</td></tr>
+<tr><td colspan="1" rowspan="1"><p>Email アドレス</p>
+</td><td colspan="1" rowspan="1"><p>―</p>
+</td><td colspan="1" rowspan="1"><p>LTE-M Button のテストに使用します。その場で確認可能なアドレスを用意してください。</p>
+<p>会社でのメールアドレスの場合、迷惑メール判定やアドレスの自動書き換えによって正常に完了できない場合があります。Gmail 等を利用するのをお勧めいたします。</p>
+</td></tr>
+<tr><td colspan="1" rowspan="1"><p>LINE アカウント</p>
+</td><td colspan="1" rowspan="1"><p>無料※</p>
+</td><td colspan="1" rowspan="1"><p>スマートフォンにて<a href="https://guide.line.me/ja/beginner/line-install.html" target="_blank">LINEアプリをインストールする</a>を行った後、<br><a href="https://guide.line.me/ja/beginner/line-signup.html" target="_blank">新規登録をする</a>を行ってください。</p>
+<p>年齢確認は行う・行わないどちらでも大丈夫です。</p>
+<p>アカウント作成後は、<a href="https://guide.line.me/ja/beginner/set-email-address.html" target="_blank">メールアドレスの登録</a>をしてください。</p>
+</td></tr>
+<tr><td colspan="1" rowspan="1"><p>IFTTT アカウント</p>
+</td><td colspan="1" rowspan="1"><p>無料※</p>
+</td><td colspan="1" rowspan="1"><p><a href="https://soracom.github.io/iot-recipes/create-account-ifttt/" target="_blank">IFTTT アカウントの作成</a></p>
+</td></tr>
+</table>
+<p>※ アカウント作成・維持の費用の料金です。</p>
+<h3 is-upgraded>すでに AWS アカウント持っている場合の確認事項</h3>
+<ul>
+<li>ルートアカウントを利用する場合：特に確認すべき事項はありません。先に進んでください。</li>
+<li>IAM アカウントを利用する場合：<strong>オレゴンリージョン(us-west-2)内の AWS IoT 1-Click と、そこから利用されるサービスへの権限の有無</strong>を確認してください。</li>
+</ul>
+<p>本資料では us-west-2 を使用します。また、必要権限の解説およびサポートは致しかねますが、主に AWS IoT 1-Click, AWS Lambda, Amazon SES といったサービスへの権限、ならびに AWS IAM におけるロールの作成といった権限になります。<a href="https://docs.aws.amazon.com/ja_jp/iot-1-click/latest/developerguide/1click-authentication.html" target="_blank">AWS IoT 1-Click に対する認証とアクセスコントロール</a> などを参照ください。</p>
+<p>AdministratorAccess ポリシーが割り当てられていればハンズオンは完遂可能です (同ポリシーを割り当てたことによる影響については IAM アカウント管理者にご相談ください)</p>
+
+
+      </google-codelab-step>
+    
+      <google-codelab-step label="SORACOM LTE-M Button powered by AWS が届いたら" duration="5">
+        <p>SORACOM LTE-M Button powered by AWS (以下、LTE-M Button)は、SORACOM のユーザコンソールに登録することで、以下のような機能が利用可能となります。登録は必須ではありませんが、是非登録ください。(登録しない場合は次へ進んでください)</p>
+<ul>
+<li>LTE-M Button の利用可能な期間、およびクリック回数が自動更新できます。</li>
+<li>LTE-M Button および LTE-M Button の通信に関連する情報を確認できます。</li>
+</ul>
+<aside class="warning"><p>SORACOM へ登録することなく、1年間もしくは1500回分のクリックを超過した場合、 LTE-M Buttonが使用できなくなりますのでご注意ください。</p>
+</aside>
+<p>登録には SORACOM アカウントが必要となります。<a href="https://soracom.github.io/iot-recipes/create-account-soracom-jp/" target="_blank">SORACOM アカウントの作成 (JP)</a>をに沿って SORACOM アカウント作成してから <a href="https://dev.soracom.io/jp/start/aws_button_registration/" target="_blank">SORACOM LTE-M Button powered by AWS をソラコムのボタン管理に登録する</a> を行ってください。LTE-M Button の登録作業自体は約5分程度となります。</p>
+
+
+      </google-codelab-step>
+    
+      <google-codelab-step label="ボタン押下で Email 送信: AWS IoT 1-Click へ SORACOM LTE-M Button を登録する" duration="10">
+        <p>まず最初に動作確認のため、LTE-M Button が使えるように AWS IoT 1-Click に登録した後、Email を送ってみましょう。</p>
+<p class="image-container"><img style="width: 602.00px" src="img/4b7ccda9b63fc2cf.png"></p>
+<h2 is-upgraded>用語解説</h2>
+<p>LTE-M Button を利用するためにはいくつかの用語を理解しておくと理解がスムースです。</p>
+<table>
+<tr><td colspan="1" rowspan="1"><p><strong>用語</strong></p>
+</td><td colspan="1" rowspan="1"><p><strong>解説</strong></p>
+</td></tr>
+<tr><td colspan="1" rowspan="1"><p>AWS IoT 1-Click</p>
+</td><td colspan="1" rowspan="1"><p>AWS 内のサービス名称。ボタンデバイスとAWS 内のサービスを仲介する役割。</p>
+</td></tr>
+<tr><td colspan="1" rowspan="1"><p>プレイスメント</p>
+</td><td colspan="1" rowspan="1"><p>ボタンデバイスと AWS IoT 1-Click を結びつける。</p>
+<p>1プレイスメントには1デバイスを割り当てることになります。</p>
+</td></tr>
+<tr><td colspan="1" rowspan="1"><p>テンプレート</p>
+</td><td colspan="1" rowspan="1"><p>AWS IoT 1-Click と Lambda 関数を結びつける。</p>
+<p>1テンプレートには複数のプレイスメントが割り当てることができます。<br>グループのように使用可能です。</p>
+</td></tr>
+<tr><td colspan="1" rowspan="1"><p>プロジェクト</p>
+</td><td colspan="1" rowspan="1"><p>プレイスメントとテンプレートの組み合わせを格納する単位。</p>
+</td></tr>
+</table>
+<p class="image-container"><img style="width: 602.00px" src="img/483aa15be4bb061c.png"></p>
+<h2 is-upgraded><a href="https://console.aws.amazon.com/console/home" target="_blank">AWS マネジメントコンソール</a> を開きログインしたあと、リージョンを &#34;オレゴン&#34; に変更し、 AWS IoT 1-Click のコンソールを開きます。</h2>
+<p class="image-container"><img style="width: 602.00px" src="img/1397f530b8cfb98c.png"></p>
+<p class="image-container"><img style="width: 602.00px" src="img/a919da5a96253f0b.png"></p>
+<h2 is-upgraded>AWS IoT 1-Click のコンソールから [デバイスの登録] をクリックします。</h2>
+<p class="image-container"><img style="width: 602.00px" src="img/880b2589f349d85d.png"></p>
+<h2 is-upgraded>LTE-M Button の電池カバーを開けて DSN を AWS IoT 1-Click に入力し [登録] をクリックします。</h2>
+<p class="image-container"><img style="width: 534.00px" src="img/dd4c70090d272578.png"></p>
+<p class="image-container"><img style="width: 580.00px" src="img/f61288e1f058d455.png"></p>
+<aside class="warning"><p>DSN は文字が非常に小さいため、たとえばスマートフォンのカメラで撮影した後に拡大するといった方法があります。特に アルファベット &#34;オー&#34; と 数字の０ 、 アイ と 数字の１ などが間違えやすい文字です。</p>
+<p>スマートフォン向けアプリであれば QR コードを読み取ることで登録も可能です。その方法は <a href="https://dev.soracom.io/jp/start/aws_button_slack/#registration" target="_blank">Getting Started with SORACOM LTE-M Button</a> をご覧ください。</p>
+</aside>
+<p>［登録］をクリックすると AWS IoT 1-Click は LTE-M Button からのボタン押下を待ち受ける状態になります。このタイミングで LTE-M Button のボタンを１回押してください。</p>
+<p class="image-container"><img style="width: 500.00px" src="img/e951df9a41fe356b.png"></p>
+<aside class="warning"><p>LTE-M Button の LED が赤点灯 (= データ送信失敗) だった場合は、再度ボタンを１回押してください</p>
+</aside>
+<p>登録済みになりましたら [完了] をクリックします。</p>
+<h2 is-upgraded>以下のようにデバイス一覧が表示されていれば登録成功です。</h2>
+<p>表示されている内容はこのページの &#34;Appendix: 管理画面で表示されている項目の意味&#34; をご覧ください。</p>
+<p class="image-container"><img style="width: 910.50px" src="img/c18f52f379b2b5ea.png"></p>
+<h2 is-upgraded>登録したボタンの右にある [...] をクリックした後、[デバイスの有効化] をクリックします。</h2>
+<p class="image-container"><img style="width: 762.64px" src="img/c89329ba50b14e36.png"></p>
+<p>以上で、LTE-M Button が AWS IoT 1-Click に登録され、利用可能な状態になりました。</p>
+<h2 is-upgraded>Appendix: 管理画面で表示されている項目の意味</h2>
+<table>
+<tr><td colspan="1" rowspan="1"><p><strong>項目</strong></p>
+</td><td colspan="1" rowspan="1"><p><strong>意味</strong></p>
+</td></tr>
+<tr><td colspan="1" rowspan="1"><p>デバイス ID</p>
+</td><td colspan="1" rowspan="1"><p>DSN と呼ばれる一意の番号です。 AWS IoT 1-Click 対応デバイスには LTE-M Button の他に AWS IoT エンタープライズボタンといったものがありますが、それら全てにおいて一意になる番号です。</p>
+</td></tr>
+<tr><td colspan="1" rowspan="1"><p>タイプ</p>
+</td><td colspan="1" rowspan="1"><p>デバイスの形状を表します。現在は button のみ(の様)です。</p>
+</td></tr>
+<tr><td colspan="1" rowspan="1"><p>デバイスリージョン</p>
+</td><td colspan="1" rowspan="1"><p>デバイスが管理されているリージョンです。現在のところ利用者はリージョンを選ぶことができず、オレゴン(us-west-2) 固定となります。</p>
+</td></tr>
+<tr><td colspan="1" rowspan="1"><p>有効</p>
+</td><td colspan="1" rowspan="1"><p>有効 もしくは 無効 です。初期状態は 無効 です。 有効 は課金対象デバイスです。 無効 にする方法は SORACOM LTE-M Button を無効化する をご覧ください。</p>
+</td></tr>
+<tr><td colspan="1" rowspan="1"><p>プロジェクト、配置</p>
+</td><td colspan="1" rowspan="1"><p>ボタンに紐づいたプロジェクトとプレイスメントの状況です。初期状態は双方とも 未割り当て です。</p>
+</td></tr>
+<tr><td colspan="1" rowspan="1"><p>ヘルス</p>
+</td><td colspan="1" rowspan="1"><p>ボタンの寿命です。詳しくはこのページ内の &#34;Appendix: ボタンの「ヘルス」について&#34; をご覧ください。</p>
+</td></tr>
+</table>
+<h2 is-upgraded>Appendix: ボタンの「ヘルス」について</h2>
+<p><strong>ヘルス</strong> に表示されている % は <strong>1 - 押下回数 / 1500</strong> もしくは <strong>1 - 開始日からの経過日数 / 365</strong> のどちらかで小さいほうが表示されます。</p>
+<p>LTE-M Button においての ヘルス は電池残量ではありません。(他のモデルでは電池残量である場合がありますが異なりますのでご注意ください)</p>
+<p>押下回数、開始日からの経過日数、電池残量を具体的に管理したい場合は <a href="https://dev.soracom.io/jp/start/aws_button_registration/" target="_blank">SORACOM LTE-M Button powered by AWS をソラコムのボタン管理に登録する</a>ことで SORACOM ユーザーコンソールおよび SORACOM API で確認することができます。</p>
+<p><strong>注意：貸出で参加している方は、 SORACOM への登録しないでください！</strong></p>
+
+
+      </google-codelab-step>
+    
+      <google-codelab-step label="ボタン押下で Email 送信: AWS IoT 1-Click で Email 送信設定を行う" duration="10">
+        <p>LTE-M Button が押されたら Email が送信される設定を AWS IoT 1-Click に行います。</p>
+<h2 is-upgraded>AWS マネジメントコンソールのリージョンが オレゴン (us-west-2) になっている事を確認します。</h2>
+<p>なっていなければ オレゴン に切り替えてください。</p>
+<p class="image-container"><img style="width: 849.49px" src="img/9458326d8bedfe6.png"></p>
+<h2 is-upgraded>AWS IoT 1-Click コンソールから [管理] &gt; [プロジェクト] を開いた後 [プロジェクトの作成] をクリックします。</h2>
+<p class="image-container"><img style="width: 602.00px" src="img/14c6fa02b7765a0e.png"></p>
+<h2 is-upgraded>プロジェクト情報の指定で以下のように入力した後 [次へ] をクリックします。</h2>
+<table>
+<tr><td colspan="1" rowspan="1"><p><strong>プロジェクト名</strong></p>
+</td><td colspan="1" rowspan="1"><p><code>TestEmail</code> (任意の文字列)</p>
+</td></tr>
+</table>
+<p class="image-container"><img style="width: 720.50px" src="img/13cf46ba871138a2.png"></p>
+<h2 is-upgraded>プロジェクトのプレイスメントのテンプレートの定義では以下のように設定した後 [プロジェクトの作成] をクリックします。</h2>
+<ol type="1" start="1">
+<li><strong>デバイステンプレートの定義</strong> の [開始] をクリックします</li>
+<li><strong>テンプレートのデバイスタイプを選択する</strong> 一覧で <strong>すべてのボタンタイプ</strong> をクリックします</li>
+<li>表示されたフォームを下記のように設定します</li>
+</ol>
+<table>
+<tr><td colspan="1" rowspan="1"><p><strong>デバイステンプレート名</strong></p>
+</td><td colspan="1" rowspan="1"><p><code>Email</code><br>(任意の文字列)</p>
+</td></tr>
+<tr><td colspan="1" rowspan="1"><p><strong>アクション</strong></p>
+</td><td colspan="1" rowspan="1"><p>E メールの送信</p>
+</td></tr>
+</table>
+<ol type="1" start="4">
+<li><strong>プレイスメントの属性</strong> を以下のように設定します</li>
+</ol>
+<table>
+<tr><td colspan="1" rowspan="1"><p><strong>必須の E メールのデフォルト値</strong></p>
+</td><td colspan="1" rowspan="1"><p>&lt;LTE-M Button を押した際に送信される先の Email アドレス&gt;</p>
+</td></tr>
+<tr><td colspan="1" rowspan="1"><p><strong>必須の件名のデフォルト値</strong></p>
+</td><td colspan="1" rowspan="1"><p>テスト送信<br>(任意の文字列)</p>
+</td></tr>
+<tr><td colspan="1" rowspan="1"><p><strong>必須の本文のデフォルト値</strong></p>
+</td><td colspan="1" rowspan="1"><p>SORACOM LTE-M Button のテスト送信 <br>(任意の文字列)</p>
+</td></tr>
+</table>
+<p class="image-container"><img style="width: 773.50px" src="img/6052a20f93f45244.png"></p>
+<h2 is-upgraded>プロジェクトとテンプレートが正常に作成されたら [プレイスメントの作成] をクリックします。</h2>
+<p class="image-container"><img style="width: 602.00px" src="img/b224864fd6123e2f.png"></p>
+<h2 is-upgraded>プロジェクトの新しいプレイスメントでは以下のように設定した後 [プレイスメントの作成] をクリックします。</h2>
+<table>
+<tr><td colspan="1" rowspan="1"><p>デバイスのプレイスメント名</p>
+</td><td colspan="1" rowspan="1"><p><code>button1</code></p>
+<p>(任意の文字列)</p>
+</td></tr>
+<tr><td colspan="1" rowspan="1"><p>[デバイスの選択] をクリック</p>
+</td><td colspan="1" rowspan="1"><p>ボタンの一覧が表示されます。結び付けたいボタンをクリックします。</p>
+</td></tr>
+<tr><td colspan="1" rowspan="1"><p>プレイスメントの属性</p>
+</td><td colspan="1" rowspan="1"><p>特に編集することはありません。</p>
+<p>先に作成した「テンプレート」で設定した内容が引き継がれています。</p>
+<p>逆にここでテンプレートから引き継がれた内容を上書きすることも可能です。</p>
+</td></tr>
+</table>
+<p class="image-container"><img style="width: 731.50px" src="img/9f3d33e1c3bc7848.png"></p>
+<h2 is-upgraded>以下のような画面になれば完了です。</h2>
+<p>バックボタン (←) をクリックして AWS IoT 1-Click コンソールに戻ります。</p>
+<p class="image-container"><img style="width: 602.00px" src="img/7bc7044420cf477b.png"></p>
+<p>以上で、LTE-M Button を押した際に Email が送信される設定が完了しました。</p>
+<p>しかしながら、この状態では AWS からのEmail 送信は保留されるため、その解除を行います。(迷惑メールの温床になるのを防ぐため、標準で保留されるようになっています)</p>
+
+
+      </google-codelab-step>
+    
+      <google-codelab-step label="ボタン押下で Email 送信: Amazon SES で送信先 Email の認証を行う" duration="5">
+        <p>現在の状態では AWS からのEmail 送信は保留されるため、その解除を行います。</p>
+<h2 is-upgraded>AWS マネジメントコンソールのリージョンが オレゴン (us-west-2) になっている事を確認します。</h2>
+<p>なっていなければ オレゴン に切り替えてください。</p>
+<p class="image-container"><img style="width: 876.24px" src="img/e55b3b68a059a9c6.png"></p>
+<h2 is-upgraded>Amazon SES (Simple Email Service) のコンソールを開きます。</h2>
+<p>[サービス] をクリックした後、検索窓に <code>ses</code> と入れるか、 &#34;カスタマーエンゲージメント&#34; カテゴリの中の Simple Email Service をクリックしてください。</p>
+<p class="image-container"><img style="width: 602.00px" src="img/39cb098d7c9460c.png"></p>
+<h2 is-upgraded>[Email Addresses] をクリックした後、[Verify a New Email Address] をクリックします。</h2>
+<p class="image-container"><img style="width: 555.00px" src="img/d42dafb6032c799.png"></p>
+<h2 is-upgraded>フォームの &#34;Email Address:&#34; にLTE-M Button を押した際に送信される先の Email アドレスを入力して、 [Verify This Email Address] をクリックします。</h2>
+<p class="image-container"><img style="width: 602.00px" src="img/6cc17c37eec1beb0.png"></p>
+<p>その次に表示されたダイアログは [Close] をクリックします。</p>
+<h2 is-upgraded>直後の状態は以下の通りです。</h2>
+<p><strong>pending verification</strong> と表示されている事を確認してください。</p>
+<p class="image-container"><img style="width: 875.91px" src="img/daab230809887c05.png"></p>
+<h2 is-upgraded>メールソフトを開き、下記のようなメールが届いている事を確認したら、メール本文内の URL をクリックしてください。</h2>
+<p class="image-container"><img style="width: 259.00px" src="img/e2b59eeb44d4ea2e.png"></p>
+<p>クリックすると「検証に成功しました」というページが表示されます。<br>また、クリックした後は本メールは削除してしまって構いません。</p>
+<aside class="warning"><p><strong>メールが届かない場合は？</strong></p>
+<p>メール受信側で迷惑メールとして判定されている可能があります。お使いのメールソフトの迷惑メールフォルダを確認してください。</p>
+<p>また、Amazon SES 上から送信テストしてみることができます。Amazon SES の管理画面上から <strong>Send a Test Email</strong> をしてみて、届くか確認してください。</p>
+<p>メール受信までに時間がかかる事があります。しばらく待ってみるのも良いでしょう。</p>
+</aside>
+<h2 is-upgraded>Amazon SES コンソールに戻りリロードボタン<img style="width: 73.00px" src="img/8f83665906b338ba.png"> で表示を更新した後に <strong>verified</strong> と表示されている事を確認してください。</h2>
+<p class="image-container"><img style="width: 777.37px" src="img/1176560be4b0f83d.png"></p>
+<aside class="warning"><p><strong>verified にならない(pending verification から変化しない)場合は？</strong></p>
+<p>&#34;resend&#34; を使って、確認メールを再送してください。会社でのメールアドレスの場合、迷惑メール判定やアドレスの自動書き換えによって正常に完了できない場合があります。Gmail 等を利用するのをお勧めいたします。</p>
+</aside>
+<aside class="warning"><p><strong>送信先のメールアドレスを変更する場合は？</strong></p>
+<p>前の手順に戻り、再度 AWS IoT 1-Click コンソールからテンプレートに設定したメールアドレスを変更する必要があります。</p>
+</aside>
+<p>以上で、LTE-M Button を押したら Email の送信がされる設定がすべて完了しました。</p>
+
+
+      </google-codelab-step>
+    
+      <google-codelab-step label="ボタン押下で Email 送信: 実際に行ってみる" duration="5">
+        <p>ここまでの作業で AWS IoT 1-Click を通じて Amazon SES 経由でメールが送信されるようになりました。</p>
+<p>実際に LTE-M Button を押してみてください。以下のようなメールが届いたら成功です。</p>
+<p class="image-container"><img style="width: 476.50px" src="img/d3388f705a081865.png"></p>
+<p>ボタン押下の内容に応じて <strong>SINGLE</strong> の部分が <strong>DOUBLE</strong> や <strong>LONG</strong> に変わりますので試してみてください。</p>
+
+
+      </google-codelab-step>
+    
+      <google-codelab-step label="メールの内容を変えてみる" duration="15">
+        <p>Email 送信については、Lambda 関数を作らずともメールの送信ができました。しかし、実際は AWS IoT 1-Click によって Lambda 関数が自動生成されており、ボタン押下のアクションではその自動生成された Lambda 関数が実行される仕組みで動いています。</p>
+<p>ここでは自動生成された Lambda 関数を編集することでメールの内容を変更してみます。</p>
+<p>変更の内容は、メールの本文の末尾に「これは Lambda 関数で追加した行です」という行を追加します。</p>
+<p class="image-container"><img style="width: 602.00px" src="img/e80bb425f6bac563.png"></p>
+<h2 is-upgraded>AWS マネジメントコンソールのリージョンが オレゴン (us-west-2) になっている事を確認します。</h2>
+<p>なっていなければ オレゴン に切り替えてください。</p>
+<p class="image-container"><img style="width: 889.62px" src="img/971e0e7f8910ccca.png"></p>
+<h2 is-upgraded>AWS Lambda のコンソールを開きます。</h2>
+<p>[サービス] をクリックした後、検索窓に <code>lambda</code> と入れるか、 &#34;コンピューティング&#34; カテゴリの中の Lambda をクリックしてください。</p>
+<p class="image-container"><img style="width: 573.00px" src="img/10cbf116d53436a7.png"></p>
+<h2 is-upgraded>Lambda 関数の一覧から <code>iot1click_onclick_email_...</code> という関数を探します。</h2>
+<p>この関数が AWS IoT 1-Click によって自動生成された Lambda 関数です。</p>
+<p class="image-container"><img style="width: 750.49px" src="img/27af579e1deda728.png"></p>
+<aside class="warning"><p>もし Lambda 関数一覧が表示されなかった場合は以下のように、左のメニューから [関数] を選んでください。</p>
+<p class="image-container"><img style="width: 587.00px" src="img/1aada66778aacbc0.png"></p>
+</aside>
+<h2 is-upgraded>先ほど見つけた <code>iot1click_onclick_email_...</code> をクリックします。</h2>
+<p class="image-container"><img style="width: 602.00px" src="img/c6d6384dbd38c298.png"></p>
+<h2 is-upgraded>スクロールして <strong>関数コード</strong> というセクションを表示します。</h2>
+<p>ここに書かれた Python コードが自動生成された Lambda 関数の中身です。ここを編集していきます。</p>
+<p class="image-container"><img style="width: 602.00px" src="img/fd392248b7b47e59.png"></p>
+<h2 is-upgraded>関数コードの中の 43 行目に以下を追加します。</h2>
+<pre><code>    body += &#39;\nこれは Lambda 関数で追加した行です&#39;</code></pre>
+<p>先頭の4文字分の空白も含めて、以下のようにしてください。</p>
+<p class="image-container"><img style="width: 602.00px" src="img/6cfd747e977354b4.png"></p>
+<h2 is-upgraded>右上の [保存] をクリックします。</h2>
+<p class="image-container"><img style="width: 602.00px" src="img/b4d25445fe7118a0.png"></p>
+<h2 is-upgraded>Lambda 関数の編集画面 右上の [テストイベントの選択...] &gt; [テストイベントの設定] をクリックします。</h2>
+<p class="image-container"><img style="width: 602.00px" src="img/af6f91b5dd47dbf2.png"></p>
+<h2 is-upgraded>フォームに以下のように入力した後、[作成] をクリックします。</h2>
+<table>
+<tr><td colspan="1" rowspan="1"><p>新しいテストイベントの作成</p>
+</td><td colspan="1" rowspan="1"><p>(変更しません)</p>
+</td></tr>
+<tr><td colspan="1" rowspan="1"><p>イベントテンプレート</p>
+</td><td colspan="1" rowspan="1"><p><code>Hello World</code></p>
+<p>(変更しません)</p>
+</td></tr>
+<tr><td colspan="1" rowspan="1"><p>イベント名</p>
+</td><td colspan="1" rowspan="1"><p><code>1click</code></p>
+<p>(任意の文字列)</p>
+</td></tr>
+</table>
+<p>テキストエリアに以下の JSON を入力します。<br>その際 <strong>email の you@example.jp 部分を送信先のアドレスに変更</strong>することを忘れないでください。</p>
+<pre><code>{
+  &#34;deviceEvent&#34;: {
+    &#34;buttonClicked&#34;: {
+      &#34;clickType&#34;: &#34;SINGLE&#34;,
+      &#34;reportedTime&#34;: &#34;2018-05-04T23:26:33.747Z&#34;
+    }
+  },
+  &#34;deviceInfo&#34;: {
+    &#34;attributes&#34;: {
+    },
+    &#34;type&#34;: &#34;button&#34;,
+    &#34;deviceId&#34;: &#34; G030PMXXXXXXXXXX &#34;,
+    &#34;remainingLife&#34;: 5
+  },
+  &#34;placementInfo&#34;: {
+    &#34;projectName&#34;: &#34;TestEmail&#34;,
+    &#34;placementName&#34;: &#34;button1&#34;,
+    &#34;attributes&#34;: {
+      &#34;email&#34;: &#34;you@example.jp&#34;,
+      &#34;subject&#34;: &#34;テスト送信&#34;,
+      &#34;body&#34;: &#34;SORACOM LTE-M Button のテスト送信&#34;
+    },
+    &#34;devices&#34;: {
+      &#34;myButton&#34;: &#34; G030PMXXXXXXXXXX &#34;
+    }
+  }
+}</code></pre>
+<p>画面上は以下のようになります。</p>
+<p class="image-container"><img style="width: 703.50px" src="img/8725a0a0610e5375.png"></p>
+<h2 is-upgraded>Lambda 関数の編集画面 右上が <strong>1click</strong>(テストのイベント名) になっている事を確認したら [テスト] をクリックします。</h2>
+<p class="image-container"><img style="width: 602.00px" src="img/cd316e922e4a27e.png"></p>
+<h2 is-upgraded>テストの結果が Lambda 編集画面に表示されます。</h2>
+<p>Status に実行結果が表示されるほか <code>logging.info</code> からの出力が表示されているのが確認できます。</p>
+<p class="image-container"><img style="width: 602.00px" src="img/b18c40da7da5110d.png"></p>
+<p>Success (成功) であれば、以下のようなメールが届きます。追加した部分が本文に現れています。</p>
+<p class="image-container"><img style="width: 466.50px" src="img/3df2ca43ef614366.png"></p>
+<aside class="warning"><p><strong>status: failed となってしまった場合は？</strong></p>
+<p>コードの追加部分がに失敗していた場合、また、テストイベントの JSON が不適切だった場合が考えられます。理由が表示されているので、それを参照しながら修正を行ってください。</p>
+<p class="image-container"><img style="width: 721.50px" src="img/53ed92dcc10f0698.png"></p>
+</aside>
+<aside class="warning"><p><strong>status: success なのにメールが届かない場合は？</strong></p>
+<p>テストイベントの JSON における email 部分の値を確認してください。 you@example.jp の書き換え忘れが考えられます。</p>
+</aside>
+<h2 is-upgraded>ボタンからの動作を確認してみる</h2>
+<p>AWS Lambda は 保存 した時点でコードの内容が実行できるようになっています。<br>そのためこの時点で AWS IoT 1-Click からの呼び出しにも新しいコードの内容で応答することになります。</p>
+<p>実際にボタンを押してメールが届くか確認してみてください。</p>
+<p>以上で。 Lambda 関数の編集からテストまでの一連の作業が完了しました。また、AWS Lambda の「テスト機能」を活用する事で、<strong>LTE-M Button の実機が無くとも開発を進めることができます</strong>。</p>
+
+
+      </google-codelab-step>
+    
+      <google-codelab-step label="AWS IoT 1-Click の &#34;プレイスメント&#34; からデバイスの割り当てを外す" duration="5">
+        <p>デバイスに新しいプロジェクトを割り当てたり、デバイスの解除を行う前には必ずプレイスメントからデバイスの割り当てを解除する必要があるため、ここでプレイスメントからデバイスの割り当てを外す作業を学んでおきます。（比較的頻繁に行う作業です）</p>
+<h2 is-upgraded>AWS マネジメントコンソールのリージョンが オレゴン (us-west-2) になっている事を確認します。</h2>
+<p>なっていなければ オレゴン に切り替えてください。</p>
+<p class="image-container"><img style="width: 876.24px" src="img/e55b3b68a059a9c6.png"></p>
+<h2 is-upgraded>AWS IoT 1-Click 管理画面を開きます。</h2>
+<p class="image-container"><img style="width: 602.00px" src="img/a919da5a96253f0b.png"></p>
+<h2 is-upgraded>[管理] &gt; [プロジェクト] とクリックした後、解除を行いたいデバイスが所属しているプロジェクトをクリックします。</h2>
+<p class="image-container"><img style="width: 602.00px" src="img/1f21601a313df5f0.png"></p>
+<h2 is-upgraded>[プレイスメント] から解除したいデバイスの [...] をクリックした後に表示される [プレイスメントの編集] をクリックします。</h2>
+<h2 is-upgraded><img style="width: 602.00px" src="img/6234a55697fc70f7.png"></h2>
+<h2 is-upgraded>デバイスが表示されている部分の [クリア] をクリックした後、[プレイスメントの更新] をクリックします。</h2>
+<p class="image-container"><img style="width: 602.00px" src="img/c0aaf71639473bcd.png"></p>
+<p>これでデバイスとプレイスメントの割り当てが無くなりました。</p>
+<aside class="special"><p><strong>プレイスメントへの再割り当てを行いたい場合は？</strong></p>
+<p>外す時と同様の手順でプレイスメントの編集から [デバイスの選択] で割り当てたいデバイスを選び [プレイスメントの更新] をクリックします。</p>
+</aside>
+
+
+      </google-codelab-step>
+    
+      <google-codelab-step label="LINE 通知を利用する: LINE Notify の設定を行う" duration="5">
+        <p>ここからは LINE に通知を送信する設定です。IFTTT と呼ばれる中継サービスを経由して LINE にメッセージを送ってみます。</p>
+<p class="image-container"><img style="width: 602.00px" src="img/460876f5d6d500ad.png"></p>
+<h2 is-upgraded><a href="https://notify-bot.line.me/ja/" target="_blank">LINE Notify</a> 右上のログインから LINE のアカウントでログインしてください。</h2>
+<p class="image-container"><img style="width: 602.00px" src="img/37989028592931c4.png"></p>
+<p>ログインの時に必要なメールアドレスは <a href="https://guide.line.me/ja/beginner/set-email-address.html" target="_blank">メールアドレスの登録</a> で済ませておいてください。また、登録状況を確認する方法は <a href="https://help.line.me/line/?contentId=20000056" target="_blank">LINE Notify ヘルプセンター / 登録しているメールアドレスを確認するには？</a> をご覧ください。</p>
+<p class="image-container"><img style="width: 547.00px" src="img/745e3478d4d1f489.png"></p>
+<aside class="special"><p>ログインすると、 LINE にログイン記録が通知されます</p>
+</aside>
+<p>ログインができれば設定完了です。ブラウザはそのままにしておいて次に進みます。</p>
+
+
+      </google-codelab-step>
+    
+      <google-codelab-step label="LINE 通知を利用する: IFTTT と LINE  の連携設定を行う" duration="10">
+        <h2 is-upgraded><a href="https://ifttt.com/" target="_blank">IFTTT のページ</a>を開き、［Sign in］をクリックし、ログインします。</h2>
+<aside class="special"><p>IFTTT のアカウント作成方法は<a href="https://soracom.github.io/iot-recipes/create-account-ifttt/" target="_blank">IFTTT アカウントの作成</a>をご覧ください。</p>
+</aside>
+<p class="image-container"><img style="width: 602.00px" src="img/6694604dea47cc13.png"></p>
+<p class="image-container"><img style="width: 542.00px" src="img/9ba5a62b30862d1d.png"></p>
+<h2 is-upgraded>IFTTT 管理画面右上の<img style="width: 63.00px" src="img/113b89667bba17fb.png">をクリックしたあと ［Create］をクリックします。</h2>
+<p class="image-container"><img style="width: 245.00px" src="img/ea2baf5d20dc010b.png"></p>
+<h2 is-upgraded> This をクリックします。</h2>
+<p class="image-container"><img style="width: 602.00px" src="img/752ca114ccefeaad.png"></p>
+<h2 is-upgraded>［Webhooks］ をクリックします。</h2>
+<p class="image-container"><img style="width: 602.00px" src="img/4a88a4b437575bff.png"></p>
+<aside class="special"><p>IFTTT は対応サービスが非常に多いため探し出すのが困難です。そこでテキストボックスによる検索機能が便利です。上図のように <code>webhooks</code> と入力すると即座に絞り込まれます。</p>
+</aside>
+<h2 is-upgraded>［Receive a web request］ をクリックします。</h2>
+<p class="image-container"><img style="width: 602.00px" src="img/65075b7f4fca2a8b.png"></p>
+<h2 is-upgraded>Event Name 欄に <code>button</code> と入力し ［Create trigger］ をクリックします。</h2>
+<p><strong>必ず半角小文字で </strong><strong><code>button</code></strong><strong> として下さい。(大文字小文字の判定が入ります)</strong></p>
+<p class="image-container"><img style="width: 553.00px" src="img/c86b8701707cc5c8.png"></p>
+<h2 is-upgraded>That をクリックします。</h2>
+<p class="image-container"><img style="width: 602.00px" src="img/4e71c049f700e061.png"></p>
+<h2 is-upgraded>［LINE］をクリックします。</h2>
+<p class="image-container"><img style="width: 602.00px" src="img/78ab534a8bdfc3e0.png"></p>
+<aside class="special"><p>Webhooks の時同様に検索すると迅速に見つけられます。</p>
+</aside>
+<h2 is-upgraded>［Connect］ をクリックします。</h2>
+<p class="image-container"><img style="width: 547.00px" src="img/f905637149f596cd.png"></p>
+<aside class="special"><p>既に LINE Notify に Connect 済みだったり、 Google アカウントや Facebook アカウントで IFTTT にログインした場合、ここからいくつかの手順がスキップされることがありますが正常です。先に進み、該当する手順から続けてください。</p>
+</aside>
+<h2 is-upgraded>LINE へのログインが表示されたら LINE Notify へのログインの時と同じアカウントでログインしてください。</h2>
+<p class="image-container"><img style="width: 547.00px" src="img/745e3478d4d1f489.png"></p>
+<h2 is-upgraded>［同意して連携する］をクリックします。</h2>
+<p>ウィンドウは自動的に消えます。</p>
+<p class="image-container"><img style="width: 602.00px" src="img/3ba3433bdd1e5582.png"></p>
+<aside class="warning"><p>ウィンドウサイズが小さい場合があるため、ウィンドウサイズを変更してボタンが表示されるようにしてください。</p>
+</aside>
+<h2 is-upgraded>［Send message］をクリックします。</h2>
+<p class="image-container"><img style="width: 602.00px" src="img/c40fe6819b6f781d.png"></p>
+<h2 is-upgraded>フォームを以下のように設定し ［Create action］ をクリックします。</h2>
+<table>
+<tr><td colspan="1" rowspan="1"><p>Recipient</p>
+</td><td colspan="1" rowspan="1"><p>(変更しません)</p>
+</td></tr>
+<tr><td colspan="1" rowspan="1"><p>Message</p>
+</td><td colspan="1" rowspan="1"><p><code>&#123;&#123;Value1}}</code></p>
+</td></tr>
+<tr><td colspan="1" rowspan="1"><p>Photo URL</p>
+</td><td colspan="1" rowspan="1"><p><code>(変更しません)</code></p>
+</td></tr>
+</table>
+<p class="image-container"><img style="width: 421.00px" src="img/af6dde0e3eefd2af.png"></p>
+<aside class="special"><p>Message のテキストボックスからフォーカス(カーソル)が離れると <code>&#123;&#123;Value1}}</code> の表記が以下のように変化しますが正常です。</p>
+<p class="image-container"><img style="width: 263.00px" src="img/5221b1c21010eac4.png"></p>
+<p>&#123;&#123;...}} といった文字列は全てこのようになることを覚えておいてください。</p>
+</aside>
+<h2 is-upgraded>［Finish］をクリックします。</h2>
+<p class="image-container"><img style="width: 534.00px" src="img/a194bd4a6a9ae2d8.png"></p>
+<aside class="special"><p>Receive notifications when this Applet runs が ON だと、このアプレット (IFTTT 内のアプリケーションのようなもの) の実行毎に IFTTT のスマートフォンアプリへの通知がされます。不要である場合は OFF にします。後ほど変更できます。</p>
+</aside>
+
+
+      </google-codelab-step>
+    
+      <google-codelab-step label="LINE 通知を利用する: 送信のテストと Webhooks 設定を入手する" duration="5">
+        <p>AWS Lambda から IFTTT を起動する方法として Webhooks を利用します。そのための URL や設定情報を入手します。</p>
+<h2 is-upgraded>IFTTT 管理画面右上の<img style="width: 63.00px" src="img/113b89667bba17fb.png">をクリックしたあと ［My services］をクリックします。</h2>
+<p class="image-container"><img style="width: 245.00px" src="img/1a56650a34de6b61.png"></p>
+<h2 is-upgraded>Webhooks をクリックします。</h2>
+<p class="image-container"><img style="width: 602.00px" src="img/54df7837c4b1fff.png"></p>
+<h2 is-upgraded>［Documentation］をクリックします。</h2>
+<p class="image-container"><img style="width: 602.00px" src="img/e804b6999247034f.png"></p>
+<h2 is-upgraded>表示されたページで以下のようにします。</h2>
+<ul>
+<li>{event} の場所に <code>button</code> と入力</li>
+<li>&#34;value1&#34;: の横の空欄に <strong>テスト送信</strong> と入力</li>
+</ul>
+<p>入力ができたら ［Test It］をクリックします。</p>
+<p class="image-container"><img style="width: 708.50px" src="img/f1bb5c9094764a35.png"></p>
+<p>LINE にメッセージが届けば全ての設定が成功しているので、先に進みます。もしメッセージが届かないようであれば、前のステップに戻って設定を見直してください。</p>
+<h2 is-upgraded>同じページの  <strong>Your key is:</strong> をメモします。</h2>
+<p>Your key is: の情報が AWS Lambda からの起動用のキーとなります。漏洩しないように管理してください。(キーは破棄できます。また、再生成可能です。)</p>
+<p class="image-container"><img style="width: 602.00px" src="img/d7e53933294c4dcb.png"></p>
+<p>以上で送信テストとキーの入手が完了しました。</p>
+
+
+      </google-codelab-step>
+    
+      <google-codelab-step label="LINE 通知を利用する: Lambda 関数を作成する" duration="10">
+        <p>IFTTT の Webhooks を呼び出す Lambda 関数を作成します。</p>
+<h2 is-upgraded>AWS マネジメントコンソールのリージョンが オレゴン (us-west-2) になっている事を確認します。</h2>
+<p>なっていなければ オレゴン に切り替えてください。</p>
+<p class="image-container"><img style="width: 889.62px" src="img/971e0e7f8910ccca.png"></p>
+<h2 is-upgraded>AWS Lambda のコンソールを開きます。</h2>
+<p>[サービス] をクリックした後、検索窓に <code>lambda</code> と入れるか、 &#34;コンピューティング&#34; カテゴリの中の Lambda をクリックしてください。</p>
+<p class="image-container"><img style="width: 573.00px" src="img/10cbf116d53436a7.png"></p>
+<h2 is-upgraded>［関数の作成］をクリックします。</h2>
+<p class="image-container"><img style="width: 602.00px" src="img/592845150d98bfe.png"></p>
+<h3 is-upgraded>続く画面では［一から作成］ を選んだあと、以下のように入力して [関数の作成] をクリックします。</h3>
+<table>
+<tr><td colspan="1" rowspan="1"><p>名前</p>
+</td><td colspan="1" rowspan="1"><p><code>1click-ifttt</code></p>
+<p>(任意の文字列)</p>
+</td></tr>
+<tr><td colspan="1" rowspan="1"><p>ランタイム</p>
+</td><td colspan="1" rowspan="1"><p><strong>Node.js 10.x</strong></p>
+</td></tr>
+</table>
+<h2 is-upgraded>Lambda 関数の編集画面の <strong>関数コード</strong>では、以下のようにします。</h2>
+<table>
+<tr><td colspan="1" rowspan="1"><p>ハンドラ</p>
+</td><td colspan="1" rowspan="1"><p><code>index.handle</code></p>
+<p>(デフォルトでは index.handle<strong>r</strong> となっています。必ず直すようにしてください)</p>
+</td></tr>
+<tr><td colspan="1" rowspan="1"><p>コード</p>
+</td><td colspan="1" rowspan="1"><p>以下の URL のコードと入れ替えます。</p>
+<p><a href="https://raw.githubusercontent.com/j3tm0t0/1-click/master/functions/ifttt/index.js" target="_blank">https://github.com/j3tm0t0/1-click/blob/master/functions/ifttt/index.js</a></p>
+</td></tr>
+</table>
+<p class="image-container"><img style="width: 602.00px" src="img/e7d82062cea37ef6.png"></p>
+<h2 is-upgraded>Lambda 関数の編集画面 右上の [テストイベントの選択...] &gt; [テストイベントの設定] をクリックします。</h2>
+<p class="image-container"><img style="width: 602.00px" src="img/af6f91b5dd47dbf2.png"></p>
+<h2 is-upgraded>フォームに以下のように入力した後、[作成] をクリックします。</h2>
+<table>
+<tr><td colspan="1" rowspan="1"><p>新しいテストイベントの作成</p>
+</td><td colspan="1" rowspan="1"><p>(変更しません)</p>
+</td></tr>
+<tr><td colspan="1" rowspan="1"><p>イベントテンプレート</p>
+</td><td colspan="1" rowspan="1"><p><code>Hello World</code></p>
+<p>(変更しません)</p>
+</td></tr>
+<tr><td colspan="1" rowspan="1"><p>イベント名</p>
+</td><td colspan="1" rowspan="1"><p><code>1click</code></p>
+<p>(任意の文字列)</p>
+</td></tr>
+</table>
+<p>テキストエリアに以下の JSON を入力します。その際、以下の書き換えを行ってください。</p>
+<table>
+<tr><td colspan="1" rowspan="1"><p>key</p>
+</td><td colspan="1" rowspan="1"><p>IFTTT の Webhooks でメモしたキー</p>
+</td></tr>
+</table>
+<pre><code>{
+  &#34;deviceEvent&#34;: {
+    &#34;buttonClicked&#34;: {
+      &#34;clickType&#34;: &#34;SINGLE&#34;,
+      &#34;reportedTime&#34;: &#34;2018-05-04T23:26:33.747Z&#34;
+    }
+  },
+  &#34;deviceInfo&#34;: {
+    &#34;attributes&#34;: {},
+    &#34;type&#34;: &#34;button&#34;,
+    &#34;deviceId&#34;: &#34; G030PMXXXXXXXXXX &#34;,
+    &#34;remainingLife&#34;: 5
+  },
+  &#34;placementInfo&#34;: {
+    &#34;projectName&#34;: &#34;TestProject&#34;,
+    &#34;placementName&#34;: &#34;button1&#34;,
+    &#34;attributes&#34;: {
+      &#34;event&#34;: &#34;button&#34;,
+      &#34;key&#34;: &#34;IFTTT の Webhook key を入れる&#34;,
+      &#34;value1&#34;: &#34;値1&#34;,
+      &#34;value2&#34;: &#34;値2&#34;,
+      &#34;value3&#34;: &#34;値3&#34;
+    },
+    &#34;devices&#34;: {
+      &#34;myButton&#34;: &#34; G030PMXXXXXXXXXX &#34;
+    }
+  }
+}
+</code></pre>
+<h2 is-upgraded>Lambda 関数の編集画面 右上が <strong>1click</strong>(テストのイベント名) になっている事を確認したら [テスト] をクリックします。</h2>
+<p class="image-container"><img style="width: 602.00px" src="img/cd316e922e4a27e.png"></p>
+<p>この結果 LINE に通知が届けば Lambda 関数の作成が完了です。</p>
+<aside class="warning"><p><strong>LINE に通知が届かない場合は？</strong></p>
+<p>テストイベントの JSON における key 部分の値を確認してください。</p>
+</aside>
+
+
+      </google-codelab-step>
+    
+      <google-codelab-step label="LINE 通知を利用する: AWS IoT 1-Click の設定を行う" duration="10">
+        <h2 is-upgraded>AWS マネジメントコンソールのリージョンが オレゴン (us-west-2) になっている事を確認します。</h2>
+<p>なっていなければ オレゴン に切り替えてください。</p>
+<p class="image-container"><img style="width: 602.00px" src="img/97786763bec5d89f.png"></p>
+<h2 is-upgraded>AWS IoT 1-Click 管理画面を開きます。</h2>
+<h2 is-upgraded><img style="width: 602.00px" src="img/a919da5a96253f0b.png">LTE-M Button のプレイスメントの確認</h2>
+<p>対象となる LTE-M Button のプレイスメントが未割り当てであることを確認してください。プレイスメントが割り当たっていた場合は、 &#34;AWS IoT 1-Click の &#34;プレイスメント&#34; からデバイスの割り当てを外す&#34; のステップに沿って割り当てを解除してから作業を行ってください。</p>
+<h2 is-upgraded>AWS IoT 1-Click [管理] &gt; [プロジェクト] とクリックした後、[作成] をクリックします。</h2>
+<p>以下、プロジェクト内での設定です。</p>
+<h3 is-upgraded>ステップ 1/2</h3>
+<table>
+<tr><td colspan="1" rowspan="1"><p>プロジェクト名</p>
+</td><td colspan="1" rowspan="1"><p><code>IFTTT</code></p>
+<p>(任意の文字列)</p>
+</td></tr>
+</table>
+<h3 is-upgraded>ステップ 2/2</h3>
+<table>
+<tr><td colspan="1" rowspan="1"><p>デバイステンプレートの定義</p>
+</td><td colspan="1" rowspan="1"><p>全てのボタンタイプ</p>
+</td></tr>
+<tr><td colspan="1" rowspan="1"><p>デバイステンプレート名</p>
+</td><td colspan="1" rowspan="1"><p><code>IFTTT</code></p>
+<p>(任意の文字列、プロジェクト名と異なってもＯＫ)</p>
+</td></tr>
+<tr><td colspan="1" rowspan="1"><p>アクション</p>
+</td><td colspan="1" rowspan="1"><p>Lambda 関数の選択</p>
+</td></tr>
+<tr><td colspan="1" rowspan="1"><p>AWS リージョン</p>
+</td><td colspan="1" rowspan="1"><p>オレゴン</p>
+</td></tr>
+<tr><td colspan="1" rowspan="1"><p>Lambda 関数</p>
+</td><td colspan="1" rowspan="1"><p>1click-ifttt</p>
+<p>(先ほど作成した Lambda 関数)</p>
+</td></tr>
+<tr><td colspan="2" rowspan="1"><p>プレイスメントの属性 (属性の名称も入力します)</p>
+</td></tr>
+<tr><td colspan="1" rowspan="1"><p><code>event</code></p>
+</td><td colspan="1" rowspan="1"><p><code>button</code></p>
+<p>(IFTTT で設定した Event Name)</p>
+</td></tr>
+<tr><td colspan="1" rowspan="1"><p><code>key</code></p>
+</td><td colspan="1" rowspan="1"><p>(IFTTT の Webhooks で入手したキー)</p>
+</td></tr>
+<tr><td colspan="1" rowspan="1"><p><code>value1</code></p>
+</td><td colspan="1" rowspan="1"><p>今から帰ります</p>
+<p>(任意の文字列)</p>
+</td></tr>
+<tr><td colspan="1" rowspan="1"><p><code>value2</code></p>
+</td><td colspan="1" rowspan="1"><p>(空)</p>
+</td></tr>
+<tr><td colspan="1" rowspan="1"><p><code>value3</code></p>
+</td><td colspan="1" rowspan="1"><p>(空)</p>
+</td></tr>
+</table>
+<p class="image-container"><img style="width: 654.50px" src="img/49f269eb169e5f1a.png"></p>
+<h2 is-upgraded>プロジェクトとテンプレートが正常に作成されたら [プレイスメントの作成] をクリックします。</h2>
+<p class="image-container"><img style="width: 602.00px" src="img/b224864fd6123e2f.png"></p>
+<h2 is-upgraded>プロジェクトの新しいプレイスメントでは以下のように設定した後 [プレイスメントの作成] をクリックします。</h2>
+<table>
+<tr><td colspan="1" rowspan="1"><p>デバイスのプレイスメント名</p>
+</td><td colspan="1" rowspan="1"><p><code>button1</code></p>
+<p>(任意の文字列)</p>
+</td></tr>
+<tr><td colspan="1" rowspan="1"><p>[デバイスの選択] をクリック</p>
+</td><td colspan="1" rowspan="1"><p>ボタンの一覧が表示されます。結び付けたいボタンをクリックします。</p>
+</td></tr>
+<tr><td colspan="1" rowspan="1"><p>プレイスメントの属性</p>
+</td><td colspan="1" rowspan="1"><p>特に編集することはありません。</p>
+<p>先に作成した「テンプレート」で設定した内容が引き継がれています。</p>
+<p>逆にここでテンプレートから引き継がれた内容を上書きすることも可能です。</p>
+</td></tr>
+</table>
+<aside class="warning"><p><strong>デバイスの選択で希望する LTE-M Button が表示されなかったら？</strong></p>
+<p>LTE-M Button のプレイスメントの割り当てが解除されていません。先に割り当てを解除してから進めてください。</p>
+</aside>
+<p>以上で全ての作業が完了です。</p>
+
+
+      </google-codelab-step>
+    
+      <google-codelab-step label="LINE 通知を利用する: ボタンからの動作を確認してみる" duration="3">
+        <p>実際に LTE-M Button を押して届くか試してみましょう。</p>
+<h2 is-upgraded>ここからの発展</h2>
+<ul>
+<li>AWS IoT 1-Click のプレイスメントの属性における <code>value1</code> の値などを編集してみてください</li>
+<li>IFTTT のアプレットにおける Message を変更してみたり、 Photo URL を入れてみてください。</li>
+</ul>
+<p>Photo URL で使えそうな画像のサンプル URL: <code>https://blog.soracom.jp/images/2018-07-04-soracom-lte-m-button/soracom-lte-m-button-powered-by-aws.png</code></p>
+
+
+      </google-codelab-step>
+    
+      <google-codelab-step label="あとかたづけと注意事項" duration="1">
+        <p>本レシピでは費用がかかるサービスを利用しています。<br>本項をよく読み、必要な操作や解除作業を行うようにして、想定外の費用が掛からないようにしてください。</p>
+<h2 is-upgraded>費用について</h2>
+<p>ここで記載している金額は全て税別、送料別となります。</p>
+<h3 is-upgraded>SORACOM プラットフォームの利用料金</h3>
+<p>SORACOM LTE-M Button powered by AWS は購入費用の中に基本使用料や通信料が含まれているため、本レシピで追加になる費用はありません。</p>
+<h3 is-upgraded>AWS の利用料金</h3>
+<table>
+<tr><td colspan="1" rowspan="1"><p><a href="https://aws.amazon.com/jp/iot-1-click/pricing/" target="_blank">AWS IoT 1-Click</a></p>
+</td><td colspan="1" rowspan="1"><p><strong>有効な AWS IoT 1-Click デバイスの台数</strong> x <strong>有効なデバイスあたりの日割り料金</strong> x <strong>利用日数</strong> = <strong>AWS IoT 1-Click の月額料金</strong> となります。</p>
+<p>1 デバイスの場合: 0.25 USD / 月 であるため、 1 日の利用であれば 約 0.0083 USD (約 1 円) が目安となります。</p>
+<p>「無効化されたデバイス」は課金対象外となります。</p>
+<p>無料枠はありません。</p>
+</td></tr>
+<tr><td colspan="1" rowspan="1"><p><a href="https://aws.amazon.com/jp/ses/pricing/" target="_blank">Amazon SES</a></p>
+</td><td colspan="1" rowspan="1"><p>AWS Lambda からの送信は &#34;Amazon EC2 でホストされているアプリケーションからの E メール送信 &#34; に該当し、 1,000 件ごとに 0.10 USD となります。</p>
+<p>月間 62000 通までの無料枠があります。</p>
+<p>今回は無料枠に収まる範囲となります。</p>
+</td></tr>
+<tr><td colspan="1" rowspan="1"><p><a href="https://aws.amazon.com/jp/lambda/pricing/#Lambda_pricing_details" target="_blank">AWS Lambda</a></p>
+</td><td colspan="1" rowspan="1"><p>メモリ 128MB における 100 ミリ秒単位の価格は 0.000000208 USD です。</p>
+<p>月間 100 万リクエストの無料枠があります。</p>
+<p>今回は無料枠に収まる範囲となります。</p>
+</td></tr>
+</table>
+<p>※ AWS における料金は目安であり保証するものはありません。必ず各自でご確認ください。</p>
+
+
+      </google-codelab-step>
+    
+      <google-codelab-step label="［かたづけ(推奨)］SORACOM LTE-M Button powered by AWS を AWS IoT 1-Click 上で無効化する" duration="1">
+        <p>登録したボタンは無効化することができます。主に費用を軽減するために利用する機能です。</p>
+<h3 is-upgraded>AWS IoT 1-Click の管理画面を開きます。リージョンはオレゴンであることを確認してください。</h3>
+<h3 is-upgraded>[管理] &gt; [デバイス] とクリックした後、解除を行いたいデバイスの [...] をクリックした後に表示される [デバイスの無効化] をクリックします。</h3>
+<p class="image-container"><img style="width: 746.27px" src="img/99def103c167442c.png"></p>
+<p>対象デバイスの有効が<strong>無効</strong>となれば完了です。</p>
+<p class="image-container"><img style="width: 826.80px" src="img/f0c51c6020557913.png"></p>
+
+
+      </google-codelab-step>
+    
+      <google-codelab-step label="［かたづけ］IFTTT と LINE の連係解除" duration="1">
+        <ol type="1" start="1">
+<li><a href="https://ifttt.com/line" target="_blank">IFTTT の My services から LINE を選択</a>、Settings で <strong>Remove LINE</strong> で切断。</li>
+<li><a href="https://notify-bot.line.me/my/" target="_blank">LINE Notify のマイページ</a> の連携中サービスで IFTTT との接続で <strong>解除 </strong>で解除。</li>
+</ol>
+
+
+      </google-codelab-step>
+    
+      <google-codelab-step label="［かたづけ］AWS リソース" duration="1">
+        <p>本レシピで自動的・能動的に作成した AWS の一覧となります。</p>
+<table>
+<tr><td colspan="1" rowspan="1"><p>AWS Lambda</p>
+</td><td colspan="1" rowspan="1"><p><code>iot1click_onclick_*</code></p>
+</td></tr>
+<tr><td colspan="1" rowspan="1"><p>AWS IAM ロール</p>
+</td><td colspan="1" rowspan="1"><p><code>iot1click_onclick_*</code></p>
+<p><code>[Lambda_FUNCNAME]-role-**</code></p>
+</td></tr>
+<tr><td colspan="1" rowspan="1"><p>AWS IAM ポリシー</p>
+</td><td colspan="1" rowspan="1"><p><code>AWSLambdaIoTButtonSESExecutionRole-*</code> (Email の場合)</p>
+<p><code>AWSLambdaIoTButtonSNSExecutionRole-*</code> (SMS の場合)</p>
+<p><code>AWSLambdaIoTButtonBasicExecutionRole-*</code></p>
+</td></tr>
+</table>
+<h3 is-upgraded>AWS Lambda</h3>
+<p>Lambda 関数は残っていても実行されない限りは費用は発生しません。削除は任意です。</p>
+<h3 is-upgraded>AWS IoT 1-Click のプロジェクトやプレイスメント、テンプレートの削除</h3>
+<p>残っていても費用は発生しません。削除は任意です。</p>
+<h3 is-upgraded>Amazon SES 認証済みメールアドレス</h3>
+<p>残っていても費用は発生しません。削除は任意です。</p>
+<h3 is-upgraded>AWS IAM ロール、ポリシー</h3>
+<p>残っていても費用は発生しません。削除は任意です。</p>
+
+
+      </google-codelab-step>
+    
+      <google-codelab-step label="次のステップ" duration="1">
+        <p>本レシピでは、シンプルなボタン型デバイスを用いた「誰でもできる現場のデジタル化」として &#34;今から帰ります&#34; を通知する仕組みを作りました。ボタンは学習コストが低いため活用させる側としてもトータルで安くすることができます。</p>
+<p>また AWS Lambda を利用することで真の意味で「動いたら動いただけの課金」を実現しています。</p>
+<p><a href="https://soracom.jp/products/gadgets/aws_button/" target="_blank">商品ページへ戻る</a></p>
+<p>よくあるご質問は<a href="https://blog.soracom.jp/blog/2019/02/26/feb-webinar-report/" target="_blank">Let&#39;s IoT プロトタイピング〜今から帰るよボタンを作ってみよう〜の動画とQAを公開</a>でご案内しています。こちらもご覧ください。</p>
+<h2 is-upgraded>資料集</h2>
+<p>本格的な開発に必要な情報や企画に盛り込めるスライドをご紹介しています。</p>
+<ul>
+<li>(ブログ) <a href="https://blog.soracom.jp/blog/2018/10/25/are-you-ready-for-lte-m-button/" target="_blank">SORACOM LTE-M Button powered by AWS でできる事や環境の準備まとめ</a></li>
+<li>(スライド) <a href="https://www.slideshare.net/SORACOM/soracom-technology-camp-2018-4-soracom-ltem-button" target="_blank">SORACOM LTE-M Button の始め方 / SORACOM Technology Camp 2018 ベーシックトラック4</a></li>
+</ul>
+
+
+      </google-codelab-step>
+    
+      <google-codelab-step label="Appendix: SORACOM LTE-M Button powered by AWS を AWS IoT 1-Click から解除(削除)する" duration="1">
+        <p>主に別の AWS アカウントへ再登録する際に利用する機能です。</p>
+<h3 is-upgraded>AWS IoT 1-Click の管理画面を開きます。リージョンはオレゴンであることを確認してください。</h3>
+<h3 is-upgraded>[管理] &gt; [デバイス] とクリックした後、解除を行いたいデバイスの [...] をクリックした後に表示される [デバイスの登録解除] をクリックします。</h3>
+<p class="image-container"><img style="width: 602.00px" src="img/b9eb732aa4fc9082.png"></p>
+<p>一覧から対象デバイスが無くなれば解除完了です。</p>
+<aside class="warning"><p>プレイスメントに割り当てられているデバイスは解除できませんので、プレイスメントから外してから行ってください。</p>
+</aside>
+<aside class="special"><p>個の状態であれば、他の AWS アカウントの AWS IoT 1-Click に登録することが可能です。その場合 AWS 関連の費用は登録先の AWS アカウントとなりますが、<strong>LTE-M Button の更新費用(年1回、もしくは1500を超えたときに発生する費用)は LTE-M Button を SORACOM に登録した方</strong>となりますのでご注意ください。</p>
+</aside>
+<aside class="special"><p><strong>再度登録したい場合は？</strong></p>
+<p>AWS IoT 1-Click へ SORACOM LTE-M Button を登録する作業を行ってください。</p>
+</aside>
+
+
+      </google-codelab-step>
+    
+  </google-codelab>
+
+  <script src="https://soracom.github.io/iot-recipes/codelab-elements/native-shim.js"></script>
+  <script src="https://soracom.github.io/iot-recipes/codelab-elements/custom-elements.min.js"></script>
+  <script src="https://soracom.github.io/iot-recipes/codelab-elements/prettify.js"></script>
+  <script src="https://soracom.github.io/iot-recipes/codelab-elements/codelab-elements.js"></script>
+
+</body>
+</html>
