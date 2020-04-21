@@ -1,0 +1,134 @@
+
+<!doctype html>
+
+<html>
+<head>
+  <meta name="viewport" content="width=device-width, minimum-scale=1.0, initial-scale=1.0, user-scalable=yes">
+  <meta name="theme-color" content="#4F7DC9">
+  <meta charset="UTF-8">
+  <title>【SORACOM ハンズオン】IFTTT アカウントの作成 (JP)</title>
+  <link rel="stylesheet" href="//fonts.googleapis.com/css?family=Source+Code+Pro:400|Roboto:400,300,400italic,500,700|Roboto+Mono">
+  <link rel="stylesheet" href="//fonts.googleapis.com/icon?family=Material+Icons">
+  <link rel="stylesheet" href="https://soracom.github.io/iot-recipes/codelab-elements/codelab-elements.css">
+  <style>
+    .success {
+      color: #1e8e3e;
+    }
+    .error {
+      color: red;
+    }
+  </style>
+</head>
+<body>
+  <google-codelab-analytics gaid="UA-66865146-33"></google-codelab-analytics>
+  <google-codelab codelab-gaid=""
+                  id="create-account-ifttt"
+                  title="【SORACOM ハンズオン】IFTTT アカウントの作成 (JP)"
+                  environment="web"
+                  feedback-link="">
+    
+      <google-codelab-step label="概要" duration="0">
+        <p>IFTTT(イフト) アカウントの作成方法をゼロから学びます。</p>
+<h2 is-upgraded>できるようになる事</h2>
+<ul>
+<li>IFTTT アカウントの取得</li>
+</ul>
+<h2 is-upgraded>このハンズオンでサポートしない事 (前提知識)</h2>
+<ul>
+<li>パソコンの操作やインターネットへの接続方法</li>
+</ul>
+<h2 is-upgraded>このコンテンツの進め方</h2>
+<p>ページの内容を読み、また作業を行ったら右下の［Next］を押して次のステップへ進みます。また、［Back］を使って戻ったり、左のナビゲーションメニューでもページの移動が可能です。</p>
+<p>左上の［×］を押してコンテンツを終了することができます。また、ページを開きなおすことで再開できます。ページのアドレスはブラウザの［履歴］メニューを利用してください。</p>
+
+<aside class="warning"><p>本コンテンツは現状のままで提供され、株式会社ソラコムは、誤りがないことの保証を含め、明示であると黙示であるとを問わず、本コンテンツの記載内容につき、いかなる種類の表明も保証も行いません。</p>
+<p>掲載情報の閲覧及び利用により、利用者自身、もしくは第三者が被った損害に対して、直接的、間接的を問わず、株式会社ソラコムは責任を負いかねます。</p>
+<p>本コンテンツを実践する中で用意された機器、利用されたサービスについてのご質問は、それぞれの機器やサービスの提供元にお問い合わせをお願いします。機器やサービスの仕様は、本コンテンツ作成当時のものです。</p>
+<p>株式会社ソラコムが提供する機器・サービスについてのご質問は、 <a href="https://soracom.jp/contact/" target="_blank">https://soracom.jp/contact/</a> をご確認の上、適切な窓口へのお問い合わせをお願いします。機器・サービスご利用前の導入相談は <a href="https://soracom.jp/contact/contactsales/" target="_blank">https://soracom.jp/contact/contactsales/</a> に、機器・サービスご利用開始後のサポートは、SORACOMユーザーコンソール内の<a href="https://soracom.zendesk.com/hc/ja/requests/" target="_blank">サポートサイトから「リクエストを送信」</a>(要ログイン)にてお問い合わせください。</p>
+<p>本ドキュメントは <a href="https://github.com/googlecodelabs/tools" target="_blank">CLaaT</a> を用いて制作しています。</p>
+<p>Copyright (c) 2020 SORACOM, INC.</p>
+</aside>
+
+
+
+      </google-codelab-step>
+    
+      <google-codelab-step label="準備するもの" duration="5">
+        <p>SORACOM アカウントを作成するにあたり、以下のものを用意、もしくは、確認・検討ください。</p>
+<table>
+<tr><td colspan="1" rowspan="1"><p>パソコン、 ブラウザー、インターネット接続環境</p>
+</td><td colspan="1" rowspan="1"><p>SORACOM ユーザーコンソールにアクセスする環境です。 </p>
+<p>Google Chrome 等の最新ブラウザーをお使いください。スマートフォンやタブレットでは操作が完了できない場合があります。</p>
+<p>また、社内システム設定等のアクセス制限がある場合は解除できるようにしてください。</p>
+</td></tr>
+<tr><td colspan="1" rowspan="1"><p>メールアドレス</p>
+</td><td colspan="1" rowspan="1"><p>IFTTT 管理画面へログインする際の ID となります。</p>
+<p>また、アカウント作成を完了するための確認メールや、パスワード再発行時の通知等、IFTTT 側からの重要な連絡にも利用されます。そのため、有効なメールアドレスとすぐみられる環境をご用意ください。</p>
+<p>複数の方への通知が必要な場合は、メーリングリストのご利用をご検討ください。アカウント作成後に変更できます。</p>
+</td></tr>
+<tr><td colspan="1" rowspan="1"><p>パスワード</p>
+</td><td colspan="1" rowspan="1"><p>IFTTT 管理画面へログインする際のパスワードとなります。</p>
+<p>6 文字以上の文字列です。</p>
+<p>アカウント作成後の変更や、忘れてしまったとしても再設定が可能です。</p>
+</td></tr>
+</table>
+
+
+      </google-codelab-step>
+    
+      <google-codelab-step label="IFTTT アカウント作成の手順" duration="10">
+        <h2 is-upgraded><a href="https://ifttt.com/" target="_blank">IFTTT のページ</a>を開き、［Sign up］をクリックします。</h2>
+<p class="image-container"><img style="width: 602.00px" src="img/84be581d163b4d10.png"></p>
+<h2 is-upgraded>アカウント作成元の情報の画面では［sign up］をクリックします。</h2>
+<p class="image-container"><img style="width: 602.00px" src="img/88efed23cb49c40b.png"></p>
+<aside class="special"><p>画面に表示されている Apple ID 、 Google アカウント、 Facebook アカウントを使って IFTTT アカウントを作成することも可能です。</p>
+<p>本ハンズオンでは Email を使用したアカウント作成を紹介します。</p>
+</aside>
+<h2 is-upgraded>準備しておいた「Email」「Password」をフォームに入力します。</h2>
+<p class="image-container"><img style="width: 541.00px" src="img/2f7a361751e27184.png"></p>
+<p>入力が完了したら［Sign up］をクリックします。</p>
+<aside class="warning"><p>次に下記のような画面が表示されることがあります。その場合は指示に従って進めてください。</p>
+<p class="image-container"><img style="width: 335.00px" src="img/97afddba479e4b55.png"></p>
+</aside>
+<h2 is-upgraded>&#34;Get started&#34; と書かれたページが表示されたら、アカウント作成は完了です。</h2>
+<p>右上の［Skip］をクリックします。</p>
+<p class="image-container"><img style="width: 602.00px" src="img/cb5855bc38cba907.png"></p>
+<h2 is-upgraded>IFTTT 管理画面</h2>
+<p>以下が IFTTT 管理画面です。以降、ログインした時にはこの画面が表示されます。</p>
+<p class="image-container"><img style="width: 602.00px" src="img/f5f788f0f922c269.png"></p>
+
+
+      </google-codelab-step>
+    
+      <google-codelab-step label="次のステップ" duration="0">
+        <p>これで IFTTT 管理画面が利用可能となりました。これ以降の操作方法について解説します。</p>
+<h2 is-upgraded>各種メニューの表示の方法</h2>
+<p>アカウントの設定やアプレット (IFTTT における「アプリケーション」のようなもの)の管理をするためのメニューは、IFTTT 管理画面右上の<img style="width: 63.00px" src="img/113b89667bba17fb.png">をクリックすることで進められます。</p>
+<p class="image-container"><img style="width: 245.00px" src="img/142a87b6af890809.png"></p>
+<aside class="special"><p>Facebook ID 等を利用したログインの場合、<img style="width: 63.00px" src="img/113b89667bba17fb.png">の代わりにアカウントで設定済みの画像が表示されることがあります。</p>
+<p>また &#34;Account&#34; メニューから、自分で画像をアップロードすることも可能です。</p>
+</aside>
+<aside class="special"><p><strong>Account メニューの中の &#34;Username&#34; について</strong></p>
+<p>Account メニューの中に &#34;Username&#34; という項目があり、すでに入力されている状態です。これは IFTTT 側でメールアドレスから自動的に生成された ID となり、この Username でもログインする事ができます。変更も可能です。</p>
+</aside>
+<h2 is-upgraded>ログアウトの方法</h2>
+<p>メニューの［Sign out］をクリックします。</p>
+<p class="image-container"><img style="width: 245.00px" src="img/3ca89d6b6af63fcf.png"></p>
+<h2 is-upgraded>後ほど届くメールについて</h2>
+<p>アカウントを作成したあと (約5 ~ 10分後程度)に、アカウント作成時に利用したメールアドレスにメールが届きます。こちらについては特にアクションをする必要はありません。</p>
+<p>メールのサンプルです。</p>
+<p class="image-container"><img style="width: 602.00px" src="img/7261cd9c1254fc89.png"></p>
+<p>以上で IFTTT アカウントの作成は終了です。</p>
+
+
+      </google-codelab-step>
+    
+  </google-codelab>
+
+  <script src="https://soracom.github.io/iot-recipes/codelab-elements/native-shim.js"></script>
+  <script src="https://soracom.github.io/iot-recipes/codelab-elements/custom-elements.min.js"></script>
+  <script src="https://soracom.github.io/iot-recipes/codelab-elements/prettify.js"></script>
+  <script src="https://soracom.github.io/iot-recipes/codelab-elements/codelab-elements.js"></script>
+
+</body>
+</html>
