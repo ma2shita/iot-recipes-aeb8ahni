@@ -3,7 +3,7 @@
   "format": "html",
   "prefix": "https://soracom.github.io/iot-recipes",
   "mainga": "UA-66865146-33",
-  "updated": "2020-04-20T10:01:46Z",
+  "updated": "2020-04-20T10:01:48Z",
   "id": "setup-for-m5stack-with-arduino-ide",
   "duration": 25,
   "title": "【SORACOM ハンズオン】M5Stack 開発環境セットアップ (Windows / macOS 共通)",
