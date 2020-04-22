@@ -1,0 +1,728 @@
+
+<!doctype html>
+
+<html>
+<head>
+  <meta name="viewport" content="width=device-width, minimum-scale=1.0, initial-scale=1.0, user-scalable=yes">
+  <meta name="theme-color" content="#4F7DC9">
+  <meta charset="UTF-8">
+  <title>【IoT DIY レシピ】Wio LTE と超音波センサーで作る「簡易ジェスチャーデバイス ～ ただいまを届けよう」</title>
+  <link rel="stylesheet" href="//fonts.googleapis.com/css?family=Source+Code+Pro:400|Roboto:400,300,400italic,500,700|Roboto+Mono">
+  <link rel="stylesheet" href="//fonts.googleapis.com/icon?family=Material+Icons">
+  <link rel="stylesheet" href="https://soracom.github.io/iot-recipes/codelab-elements/codelab-elements.css">
+  <style>
+    .success {
+      color: #1e8e3e;
+    }
+    .error {
+      color: red;
+    }
+  </style>
+</head>
+<body>
+  <google-codelab-analytics gaid="UA-66865146-33"></google-codelab-analytics>
+  <google-codelab codelab-gaid=""
+                  id="iamhome-by-wio-lte-ultrasonic-sensor"
+                  title="【IoT DIY レシピ】Wio LTE と超音波センサーで作る「簡易ジェスチャーデバイス ～ ただいまを届けよう」"
+                  environment="web"
+                  feedback-link="https://soracom.jp/products/kit/grovestarter_kit_lte/">
+    
+      <google-codelab-step label="Wio LTE と超音波センサーで作る「簡易ジェスチャーデバイス ～ ただいまを届けよう」" duration="1">
+        <p>レシピ難易度：★★★★☆</p>
+<p>超音波距離センサーを活用して「手のひらをかざすと反応する簡易ジェスチャーデバイス」を作り、帰宅を知らせる仕組みを作ります。センサーを制御するマイコンには LTE モデム搭載済みプロトタイプ向けデバイス Wio LTE JP Version を使い、どのような場所からでもクラウド通信できるデバイスとして作り上げます。</p>
+<p class="image-container"><img style="width: 602.00px" src="img/3fe9c3b1bea7803e.gif"></p>
+<p>本レシピは、動画コンテンツも用意しております。本レシピの動いている様子を、映像で確認できますので、ぜひ動画もご覧ください。</p>
+<h3 is-upgraded>デバイス解説回</h3>
+<iframe class="youtube-video" src="https://www.youtube.com/embed/cSvC3w1GtXA?rel=0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+<h3 is-upgraded>クラウド開発回</h3>
+<iframe class="youtube-video" src="https://www.youtube.com/embed/CF13l8TpB-Q?rel=0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+<h3 is-upgraded>応用編</h3>
+<iframe class="youtube-video" src="https://www.youtube.com/embed/cL0z_Ps-rkI?rel=0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+<h2 is-upgraded>本レシピを行うのに必要な時間、概算費用</h2>
+<p>本レシピは以下の通りです。</p>
+<ul>
+<li>必要な時間: 約2時間30分</li>
+<li>概算費用: 約14,100円</li>
+</ul>
+<p>※ 概算費用: ハードウェアや SORACOM を始めとした各種サービスの概ねの費用 (税や送料などの付帯費用や無料枠適用は考慮しないものとしています)</p>
+<h2 is-upgraded>このコンテンツの進め方</h2>
+<p>ページの内容を読み、また作業を行ったら右下の［Next］を押して次のステップへ進みます。また、［Back］を使って戻ったり、左のナビゲーションメニューでもページの移動が可能です。</p>
+<p>左上の［×］を押してコンテンツを終了することができます。また、ページを開きなおすことで再開できます。ページのアドレスはブラウザの［履歴］メニューを利用してください。</p>
+
+<aside class="warning"><p>本コンテンツは現状のままで提供され、株式会社ソラコムは、誤りがないことの保証を含め、明示であると黙示であるとを問わず、本コンテンツの記載内容につき、いかなる種類の表明も保証も行いません。</p>
+<p>掲載情報の閲覧及び利用により、利用者自身、もしくは第三者が被った損害に対して、直接的、間接的を問わず、株式会社ソラコムは責任を負いかねます。</p>
+<p>本コンテンツを実践する中で用意された機器、利用されたサービスについてのご質問は、それぞれの機器やサービスの提供元にお問い合わせをお願いします。機器やサービスの仕様は、本コンテンツ作成当時のものです。</p>
+<p>株式会社ソラコムが提供する機器・サービスについてのご質問は、 <a href="https://soracom.jp/contact/" target="_blank">https://soracom.jp/contact/</a> をご確認の上、適切な窓口へのお問い合わせをお願いします。機器・サービスご利用前の導入相談は <a href="https://soracom.jp/contact/contactsales/" target="_blank">https://soracom.jp/contact/contactsales/</a> に、機器・サービスご利用開始後のサポートは、SORACOMユーザーコンソール内の<a href="https://soracom.zendesk.com/hc/ja/requests/" target="_blank">サポートサイトから「リクエストを送信」</a>(要ログイン)にてお問い合わせください。</p>
+<p>本ドキュメントは <a href="https://github.com/googlecodelabs/tools" target="_blank">CLaaT</a> を用いて制作しています。</p>
+<p>Copyright (c) 2020 SORACOM, INC.</p>
+</aside>
+
+
+
+      </google-codelab-step>
+    
+      <google-codelab-step label="準備" duration="1">
+        <p>本レシピを行うためには以下のものをご用意ください。</p>
+<h2 is-upgraded>ハードウェア</h2>
+<table>
+<tr><td colspan="1" rowspan="1"><p><strong>品名</strong></p>
+</td><td colspan="1" rowspan="1"><p><strong>数量</strong></p>
+</td><td colspan="1" rowspan="1"><p><strong>価格</strong></p>
+</td><td colspan="1" rowspan="1"><p><strong>購入先</strong></p>
+</td><td colspan="1" rowspan="1"><p><strong>備考</strong></p>
+</td></tr>
+<tr><td colspan="1" rowspan="1"><p>Grove IoT スターターキット for SORACOM(Wio LTE JP Version)</p>
+</td><td colspan="1" rowspan="1"><p>1</p>
+</td><td colspan="1" rowspan="1"><p>15,980円</p>
+</td><td colspan="1" rowspan="1"><p><a href="https://soracom.jp/products/kit/grovestarter_kit_lte/" target="_blank">ソラコム</a></p>
+</td><td colspan="1" rowspan="1"><p>キットの中には以下のものが含まれています。(それぞれを個別に準備しても構いません)</p>
+<ul>
+<li><a href="https://soracom.jp/products/module/wio_lte/" target="_blank">Wio LTE JP Version</a> x 1</li>
+<li><a href="http://ssci.to/1383" target="_blank">Grove 超音波距離センサーモジュール</a> x 1</li>
+<li><a href="https://soracom.jp/products/sim/plan-d/" target="_blank">SORACOM 特定地域向け IoT SIM (plan-D / データ通信のみ / nanoSIM サイズ)</a> x 1</li>
+<li>microUSB ケーブル x 1</li>
+</ul>
+</td></tr>
+<tr><td colspan="1" rowspan="1"><p>開発用パソコン</p>
+</td><td colspan="1" rowspan="1"><p>1</p>
+</td><td colspan="1" rowspan="1"><p>―</p>
+</td><td colspan="1" rowspan="1"><p>―</p>
+</td><td colspan="1" rowspan="1"><ul>
+<li>インターネット接続が可能でサイトへの接続が自由であること。</li>
+<li>USB Type-A ポートが最低1つ以上用意出来ること。</li>
+<li>USB ポートからの電力供給が1A以上であること。</li>
+<li>OS は macOS(10.11 El Capitan 以上) もしくは Windows(8.1 以上)。</li>
+<li>管理者権限を有しており、アプリケーションやドライバソフトウェアのインストールが自由であること。</li>
+<li>Arduino IDE と Wio LTE JP Version 開発環境が整っていること (セットアップ方法は 【SORACOM ハンズオン】Wio LTE 開発環境セットアップ (<a href="https://soracom.github.io/iot-recipes/setup-for-wiolte-with-arduino-ide-windows/" target="_blank">Windows 編</a> / <a href="https://soracom.github.io/iot-recipes/setup-for-wiolte-with-arduino-ide-macos/" target="_blank">macOS 編</a>) 全体で約90分)をご覧ください)</li>
+</ul>
+</td></tr>
+<tr><td colspan="1" rowspan="1"><p>(必要な方のみ)</p>
+<p>USB 変換アダプタ</p>
+</td><td colspan="1" rowspan="1"><p>―</p>
+</td><td colspan="1" rowspan="1"><p>―</p>
+</td><td colspan="1" rowspan="1"><p>―</p>
+</td><td colspan="1" rowspan="1"><p>Wio LTE とパソコンを USB ケーブルで接続する際に利用します。</p>
+<p>パソコンに USB Type-A ポートがない場合はご用意ください。</p>
+<p>1A 以上の電力が供給できるものを利用してください。(USB 3.0以上に対応していれば概ね安心です)</p>
+</td></tr>
+</table>
+<p>※1 ※ 金額はレシピ作成時となります。ソラコムで販売している金額は税抜き・送料別です。</p>
+<h2 is-upgraded>その他必要なもの</h2>
+<table>
+<tr><td colspan="1" rowspan="1"><p><strong>必要なもの</strong></p>
+</td><td colspan="1" rowspan="1"><p><strong>費用</strong></p>
+</td><td colspan="1" rowspan="1"><p><strong>作成方法など</strong></p>
+</td></tr>
+<tr><td colspan="1" rowspan="1"><p>SORACOM アカウント</p>
+</td><td colspan="1" rowspan="1"><p>無料※</p>
+</td><td colspan="1" rowspan="1"><p><a href="https://soracom.github.io/iot-recipes/create-account-soracom-jp/" target="_blank">SORACOM アカウントの作成 (JP)</a></p>
+</td></tr>
+</table>
+<p>※ アカウント作成・維持の費用の料金です。</p>
+<h2 is-upgraded>Wio LTE JP Version 設置用部材</h2>
+<p>本レシピ内では Wio LTE JP Version とGrove 超音波距離センサーモジュールを設置するための部材を紹介しています。ここに記載されているものは任意であり、特に準備をせずともレシピ自体は進めることができます。</p>
+<table>
+<tr><td colspan="1" rowspan="1"><p><strong>品名</strong></p>
+</td><td colspan="1" rowspan="1"><p><strong>数量</strong></p>
+</td><td colspan="1" rowspan="1"><p><strong>価格</strong></p>
+</td><td colspan="1" rowspan="1"><p><strong>購入先</strong></p>
+</td><td colspan="1" rowspan="1"><p><strong>備考</strong></p>
+</td></tr>
+<tr><td colspan="1" rowspan="1"><p>スマートフォン スタンド</p>
+</td><td colspan="1" rowspan="1"><p>1</p>
+</td><td colspan="1" rowspan="1"><p>―</p>
+</td><td colspan="1" rowspan="1"><p>―</p>
+</td><td colspan="1" rowspan="1"><p>100円ショップ等で見つけることができます。</p>
+</td></tr>
+<tr><td colspan="1" rowspan="1"><p>貼り付けボス (M3 サイズ)</p>
+</td><td colspan="1" rowspan="1"><p>2</p>
+</td><td colspan="1" rowspan="1"><p>約75円</p>
+<p>(単価)</p>
+</td><td colspan="1" rowspan="1"><p><a href="https://www.monotaro.com/g/00966263/" target="_blank">MonotaRO</a> 等</p>
+</td><td colspan="1" rowspan="1"><p>M3 というネジ穴サイズを受ける為のナットが埋まっています。裏面は両面テープなので、どこにでも &#34;M3 ネジ穴&#34; を設置できます。</p>
+<p class="image-container"><img style="width: 150.72px" src="img/af63568ca5ec673a.png"></p>
+<p>Wio LTE JP Version のネジ穴は M3 で 2 つあります。</p>
+</td></tr>
+<tr><td colspan="1" rowspan="1"><p>鍋小ネジ(ポリカーボネート / M3 長さ10mm)</p>
+</td><td colspan="1" rowspan="1"><p>2</p>
+</td><td colspan="1" rowspan="1"><p>約11円</p>
+<p>(単価)</p>
+</td><td colspan="1" rowspan="1"><p><a href="https://www.monotaro.com/p/3579/5417/" target="_blank">MonotaRO</a> 等</p>
+</td><td colspan="1" rowspan="1"><p>M3 サイズのネジです。ポリカーボネート(樹脂)で出来ているため、ショートさせる危険もありません。</p>
+<p class="image-container"><img style="width: 189.48px" src="img/ad3b4892fb2486e8.png"></p>
+</td></tr>
+<tr><td colspan="1" rowspan="1"><p>プラスドライバー</p>
+</td><td colspan="1" rowspan="1"><p>1</p>
+</td><td colspan="1" rowspan="1"><p>―</p>
+</td><td colspan="1" rowspan="1"><p>―</p>
+</td><td colspan="1" rowspan="1"><p>ネジ止め用です。</p>
+</td></tr>
+<tr><td colspan="1" rowspan="1"><p>養生テープ等の幅広の物</p>
+</td><td colspan="1" rowspan="1"><p>―</p>
+</td><td colspan="1" rowspan="1"><p>―</p>
+</td><td colspan="1" rowspan="1"><p><a href="https://www.amazon.co.jp/dp/B004OQZY4I/" target="_blank">Amazon.co.jp</a> 等</p>
+</td><td colspan="1" rowspan="1"><p>貼り付けボスの土台に使いました。ともかく一つでもあると便利ですよね。</p>
+</td></tr>
+<tr><td colspan="1" rowspan="1"><p>両面テープ</p>
+</td><td colspan="1" rowspan="1"><p>―</p>
+</td><td colspan="1" rowspan="1"><p>―</p>
+</td><td colspan="1" rowspan="1"><p><a href="https://www.amazon.co.jp/dp/B000IGZ7N6" target="_blank">Amazon.co.jp</a> 等</p>
+</td><td colspan="1" rowspan="1"><p>ともかく家にあるものであれば良いでしょう。</p>
+</td></tr>
+<tr><td colspan="1" rowspan="1"><p>モバイルバッテリー</p>
+</td><td colspan="1" rowspan="1"><p>1</p>
+</td><td colspan="1" rowspan="1"><p>―</p>
+</td><td colspan="1" rowspan="1"><p><a href="https://www.amazon.co.jp/dp/B018KD0D82" target="_blank">Amazon.co.jp</a> 等</p>
+</td><td colspan="1" rowspan="1"><p>Wio LTE 単独で動かすためなら必要です。</p>
+</td></tr>
+</table>
+
+
+      </google-codelab-step>
+    
+      <google-codelab-step label="超音波センサーの動作を確認する" duration="15">
+        <p>超音波センサーと Wio LTE JP Version (以下 Wio LTE) のみで、簡易ジェスチャーを実装してみます。</p>
+<h2 is-upgraded>事前の確認</h2>
+<p>開発用パソコンに下の準備が整っているか確認します。整っていない場合は、先にセットアップを済ませてから、作業を続けることになります。</p>
+<ul>
+<li>Arduino IDE のセットアップ (済んでいない場合は <a href="https://soracom.github.io/iot-recipes/arduino-ide-windows" target="_blank">Windows 編</a> もしくは <a href="https://soracom.github.io/iot-recipes/arduino-ide-macos" target="_blank">macOS 編</a>の作業を行ってください。約20分の作業です。)</li>
+<li>Wio LTE 開発環境のセットアップ (済んでいない場合は <a href="https://soracom.github.io/iot-recipes/setup-for-wiolte-with-arduino-ide-windows" target="_blank">Windows 編</a> もしくは <a href="https://soracom.github.io/iot-recipes/setup-for-wiolte-with-arduino-ide-macos" target="_blank">macOS 編</a>の作業を行ってください。約70分の作業です。)</li>
+</ul>
+<h2 is-upgraded>Wio LTE に超音波センサーモジュールを接続する</h2>
+<p>外観は以下の通りです。</p>
+<table>
+<tr><td colspan="1" rowspan="1"><p>超音波センサーモジュール</p>
+</td><td colspan="1" rowspan="1"><p class="image-container"><img style="width: 261.00px" src="img/ae79f02e6725bb73.png"></p>
+</td></tr>
+<tr><td colspan="1" rowspan="1"><p>Wio LTE</p>
+</td><td colspan="1" rowspan="1"><p class="image-container"><img style="width: 353.00px" src="img/8e2fbaa79701df5d.png"></p>
+</td></tr>
+</table>
+<p>Wio LTE の接続先は D38 です。ボード上に &#34;D38&#34; と書いてあるのを確認したうえで、接続してください。</p>
+<p class="image-container"><img style="width: 602.00px" src="img/e40e5a0d98bfbe.png"></p>
+<p class="image-container"><img style="width: 506.00px" src="img/156ab82dc51d36f.png"></p>
+<aside class="warning"><p><strong>ケーブルが見当たらない場合は？</strong></p>
+<p>Grove IoT スターターキット for SORACOM の場合、白いトレーの下にケーブルがあります。</p>
+</aside>
+<h2 is-upgraded>ライブラリのインストール</h2>
+<p>超音波センサーで利用できる通信ライブラリをインストールします。今回は <a href="https://github.com/SeeedJP/GroveDriverPack/blob/master/readme.md" target="_blank">GroveDriverPack</a> というオープンソースライブラリを利用します。</p>
+<h3 is-upgraded>［スケッチ］&gt;［ライブラリをインクルード］&gt;［ライブラリを管理...］をクリックします</h3>
+<p class="image-container"><img style="width: 602.00px" src="img/41f6da411abfe840.png"></p>
+<p>※ 画面は macOS ですが、Windows も同様です。</p>
+<h3 is-upgraded>&#34;GroveDriverPack&#34; をインストールする</h3>
+<p>ライブラリマネージャの一覧から <strong>GroveDriverPack </strong>(by Seeed K.K.) を選んで［インストール］をクリックします。</p>
+<p>バージョンはインストール時における最新バージョンを選んでください。</p>
+<p class="image-container"><img style="width: 602.00px" src="img/39c8b8ada301a7ff.png"></p>
+<p>インストールが終了したら［閉じる］をクリックします。</p>
+<aside class="special"><p><strong>&#34;GroveDriverPack&#34; を簡単に探し出す方法</strong></p>
+<p>検索用のテキストボックスへ <code>grovedriver</code>と入力すると素早く見つけることができます。</p>
+<p class="image-container"><img style="width: 587.00px" src="img/2a1eae87e0db96a4.png"></p>
+</aside>
+<h2 is-upgraded>簡易ジェスチャーを実現するスケッチ</h2>
+<p>Arduino IDE を起動し［ファイル］&gt;［新規ファイル］を開くと <code>void setup() {</code> から始まる「空のスケッチ」が表示されます。</p>
+<p>一度スケッチの内容を削除してから、後述のスケッチで置き換えてください。</p>
+<p class="image-container"><img style="width: 793.80px" src="img/43e984f93a028466.png"></p>
+<h3 is-upgraded><a href="https://gist.githubusercontent.com/ma2shita/2417df9221eb9aaa262f1fb7d7899f8c/raw/c9e1508d670d2681f2c51d97606276d0e246e6f0/wiolte_gesture_only_by_ultrasonic.ino" target="_blank">wiolte_gesture_only_by_ultrasonic.ino</a></h3>
+<pre><code>/* See: https://soracom.github.io/iot-recipes/iamhome-by-wio-lte-ultrasonic-sensor/ */
+/*
+ * Copyright (c) 2020 Kohei &#34;Max&#34; MATSUSHITA
+ * Released under the MIT license
+ * https://opensource.org/licenses/mit-license.php
+*/
+
+#include &lt;WioLTEforArduino.h&gt;
+#define console SerialUSB
+WioLTE Wio;
+
+#include &lt;GroveDriverPack.h&gt;
+GroveBoard Board;
+GroveUltrasonicRanger Ranger(&amp;Board.D38);
+
+float state_change_distance = 200.0; // mm
+unsigned long state_entry_min = 120; // ms
+unsigned long state_entry_max = 500; // ms
+int required_as_event = 2; // times
+unsigned long event_timeout = 1800; // ms
+
+void setup()
+{
+  Wio.Init();
+  console.println(&#34;--- START&#34;);
+  Board.D38.Enable();
+  Ranger.Init();
+}
+
+#define MEASUREMENT_INTERVAL 80 // ms
+
+boolean state = false;
+boolean prev_state;
+int state_change_counter = 0;
+unsigned long state_entry_started_at_millis = 0;
+unsigned long event_started_at_millis = 0;
+
+void loop()
+{
+  Ranger.Read();
+  float distance = Ranger.Distance;
+  console.print(&#34;distance:&#34;); console.println(distance);
+
+  prev_state = state; /* keeping prev. loop value */
+  state = (distance &lt;= state_change_distance); /* update by new value */
+  if (state &amp;&amp; !prev_state) { /* entry */
+    Wio.LedSetRGB(16, 0, 0);
+    state_entry_started_at_millis = millis();
+    if (!state_change_counter) { /* begin of event */
+      event_started_at_millis = state_entry_started_at_millis;
+    }
+  }
+  
+  unsigned long millis_while_leave = 0;
+  if (!state &amp;&amp; prev_state) { /* leaved */
+    Wio.LedSetRGB(0, 0, 0);
+    millis_while_leave = millis() - state_entry_started_at_millis;
+  }
+  console.print(&#34;millis_while_leave:&#34;); console.println(millis_while_leave);
+
+  if (state_entry_min &lt;= millis_while_leave &amp;&amp; millis_while_leave &lt;= state_entry_max) {
+    state_change_counter++;
+  }
+
+  unsigned long millis_while_event = millis() - event_started_at_millis;
+  if (millis_while_event &gt; event_timeout) {
+    state_change_counter = 0; /* Reset because it was not within the period */
+  }
+  if (state_change_counter == required_as_event &amp;&amp; millis_while_event &lt;= event_timeout) {
+    /* Implementation block for user at event firing */
+    Wio.LedSetRGB(16, 16, 16);
+    delay(1000);
+    Wio.LedSetRGB(0, 0, 0);
+    state_change_counter = 0; /* DONT REMOVE (reset for next tick) */
+  }
+  
+  delay(MEASUREMENT_INTERVAL);
+}</code></pre>
+<h2 is-upgraded>マイコンボードに書き込む</h2>
+<p>Arduino IDE で<img style="width: 33.00px" src="img/6eda9a3a4a4958d7.png">ボタンをクリックします。<strong>ボードへの書き込みが完了しました。</strong>と表示されたら正常終了です。</p>
+<aside class="special"><p><strong>ファイルの保存ダイアログが表示されたら</strong></p>
+<p>ファイルを保存してください。ファイル名は任意ですが <code>wiolte_gesture_only_by_ultrasonic</code> というファイル名はどうでしょうか。</p>
+<p>ファイルを保存しない (キャンセル) してもコンパイルとスケッチの転送はされます。</p>
+</aside>
+<h2 is-upgraded>実行の様子</h2>
+<p>超音波センサーモジュールのスピーカーのようなもので距離を計測しています。ここの部分に約20cmよりも物体が近づくと Wio LTE の LED が赤く点灯します。（離れると消灯します。）</p>
+<p>1.8秒以内に2回連続で近づくと LED が青く点灯します。あたかも「手を振った時のみ反応する」ように出来ていることが確認できるかと思います。</p>
+<p class="image-container"><img style="width: 602.00px" src="img/3fe9c3b1bea7803e.gif"></p>
+<aside class="special"><p><strong>反応するのは正面だけ？</strong></p>
+<p><a href="http://wiki.seeedstudio.com/Grove-Ultrasonic_Ranger/" target="_blank">仕様上</a>は 15度となっているため、左右上下で合わせて30度程度の角度で反応します。距離が20cm程度だと実質的には正面だけという事になるでしょう。このあたりは三角関数を持ち出で計算してみてください。</p>
+</aside>
+<aside class="special"><p><strong>「プツプツ...」という音がする？</strong></p>
+<p>超音波を発生させている時の音となります。消すことはできません。良い耳をお持ちですね！</p>
+</aside>
+
+
+      </google-codelab-step>
+    
+      <google-codelab-step label="スケッチの解説" duration="15">
+        <p>このページは簡易ジェスチャーを実現した <code>wiolte_gesture_only_by_ultrasonic.ino</code> の解説となっています。作業は無いため次へ進んでも構いません。</p>
+<h2 is-upgraded>「ジェスチャー」を定義する</h2>
+<p>今回は「物体からの距離が 20cm 以下の状態が 120ms 以上 500ms 以内を1回とカウントし、1.8秒以内に 2 回」を「ジェスチャー」として定義し、実装しています。</p>
+<p class="image-container"><img style="width: 759.50px" src="img/a8b0dee988acecf0.png"></p>
+<p>単純に「20cm以内となったら」と定義した場合、様々なノイズによって誤判定が発生します。例えば以下の通りです。</p>
+<ul>
+<li>センサー前に長居した (もしくは、何かしらのモノを置かれてしまった)</li>
+<li>偶然にもセンサー前を横切った</li>
+<li>センサー自体の誤判定</li>
+</ul>
+<p>グラフにすると以下の通りです。</p>
+<p class="image-container"><img style="width: 804.45px" src="img/8e779c097350ef8f.png"></p>
+<h2 is-upgraded>実装部分</h2>
+<h3 is-upgraded>パラメータ化</h3>
+<p>数値の定義はパラメータ化しています。設置環境に応じた設定が必要です。例えばお年寄りやお子様に向けて判定の基準を緩め(例えば 1.8秒以内 → 2.5秒以内まで延ばす等)があります。</p>
+<p>パラメータは<a href="https://gist.github.com/ma2shita/2417df9221eb9aaa262f1fb7d7899f8c/#file-wiolte_gesture_only_by_ultrasonic-ino-L16" target="_blank">スケッチ 16行目</a>から5つ設定が可能です。いずれも、グラフの数値に対応した内容となっています。</p>
+<pre><code>float state_change_distance = 200.0; // mm
+unsigned long state_entry_min = 120; // ms
+unsigned long state_entry_max = 500; // ms
+int required_as_event = 2; // times
+unsigned long event_timeout = 1800; // ms</code></pre>
+<h3 is-upgraded>「状態」を実装する方法</h3>
+<p>汎用的な話になりますが、現実世界をデジタル化するにあたっては「物体の状態」をマイコンで実装する必要が出てきます。</p>
+<p>例えば今回のような「近づいている &#34;状態&#34;」だけでなく、ドアの開閉なども「状態」です。これにはフラグ変数を用いた方法が容易です。実装コードを抜粋して解説します。</p>
+<pre><code>/* フラグ変数は loop を超えて利用したいためグローバルに宣言 */
+boolean state = false;
+boolean prev_state;
+
+void loop()
+{
+  prev_state = state; /* 1つ前の loop で得られた結果を保持 */
+  state = getNewValue(); /* 今回の loop で得られた結果で更新 */
+  if (state != prev_state) { /* 前回と今回で差が発生したら...*/
+    /* 状態が変化した! */
+  }
+}</code></pre>
+<p>上記は単純に状態変化のみを検出しています。要件によっては、状態の変化の方向を知りたい場合もあります。例えば物体が「遠い → 近い」なのか「近い → 遠い」なのか、ということです。</p>
+<p>その場合は判定部分を変更します。</p>
+<pre><code>  if (state &amp;&amp; !prev_state) {
+    /* state が false =&gt; true になった場合の処理 */
+  }
+
+  if (!state &amp;&amp; prev_state) {
+    /* state が true =&gt; false になった場合の処理 */
+  }</code></pre>
+<p>本レシピでは、この判定技法を使っています。( &#34;遠い&#34; は &#34;Not 近い&#34; という実装です)</p>
+<p>より複雑な状態を実装したい場合は <a href="https://ja.wikipedia.org/wiki/%E6%9C%89%E9%99%90%E3%82%AA%E3%83%BC%E3%83%88%E3%83%9E%E3%83%88%E3%83%B3" target="_blank">State machine</a> を検討してください。Arduino ライブラリでも<a href="https://github.com/jonblack/arduino-fsm" target="_blank">いくつかある</a>ようです。</p>
+
+
+      </google-codelab-step>
+    
+      <google-codelab-step label="SORACOM Harvest Data でジェスチャー結果を蓄積する (グループの作成)" duration="10">
+        <p>SORACOM の IoT データ収集・蓄積サービス <a href="https://soracom.jp/services/harvest/" target="_blank"><strong>SORACOM Harvest Data</strong></a> を利用して、データの可視化を簡単に実現してみましょう。</p>
+<p>まずは<strong>グループ</strong>の作成と、作成したグループへ SIM を所属させる事から始めます。</p>
+<aside class="special"><p><strong>SORACOM Harvest Data とは？</strong></p>
+<p>IoT デバイスからのデータの収集や蓄積、およびファイルを保存するサービスが SORACOM Harvest (ソラコム ハーベスト) です。IoT デバイスからのデータの収集・蓄積対応しているのが SORACOM Harvest Data、画像ファイルやログファイルといったファイルに対応しているのが SORACOM Harvest Files となります。</p>
+</aside>
+<aside class="special"><p><strong>グループとは？</strong></p>
+<p>SORACOM サービスのほとんどが<strong>グループ</strong>という単位に対して設定するようになっています。SORACOM Harvest Data 等、SORACOM サービスのほとんどが SIM に直接設定をするのではなくグループに設定をします。そして、SIM をグループに所属させることで SORACOM サービスが利用できるという間接的な仕組みです。<img style="width: 587.00px" src="img/a9af1cef0f747a1d.png"></p>
+<p>グループを作成してから SIM を所属させる方法の他、グループの作成と SIM の所属を同時に行う方法もあります。本レシピでは後者の「同時に行う」手順で進めていきます。</p>
+</aside>
+<h2 is-upgraded><a href="https://console.soracom.io/" target="_blank">SORACOM ユーザーコンソール</a>にログインした後［Menu］&gt;［SIM 管理］とクリックして SIM 管理画面を開きます。</h2>
+<p class="image-container"><img style="width: 566.00px" src="img/c4968675c5a9a1c8.png"></p>
+<aside class="warning"><p><strong>［SIM 管理］をクリックしても画面が切り替わらない場合は？</strong></p>
+<p>すでに SIM 管理画面を開いている場合は、［SIM 管理］をクリックしても画面が切り替わることがありません。その場合、青の点線で囲まれている「SORACOM ロゴ」をクリックすることでメニューを閉じることができます。</p>
+</aside>
+<h2 is-upgraded>SORACOM Harvest Data でデータの収集を行いたい SIM (Wio LTE に取り付けた SIM) にチェックを付け、［操作］&gt;［所属グループ変更］とクリックします。</h2>
+<p class="image-container"><img style="width: 602.00px" src="img/f27d0ddf2224ee5f.png"></p>
+<aside class="special"><p><strong>SORACOM の便利な使い方: 複数の SIM を同時に扱う</strong></p>
+<p>チェックをつける対象を複数にすれば、一度の複数の SIM を対象に操作が可能です。</p>
+</aside>
+<h2 is-upgraded>「新しい所属グループ」のプルダウンボックスをクリックした後、［新しいグループを作成...］をクリックします。</h2>
+<p class="image-container"><img style="width: 602.00px" src="img/9cf95365d7028f2c.png"></p>
+<h2 is-upgraded>「グループ作成」のグループ名を入力して［グループ作成］をクリックします。</h2>
+<table>
+<tr><td colspan="1" rowspan="1"><p><strong>項目</strong></p>
+</td><td colspan="1" rowspan="1"><p><strong>例</strong></p>
+</td><td colspan="1" rowspan="1"><p><strong>備考</strong></p>
+</td></tr>
+<tr><td colspan="1" rowspan="1"><p>グループ名</p>
+</td><td colspan="1" rowspan="1"><p><code>iamhome</code></p>
+</td><td colspan="1" rowspan="1"><p>自由に入力可能です。日本語も設定可能です。</p>
+</td></tr>
+</table>
+<p class="image-container"><img style="width: 385.00px" src="img/2bdd307f9d2b58c7.png"></p>
+<h2 is-upgraded>新しい所属グループが先ほど作成したグループになっていることを確認したら［グループ変更］をクリックします。</h2>
+<p class="image-container"><img style="width: 602.00px" src="img/a875b5b58bcc8df4.png"></p>
+<h2 is-upgraded>自動的に SIM 管理画面に戻ります。<br>SIM の「グループ」に先ほど作ったグループが設定されていることを確認してください。</h2>
+<p class="image-container"><img style="width: 602.00px" src="img/73e9c863b16f71ed.png"></p>
+<p>以上で、グループの作成と所属の作業は完了です。</p>
+
+
+      </google-codelab-step>
+    
+      <google-codelab-step label="SORACOM Harvest Data でジェスチャー結果を蓄積する (グループの設定)" duration="5">
+        <p>グループに「<strong>SORACOM Harvest Data</strong>」の3つの設定を行います。</p>
+<h2 is-upgraded>SIM 管理画面から、SORACOM LTE-M Button に割り当てたグループ名をクリックします。</h2>
+<p class="image-container"><img style="width: 602.00px" src="img/f83cb777ddfeea70.png"></p>
+<h2 is-upgraded>［SORACOM Harvest 設定］をクリックして設定ができるように開きます。</h2>
+<p class="image-container"><img style="width: 602.00px" src="img/221a89fc5ae1b779.png"></p>
+<h2 is-upgraded>「SORACOM Harvest 設定」で以下のように設定します。</h2>
+<table>
+<tr><td colspan="1" rowspan="1"><p><strong>項目</strong></p>
+</td><td colspan="1" rowspan="1"><p><strong>設定値</strong></p>
+</td><td colspan="1" rowspan="1"><p><strong>備考</strong></p>
+</td></tr>
+<tr><td colspan="1" rowspan="1"><p>（スイッチ）</p>
+</td><td colspan="1" rowspan="1"><p>ON</p>
+</td><td colspan="1" rowspan="1"><p>―</p>
+</td></tr>
+</table>
+<p>スイッチはクリックすることで OFF から ON に切り替えることができます。</p>
+<p class="image-container"><img style="width: 262.00px" src="img/b8dd4f4f9fc5f281.png"></p>
+<p>最後に［保存］をクリックしてください。<br>その後表示される「SORACOM Harvest が有効になっています」のダイアログでは［OK］をクリックしてください。</p>
+<p>以上で「SORACOM Harvest Data」の設定が完了しました。</p>
+
+
+      </google-codelab-step>
+    
+      <google-codelab-step label="SORACOM Harvest Data でジェスチャー結果を蓄積する (アンテナ・SIM の取り付け)" duration="10">
+        <h2 is-upgraded>Wio LTE にアンテナを取り付ける</h2>
+<p><strong>注意:</strong> Wio LTE から microUSB ケーブルを抜いた状態にしてください。</p>
+<p>Wio LTE に 添付されているアンテナ2本を取り付けます (※アンテナは必ず2本取り付けてください)</p>
+<p class="image-container"><img style="width: 602.00px" src="img/3aee1bad6ea914ac.png"></p>
+<h2 is-upgraded>Wio LTE に SIM を取り付ける</h2>
+<p>Wio LTE に SIM (nanoサイズ) を取り付けます。</p>
+<p><strong>最初に「失敗例」を紹介します。</strong></p>
+<p>以下のように、SIM 取り付けの「窓」に SIM が見えている場合は<strong>取り付けに失敗しています</strong>。引き抜いてから再度取り付けてください。</p>
+<p class="image-container"><img style="width: 414.00px" src="img/fb7f40017c726f7e.png"></p>
+<h3 is-upgraded>ここからは「<strong>正しい取り付け方</strong>」です。</h3>
+<p class="image-container"><img style="width: 536.00px" src="img/6ac34390f775eaf6.png"></p>
+<p class="image-container"><img style="width: 474.00px" src="img/9a810d214932deca.png"></p>
+<aside class="special"><p><strong>SIM の取り出し方</strong></p>
+<p class="image-container"><img style="width: 587.00px" src="img/b7fd3a522c52e6ba.png"></p>
+<p class="image-container"><img style="width: 509.00px" src="img/b4a8401f22bb6c57.png"></p>
+<p><strong>抜く際フックを引っ張りすぎると金具が取れてしまうため</strong>、図示されている程度まで引っ張り出したらSIMを取り出し、金具を元に戻してください。</p>
+</aside>
+
+
+      </google-codelab-step>
+    
+      <google-codelab-step label="SORACOM Harvest Data でジェスチャー結果を蓄積する (スケッチの作成から確認まで)" duration="10">
+        <p>Arduino IDE を起動し［ファイル］&gt;［新規ファイル］を開くと <code>void setup() {</code> から始まる「空のスケッチ」が表示されます。</p>
+<p>一度スケッチの内容を削除してから、下記スケッチで置き換えてください。</p>
+<h3 is-upgraded><a href="https://gist.githubusercontent.com/ma2shita/b980ce66ff0c61f45d4dabd30fe322db/raw/16472b0b2fdf3d0f59f55138969c7f7755779ea4/wiolte_gesture_with_soracom_air_by_ultrasonic.ino" target="_blank">wiolte_gesture_with_soracom_air_by_ultrasonic.ino</a></h3>
+<pre><code>/* See: https://soracom.github.io/iot-recipes/iamhome-by-wio-lte-ultrasonic-sensor/ */
+/*
+ * Copyright (c) 2020 Kohei &#34;Max&#34; MATSUSHITA
+ * Released under the MIT license
+ * https://opensource.org/licenses/mit-license.php
+*/
+
+#include &lt;WioLTEforArduino.h&gt;
+#define console SerialUSB
+WioLTE Wio;
+
+#include &lt;GroveDriverPack.h&gt;
+GroveBoard Board;
+GroveUltrasonicRanger Ranger(&amp;Board.D38);
+
+float state_change_distance = 200.0; // mm
+unsigned long state_entry_min = 120; // ms
+unsigned long state_entry_max = 500; // ms
+int required_as_event = 2; // times
+unsigned long event_timeout = 1800; // ms
+
+void setup()
+{
+  while (!console) {}
+  Wio.Init();
+  console.println(&#34;--- START&#34;);
+  Board.D38.Enable();
+  Ranger.Init();
+
+  console.println(&#34;### Power supply ON.&#34;);
+  Wio.PowerSupplyLTE(true);
+  delay(500);
+
+  console.println(&#34;### Turn on or reset.&#34;);
+  if (!Wio.TurnOnOrReset()) {
+    console.println(&#34;### ERROR! ###&#34;);
+    return;
+  }
+
+  console.println(&#34;### Connecting to \&#34;soracom.io\&#34;.&#34;);
+  if (!Wio.Activate(&#34;soracom.io&#34;, &#34;sora&#34;, &#34;sora&#34;)) {
+    console.println(&#34;### ERROR! ###&#34;);
+    return;
+  }
+}
+
+#define MEASUREMENT_INTERVAL 80 // ms
+
+boolean state = false;
+boolean prev_state;
+int state_change_counter = 0;
+unsigned long state_entry_started_at_millis = 0;
+unsigned long event_started_at_millis = 0;
+
+void loop()
+{
+  Ranger.Read();
+  float distance = Ranger.Distance;
+  console.print(&#34;distance:&#34;); console.println(distance);
+
+  prev_state = state; /* keeping prev. loop value */
+  state = (distance &lt;= state_change_distance); /* update by new value */
+  if (state &amp;&amp; !prev_state) { /* entry */
+    Wio.LedSetRGB(16, 0, 0);
+    state_entry_started_at_millis = millis();
+    if (!state_change_counter) { /* begin of event */
+      event_started_at_millis = state_entry_started_at_millis;
+    }
+  }
+  
+  unsigned long millis_while_leave = 0;
+  if (!state &amp;&amp; prev_state) { /* leaved */
+    Wio.LedSetRGB(0, 0, 0);
+    millis_while_leave = millis() - state_entry_started_at_millis;
+  }
+  console.print(&#34;millis_while_leave:&#34;); console.println(millis_while_leave);
+
+  if (state_entry_min &lt;= millis_while_leave &amp;&amp; millis_while_leave &lt;= state_entry_max) {
+    state_change_counter++;
+  }
+
+  unsigned long millis_while_event = millis() - event_started_at_millis;
+  if (event_timeout &lt; millis_while_event) {
+    state_change_counter = 0; /* Reset because it was not within the period */
+  }
+  if (state_change_counter == required_as_event &amp;&amp; millis_while_event &lt;= event_timeout) {
+    /* Implementation block for user at event firing */
+    Wio.LedSetRGB(16, 16, 16);
+    char payload[100];
+    int res_code;
+    sprintf(payload, &#34;{\&#34;event\&#34;:%lu}&#34;, 1);
+    if (!Wio.HttpPost(&#34;http://uni.soracom.io&#34;, payload, &amp;res_code)) {
+      console.println(&#34;### ERROR! ###&#34;);
+    }
+    console.print(&#34;Status:&#34;);
+    console.println(res_code);
+    Wio.LedSetRGB(0, 0, 0);
+    state_change_counter = 0; /* DONT REMOVE (reset for next tick) */
+  }
+  
+  delay(MEASUREMENT_INTERVAL);
+}</code></pre>
+<h3 is-upgraded>参考: 先ほどのスケッチからの変更点</h3>
+<pre><code>--- wiolte_gesture_only_by_ultrasonic/wiolte_gesture_only_by_ultrasonic.ino     2020-04-23 00:50:46.016716000 +0900
++++ wiolte_gesture_with_soracom_air_by_ultrasonic/wiolte_gesture_with_soracom_air_by_ultrasonic.ino     2020-04-23 01:51:54.008151800 +0900
+@@ -25,6 +25,22 @@
+   console.println(&#34;--- START&#34;);
+   Board.D38.Enable();
+   Ranger.Init();
++
++  console.println(&#34;### Power supply ON.&#34;);
++  Wio.PowerSupplyLTE(true);
++  delay(500);
++
++  console.println(&#34;### Turn on or reset.&#34;);
++  if (!Wio.TurnOnOrReset()) {
++    console.println(&#34;### ERROR! ###&#34;);
++    return;
++  }
++
++  console.println(&#34;### Connecting to \&#34;soracom.io\&#34;.&#34;);
++  if (!Wio.Activate(&#34;soracom.io&#34;, &#34;sora&#34;, &#34;sora&#34;)) {
++    console.println(&#34;### ERROR! ###&#34;);
++    return;
++  }
+ }
+
+ #define MEASUREMENT_INTERVAL 80 // ms
+@@ -69,7 +85,14 @@
+   if (state_change_counter == required_as_event &amp;&amp; millis_while_event &lt;= event_timeout) {
+     /* Implementation block for user at event firing */
+     Wio.LedSetRGB(16, 16, 16);
+-    delay(1000);
++    char payload[100];
++    int res_code;
++    sprintf(payload, &#34;{\&#34;event\&#34;:%lu}&#34;, 1);
++    if (!Wio.HttpPost(&#34;http://uni.soracom.io&#34;, payload, &amp;res_code)) {
++      console.println(&#34;### ERROR! ###&#34;);
++    }
++    console.print(&#34;Status:&#34;);
++    console.println(res_code);
+     Wio.LedSetRGB(0, 0, 0);
+     state_change_counter = 0; /* DONT REMOVE (reset for next tick) */
+   }</code></pre>
+<h2 is-upgraded>マイコンボードに書き込む</h2>
+<p>Arduino IDE で<img style="width: 33.00px" src="img/6eda9a3a4a4958d7.png">ボタンをクリックします。<strong>ボードへの書き込みが完了しました。</strong>と表示されたら正常終了です。</p>
+<aside class="special"><p><strong>ファイルの保存ダイアログが表示されたら</strong></p>
+<p>ファイルを保存してください。ファイル名は任意ですが <code>wiolte_gesture_with_soracom_air_by_ultrasonic</code> というファイル名はどうでしょうか。</p>
+<p>ファイルを保存しない (キャンセル) してもコンパイルとスケッチの転送はされます。</p>
+</aside>
+
+
+      </google-codelab-step>
+    
+      <google-codelab-step label="SORACOM Harvest Data でデータを確認する" duration="5">
+        <p>Wio LTE からのデータが SORACOM Harvest Data に表示されることを確認してみましょう。</p>
+<h2 is-upgraded>［Menu］&gt;［SIM 管理］とクリックして SIM 管理画面を開きます。</h2>
+<p class="image-container"><img style="width: 566.00px" src="img/c4968675c5a9a1c8.png"></p>
+<h2 is-upgraded>SORACOM Harvest Data でデータの収集を行いたい SIM (Wio LTE に取り付けた SIM) にチェックを付け、［操作］&gt;［データを確認］とクリックします。</h2>
+<p class="image-container"><img style="width: 602.00px" src="img/931abc46460b7993.png"></p>
+<h2 is-upgraded>表示された画面で［自動更新］を ON にします。</h2>
+<p>この表示された画面が SORACOM Harvest Data の画面となります。</p>
+<aside class="special"><p><strong>自動更新とは？</strong></p>
+<p>画面を再読み込みしなくとも新しいデータが自動的に表示されるようにする機能です。5秒毎に新しいデータを表示するようになります。この機能が OFF の場合は、表示する期間を指定して［検索］をクリックすることで期間内のデータを表示できます。</p>
+</aside>
+<p class="image-container"><img style="width: 866.50px" src="img/ff288bb36b60c98d.png"></p>
+<h2 is-upgraded>Wio LTE を通常モード (RST ボタンを押すか、microUSB ケーブルを抜き挿しする)にしてデータの送信を行ってみます。</h2>
+<p>「ジェスチャー」と認識された時に <code>{&#34;event&#34;: 1}</code> というデータを SORACOM Harvest Data に送信しています。</p>
+<p>何度か認識されると、以下のようになります。</p>
+<p class="image-container"><img style="width: 808.50px" src="img/53e2ec10ecf60c1f.png"></p>
+<p>以上で全ての作業は終了です。</p>
+<p>ここから先は、Wio LTE の設置の様子となります。</p>
+
+
+      </google-codelab-step>
+    
+      <google-codelab-step label="Wio LTE を組み立てる" duration="20">
+        <p>ここからは道具がある方向けです。</p>
+<p>ジャスチャーを受けるため、何らかの方法で超音波センサーモジュールを立てておく必要があります。そこで今回はスマートフォンスタンドを利用して自作してみました。</p>
+<p class="image-container"><img style="width: 602.00px" src="img/954c7421185b77de.png"></p>
+<h2 is-upgraded>貼り付けボスをスタンドに取り付ける</h2>
+<p>スマートフォンスタンドは 100円ショップで見つけたものです。(たしかダイソーさんだっと思います、不確かでスミマセン) ワイヤー型であり、折りたためたり角度を変えることができるため、センサーの取り付けとしては便利そうでした。</p>
+<p class="image-container"><img style="width: 602.00px" src="img/52992fc8ee1e744f.png"></p>
+<p>ボスとは<a href="https://www.turning-lathe-products.com/glossary/%E3%83%9C%E3%82%B9/" target="_blank">ネジ穴やピンをはめる穴</a>です。この<a href="https://www.monotaro.com/g/00966263/" target="_blank">貼り付けボス</a>は M3 というネジ穴サイズを受ける為のナットが埋まっています。裏面は両面テープなので、どこにでも &#34;M3 ネジ穴&#34; を作ることができます。</p>
+<p class="image-container"><img style="width: 245.63px" src="img/18fd6f5d6c1b7bc7.png"></p>
+<p>Wio LTE JP Version のネジ穴は M3 サイズです。また、おなじ M3 サイズには Arduino UNO R3 等があります。</p>
+<p>スタンドには貼り付けボスを取り付けるだけの面積が無かったため、養生テープで土台を作っています。</p>
+<p class="image-container"><img style="width: 602.00px" src="img/7030d657de48b53.png"></p>
+<h2 is-upgraded>ねじ止めする</h2>
+<p><a href="https://www.monotaro.com/p/3579/5417/" target="_blank">鍋小ネジ(ポリカーボネート / M3 サイズ</a>でねじ止めしました。ポリカーボネート(樹脂)で出来ているため、ショートさせる危険もありません。</p>
+<p class="image-container"><img style="width: 189.48px" src="img/ad3b4892fb2486e8.png"></p>
+<p>長さは10mmを使いましたが、Wio LTE の基板の厚みが1.5mm 程度であるため、実際はもう少し短くても良さそうです。</p>
+<p class="image-container"><img style="width: 602.00px" src="img/ed5e9cadc14afa4a.png"></p>
+<h2 is-upgraded>残りの組み立て</h2>
+<p>残りは両面テープを使ってアンテナを固定したり、モバイルバッテリーを組み合わせてみました。</p>
+<p>基板むき出しという形になりましたが、たとえばタッパーを利用する方法が可能でしょう。この場合も貼り付けボスが活用できるかと思います。</p>
+<h2 is-upgraded>注意事項</h2>
+<ul>
+<li><strong>金属は電波を遮断します</strong>。ケース内にアンテナを設置する場合は樹脂製ケースを利用するか、アンテナを外に出すようにしましょう。</li>
+<li><strong>絶縁対策は万全にしてください。</strong>動作の不具合だけでなく火災等の原因となります。</li>
+<li>絶縁対策の際のビニールテープやグルーガンの利用は有用ですが、<strong>発熱部への適用は注意</strong>するようにしてください。</li>
+</ul>
+
+
+      </google-codelab-step>
+    
+      <google-codelab-step label="あとかたづけと注意事項" duration="1">
+        <p>本レシピでは費用がかかるサービスを利用しています。<br>本項をよく読み、必要な操作や解除作業を行うようにして、想定外の費用が掛からないようにしてください。</p>
+<h2 is-upgraded>費用について</h2>
+<p>ここで記載している金額は全て税別、送料別となります。</p>
+<h3 is-upgraded>SORACOM プラットフォームの利用料金</h3>
+<table>
+<tr><td colspan="1" rowspan="1"><p><strong>サービス／機能</strong></p>
+</td><td colspan="1" rowspan="1"><p><strong>料金</strong></p>
+</td></tr>
+<tr><td colspan="1" rowspan="1"><p><a href="https://soracom.jp/services/air/cellular/price_specific_area_sim/" target="_blank">SORACOM Air (plan-D)</a></p>
+</td><td colspan="1" rowspan="1"><p>基本料: 10円/日</p>
+<p>通信料: 0.2円~/MB</p>
+<p>(今回の利用であれば 1MB 以内で収まる範囲)</p>
+</td></tr>
+<tr><td colspan="1" rowspan="1"><p><a href="https://soracom.jp/services/harvest/price/" target="_blank">SORACOM Harvest Data</a></p>
+</td><td colspan="1" rowspan="1"><p>本機能を有効にしたグループに所属する1SIMあたり5円/日 (2000リクエスト/日/SIMを含む)</p>
+<p>2000リクエスト/日を超えた分は0.004円/リクエスト</p>
+</td></tr>
+</table>
+<p>※ 費用詳細はリンク先をご確認ください。</p>
+<aside class="special"><p><strong>無料利用枠について</strong></p>
+<p>SORACOM サービスでは一部サービスにおいて無料枠が設定されています。たとえば SORACOM Air for セルラーであればアカウント毎で30円/月の通信分や、SORACOM Harvest Data であれば31日分の書込みリクエストなどです。料金詳細に「無料利用枠」として掲載されていますので、ご確認ください。</p>
+</aside>
+<h2 is-upgraded>グループ解除</h2>
+<p>SORACOM Harvest Data 等、「機能が有効になっているグループに所属している SIM × 費用」となっているサービスにおいては、「機能を OFF にする」することで費用の発生を抑えることができます。またもう1つの方法として「グループに所属している SIM の数を減らす(= 解除する)」事でも費用を抑える事ができます。</p>
+<p>グループ解除の方法は<a href="https://soracom.github.io/iot-recipes/unjoin-from-group/" target="_blank">グループからの解除 (JP)</a>をご覧ください。</p>
+<h2 is-upgraded>SORACOM Harvest Data のデータ削除</h2>
+<p>SORACOM Harvest Data は基本的にはデータ保管料は無料※です。そのため、保存しておいても害はありませんが、デモ等で利用する際にはデータを綺麗にしておく必要が出てくるため、データ削除について解説します。</p>
+<p>※発生から40日を超えたデータは削除されます。40日以上データを保管したい場合は<a href="https://soracom.jp/services/harvest/price/" target="_blank">データ保持期間延長オプション利用料金</a>をご利用ください。</p>
+<p>SORACOM Harvest Data 画面 (［操作］&gt;［データを確認］) のデータテーブルで、削除したいデータのチェックボックスを付けた後に［削除］をクリックします。表示されたダイアログで改めて［削除］をクリックすると、削除されます。<br>※ 複数のデータにチェックをつければ一括で削除可能です。</p>
+<p class="image-container"><img style="width: 414.00px" src="img/637cac3bf206c47c.png"></p>
+<p><strong>データの復元はできません</strong>のでご注意ください。</p>
+
+
+      </google-codelab-step>
+    
+      <google-codelab-step label="次のステップ" duration="1">
+        <p>本レシピでは、超音波センサーモジュールを利用した「簡易ジェスチャー」を実現してみました。データの送信先は SORACOM Harvest Data としましたが、SORACOM Beam / SORACOM Funnel / SORACOM Funk を利用することで通知を行ったり、他の機器を動かすといった事も可能となります。</p>
+<p><a href="https://soracom.jp/products/kit/grovestarter_kit_lte/" target="_blank">商品ページへ戻る</a></p>
+<p>よくあるご質問は<a href="https://sorazine.soracom.jp/entry/2019/09/09/aug-webinar-report" target="_blank">Let&#39;s try IoT プロトタイピング ～ 雨雲レーダー表示デバイスを M5Stack で作ってみよう 〜 動画とQAのご紹介</a>でご案内しています。こちらもご覧ください。</p>
+
+
+      </google-codelab-step>
+    
+  </google-codelab>
+
+  <script src="https://soracom.github.io/iot-recipes/codelab-elements/native-shim.js"></script>
+  <script src="https://soracom.github.io/iot-recipes/codelab-elements/custom-elements.min.js"></script>
+  <script src="https://soracom.github.io/iot-recipes/codelab-elements/prettify.js"></script>
+  <script src="https://soracom.github.io/iot-recipes/codelab-elements/codelab-elements.js"></script>
+
+</body>
+</html>
