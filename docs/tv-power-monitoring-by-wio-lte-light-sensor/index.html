@@ -223,7 +223,7 @@ void setup() {
   Wio.PowerSupplyGrove(true);
   
   /* set for light sensor */
-  pinMode(WIOLTE_A4, INPUT_ANALOG);
+  pinMode(WIOLTE_A6, INPUT_ANALOG);
   
   /* set for device config */
   String json = &#34;{\&#34;TV_OFF_THRESHOLD\&#34;: 4, \&#34;TV_ON_DARK_THRESHOLD\&#34;: 30, \&#34;TV_ON_BRIGHT_THRESHOLD\&#34;: 200, \&#34;SENSING_INTERVAL_MS\&#34;: 1000, \&#34;SAMPLING_COUNT\&#34;: 1}&#34;;
@@ -449,7 +449,7 @@ void loop() {
       <google-codelab-step label="SORACOM Harvest Data でデータを蓄積する (スケッチの作成から確認まで)" duration="10">
         <p>Arduino IDE を起動し［ファイル］&gt;［新規ファイル］を開くと <code>void setup() {</code> から始まる「空のスケッチ」が表示されます。</p>
 <p>一度スケッチの内容を削除してから、下記スケッチで置き換えてください。</p>
-<h3 is-upgraded>lets_try_iot_grove_light_lte.ino</h3>
+<h3 is-upgraded><a href="https://gist.githubusercontent.com/ma2shita/14ce40affe4b4a56bffc265d67b1b1b8/raw/c129bc972a5a80269a2a71d310d8c22f5f40d450/lets_try_iot_grove_light_lte.ino" target="_blank">lets_try_iot_grove_light_lte.ino</a></h3>
 <pre><code>/* See: https://www.lp.soracom.jp/202005-online-seminar/ */
 /*
  * TV power monitor (using Light sensor) / with LTE
@@ -548,7 +548,7 @@ void sensing_data_display(WioLTE &amp;wio, int analogRead_val) {
 std::vector&lt;int&gt; v;
 
 void loop() {
-  int val = analogRead(WIOLTE_A4);
+  int val = analogRead(WIOLTE_A6);
   sensing_data_display(Wio, val);
   v.push_back(val);
   
@@ -631,10 +631,6 @@ void loop() {
 +    return;
 +  }
 
-   /* set for light sensor */
--  pinMode(WIOLTE_A4, INPUT_ANALOG);
-+  pinMode(WIOLTE_A6, INPUT_ANALOG);
-
    /* set for device config */
 -  String json = &#34;{\&#34;TV_OFF_THRESHOLD\&#34;: 4, \&#34;TV_ON_DARK_THRESHOLD\&#34;: 30, \&#34;TV_ON_BRIGHT_THRESHOLD\&#34;: 200, \&#34;SENSING_INTERVAL_MS\&#34;: 1000, \&#34;SAMPLING_COUNT\&#34;: 1}&#34;;
 +  // Template for metadata: {&#34;TV_OFF_THRESHOLD&#34;: 4, &#34;TV_ON_DARK_THRESHOLD&#34;: 30, &#34;TV_ON_BRIGHT_THRESHOLD&#34;: 200, &#34;SENSING_INTERVAL_MS&#34;: 1000, &#34;SAMPLING_COUNT&#34;: 10}
@@ -642,14 +638,6 @@ void loop() {
    console.println(json);
    const size_t capacity = JSON_OBJECT_SIZE(5) + 110; // Code generate by https://arduinojson.org/v6/assistant/
    DynamicJsonDocument doc(capacity);
-@@ -67,7 +96,7 @@
- std::vector&lt;int&gt; v;
-
- void loop() {
--  int val = analogRead(WIOLTE_A6);
-+  int val = analogRead(WIOLTE_A4);
-   sensing_data_display(Wio, val);
-   v.push_back(val);
 
 @@ -89,6 +118,12 @@
      char buf[1024];
