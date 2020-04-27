@@ -71,7 +71,6 @@
 </td><td colspan="1" rowspan="1"><p>キットの中には以下のものが含まれています。(それぞれを個別に準備しても構いません)</p>
 <ul>
 <li><a href="https://soracom.jp/products/module/wio_lte/" target="_blank">Wio LTE JP Version</a> x 1</li>
-<li><a href="http://ssci.to/1383" target="_blank">Grove 超音波距離センサーモジュール</a> x 1</li>
 <li><a href="https://soracom.jp/products/sim/plan-d/" target="_blank">SORACOM 特定地域向け IoT SIM (plan-D / データ通信のみ / nanoSIM サイズ)</a> x 1</li>
 <li>microUSB ケーブル x 1</li>
 </ul>
@@ -190,11 +189,11 @@
 <p>検索用のテキストボックスへ <code>arduinojson</code>と入力すると素早く見つけることができます。</p>
 <p class="image-container"><img style="width: 587.00px" src="img/5851ec15421dc596.png"></p>
 </aside>
-<h2 is-upgraded>簡易ジェスチャーを実現するスケッチ</h2>
+<h2 is-upgraded>光センサーの動作を確認するスケッチ</h2>
 <p>Arduino IDE を起動し［ファイル］&gt;［新規ファイル］を開くと <code>void setup() {</code> から始まる「空のスケッチ」が表示されます。</p>
 <p>一度スケッチの内容を削除してから、後述のスケッチで置き換えてください。</p>
 <p class="image-container"><img style="width: 793.80px" src="img/535df974a310e234.png"></p>
-<h3 is-upgraded>lets_try_iot_grove_light_local.ino</h3>
+<h3 is-upgraded><a href="https://gist.githubusercontent.com/ma2shita/0e5e0cba42b06114ec6a96dbd6fa0318/raw/ecfb31a0f3bff67f893a2396d726f665e71999e9/lets_try_iot_grove_light_local.ino" target="_blank">lets_try_iot_grove_light_local.ino</a></h3>
 <pre><code>/* See: https://www.lp.soracom.jp/202005-online-seminar/ */
 /*
  * TV power monitor (using Light sensor) / Local sensing only version
@@ -303,6 +302,28 @@ void loop() {
 
       </google-codelab-step>
     
+      <google-codelab-step label="SORACOM Harvest Data でデータを蓄積する (アンテナ・SIM の取り付け)" duration="10">
+        <h2 is-upgraded>Wio LTE にアンテナを取り付ける</h2>
+<p><strong>注意:</strong> Wio LTE から microUSB ケーブルを抜いた状態にしてください。</p>
+<p>Wio LTE に 添付されているアンテナ2本を取り付けます (※アンテナは必ず2本取り付けてください)</p>
+<p class="image-container"><img style="width: 602.00px" src="img/3aee1bad6ea914ac.png"></p>
+<h2 is-upgraded>Wio LTE に SIM を取り付ける</h2>
+<p>Wio LTE に SIM (nanoサイズ) を取り付けます。</p>
+<p><strong>最初に「失敗例」を紹介します。</strong></p>
+<p>以下のように、SIM 取り付けの「窓」に SIM が見えている場合は<strong>取り付けに失敗しています</strong>。引き抜いてから再度取り付けてください。</p>
+<p class="image-container"><img style="width: 414.00px" src="img/fb7f40017c726f7e.png"></p>
+<h3 is-upgraded>ここからは「<strong>正しい取り付け方</strong>」です。</h3>
+<p class="image-container"><img style="width: 536.00px" src="img/6ac34390f775eaf6.png"></p>
+<p class="image-container"><img style="width: 474.00px" src="img/9a810d214932deca.png"></p>
+<aside class="special"><p><strong>SIM の取り出し方</strong></p>
+<p class="image-container"><img style="width: 587.00px" src="img/b7fd3a522c52e6ba.png"></p>
+<p class="image-container"><img style="width: 509.00px" src="img/b4a8401f22bb6c57.png"></p>
+<p><strong>抜く際フックを引っ張りすぎると金具が取れてしまうため</strong>、図示されている程度まで引っ張り出したらSIMを取り出し、金具を元に戻してください。</p>
+</aside>
+
+
+      </google-codelab-step>
+    
       <google-codelab-step label="SORACOM Harvest Data でデータを蓄積する (グループの作成)" duration="10">
         <p>SORACOM の IoT データ収集・蓄積サービス <a href="https://soracom.jp/services/harvest/" target="_blank"><strong>SORACOM Harvest Data</strong></a> を利用して、データの可視化を簡単に実現してみましょう。</p>
 <p>まずは<strong>グループ</strong>の作成と、作成したグループへ SIM を所属させる事から始めます。</p>
@@ -315,6 +336,8 @@ void loop() {
 </aside>
 <h2 is-upgraded><a href="https://console.soracom.io/" target="_blank">SORACOM ユーザーコンソール</a>にログインした後［Menu］&gt;［SIM 管理］とクリックして SIM 管理画面を開きます。</h2>
 <p class="image-container"><img style="width: 566.00px" src="img/c4968675c5a9a1c8.png"></p>
+<aside class="warning"><p><strong>［SIM 管理］の一覧に SIM がない場合は？</strong></p>
+</aside>
 <aside class="warning"><p><strong>［SIM 管理］をクリックしても画面が切り替わらない場合は？</strong></p>
 <p>すでに SIM 管理画面を開いている場合は、［SIM 管理］をクリックしても画面が切り替わることがありません。その場合、青の点線で囲まれている「SORACOM ロゴ」をクリックすることでメニューを閉じることができます。</p>
 </aside>
@@ -419,28 +442,6 @@ void loop() {
 <p class="image-container"><img style="width: 602.00px" src="img/43e10c7bbec105de.png"></p>
 <p>最後に［保存］をクリックし、「SIM 詳細」では［閉じる］をクリックしてください。</p>
 <p>これで、SIM に対してタグ付けが完了しました。</p>
-
-
-      </google-codelab-step>
-    
-      <google-codelab-step label="SORACOM Harvest Data でデータを蓄積する (アンテナ・SIM の取り付け)" duration="10">
-        <h2 is-upgraded>Wio LTE にアンテナを取り付ける</h2>
-<p><strong>注意:</strong> Wio LTE から microUSB ケーブルを抜いた状態にしてください。</p>
-<p>Wio LTE に 添付されているアンテナ2本を取り付けます (※アンテナは必ず2本取り付けてください)</p>
-<p class="image-container"><img style="width: 602.00px" src="img/3aee1bad6ea914ac.png"></p>
-<h2 is-upgraded>Wio LTE に SIM を取り付ける</h2>
-<p>Wio LTE に SIM (nanoサイズ) を取り付けます。</p>
-<p><strong>最初に「失敗例」を紹介します。</strong></p>
-<p>以下のように、SIM 取り付けの「窓」に SIM が見えている場合は<strong>取り付けに失敗しています</strong>。引き抜いてから再度取り付けてください。</p>
-<p class="image-container"><img style="width: 414.00px" src="img/fb7f40017c726f7e.png"></p>
-<h3 is-upgraded>ここからは「<strong>正しい取り付け方</strong>」です。</h3>
-<p class="image-container"><img style="width: 536.00px" src="img/6ac34390f775eaf6.png"></p>
-<p class="image-container"><img style="width: 474.00px" src="img/9a810d214932deca.png"></p>
-<aside class="special"><p><strong>SIM の取り出し方</strong></p>
-<p class="image-container"><img style="width: 587.00px" src="img/b7fd3a522c52e6ba.png"></p>
-<p class="image-container"><img style="width: 509.00px" src="img/b4a8401f22bb6c57.png"></p>
-<p><strong>抜く際フックを引っ張りすぎると金具が取れてしまうため</strong>、図示されている程度まで引っ張り出したらSIMを取り出し、金具を元に戻してください。</p>
-</aside>
 
 
       </google-codelab-step>
@@ -745,7 +746,7 @@ void loop() {
 </td></tr>
 </table>
 <h2 is-upgraded><a href="https://console.soracom.io/" target="_blank">SORACOM ユーザーコンソール</a>の［Menu］&gt;［データ収集・蓄積・可視化］&gt;［SORACOM Lagoon］とクリックします。</h2>
-<p class="image-container"><img style="width: 547.00px" src="img/3d0a1446447997dd.png"></p>
+<p class="image-container"><img style="width: 547.00px" src="img/df078d78ef3c64c9.png"></p>
 <h2 is-upgraded>［SORACOM Lagoon の利用を開始する］をクリックします。</h2>
 <p class="image-container"><img style="width: 602.00px" src="img/4a10b1d6ed1f5cc0.png"></p>
 <h2 is-upgraded>プランのうち［Free］を選択したあと［続行する］をクリックします。</h2>
