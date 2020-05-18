@@ -1,0 +1,294 @@
+
+<!doctype html>
+
+<html>
+<head>
+  <meta name="viewport" content="width=device-width, minimum-scale=1.0, initial-scale=1.0, user-scalable=yes">
+  <meta name="theme-color" content="#4F7DC9">
+  <meta charset="UTF-8">
+  <title>【SORACOM ハンズオン】GPS マルチユニット SORACOM Edition 体験ハンズオン</title>
+  <link rel="stylesheet" href="//fonts.googleapis.com/css?family=Source+Code+Pro:400|Roboto:400,300,400italic,500,700|Roboto+Mono">
+  <link rel="stylesheet" href="//fonts.googleapis.com/icon?family=Material+Icons">
+  <link rel="stylesheet" href="https://soracom.github.io/iot-recipes/codelab-elements/codelab-elements.css">
+  <style>
+    .success {
+      color: #1e8e3e;
+    }
+    .error {
+      color: red;
+    }
+  </style>
+</head>
+<body>
+  <google-codelab-analytics gaid="UA-66865146-33"></google-codelab-analytics>
+  <google-codelab codelab-gaid=""
+                  id="gps-multiunit-soracom-edition-100"
+                  title="【SORACOM ハンズオン】GPS マルチユニット SORACOM Edition 体験ハンズオン"
+                  environment="web"
+                  feedback-link="https://soracom.jp/products/kit/gps_multiunit/">
+    
+      <google-codelab-step label="ハンズオン概要" duration="0">
+        <p>必要な機材</p>
+<ul>
+<li>GPS マルチユニット SORACOM Edition（バッテリー内蔵タイプ）</li>
+<li>SORACOM の LTE-M 通信に対応した特定地域向け IoT SIM（plan-D/plan-KM1、nano サイズ）</li>
+<li>PC（最新のGoogle Chromeインストール済み）</li>
+</ul>
+<p>※GPS マルチユニット SORACOM Edition（バッテリー内蔵タイプ）スターターキットは plan-D nano サイズとセットで販売しております</p>
+<p>前提</p>
+<ul>
+<li>SORACOM のアカウントを作成済みであること</li>
+</ul>
+<p>構成図</p>
+<p class="image-container"><img style="width: 624.00px" src="img/5814cfd66019aed0.png"></p>
+
+
+      </google-codelab-step>
+    
+      <google-codelab-step label="ステップ 1: GPS マルチユニットに SIM をセットする" duration="0">
+        <p>GPS マルチユニット SORACOM Edition(以降、GPS マルチユニット)に SIM をセットします。</p>
+<p>SIM のセットは、電源オフの状態でおこないます。 電源の状態を確認するため、ファンクションボタンを1秒押してください。LEDが点灯すれば電源が入っています。</p>
+<p>また電源をオフにするには、ファンクションボタンを約 4 秒押してください。電源オフの後、以下のように LED が点灯します。</p>
+<p class="image-container"><img style="width: 624.00px" src="img/d398958a19aae60d.png"></p>
+<p>nanoSIM サイズの SIM カードをカードトレイに取り付け、カードスロットに挿入してください。</p>
+<h2 is-upgraded>カードトレイの取り出し</h2>
+<p>※奥へカードトレイを押し込んでも出てきませんので、爪等に端をかけて取り出してください。</p>
+<p class="image-container"><img alt="GPS マルチユニット カードトレイの取り出し" style="width: 476.83px" src="img/99554612bafd1d87.jpeg"></p>
+<h2 is-upgraded>カードスロットへの挿入 </h2>
+<p>※カードトレイの形に合わせて SIM を置きます。チップ（金色の面）は上向きです。<img alt="GPS マルチユニット カードスロットへの挿入" style="width: 487.01px" src="img/8984a453fdbdd786.jpeg"></p>
+
+
+      </google-codelab-step>
+    
+      <google-codelab-step label="ステップ 2: GPS マルチユニットのデバイス設定を行う" duration="0">
+        <p>次に、<a href="https://console.soracom.io/#/gadgets/gps_multiunit?coverage_type=jp" target="_blank">ユーザーコンソール</a>からデバイス設定を行い、送信データ、送信先の設定を行います。</p>
+<p><a href="https://console.soracom.io/#/gadgets/gps_multiunit?coverage_type=jp" target="_blank">ユーザーコンソールのGPSマルチユニット</a>メニュー（コンソール左上 Menu → ガジェット管理 → GPS マルチユニット）をクリックします。</p>
+<p class="image-container"><img style="width: 586.50px" src="img/9cb3e2a2b95450f7.png"></p>
+<p>以下のように GPS マルチユニット画面が表示されます。</p>
+<p class="image-container"><img alt="ユーザーコンソールのGPSマルチユニットメニュー" style="width: 585.25px" src="img/e636a9ba9702db9d.png"></p>
+<p>以下のように GPS マルチユニット画面が表示されます。</p>
+<p class="image-container"><img style="width: 624.00px" src="img/c8bc950c6af3f08c.png"></p>
+<p>次に、「新規デバイス設定」をクリックします。</p>
+<p class="image-container"><img alt="新規デバイス設定" style="width: 589.50px" src="img/2bc648414d116bb8.png"></p>
+<p>「ステップ 1: GPS マルチユニットに SIM をセットする」でGPS マルチユニットにセットしたSIMを選択します。</p>
+<p class="image-container"><img style="width: 578.50px" src="img/38bbf7dd1b333e5.png"></p>
+<aside class="special"><p><strong>複数の SIM をお持ちの場合は？</strong></p>
+<p>複数 SIM をお持ちの場合は、画面に表示されている IMSI と 同梱の SIM カードの台紙の裏面にてご確認ください。</p>
+<p class="image-container"><img alt="SIM カード" style="width: 504.00px" src="img/55934a2f5193560.png"></p>
+</aside>
+<aside class="warning"><p><strong>SIM が表示されていない場合は？</strong></p>
+<p>SIM が表示されていない場合、「受け取り確認」されていることをご確認ください。ユーザーコンソールの「発注」画面から [受け取り確認] ボタンを押してください。</p>
+<p class="image-container"><img style="width: 607.46px" src="img/108f5b10e36564cc.png"></p>
+<p class="image-container"><img style="width: 610.00px" src="img/bd66233223f5b346.png"></p>
+<p class="image-container"><img style="width: 610.00px" src="img/8521af45a2e56a5c.png"></p>
+<p>「受け取り確認」後、SIM管理画面にSIMが表示されます。</p>
+<p class="image-container"><img style="width: 610.00px" src="img/b9e246a0affbf43.png"></p>
+<p>登録したSIMに名前をつけることができます。名前をつけることで、複数SIMを保有した際の管理が便利になります。</p>
+<p>名前の枠にカーソルを合わせると、鉛筆マークが表示されます。鉛筆マークをクリックし、名前を記入します。ここでは、GPS マルチユニットと名付けます。<br><img style="width: 356.50px" src="img/18e2536697bd5c01.png"><img style="width: 360.50px" src="img/893eb7c410d9ebad.png"></p>
+</aside>
+<p>「次へ：グループを選択」をクリックします。<br><img style="width: 617.99px" src="img/fd4445f457bdb51e.png">GPS マルチユニットの設定は SIM グループに保存されます。 SIM グループは後から変更ができます。同じ SIM グループ内にある SIM は同じ設定を共有します。</p>
+<p>ここでは、「新規グループを作成」を選択し、グループ名に「GPS マルチユニット」を入力します。グループに入れておくと、グループ単位で同じ設定を簡単に反映することが可能になります。<br><img style="width: 611.50px" src="img/250ae7eb689e777b.png"></p>
+<p>「次へ：設定を編集」をクリックし、送信内容を設定します。</p>
+<p>本ハンズオンでは、温度、湿度、バッテリー残量のデータを1分置きにSORACOM Harvest Dataに送信します。Harvest Data を利用いただくと、外部のサーバーやクラウドサービスを用意しなくても SORACOM プラットフォーム内で簡単に可視化することができます。送信内容と送信先を以下のように設定します。</p>
+<p class="image-container"><img style="width: 624.00px" src="img/f94f0df93d621027.png"></p>
+<p>送信モードは全部で 3 つあります。 </p>
+<ul>
+<li>定期送信 - 自動モード：GPS マルチユニットの移動状態に応じて、データを定期的に送信する頻度が自動的に調整されます。モードのしきい値や定期送信頻度を調整することはできません。</li>
+<li>定期送信 - 手動モード：送信間隔や送信する期間、曜日や時間帯を設定することができます。</li>
+<li>定期送信 - なし：定期的にデータを送信せず、ボタンを押した時にのみデータを送ることができます。 </li>
+</ul>
+<p>当ガイドでは、定期送信 - 手動モード設定を以下のように設定します。</p>
+<p class="image-container"><img style="width: 596.35px" src="img/99a50e9537974967.png"></p>
+<p>以下のように設定します</p>
+<p class="image-container"><img style="width: 445.50px" src="img/f87a1de6285431e3.png"></p>
+<ul>
+<li>送信間隔：最小 1 分から、最大 24 時間で設定可能です</li>
+<li>期間：データを送信する期間を設定可能です</li>
+<li>曜日：平日の営業時間だけデータを送信する、等用途に合わせて設定可能です</li>
+<li>時刻：デフォルトでは常に送信するが選ばれていますが、用途に応じて特定の時刻を設定可能です</li>
+</ul>
+<aside class="special"><p><strong>加速度割り込みとは</strong></p>
+<p class="image-container"><img alt="加速度割り込み" style="width: 610.00px" src="img/3e12140a599323e.png"></p>
+<p>GPS マルチユニットに搭載されている加速度センサーで、設定した一定以上の加速度を検知した場合にデータを送信することができます。例えば普段は GPS マルチユニットが静止した状態で置かれていて、動かされた時にだけデータを送信したいような場面で使うことができます。</p>
+</aside>
+<p>当ガイドでは、加速度割り込みは設定せず「保存」をクリックし、デバイス画面に戻ります。</p>
+<p class="image-container"><img style="width: 442.79px" src="img/ed31320a2e7cfded.png"></p>
+<p>設定は完了しましたが、設定を機器に反映させる必要があります。機器の設定を変えた後には必ず、SIM を挿入して電源を入った状態でファンクションボタンを 1 回押してください。電源が入っているかどうかは、ファンクションボタンを押しLEDが点灯するかを確認してください。LEDが点灯したら電源が入っています。</p>
+
+
+      </google-codelab-step>
+    
+      <google-codelab-step label="ステップ 3: SORACOM Harvest でデータを確認する" duration="0">
+        <p>GPS マルチユニットのセンサーデータを送信します。</p>
+<p>ファンクションボタンを短押し(約 1 秒間)すると、定期送信の設定に関わらず、センサーデータ(電波強度・温度・湿 度・電池残量)をクラウドサーバに送信します。</p>
+<p class="image-container"><img alt="ファンクションボタン" style="width: 552.28px" src="img/1a27b395ebc337ae.png"></p>
+<p>設定したGPS マルチユニットデバイスを選択し、「データを確認」ボタンをクリックします。</p>
+<p class="image-container"><img style="width: 624.00px" src="img/666a1b39a8db890a.png"></p>
+<p>右上の自動更新（5秒）をオンに設定することで、自動的に新しいデータが表示されます。</p>
+<p class="image-container"><img style="width: 624.00px" src="img/603f101bc0d442fe.png"></p>
+<p>示すデータは、以下の通りです。</p>
+<ul>
+<li>bat: 電池残量（3 段階）</li>
+<li>rs: 電波の強さ（4 段階）</li>
+<li>temp: temperature、温度（℃）</li>
+<li>humi: humidity、湿度（%RH）</li>
+<li>type: 定期送信か、ボタンを押した時の送信かを示す</li>
+</ul>
+<p>また、GPS をオンにしていた場合は下記の項目が表示されます。</p>
+<ul>
+<li>lat：latitude、緯度</li>
+<li>lon: longitude、経度</li>
+</ul>
+<p>詳細は<a href="https://dev.soracom.io/jp/gps_multiunit/how-it-works/" target="_blank">こちらのページ</a>より、「GPS マルチユニットから送信されるペイロード」をご覧ください。</p>
+<p>今回設定した温度・湿度のデータだけを表示するため右上のtemp, humi以外のチェックを外します。</p>
+<p>また、左側の自動で調整ボタンのチェックを外すことで、グラフの最大値と最小値を手動で設定できます。</p>
+<p class="image-container"><img style="width: 624.00px" src="img/32c20c29592c2bb7.png"></p>
+
+
+      </google-codelab-step>
+    
+      <google-codelab-step label="ステップ 4：SORACOM Lagoon でデータを可視化する" duration="0">
+        <p>ここでは、送信したデータを SORACOM Lagoon を使って可視化します。</p>
+<p><a href="https://console.soracom.io/" target="_blank">SORACOMのユーザーコンソール</a>にログインし、メニュー（コンソール左上 Menu）→「データ収集・蓄積・可視化」→「SORACOM Lagoon」メニューをクリックします。</p>
+<p class="image-container"><img style="width: 263.00px" src="img/de081faa81c1cc90.png"></p>
+<h2 is-upgraded>Lagoon を有効化する</h2>
+<p>「SORACOM Lagoonの利用を開始する」ボタンをクリックします。</p>
+<p class="image-container"><img style="width: 624.00px" src="img/8fcbca5e8d696576.png"></p>
+<p>パスワードを設定します。<br>このパスワードはSORACOM コンソールのアカウントのメールアドレスで Lagoon へログインする時に必要なパスワードとなります。</p>
+<p>※ SAM アカウントを設定している方は SORACOM Lagoon を有効化することができません。ルートアカウント（メールアドレスでログインする方法）でログインし、有効化してください。</p>
+<p>SORACOM Lagoon は、Free、Maker、Pro の 3 種類のプランがあります。プランによって、作成できるダッシュボード/アラート数や、編集/読み取りユーザーが異なります。今回は、無料プランの Free プランを利用します。<img style="width: 513.50px" src="img/456d0f7dd19c5e61.png"></p>
+<p>パスワードを設定し、利用開始をクリックします。<br>このパスワードはSORACOM アカウントのメールアドレスでLagoonへログインする時に必要なパスワードとなります。<img style="width: 498.74px" src="img/391a71c43a0b9fec.png"></p>
+<p>利用開始ボタンクリック後に、以下のエラーが出た場合には、カスタマーサポートへお問い合わせ下さい。お問い合わせの手順は<a href="https://soracom.zendesk.com/hc/ja/articles/360003890852-%E3%82%B5%E3%83%9D%E3%83%BC%E3%83%88%E3%81%B8%E3%81%AE%E5%95%8F%E3%81%84%E5%90%88%E3%82%8F%E3%81%9B%E6%96%B9%E6%B3%95%E3%81%AF-%E3%82%B5%E3%83%9D%E3%83%BC%E3%83%88%E3%83%81%E3%82%B1%E3%83%83%E3%83%88%E3%81%A8%E3%81%AF-" target="_blank">こちら</a>から。</p>
+<p>*デモアカウントとは？<a href="https://soracom.jp/services/lagoon/demo-account/" target="_blank">SORACOM Lagoon サンプルダッシュボードご利用申請</a>をいただいた方が該当します。</p>
+<p class="image-container"><img style="width: 383.79px" src="img/698507d9ac80a745.png"></p>
+<h2 is-upgraded>Lagoon へログインする</h2>
+<p>Lagoon へログインしダッシュボード設定を行います。<br>「SORACOM Lagoon にアクセス」ボタンをクリックします。</p>
+<p class="image-container"><img style="width: 330.50px" src="img/ede3366d03093af4.png"></p>
+<p>オペレータアカウントのメールアドレスと先ほど設定したパスワードを入力しログインします<img style="width: 624.00px" src="img/caa468703426f599.png">以上でLagoon の利用を開始しログインできました。</p>
+<p><br>SORACOM Lagoon を使いダッシュボードを作成し、センシングデータを可視化するダッシュボードを作成していきます。<br>最初に左上の十字ボタンから「ダッシュボード」をクリックします。</p>
+<aside class="special"><p><strong>背景が白くない場合は？</strong></p>
+<p>SORACOM Lagoon の標準では背景が黒となっています。これは設定で変更が可能です。</p>
+<p>右下のアイコンにカーソルを合わせて表示される［設定］をクリックします。</p>
+<p class="image-container"><img style="width: 342.00px" src="img/8cec8a9120d25dcd.png"></p>
+<p>設定画面に &#34;テーマ&#34; を &#34;Light&#34; に変更して［保存］すると、背景が白くなります。</p>
+<p class="image-container"><img style="width: 502.00px" src="img/69d5628454a7662a.png"></p>
+</aside>
+<p>New dashboardという名前でダッシュボードが作成されパネルの選択画面が表示されます。<br>今回はグラフを選択します。</p>
+<p><img style="width: 624.00px" src="img/60ee6fe77e6b136a.png">空のグラフパネルが作成されました。<br>パネル上部の「Panel Title」をクリックし、プルダウンから「編集」を選択します。</p>
+<p class="image-container"><img style="width: 624.00px" src="img/a4cf715a02fa5588.png"></p>
+<p><img style="width: 624.00px" src="img/5287132bb2735e9e.png">「メトリック」タブに、GPS マルチユニット SORACOM Edition に設定したSORACOM Air 回線の情報を設定します。SIM に名前をつけた場合は、選択の際に名前が表示されます。</p>
+<p class="image-container"><img style="width: 624.00px" src="img/368f1e8d055debd6.png"></p>
+<p>回線を選択すると、上部のグラフにデータが表示されます。<br>デフォルト設定では、過去6時間のデータが表示されます。直近のデータが表示されるよう、右上の「Last 6 hours」と書かれている箇所をクリックし、過去5分間、自動更新を1分に変更します。<br><img style="width: 624.00px" src="img/7326c4838abf2479.png"></p>
+<p>グラフが下記のように表示されます。<br><img style="width: 624.00px" src="img/7618e5345746b5cd.png"></p>
+<p>本ハンズオンでは、温湿度データをグラフに表示するため、下記の通り「temp」と「humi」をメトリック内に追加します。先ほど設定したSIMの横のプルダウンをクリックし、設定します。<br><img style="width: 524.50px" src="img/35fa4235f0194cf6.png"><img style="width: 523.50px" src="img/60b2f3f3cf9ea438.png"></p>
+<p>新しく「クエリを追加」をクリックし、同じように、GPS マルチユニット SORACOM Edition に設定したSORACOM Air 回線の情報を設定します。また、メトリック内に「humi」も追加します。<br><img style="width: 580.50px" src="img/a0108443292b1119.png"></p>
+<p>温度と湿度の軸をそれぞれ設定します。<br>メトリックの横の「軸」をクリックし、左Y軸・右Y軸を下記のようにそれぞれの軸の最小値と最大値、軸の名前を設定します。</p>
+<p>左Y軸<br>最小：0、最大：40、ラベル：温度</p>
+<p>右Y軸<br>最小：０、最大：100、ラベル：湿度<img style="width: 624.00px" src="img/6f03711ccb3dab84.png">データを見やすくするため、湿度データを右Y軸に寄せます。<br>「表示」タブをクリックし「系列のオーバーライド」を選択し「+オーバーライドの追加」をクリックします。<br><img style="width: 624.00px" src="img/9e99f826548062bc.png"></p>
+<p>下記のように「エイリアスもしくは正規表現」に「humi」を入れ、プラス記号を押して「Y-axisの2」を選択します。</p>
+<p class="image-container"><img style="width: 624.00px" src="img/d2b439a2b7d90b07.png"></p>
+<p>左側に湿度の軸が設定されました。<br><img style="width: 624.00px" src="img/34bdd5d6f090b789.png"></p>
+<p>湿度のグラフを水色に変更します。先ほど設定した「Y-axis」の横のプラスボタンをクリックし、Color＞changeを選択します。</p>
+<p class="image-container"><img style="width: 586.50px" src="img/b1f23e2446555754.png"></p>
+<p>カラーパレットが表示されるので、好きな色を選択します。ここでは水色を選択しました。</p>
+<p class="image-container"><img style="width: 581.96px" src="img/dae719bfa3b9a0ec.png"></p>
+<p>グラフに選択した色がつきます。</p>
+<p class="image-container"><img style="width: 624.00px" src="img/99c68dd47c2a7949.png"></p>
+<p>全般タブで、本グラフの名前を編集します。ここでは「GPSマルチユニット温湿度データ」としました。<br><img style="width: 624.00px" src="img/e3913c0ae3a9abd0.png"></p>
+<p>右上の矢印をクリックし、ダッシュボードの画面へ戻ります。<br><img style="width: 624.00px" src="img/e84431ebdd94fc13.png"></p>
+<p>右上の保存ボタンから、「ダッシュボードを保存」をクリックします。<img style="width: 624.00px" src="img/31984e261aad41bf.png"></p>
+<p>名前をつけて「保存」をクリックします。</p>
+<p class="image-container"><img style="width: 624.00px" src="img/9697b507a1bcd799.png"></p>
+
+
+      </google-codelab-step>
+    
+      <google-codelab-step label="ステップ 5: SORACOM Lagoonでメールに通知を飛ばす" duration="0">
+        <p>SORACOM Lagoon には、取得したデータの監視を行うアラート機能があります。設定した閾値等のルールに従ってEmail、Slack、Webhook 等へ通知を飛ばすことができます。</p>
+<p>ここででは、アラート機能を利用し、設定した閾値を超えた場合にメールに通知を飛ばす仕組みを構築します。</p>
+<p>左上の ベルアイコンをクリックし新しい「通知チャンネル」をクリックします。</p>
+<p class="image-container"><img style="width: 550.01px" src="img/7bf24609e13b9d3d.png"></p>
+<p>アラート設定画面が表示されますので「+ New Channel」から通知チャンネルの新規追加を行います。</p>
+<p class="image-container"><img style="width: 624.00px" src="img/1dc44afa3461195a.png"></p>
+<p>以下の値を入力します。</p>
+<p>名前: 任意の名前 (例: GPS マルチユニット アラート)</p>
+<p>タイプ: Email</p>
+<p>すべてのアラートで送信: チェックを外す</p>
+<p>Email addreses: ご自分のメールアドレス</p>
+<p class="image-container"><img style="width: 624.00px" src="img/2c1d2e6c4dff9523.png"></p>
+<p>送信テストをクリックし、宛先が正しいか確認します。しばらくすると以下のような [Alerting] Test Notifications メールが届けば、送信テスト成功です。</p>
+<p class="image-container"><img style="width: 624.00px" src="img/48b63cb9a997e1d.png"></p>
+<aside class="warning"><p><strong>メールが届かない場合は？</strong></p>
+<p>以下の点を確認してください</p>
+<ul>
+<li>メールアドレスが正しいこと</li>
+<li><code>no-reply@soracom.jp</code> からのメールが迷惑メールに判定されてないこと、もしくは受信フィルタで拒否されていないこと</li>
+</ul>
+</aside>
+<h2 is-upgraded>グラフへのアラート設定</h2>
+<p>先ほど作成したグラフ (例に従って設定した場合「GPS マルチユニット」) のタイトル部分をクリックし、[編集] を選択した後、アラートタブから「アラートを作成」ボタンをクリックします。</p>
+<p class="image-container"><img style="width: 624.00px" src="img/1844e93cdbfbf13c.png"></p>
+<p class="image-container"><img style="width: 624.00px" src="img/cb00afc9e6297d4d.png"></p>
+<p>アラート設定として以下の値を入力します。</p>
+<p>過去 1 分間の温度が 27 度を下回った場合にアラートを通知する設定となります。</p>
+<p>WHEN: avg() </p>
+<p>OF: query (A, 1m, now)</p>
+<p>IS ABOVE: 27（この時は27に設定しました。ハンズオンでは、現在の温度に1-2度加えた数字にするとアラートが飛びやすくなります。数字は、参加者の環境に合わせて設定いただけます。）</p>
+<p class="image-container"><img style="width: 624.00px" src="img/9e5765f047828094.png"></p>
+<p>通知の設定で送り先の + アイコンをクリックします。</p>
+<p class="image-container"><img style="width: 624.00px" src="img/58fc4a0df4a153f5.png"></p>
+<p>先ほど設定したアラートの送り先を指定し、アラートメールのメッセージを記載します。ここでは、「温度が27度を超えました」としています。</p>
+<p class="image-container"><img style="width: 624.00px" src="img/3644aee6ef63280a.png"></p>
+<p class="image-container"><img style="width: 624.00px" src="img/a51e63e1ed7b13c6.png"></p>
+<p>ダッシュボードを保存をクリックします。</p>
+<p class="image-container"><img style="width: 624.00px" src="img/872f80e414faf819.png"></p>
+<p>赤色の線が、条件として設定した27度のラインになります。</p>
+<p class="image-container"><img style="width: 624.00px" src="img/3cd371400e9efe03.png"></p>
+<p>GPS マルチユニットの温度を上げてみます。1分以内に27度を超えたタイミングで、先ほど設定したメールアドレスに下記のような通知メールが届きます。</p>
+<p class="image-container"><img style="width: 583.50px" src="img/7dd1de5b19ed2831.png"></p>
+<p class="image-container"><img style="width: 624.00px" src="img/58a7d0e1cf1f8e0b.png"></p>
+<p>アラートメール送信のタイミングがグラフに ▲ で表示されます。</p>
+<p>マウスカーソルを合わせると日時や値を確認できます。</p>
+<p class="image-container"><img style="width: 601.50px" src="img/d14577ee18f48b9d.png"></p>
+<p>アラートの履歴は、状態履歴から確認できます。</p>
+<p class="image-container"><img style="width: 624.00px" src="img/5f3c318301ffc42e.png"></p>
+<p>以上で、GPS マルチユニット SORACOM Edition のハンズオンは終了です。</p>
+
+
+      </google-codelab-step>
+    
+      <google-codelab-step label="Appendix : SORACOM Lagoonで作成したダッシュボードを共有する" duration="0">
+        <p><br>SORACOM Lagoon アカウントがMaker、Pro プランの方のみご利用いただけます。</p>
+<p>本内容は、SORACOM Lagoonで作成したダッシュボードを、第三者に共有する方法をご紹介します。<br>まず、SORACOM Lagoonにログインし、共有したいダッシュボードを開きます。</p>
+<p>右上の「ダッシュボードを共有」ボタンをクリックし共有リンクのURLを取得します。</p>
+<p class="image-container"><img style="width: 624.00px" src="img/9111f48f99c004a4.png"></p>
+<p class="image-container"><img style="width: 624.00px" src="img/3d1e3d9cdf21cc7.png"></p>
+<p>SORACOM Lagoonのコンソール画面に戻りダッシュボードユーザーを作成します。「+ユーザー追加」ボタンからLagoon ユーザーの権限、メールアドレス、パスワードを設定します。ユーザー権限は下記2種類あります。どちらを選んでいただいても構いません。</p>
+<ul>
+<li>読み取り専用：ダッシュボードの閲覧が可能なユーザーです。</li>
+<li>編集可能：ダッシュボードの閲覧と編集が可能なユーザーです。</li>
+</ul>
+<p class="image-container"><img style="width: 574.50px" src="img/e911131b124f6387.png"> <img style="width: 440.97px" src="img/1eb0af076ddf5478.png"></p>
+<p>先ほど手に入れたリンクのURLへアクセスすると再びログイン画面が表示されます。</p>
+<p> ※同じブラウザで実施するとログイン状態が保持されている場合があるのでキャッシュのクリアまたは別のブラウザにてお試しください。</p>
+<p class="image-container"><img style="width: 624.00px" src="img/4d4d564b8148b7f.png"></p>
+<p>追加したLagoon ユーザーのメールアドレスとパスワードを入力すると、GPS マルチユニットの温湿度データを表示したダッシュボードを確認できます。</p>
+<p>以上でLagoon でダッシュボードの作成、共有は終了です。</p>
+<h2 is-upgraded>片付け</h2>
+<p>ハンズオンで利用した GPS マルチユニットは、現在1分に一回データを送る設定になっています。送信頻度を変更したい方は、GPS マルチユニット設定画面から時間を変更します。変更後、GPS マルチユニットのファンクションボタンを押し設定を反映させてください。</p>
+<h2 is-upgraded>料金について</h2>
+<p>GPS マルチユニット SORACOM Edition の利用料金については下記のよくある質問をご確認ください。</p>
+<p><a href="https://dev.soracom.io/jp/gps_multiunit/faqs/" target="_blank">https://dev.soracom.io/jp/gps_multiunit/faqs/</a></p>
+
+
+      </google-codelab-step>
+    
+  </google-codelab>
+
+  <script src="https://soracom.github.io/iot-recipes/codelab-elements/native-shim.js"></script>
+  <script src="https://soracom.github.io/iot-recipes/codelab-elements/custom-elements.min.js"></script>
+  <script src="https://soracom.github.io/iot-recipes/codelab-elements/prettify.js"></script>
+  <script src="https://soracom.github.io/iot-recipes/codelab-elements/codelab-elements.js"></script>
+
+</body>
+</html>
