@@ -49,7 +49,6 @@
 <p>LICENSE<br>Copyright (c) 2020 SORACOM, INC.<br>Released under the MIT license<br><a href="https://opensource.org/licenses/mit-license.php" target="_blank">https://opensource.org/licenses/mit-license.php</a></p>
 </aside>
 
-<p>ソースドキュメントは<a href="https://docs.google.com/document/d/1X6estNiSUAVB1rndFjbg_5H3aMlOk9hjUCJq8-fN-c0/edit?usp=sharing" target="_blank">こちら</a></p>
 
 
       </google-codelab-step>
@@ -143,15 +142,15 @@
 </td><td colspan="1" rowspan="1"><p><strong>備考</strong></p>
 </td></tr>
 <tr><td colspan="1" rowspan="1"><p>グループ名</p>
-</td><td colspan="1" rowspan="1"><p><code>button-geo</code></p>
+</td><td colspan="1" rowspan="1"><p><code>button-handson</code></p>
 </td><td colspan="1" rowspan="1"><p>自由に入力可能です。日本語も設定可能です。</p>
 </td></tr>
 </table>
-<p class="image-container"><img style="width: 385.00px" src="img/163ba7c54355e9a9.png"></p>
+<p class="image-container"><img style="width: 385.00px" src="img/1bb26d5e8865d08.png"></p>
 <h2 is-upgraded>新しい所属グループが先ほど作成したグループになっていることを確認したら［グループ変更］をクリックします。</h2>
-<p class="image-container"><img style="width: 602.00px" src="img/ef73dbd81169cc84.png"></p>
+<p class="image-container"><img style="width: 602.00px" src="img/5d34e8d49cfeb7a2.png"></p>
 <h2 is-upgraded>自動的に SIM 管理画面に戻ります。<br>SIM の「グループ」に先ほど作ったグループが設定されていることを確認してください。</h2>
-<p class="image-container"><img style="width: 602.00px" src="img/4a3939a969bab67a.png"></p>
+<p class="image-container"><img style="width: 602.00px" src="img/f5368f4bb62ae770.png"></p>
 <p>以上で、グループの作成と所属の作業は完了です。</p>
 
 
@@ -166,7 +165,7 @@
 <p>携帯電話の基地局の位置情報や電波の強さを基に、LTE 通信の通信開始時点でのおおよその位置情報を取得して SORACOM サービスと連携できる機能です。LTE 通信のみで利用できることから GPS 等が無くとも位置測位が可能となります。利用可能な条件や精度などは<a href="https://dev.soracom.io/jp/docs/location_service/" target="_blank">簡易位置測位機能の設定ガイド</a>をご覧ください。</p>
 </aside>
 <h2 is-upgraded>SIM 管理画面から、SORACOM LTE-M Button に割り当てたグループ名をクリックします。</h2>
-<p class="image-container"><img style="width: 602.00px" src="img/7a2dec3390b6d302.png"></p>
+<p class="image-container"><img style="width: 602.00px" src="img/8123b207bfec9609.png"></p>
 <h2 is-upgraded>［SORACOM Air for Cellular 設定］をクリックして設定ができるように開きます。</h2>
 <p class="image-container"><img style="width: 602.00px" src="img/28c1e31f576c8af5.png"></p>
 <h2 is-upgraded>「SORACOM Air for Cellular 設定」で以下のように設定します。</h2>
@@ -255,7 +254,7 @@
 </aside>
 <p>本ハンズオンでは、あらかじめソラコムが用意した AWS アカウントの Lambda Function (<strong>SORACOM Hosted Funk</strong>) を利用することで、簡単にメールが送信できる事を体験いただけます。</p>
 <h2 is-upgraded>SIM 管理画面から、SORACOM LTE-M Button に割り当てたグループ名をクリックします。</h2>
-<p class="image-container"><img style="width: 602.00px" src="img/7a2dec3390b6d302.png"></p>
+<p class="image-container"><img style="width: 602.00px" src="img/d119827219e70089.png"></p>
 <h2 is-upgraded>[SORACOM Funk 設定] をクリックして設定ができるように開きます。</h2>
 <p class="image-container"><img style="width: 514.00px" src="img/9c0c8bc546b434af.png"></p>
 <h2 is-upgraded>「SORACOM Funk 設定」で以下のように設定します。</h2>
@@ -273,21 +272,23 @@
 </td><td colspan="1" rowspan="1"><p>デフォルトで選択されています。</p>
 </td></tr>
 <tr><td colspan="1" rowspan="1"><p>送信データ形式</p>
-</td><td colspan="1" rowspan="1"><p><code>JSON</code></p>
+</td><td colspan="1" rowspan="1"><p>JSON</p>
 </td><td colspan="1" rowspan="1"><p>デフォルトで選択されています。</p>
 </td></tr>
 <tr><td colspan="1" rowspan="1"><p>認証情報</p>
-</td><td colspan="1" rowspan="1"><p><code>SORACOM Hosted Funk を利用する</code></p>
+</td><td colspan="1" rowspan="1"><p>SORACOM Hosted Funk を利用する</p>
+</td><td colspan="1" rowspan="1"><p>―</p>
 </td></tr>
 <tr><td colspan="1" rowspan="1"><p>関数の ARN</p>
 </td><td colspan="1" rowspan="1"><p><code>arn:aws:lambda:ap-northeast-1:762707677580:function:funk-button-email:prod</code></p>
+</td><td colspan="1" rowspan="1"><p>―</p>
 </td></tr>
 </table>
 <p class="image-container"><img style="width: 602.00px" src="img/b4dc302db1e971ba.png"></p>
 <p>最後に [保存] を押します</p>
 <p>これで準備は完了です。</p>
 <h2 is-upgraded>SORACOM LTE-M Button を押してメールを送信する</h2>
-<p>この状態で SORACOM LTE-M Button を押すと、オペレーターのメールアドレスに以下のようなメールが送信されます。（着色はされません）</p>
+<p>この状態で SORACOM LTE-M Button を押すと、オペレーターのメールアドレスに以下のようなメールが送信されます。</p>
 <h3 is-upgraded>件名: ボタンクリック通知</h3>
 <pre>ボタン 7MF6J01234567890 が SINGLE クリックされました
 
@@ -343,7 +344,7 @@ etc:
 <h2 is-upgraded>メールの件名や本文を変更するには</h2>
 <p>メールの件名や本文をカスタマイズするには、メタデータサービスのユーザデータを使います。</p>
 <h3 is-upgraded>SIM 管理画面から、SORACOM LTE-M Button に割り当てたグループ名をクリックします。</h3>
-<p class="image-container"><img style="width: 602.00px" src="img/7a2dec3390b6d302.png"></p>
+<p class="image-container"><img style="width: 602.00px" src="img/b8b2b456c176a2b4.png"></p>
 <h3 is-upgraded>［SORACOM Air for Cellular 設定］をクリックして設定ができるように開きます。</h3>
 <p class="image-container"><img style="width: 602.00px" src="img/28c1e31f576c8af5.png"></p>
 <h3 is-upgraded>「メタデータサービス設定」で以下のように設定します。</h3>
