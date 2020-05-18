@@ -251,12 +251,13 @@
 <li>GCP Cloud Functions</li>
 </ul>
 </aside>
-<p>本ハンズオンでは、あらかじめソラコムが用意した AWS アカウントの Lambda Function (<strong>SORACOM Hosted Funk</strong>) を利用することで、簡単にメールが送信できる事を体験いただけます。</p>
+<p>本ハンズオンでは、あらかじめソラコムが用意した AWS アカウントの Lambda Function を利用することで、簡単にメールが送信できる事を体験いただけます。</p>
 <h2 is-upgraded>SIM 管理画面から、SORACOM LTE-M Button に割り当てたグループ名をクリックします。</h2>
 <p class="image-container"><img style="width: 602.00px" src="img/d119827219e70089.png"></p>
 <h2 is-upgraded>[SORACOM Funk 設定] をクリックして設定ができるように開きます。</h2>
-<p class="image-container"><img style="width: 514.00px" src="img/9c0c8bc546b434af.png"></p>
+<p class="image-container"><img style="width: 602.00px" src="img/cdb9a16aaa0c8c15.png"></p>
 <h2 is-upgraded>「SORACOM Funk 設定」で以下のように設定します。</h2>
+<p class="image-container"><img style="width: 602.00px" src="img/a62d1908ba8e4fe7.png"></p>
 <table>
 <tr><td colspan="1" rowspan="1"><p><strong>項目</strong></p>
 </td><td colspan="1" rowspan="1"><p><strong>設定値</strong></p>
@@ -275,15 +276,16 @@
 </td><td colspan="1" rowspan="1"><p>デフォルトで選択されています。</p>
 </td></tr>
 <tr><td colspan="1" rowspan="1"><p>認証情報</p>
-</td><td colspan="1" rowspan="1"><p>SORACOM Hosted Funk を利用する</p>
+</td><td colspan="1" rowspan="1"><p>認証情報を指定しない</p>
 </td><td colspan="1" rowspan="1"><p>―</p>
 </td></tr>
 <tr><td colspan="1" rowspan="1"><p>関数の ARN</p>
-</td><td colspan="1" rowspan="1"><p><code>arn:aws:lambda:ap-northeast-1:762707677580:function:funk-button-email:prod</code></p>
+</td><td colspan="1" rowspan="1"><p><code>下記の ARN を指定</code></p>
 </td><td colspan="1" rowspan="1"><p>―</p>
 </td></tr>
 </table>
-<p class="image-container"><img style="width: 602.00px" src="img/b4dc302db1e971ba.png"></p>
+<p><code>関数のARN</code></p>
+<pre>arn:aws:lambda:ap-northeast-1:762707677580:function:funk-button-email:prod</pre>
 <p>最後に [保存] を押します</p>
 <p>これで準備は完了です。</p>
 <h2 is-upgraded>SORACOM LTE-M Button を押してメールを送信する</h2>
