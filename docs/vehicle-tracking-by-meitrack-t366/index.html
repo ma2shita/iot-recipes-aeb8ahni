@@ -1,0 +1,584 @@
+
+<!doctype html>
+
+<html>
+<head>
+  <meta name="viewport" content="width=device-width, minimum-scale=1.0, initial-scale=1.0, user-scalable=yes">
+  <meta name="theme-color" content="#4F7DC9">
+  <meta charset="UTF-8">
+  <title>【IoT DIY レシピ】Meitrack T366による車両トラッキング</title>
+  <link rel="stylesheet" href="//fonts.googleapis.com/css?family=Source+Code+Pro:400|Roboto:400,300,400italic,500,700|Roboto+Mono">
+  <link rel="stylesheet" href="//fonts.googleapis.com/icon?family=Material+Icons">
+  <link rel="stylesheet" href="https://soracom.github.io/iot-recipes/codelab-elements/codelab-elements.css">
+  <style>
+    .success {
+      color: #1e8e3e;
+    }
+    .error {
+      color: red;
+    }
+  </style>
+</head>
+<body>
+  <google-codelab-analytics gaid="UA-66865146-33"></google-codelab-analytics>
+  <google-codelab codelab-gaid=""
+                  id="vehicle-tracking-by-meitrack-t366"
+                  title="【IoT DIY レシピ】Meitrack T366による車両トラッキング"
+                  environment="web"
+                  feedback-link="https://soracom.jp/products/industrial_devices/tracker_t366l_kit/">
+    
+      <google-codelab-step label="構築する仕組み" duration="0">
+        <p>レシピ難易度：★★★★★</p>
+<h2 is-upgraded>概要</h2>
+<p>本レシピではGPSトラッカーを使った車載の位置情報管理の仕組みを構築します。GPSトラッカーから送信される位置情報をもとに地図上に現在地やその軌跡をプロットしたダッシュボードを作成していきます。</p>
+<p>ロケーションデータの取得にはMeitrack T366、ロケーションデータの保存＋可視化にはSORACOM Harvest、SORACOM Lagoonを活用します。またMeitrack T366からのロケーションデータを可視化するためのデータ加工処理としてSORACOM Funkを組み合わせます。</p>
+<p class="image-container"><img style="width: 624.00px" src="img/94ce3b48170f4854.png"></p>
+<h2 is-upgraded>利用するソラコムサービス</h2>
+<table>
+<tr><td colspan="1" rowspan="1"><p><a href="https://soracom.jp/services/funk/" target="_blank">SORACOM Funk</a></p>
+</td><td colspan="1" rowspan="1"><p>Meitrackからのデータを加工するためにAWS Lambdaと組み合わせて利用します</p>
+</td></tr>
+<tr><td colspan="1" rowspan="1"><p><a href="https://soracom.jp/services/inventory/" target="_blank">SORACOM Inventory</a></p>
+</td><td colspan="1" rowspan="1"><p>ソラコムのセルラー回線以外からSORACOM Harvestへデータを書き込むために利用します</p>
+</td></tr>
+<tr><td colspan="1" rowspan="1"><p><a href="https://soracom.jp/services/harvest/" target="_blank">SORACOM Harvest</a></p>
+</td><td colspan="1" rowspan="1"><p>位置情報の保存先として利用します</p>
+</td></tr>
+<tr><td colspan="1" rowspan="1"><p><a href="https://soracom.jp/services/lagoon/" target="_blank">SORACOM Lagoon</a></p>
+</td><td colspan="1" rowspan="1"><p>SORACOM Harvestに保存した位置情報を使ったダッシュボードを作成するために利用します</p>
+</td></tr>
+</table>
+<h2 is-upgraded>本レシピを行うのに必要な時間、概算費用</h2>
+<p>本レシピは以下の通りです。</p>
+<ul>
+<li>必要な時間: 約2時間30分</li>
+<li>概算費用: 約21,000円</li>
+</ul>
+<p>※ デバイスを車両へ設置するために要する作業時間及びそのために必要となる工具類の費用を含みません。</p>
+<p>※ 概算費用: ハードウェアや SORACOM を始めとした各種サービスの概ねの費用 (税や送料などの付帯費用や無料枠適用は考慮しないものとしています)</p>
+
+
+      </google-codelab-step>
+    
+      <google-codelab-step label="準備" duration="0">
+        <h2 is-upgraded>デバイス</h2>
+<table>
+<tr><td colspan="1" rowspan="1"><p><strong>品名</strong></p>
+</td><td colspan="1" rowspan="1"><p><strong>数量</strong></p>
+</td><td colspan="1" rowspan="1"><p><strong>価格</strong></p>
+</td><td colspan="1" rowspan="1"><p><strong>購入先</strong></p>
+</td><td colspan="1" rowspan="1"><p><strong>備考</strong></p>
+</td></tr>
+<tr><td colspan="1" rowspan="1"><p>Meitrack T366シリーズ</p>
+</td><td colspan="1" rowspan="1"><p>1</p>
+</td><td colspan="1" rowspan="1"><p>19,800円</p>
+</td><td colspan="1" rowspan="1"><p><a href="https://soracom.jp/products/industrial_devices/tracker_t366l_kit/" target="_blank">ソラコム</a></p>
+</td><td colspan="1" rowspan="1"><p>ー</p>
+</td></tr>
+</table>
+<h2 is-upgraded>その他必要なもの</h2>
+<table>
+<tr><td colspan="1" rowspan="1"><p><strong>必要なもの</strong></p>
+</td><td colspan="1" rowspan="1"><p><strong>費用</strong></p>
+</td><td colspan="1" rowspan="1"><p><strong>作成方法など</strong></p>
+</td></tr>
+<tr><td colspan="1" rowspan="1"><p>SORACOM アカウント</p>
+</td><td colspan="1" rowspan="1"><p>無料※</p>
+</td><td colspan="1" rowspan="1"><p><a href="https://soracom.github.io/iot-recipes/create-account-soracom-jp/" target="_blank">SORACOM アカウントの作成 (JP)</a></p>
+</td></tr>
+<tr><td colspan="1" rowspan="1"><p>Amazon Web Services アカウント</p>
+</td><td colspan="1" rowspan="1"><p>無料※</p>
+</td><td colspan="1" rowspan="1"><p><a href="https://aws.amazon.com/jp/register-flow/" target="_blank">AWS アカウント作成の流れ</a></p>
+</td></tr>
+</table>
+<p>※ アカウント作成・維持の費用の料金です。</p>
+
+
+      </google-codelab-step>
+    
+      <google-codelab-step label="Meitrack T366とは" duration="0">
+        <p>本レシピで利用する<a href="http://www.meitrack.com/jp/t366-series/" target="_blank">Meitrack T366シリーズ</a>は防水防塵のIP防護レベルがIP67と耐環境性に優れたGPSトラッカーです。そのため車、バイク、ヨット、船といった過酷な環境下でも利用が可能です。また3軸加速度計を搭載しており、デバイス単体で振動でデバイスをウェイクアップしたり、牽引警報、急加速警報、急ブレーキ警報を検知することができます。</p>
+<p>本レシピではIoTストアで提供されているMeitrack T366シリーズの標準設定を用いて位置情報を連携していきます。専用の設定ツールを利用することで位置情報の送信頻度の変更や、SMSによる遠隔での設定変更などが可能です。これら本レシピでは扱わない範囲の機能詳細については下記関連リンクをご参考ください。</p>
+<p class="image-container"><img style="width: 390.00px" src="img/cdbd3e01cc1d07b2.png"></p>
+<p>関連リンク一覧</p>
+<ul>
+<li><a href="http://www.meitrack.com/cd-download/Product_User_Guide/MEITRACK_T366L_User_Guide.pdf" target="_blank">ユーザーガイド</a></li>
+<li><a href="http://www.meitrack.com/cd-download/Protocols/MEITRACK_T366_T366G_T366L_GPRS_Protocol.pdf" target="_blank">GPRSプロトコル仕様書</a></li>
+<li><a href="http://www.meitrack.com/cd-download/Protocols/MEITRACK_SMS_Protocol.pdf" target="_blank">SMSプロトコル仕様書</a></li>
+<li><a href="http://67.203.13.28:9090/play/MMPlusSetup.rar" target="_blank">設定ツールダウンロード</a></li>
+<li><a href="http://www.meitrack.com/cd-download/Aided_Software/MEITRACK_Manager_User_Guide_(New_Version).pdf" target="_blank">設定ツールガイド</a></li>
+<li><a href="http://www.meitrack.com/cd-download/Aided_Software/T366G_or_T366_STM32_USB_Driver.rar" target="_blank">USBドライバー</a></li>
+</ul>
+
+
+      </google-codelab-step>
+    
+      <google-codelab-step label="実装の流れ" duration="0">
+        <p>以下のステップで実装を進めていきます。</p>
+<table>
+<tr><td colspan="1" rowspan="1"><p>SORACOM Harvest Dataの設定</p>
+</td><td colspan="1" rowspan="1"><p>位置情報を利用するためのSORACOM Harvest Dataの設定をおこないます。</p>
+</td></tr>
+<tr><td colspan="1" rowspan="1"><p>SORACOM Lagoonの設定</p>
+</td><td colspan="1" rowspan="1"><p>SORACOM Harvest Dataに蓄積したデータを可視化するためのSORACOM Lagoonの利用設定をおこないます。</p>
+</td></tr>
+<tr><td colspan="1" rowspan="1"><p>デバイスキッティング</p>
+</td><td colspan="1" rowspan="1"><p>Meitrack T366にSIMをセットし事前の動作確認をおこないます。</p>
+</td></tr>
+<tr><td colspan="1" rowspan="1"><p>データ加工処理の作成※</p>
+</td><td colspan="1" rowspan="1"><p>Meitrack T366より連携されるデータを可視化するためにデータを加工しSORACOM Harvestへ書き込みます。SORACOM Funk+AWS Lambdaによりデータの加工処理をおこない、その後のSORACOM Harvestへデータの書き込みをおこないます。</p>
+</td></tr>
+<tr><td colspan="1" rowspan="1"><p>位置情報ダッシュボードの作成</p>
+</td><td colspan="1" rowspan="1"><p>SORACOM Harvestへ保存された位置情報をもとにSORACOM Lagoonでトラッキングするためのダッシュボードを作成します。地図上に位置情報をマッピングしていきます。</p>
+</td></tr>
+</table>
+<aside class="warning"><p><strong>※AWS側の設定手順について</strong></p>
+<p>本レシピではソラコムサービスの設定手順を中心に記載しております。必要となるAWS側の設定については参考リンクを都度記載しておりますので、そちらを参考に実施してください。</p>
+</aside>
+
+
+      </google-codelab-step>
+    
+      <google-codelab-step label="SORACOM Harvest Dataの設定" duration="10">
+        <p>SORACOM の IoT データ収集・蓄積サービス <a href="https://soracom.jp/services/harvest/" target="_blank"><strong>SORACOM Harvest Data</strong></a> を利用して、データの可視化を簡単に実現してみましょう。</p>
+<p>まずは<strong>グループ</strong>の作成と、作成したグループへ SIM を所属させる事から始めます。</p>
+<aside class="special"><p><strong>SORACOM Harvest Data とは？</strong></p>
+<p>IoT デバイスからのデータの収集や蓄積、およびファイルを保存するサービスが SORACOM Harvest (ソラコム ハーベスト) です。IoT デバイスからのデータの収集・蓄積対応しているのが SORACOM Harvest Data、画像ファイルやログファイルといったファイルに対応しているのが SORACOM Harvest Files となります。</p>
+</aside>
+<aside class="special"><p><strong>グループとは？</strong></p>
+<p>SORACOM サービスのほとんどが<strong>グループ</strong>という単位に対して設定するようになっています。SORACOM Harvest Data 等、SORACOM サービスのほとんどが SIM に直接設定をするのではなくグループに設定をします。そして、SIM をグループに所属させることで SORACOM サービスが利用できるという間接的な仕組みです。<img style="width: 587.00px" src="img/a9af1cef0f747a1d.png"></p>
+<p>グループを作成してから SIM を所属させる方法の他、グループの作成と SIM の所属を同時に行う方法もあります。本レシピでは後者の「同時に行う」手順で進めていきます。</p>
+</aside>
+<h2 is-upgraded><a href="https://console.soracom.io/" target="_blank">SORACOM ユーザーコンソール</a>にログインした後［Menu］&gt;［SIM 管理］とクリックして SIM 管理画面を開きます。</h2>
+<p class="image-container"><img style="width: 566.00px" src="img/c4968675c5a9a1c8.png">        </p>
+<h2 is-upgraded>SORACOM Harvest Data でデータの収集を行いたい SIMにチェックを付け、［操作］&gt;［所属グループ変更］とクリックします。</h2>
+<p class="image-container"><img style="width: 602.00px" src="img/f27d0ddf2224ee5f.png"></p>
+<h2 is-upgraded>「新しい所属グループ」のプルダウンボックスをクリックした後、［新しいグループを作成...］をクリックします。</h2>
+<p class="image-container"><img style="width: 602.00px" src="img/9cf95365d7028f2c.png"></p>
+<h2 is-upgraded>「グループ作成」のグループ名を入力して［グループ作成］をクリックします。</h2>
+<table>
+<tr><td colspan="1" rowspan="1"><p><strong>項目</strong></p>
+</td><td colspan="1" rowspan="1"><p><strong>例</strong></p>
+</td><td colspan="1" rowspan="1"><p><strong>備考</strong></p>
+</td></tr>
+<tr><td colspan="1" rowspan="1"><p>グループ名</p>
+</td><td colspan="1" rowspan="1"><p><code>iot-store-recipe</code></p>
+</td><td colspan="1" rowspan="1"><p>自由に入力可能です。日本語も設定可能です。</p>
+</td></tr>
+</table>
+<p class="image-container"><img style="width: 606.00px" src="img/8db092cd888156b9.png"></p>
+<h2 is-upgraded>新しい所属グループが先ほど作成したグループになっていることを確認したら［グループ変更］をクリックします。</h2>
+<p class="image-container"><img style="width: 605.00px" src="img/97f2f00f5bff17d3.png"></p>
+<h2 is-upgraded>自動的に SIM 管理画面に戻ります。<br>SIM の「グループ」に先ほど作ったグループが設定されていることを確認してください。</h2>
+<p class="image-container"><img style="width: 340.00px" src="img/20e75901b6a93c69.png"></p>
+<p>以上で、グループの作成と所属の作業は完了です。</p>
+<h2 is-upgraded>SIM 管理画面から、利用するSIMに割り当てたグループ名をクリックします。</h2>
+<p class="image-container"><img style="width: 340.00px" src="img/20e75901b6a93c69.png"></p>
+<h2 is-upgraded>[基本設定] &gt;［SORACOM Harvest 設定］をクリックして設定ができるように開きます。</h2>
+<p>先ほどの設定を行ったページ内にあります。</p>
+<p class="image-container"><img style="width: 602.00px" src="img/221a89fc5ae1b779.png"></p>
+<h2 is-upgraded>「SORACOM Harvest 設定」で以下のように設定します。</h2>
+<table>
+<tr><td colspan="1" rowspan="1"><p><strong>項目</strong></p>
+</td><td colspan="1" rowspan="1"><p><strong>設定値</strong></p>
+</td><td colspan="1" rowspan="1"><p><strong>備考</strong></p>
+</td></tr>
+<tr><td colspan="1" rowspan="1"><p>（スイッチ）</p>
+</td><td colspan="1" rowspan="1"><p>ON</p>
+</td><td colspan="1" rowspan="1"><p>―</p>
+</td></tr>
+</table>
+<p>スイッチはクリックすることで OFF から ON に切り替えることができます。</p>
+<p class="image-container"><img style="width: 262.00px" src="img/b8dd4f4f9fc5f281.png"></p>
+<p>最後に［保存］をクリックしてください。<br>その後表示される「SORACOM Harvest が有効になっています」のダイアログでは［OK］をクリックしてください。</p>
+<p>以上で「SORACOM Harvest Data」の設定が完了しました。</p>
+
+
+      </google-codelab-step>
+    
+      <google-codelab-step label="SORACOM Lagoonの設定" duration="10">
+        <p>SORACOM Lagoon を有効化していきます。</p>
+<h3 is-upgraded>SORACOM Lagoon 用語解説</h3>
+<p>ここで SORACOM Lagoon で使われる用語を解説します。</p>
+<table>
+<tr><td colspan="1" rowspan="1"><p><strong>用語</strong></p>
+</td><td colspan="1" rowspan="1"><p><strong>意味</strong></p>
+</td></tr>
+<tr><td colspan="1" rowspan="1"><p>プラン</p>
+</td><td colspan="1" rowspan="1"><p>SORACOM Lagoon の契約プランです。機能と料金が異なります。<a href="https://soracom.jp/services/lagoon/price/" target="_blank">SORACOM Lagoon のご利用料金</a>に機能や料金の比較表があります。</p>
+</td></tr>
+<tr><td colspan="1" rowspan="1"><p>メトリクス</p>
+<p>(メトリック)</p>
+</td><td colspan="1" rowspan="1"><p>データが格納されている先です。SORACOM Lagoon では以下の4つの中から選び、その中からノード(SIMや回線)を選択します。</p>
+<ul>
+<li>Air = SORACOM Air for セルラー</li>
+<li>LoRa = SORACOM Air for LoRaWAN</li>
+<li>Sigfox = SORACOM Air for Sigfox</li>
+<li>Device = SORACOM Inventory デバイス</li>
+</ul>
+</td></tr>
+<tr><td colspan="1" rowspan="1"><p>データソース</p>
+</td><td colspan="1" rowspan="1"><p>メトリクスの参照先です。SORACOM Lagoon では &#34;Harvest&#34; (= SORACOM Harvest) を選ぶとメトリクスが展開されます。 Grafana ではテスト用のランダムデータが表示されます。</p>
+</td></tr>
+<tr><td colspan="1" rowspan="1"><p>パネル</p>
+</td><td colspan="1" rowspan="1"><p>パネルはデータを表示する領域です。データソースとメトリクスを指定すると、そのメトリクス(たとえばSIM)のデータをパネルで使えるようになります。</p>
+<p>様々なパネルが存在します。</p>
+</td></tr>
+<tr><td colspan="1" rowspan="1"><p>ダッシュボード</p>
+</td><td colspan="1" rowspan="1"><p>複数のパネルを束ねて「1枚の画面」にしたものがダッシュボードです。共有の単位となります。</p>
+</td></tr>
+<tr><td colspan="1" rowspan="1"><p>SORACOM Lagoon ユーザー</p>
+<p>(Lagoon ユーザー)</p>
+</td><td colspan="1" rowspan="1"><p>SORACOM Lagoon へログインするためのユーザー(IDとパスワードの組)</p>
+<p>SORACOM ユーザコンソールへのログインとは異なるユーザ一覧となり、皆さん自身で登録・削除が可能です。ダッシュボードやパネルを編集できる「編集可能」と表示専用の「読み取り」の2段階の権限を設定できます。</p>
+<p>作成可能数はプランによります。</p>
+</td></tr>
+<tr><td colspan="1" rowspan="1"><p>データリフレッシュ</p>
+</td><td colspan="1" rowspan="1"><p>SORACOM Harvest から SORACOM Lagoon へデータが反映される事、もしくは反映タイミングとなります。反映タイミングはプランによります。</p>
+</td></tr>
+<tr><td colspan="1" rowspan="1"><p>アラート</p>
+</td><td colspan="1" rowspan="1"><p>メトリクスのデータに対して条件を設定し、その条件を満たしたら通知を行う仕組みの事です。</p>
+</td></tr>
+</table>
+<h2 is-upgraded><a href="https://console.soracom.io/" target="_blank">SORACOM ユーザーコンソール</a>の［Menu］&gt;［データ収集・蓄積・可視化］&gt;［SORACOM Lagoon］とクリックします。</h2>
+<p class="image-container"><img style="width: 547.00px" src="img/df078d78ef3c64c9.png"></p>
+<h2 is-upgraded>［SORACOM Lagoon の利用を開始する］をクリックします。</h2>
+<p class="image-container"><img style="width: 602.00px" src="img/4a10b1d6ed1f5cc0.png"></p>
+<h2 is-upgraded>プランのうち［Free］を選択したあと［続行する］をクリックします。</h2>
+<p class="image-container"><img style="width: 602.00px" src="img/748cdbb71537788c.png"></p>
+<h2 is-upgraded>SORACOM Lagoon ユーザーの初期ユーザーに設定するパスワードを入力した後、［利用開始］をクリックします。</h2>
+<p class="image-container"><img style="width: 602.00px" src="img/f2b324c51b7a071e.png"></p>
+<aside class="special"><p><strong>SORACOM Lagoon ユーザーの初期ユーザの ID は？</strong></p>
+<p>ID は SORACOM ユーザコンソールにログインしたときのメールアドレスが使われることになります。そのため、ここではパスワードのみ設定することになります。<strong>SORACOM ユーザコンソールへのログインとは異なるパスワードを設定する事を強くお勧めします。</strong></p>
+</aside>
+<aside class="warning"><p><strong>利用開始がクリックできない場合は？</strong></p>
+<p>パスワードの条件が不足しています。全てに✔がつくようにパスワードを設定してください。</p>
+</aside>
+<p>SORACOM Lagoon の有効化に成功すると、以下のように SORACOM Lagoon コンソールへのリンクと、Lagoon ユーザーの一覧が管理できるようになります。</p>
+<p>この画面を SORACOM Lagoon 管理画面と呼びます。</p>
+<p class="image-container"><img style="width: 602.00px" src="img/6c91011f8fa4eb2.png"></p>
+<p>SORACOM Lagoon 管理画面は、SORACOM Lagoon が有効化されている間は ［Menu］&gt;［データ収集・蓄積・可視化］&gt;［SORACOM Lagoon］で表示する事ができます。</p>
+<h2 is-upgraded>SORACOM Lagoon 管理画面を表示したあと、［SORACOM Lagoon console にアクセス］をクリックします。</h2>
+<p>※ SORACOM Lagoon 管理画面は ［Menu］&gt;［データ収集・蓄積・可視化］&gt;［SORACOM Lagoon］で表示する事ができます。</p>
+<p class="image-container"><img style="width: 602.00px" src="img/e056d4558913af2.png"></p>
+<h2 is-upgraded>SORACOM Lagoon へログインします。</h2>
+<p>メールアドレス (SORACOM ユーザコンソールへログインする際のメールアドレス) と、SORACOM Lagoon 初期ユーザ作成時に利用したパスワードでログインします。</p>
+<p class="image-container"><img style="width: 602.00px" src="img/d442ea101d6ae875.png"></p>
+<p>ログインに成功すると、以下のような画面が表示されれば設定完了です。</p>
+<p class="image-container"><img style="width: 624.00px" src="img/9ac0ce431a59de81.png"></p>
+
+
+      </google-codelab-step>
+    
+      <google-codelab-step label="デバイスキッティング" duration="30">
+        <p>IoTストアにて提供していますMeitrack T366シリーズは標準設定としてAPNの設定、データの送信先にSORACOM Unified Endpointが設定されています。そのためSIMを挿し電源を入れるだけでUnfied Endpointへ位置情報の送信が開始されます。</p>
+<p>下記画像のようにMeitrack T366のカバーを外しSIMスロットにSIMを挿入してください。</p>
+<p class="image-container"><img style="width: 349.44px" src="img/786ca14cb5ca573c.png"></p>
+<p>次に動作確認を進めていきます。すでにソラコムのSIMを利用するためのAPN設定はなされているため、SIMをセットし電源を投入することでデータの連携を確認できます。</p>
+<p>そうすると下記のようにMeitrack T366より送信された位置情報を含むデータがSORACOM Harvestに連携されていることを確認してください。</p>
+<h2 is-upgraded>［Menu］&gt;［SIM 管理］とクリックして SIM 管理画面を開きます。</h2>
+<p class="image-container"><img style="width: 566.00px" src="img/c4968675c5a9a1c8.png"></p>
+<h2 is-upgraded>SORACOM Harvest Data でデータの収集を行いたい SIM にチェックを付け、［操作］&gt;［データを確認］とクリックします。</h2>
+<p class="image-container"><img style="width: 602.00px" src="img/931abc46460b7993.png"></p>
+<h2 is-upgraded>表示された画面で［自動更新］を ON にします。</h2>
+<p>この表示された画面が SORACOM Harvest Data の画面となります。</p>
+<aside class="special"><p><strong>自動更新とは？</strong></p>
+<p>画面を再読み込みしなくとも新しいデータが自動的に表示されるようにする機能です。5秒毎に新しいデータを表示するようになります。この機能が OFF の場合は、表示する期間を指定して［検索］をクリックすることで期間内のデータを表示できます。</p>
+</aside>
+<p class="image-container"><img style="width: 624.00px" src="img/99ac412cddd7906.png"></p>
+
+
+      </google-codelab-step>
+    
+      <google-codelab-step label="データ加工処理の作成" duration="0">
+        <p>本レシピでは車両の位置情報をトラッキングするために必要となる緯度経度の情報のみを抽出しSORACOM Harvestへ連携することとします。</p>
+<p>データ処理のためにSORACOM Funk＋AWS Lambdaを利用します。</p>
+<p>SORACOM Funk+AWS Lambdaで整形後のデータをSORACOM Harvestへ書き込むために、SORACOM Inventoryもあわせて利用します。</p>
+<p>具体的にはSORACOM Inventoryから設定したデバイスシークレット情報を用いてAWS Lambdaからインターネット経由でSORACOM Harvestへデータを連携していく流れとなります。</p>
+
+
+      </google-codelab-step>
+    
+      <google-codelab-step label="SORACOM Inventoryからデバイスシークレットを取得" duration="10">
+        <p>まずはじめに、SORACOM Inventoryでデバイスキーの作成をおこなっていきます。作成したデバイスキーを利用することで、ソラコムのセルラー回線以外のインターネット通信でもSORACOM Harvestへデータを書き込むことができます。</p>
+<p>このデバイスキーを用いてSORACOM FunkからコールしたAWS LambdaからSORACOM Harvest Dataへの書き込みをおこないます。</p>
+<h2 is-upgraded><a href="https://console.soracom.io/" target="_blank">SORACOM ユーザーコンソール</a>にログインした後［Menu］&gt;［SORACOM Inventory］&gt; [デバイス管理]とクリックして設定画面を表示</h2>
+<p class="image-container"><img style="width: 294.00px" src="img/e3704b7bbbca929.png"></p>
+<h2 is-upgraded>[デバイスを追加]をクリックします。</h2>
+<p class="image-container"><img style="width: 434.00px" src="img/f687b25034cdb652.png"></p>
+<h2 is-upgraded>作成するデバイスの[名前]と所属させる[グループ]を設定し[作成]をクリックします。</h2>
+<p class="image-container"><img style="width: 604.00px" src="img/a12c414e9d499800.png"></p>
+<table>
+<tr><td colspan="1" rowspan="1"><p><strong>項目</strong></p>
+</td><td colspan="1" rowspan="1"><p><strong>例</strong></p>
+</td><td colspan="1" rowspan="1"><p><strong>備考</strong></p>
+</td></tr>
+<tr><td colspan="1" rowspan="1"><p>名前</p>
+</td><td colspan="1" rowspan="1"><p><code>iot-store-recipe-device</code></p>
+</td><td colspan="1" rowspan="1"><p>自由に入力可能です。日本語も設定可能です。</p>
+</td></tr>
+<tr><td colspan="1" rowspan="1"><p>グループ</p>
+</td><td colspan="1" rowspan="1"><p><code>iot-store-recipe</code></p>
+</td><td colspan="1" rowspan="1"><p>「SORACOM Harvest Dataの設定」にて作成したグループを指定してください。</p>
+</td></tr>
+</table>
+<h2 is-upgraded>デバイスキーが表示されるので[クリップボードにコピー]をクリックし別途テキストエディター等に保存してください。</h2>
+<p class="image-container"><img style="width: 606.00px" src="img/cfaa1809ea008182.png"></p>
+<aside class="warning"><p>デバイスキーの情報は新規デバイスを作成時にのみ表示されため、必ず情報は保存してください。デバイスキーを再度払い出す必要がある際は、同じデバイス管理の画面から作成したデバイスを選択し、右クリック&gt;[詳細]&gt;[キー管理]&gt;[追加]をクリックし新規にデバイスキーを作成してください。</p>
+</aside>
+<p>以上でデバイスキーの作成は完了です。</p>
+
+
+      </google-codelab-step>
+    
+      <google-codelab-step label="AWS Lambdaによるデータ整形処理の作成" duration="30">
+        <p>次にSORACOM FunkよりコールされるAWS Lambdaの準備をします。具体的な実装の前にMeitrack T366より連携されるデータの中身についてみていきましょう。</p>
+<p>Meitrack T366の電源をいれると以下のようなフォーマットのデータにより位置情報の連携が行われます。</p>
+<pre><code>$$L169,864507031094047,AAA,35,35.633425,139.446113,200329124259,A,9,21,0,37,0.9,76,3158925,283164,440|10|0043|04820228,0000,0000|0000|0000|01A9|0587,00000001,,3,,,565,272*91</code></pre>
+<p>各項目の詳細については下記Protocolガイドをご参照ください。</p>
+<p><a href="http://www.meitrack.com/cd-download/Protocols/MEITRACK_T366_T366G_T366L_GPRS_Protocol.pdf" target="_blank">GPRSプロトコル仕様書</a></p>
+<p>上記ドキュメントによると <code>AAA</code>の後ろに続く2項目<code>35,35.633425</code>が緯度、経度となるためこの2項目を抽出します。</p>
+<p class="image-container"><img style="width: 598.00px" src="img/ce39ae38cfe1cf96.png"></p>
+<p>本レシピではAWS Lambdaのランタイムは<code>Node.js 12.x</code>で実装していきます。</p>
+<pre><code>const http = require(&#39;https&#39;);
+
+exports.handler = async (event) =&gt; {
+    const payload = event.payload.split(&#39;,&#39;)
+    const locationData = {
+        &#39;lat&#39;: payload[4],
+        &#39;lon&#39;: payload[5]
+    }
+
+    return new Promise((resolve, reject) =&gt; {
+        const options = {
+            hostname: &#39;g.api.soracom.io&#39;,
+            port: 443,
+            path: &#39;/v1/devices/process.env.DEVICE_ID/publish&#39;, //環境変数DEVICE_IDにデバイスIDを設定
+            method: &#39;POST&#39;,
+            headers: {
+                &#39;Content-Type&#39;: &#39;application/json&#39;,
+                &#39;x-device-secret&#39;: process.env.DEVICE_SECRET //環境変数DEVICE_SECRETにシークレットキーを設定
+            }
+        };
+
+        const req = http.request(options, (res) =&gt; {
+            resolve(&#39;Success&#39;)
+        });
+    
+        req.on(&#39;error&#39;, (e) =&gt; {
+            reject(e.message)
+        });
+        
+        req.write(JSON.stringify(locationData));
+        req.end();
+    });    
+};</code></pre>
+<p>先程SORACOM Inventory側で作成したデバイスキー情報は環境変数経由でLambdaファンクションにわたしています。先程作成したデバイスキー情報をAWS Lambdaの環境変数に設定してください。</p>
+
+
+      </google-codelab-step>
+    
+      <google-codelab-step label="SORACOM Funkの設定" duration="20">
+        <p>SORACOM FunkからAWS Lambdaをコールするための設定をおこなっていきます。SORACOM Funkの設定にあたり、呼び出すLambdaファンクションのARNとSORACOM FunkからLambdaを呼び出すためのIAMユーザ情報が必要となります。あらかじめ下記ドキュメントを参考に作成したAWS LambdaのARN、SORACOM FunkからAWS Lambdaを呼び出すためのIAMユーザー情報を作成してください。</p>
+<p><a href="https://dev.soracom.io/jp/start/funk_aws_lambda/" target="_blank">SORACOM Funk を利用して AWS Lambda を呼び出し Slack へ通知する</a></p>
+<p>作成したIAMユーザ情報をソラコムの認証情報ストアへ登録します。</p>
+<aside class="special"><p><strong>認証情報ストアとは？</strong></p>
+<p>ソラコムからの連携先サーバーやクラウドサービスへの接続設定や認証情報をソラコムプラットフォームに保存することができる機能です。 認証情報ストアに保存した認証情報を利用してソラコムの各種サービスは接続ができるため、デバイス側に認証情報を保持する必要がなくなります。また認証情報ストアは一度保存した証明書などの機密情報は取り出せないようになっており情報流出のリスクを軽減します。</p>
+</aside>
+<h2 is-upgraded>ユーザーコンソールの右上にあるユーザー名をクリックし [セキュリティ]をクリックします。</h2>
+<p class="image-container"><img style="width: 269.00px" src="img/acc3015fa9dc6f42.png"></p>
+<h2 is-upgraded>ユーザーコンソールの右上にあるユーザー名をクリックし [セキュリティ]をクリックします。</h2>
+<p class="image-container"><img style="width: 422.00px" src="img/87e7cb477ed8ee17.png"></p>
+<h2 is-upgraded>認証情報の登録をします。</h2>
+<p class="image-container"><img style="width: 605.00px" src="img/3514feb8ebadb590.png"></p>
+<table>
+<tr><td colspan="1" rowspan="1"><p><strong>項目</strong></p>
+</td><td colspan="1" rowspan="1"><p><strong>例</strong></p>
+</td><td colspan="1" rowspan="1"><p><strong>備考</strong></p>
+</td></tr>
+<tr><td colspan="1" rowspan="1"><p>認証情報ID</p>
+</td><td colspan="1" rowspan="1"><p><code>iot-store-secret</code></p>
+</td><td colspan="1" rowspan="1"><p>自由に入力可能です</p>
+</td></tr>
+<tr><td colspan="1" rowspan="1"><p>概要</p>
+</td><td colspan="1" rowspan="1"><p><code>任意に入力</code></p>
+</td><td colspan="1" rowspan="1"><p>自由に入力可能です</p>
+</td></tr>
+<tr><td colspan="1" rowspan="1"><p>種別</p>
+</td><td colspan="1" rowspan="1"><p><code>AWS認証情報</code></p>
+</td><td colspan="1" rowspan="1"><p>-</p>
+</td></tr>
+<tr><td colspan="1" rowspan="1"><p>AWS Access Key ID</p>
+</td><td colspan="1" rowspan="1"><p><code>作成したIAM情報を入力</code></p>
+</td><td colspan="1" rowspan="1"><p>-</p>
+</td></tr>
+<tr><td colspan="1" rowspan="1"><p>AWS Secret Access Key</p>
+</td><td colspan="1" rowspan="1"><p><code>作成したIAM情報を入力</code></p>
+</td><td colspan="1" rowspan="1"><p>-</p>
+</td></tr>
+</table>
+<h2 is-upgraded>SIM 管理画面から、利用するSIMに割り当てたグループ名をクリックします。</h2>
+<p class="image-container"><img style="width: 340.00px" src="img/20e75901b6a93c69.png"></p>
+<h2 is-upgraded>[基本設定] &gt;［SORACOM Funk 設定］をクリックして設定ができるように開き情報を設定します。<img style="width: 624.00px" src="img/4d2f612514fb80b4.png"></h2>
+<table>
+<tr><td colspan="1" rowspan="1"><p><strong>項目</strong></p>
+</td><td colspan="1" rowspan="1"><p><strong>例</strong></p>
+</td><td colspan="1" rowspan="1"><p><strong>備考</strong></p>
+</td></tr>
+<tr><td colspan="1" rowspan="1"><p>（スイッチ）</p>
+</td><td colspan="1" rowspan="1"><p>ON</p>
+</td><td colspan="1" rowspan="1"><p>―</p>
+</td></tr>
+<tr><td colspan="1" rowspan="1"><p>サービス</p>
+</td><td colspan="1" rowspan="1"><p><code>AWS Lambda</code></p>
+</td><td colspan="1" rowspan="1"><p>―</p>
+</td></tr>
+<tr><td colspan="1" rowspan="1"><p>送信データ形式</p>
+</td><td colspan="1" rowspan="1"><p><code>テキスト</code></p>
+</td><td colspan="1" rowspan="1"><p>ー</p>
+</td></tr>
+<tr><td colspan="1" rowspan="1"><p>認証情報</p>
+</td><td colspan="1" rowspan="1"><p><code>iot-store-secret</code></p>
+</td><td colspan="1" rowspan="1"><p>認証情報ストアに登録した認証情報を指定してください。</p>
+</td></tr>
+<tr><td colspan="1" rowspan="1"><p>関数のARN</p>
+</td><td colspan="1" rowspan="1"><p><code>SORACOM FunkからコールするLambdaファンクションのARN</code></p>
+</td><td colspan="1" rowspan="1"><p>作成したLambdaファンクションのARNを指定してください。</p>
+</td></tr>
+</table>
+
+
+      </google-codelab-step>
+    
+      <google-codelab-step label="動作確認" duration="10">
+        <p>Meitrack T366の電源を投入してください。SORACOM Funk+AWS Lambdaにより整形されたデータがSORACOM Harvest Dataに書き込まれていることを確認します。</p>
+<h2 is-upgraded>［Menu］&gt;［SORACOM Inventory］&gt; [デバイス管理]とクリックしてデバイス一覧画面を開きます。</h2>
+<p class="image-container"><img style="width: 294.00px" src="img/e3704b7bbbca929.png"></p>
+<h2 is-upgraded>本レシピで作成したデバイスを選択し右クリック &gt; [データを確認]をクリックします。</h2>
+<p class="image-container"><img style="width: 369.00px" src="img/94ba98169df8f2c1.png"></p>
+<h2 is-upgraded>下記のようにデータが連携されていることを確認してください。</h2>
+<p class="image-container"><img style="width: 624.00px" src="img/7df9d55c5c16af8e.png"></p>
+
+
+      </google-codelab-step>
+    
+      <google-codelab-step label="位置情報ダッシュボードの作成" duration="20">
+        <p>次にSORACOM Harvestに蓄積された位置情報をSORACOM Lagoonを用いてダッシュボードを作成していきます。</p>
+<h2 is-upgraded><a href="https://console.soracom.io/" target="_blank">SORACOM ユーザーコンソール</a>の［Menu］&gt;［データ収集・蓄積・可視化］&gt;［SORACOM Lagoon］とクリックします。</h2>
+<p class="image-container"><img style="width: 547.00px" src="img/df078d78ef3c64c9.png"></p>
+<h2 is-upgraded>[SORACOM Lagoon consoleにアクセス] をクリックします。</h2>
+<p class="image-container"><img style="width: 602.00px" src="img/e056d4558913af2.png"></p>
+<h2 is-upgraded>SORACOM Lagoon へのログイン画面が表示されるので本レシピで作成したユーザー/パスワード情報を入力します。</h2>
+<p class="image-container"><img style="width: 602.00px" src="img/d442ea101d6ae875.png"></p>
+<h2 is-upgraded>画面左にある[+]をクリックし[ダッシュボード]をクリックします。</h2>
+<p class="image-container"><img style="width: 624.00px" src="img/6fb17fa6ad20d2e5.png"></p>
+<h2 is-upgraded>[Add]&gt;[Soracom Map Panel]を選択してください。</h2>
+<p class="image-container"><img style="width: 624.00px" src="img/49761f857b7370c3.png"></p>
+<h2 is-upgraded>作成されたパネルのタイトル部分をクリックし、[編集]をクリックします。</h2>
+<p class="image-container"><img style="width: 624.00px" src="img/fc8a61bb6871fbdc.png"></p>
+<h2 is-upgraded>Deviceを選択 &gt; SORACOM Inventoryより設定したデバイスIDを選択します。SORACOM Harvestに投入する際に加工したJSONデータのキーを以下のように設定してください。</h2>
+<p class="image-container"><img style="width: 624.00px" src="img/acb68146d57b4e47.png"></p>
+<p>画面右上にある[ダッシュボードに戻る]をクリックします。</p>
+<p class="image-container"><img style="width: 624.00px" src="img/189d6ed84fc22db9.png"></p>
+<h2 is-upgraded>設定が完了すると下記のように位置情報を地図にマッピングされたパネルが表示されます。</h2>
+<p class="image-container"><img style="width: 624.00px" src="img/2618dfaf52647d58.png"></p>
+<p>また先程のパネル編集画面よりマップオプションより移動の軌跡を表示させたり、アニメーションを付けることも可能です。</p>
+<h2 is-upgraded>[マップオプション] &gt; [クエリAオプション] &gt; [軌跡を表示]と[アニメーション]を有効にすると位置情報の軌跡を描けます。</h2>
+<p class="image-container"><img style="width: 624.00px" src="img/96d23a00edc766c3.png"></p>
+<h2 is-upgraded>作成したダッシュボードを保存していきます。画面右上の[ダッシュボードを保存]をクリックします。</h2>
+<p class="image-container"><img style="width: 624.00px" src="img/8ecf3a689a1c9146.png"></p>
+<h2 is-upgraded>ダッシュボードに任意の名前をつけて、[保存]をクリックします。</h2>
+<p class="image-container"><img style="width: 624.00px" src="img/5aa01c141cc8fbac.png"></p>
+<p>以上でダッシュボードの作成は完了です。</p>
+
+
+      </google-codelab-step>
+    
+      <google-codelab-step label="（参考）デバイス取り付け例" duration="0">
+        <p>本セクションではMeitrack T366の取り付けイメージについてみていきましょう。</p>
+<aside class="special"><p>・Meitrack T366の取り付け方法、電源確保の仕方については取り付け先の機器環境によって異なるためあくまで設置時のイメージとしてご参考ください。</p>
+<p>・内装パーツの取り外しに際し、パーツの割れやネジの紛失などの可能性があります。</p>
+<p>・配線に際し、バッテリーのショートなどを引き起こす危険性があります。</p>
+<p>・いかなる事故・傷害・損失に対しても、ソラコムは責任を取りかねますので、取り付け先の機器環境について十分な情報収集・下準備の上、慣れた作業者による自己責任での取付作業をお願いします。</p>
+</aside>
+<h2 is-upgraded>必要な工具類</h2>
+<p>以下に挙げる工具類は、マツダ デミオ（DE3FS）に取り付ける場合の一例です。</p>
+<table>
+<tr><td colspan="1" rowspan="1"><p>工具</p>
+</td><td colspan="1" rowspan="1"><p>用途</p>
+</td><td colspan="1" rowspan="1"><p>参考価格</p>
+</td></tr>
+<tr><td colspan="1" rowspan="1"><p>10mmレンチ</p>
+</td><td colspan="1" rowspan="1"><p>バッテリーの取り外しのため</p>
+</td><td colspan="1" rowspan="1"><p>100円</p>
+</td></tr>
+<tr><td colspan="1" rowspan="1"><p>乾電池式のバックアップ電源</p>
+</td><td colspan="1" rowspan="1"><p>バッテリーの取り外しのため</p>
+<p><a href="https://www.amon.jp/products2/detail.php?product_code=8864" target="_blank">https://www.amon.jp/products2/detail.php?product_code=8864</a></p>
+</td><td colspan="1" rowspan="1"><p>2,000円</p>
+</td></tr>
+<tr><td colspan="1" rowspan="1"><p>内張りはがし</p>
+</td><td colspan="1" rowspan="1"><p>内装パーツの取り外しのため</p>
+<p><a href="https://www.amon.jp/products2/detail.php?product_code=1427" target="_blank">https://www.amon.jp/products2/detail.php?product_code=1427</a></p>
+</td><td colspan="1" rowspan="1"><p>600円</p>
+</td></tr>
+<tr><td colspan="1" rowspan="1"><p>10mmナットドライバー</p>
+</td><td colspan="1" rowspan="1"><p>デミオのセンターコンソール裏の奥まったナットを回すのに使用</p>
+</td><td colspan="1" rowspan="1"><p>1,000円</p>
+</td></tr>
+<tr><td colspan="1" rowspan="1"><p>テスター/ミノムシクリップ</p>
+</td><td colspan="1" rowspan="1"><p>通電確認に使用</p>
+</td><td colspan="1" rowspan="1"><p>4,000円</p>
+</td></tr>
+<tr><td colspan="1" rowspan="1"><p>圧着工具</p>
+</td><td colspan="1" rowspan="1"><p>ギボシ端子の圧着に使用</p>
+</td><td colspan="1" rowspan="1"><p>1,500円</p>
+</td></tr>
+<tr><td colspan="1" rowspan="1"><p>エーモン ギボシ端子（オス）</p>
+</td><td colspan="1" rowspan="1"><p><a href="https://www.amon.jp/products2/detail.php?product_code=1137" target="_blank">https://www.amon.jp/products2/detail.php?product_code=1137</a></p>
+</td><td colspan="1" rowspan="1"><p>200円</p>
+</td></tr>
+<tr><td colspan="1" rowspan="1"><p>エーモン 電源取り出しコネクター</p>
+</td><td colspan="1" rowspan="1"><p><a href="https://www.amon.jp/products2/detail.php?product_code=1187" target="_blank">https://www.amon.jp/products2/detail.php?product_code=1187</a></p>
+</td><td colspan="1" rowspan="1"><p>250円</p>
+</td></tr>
+</table>
+<h2 is-upgraded>取り付け</h2>
+<p>以下の取付手順は、マツダ デミオ（DE3FS）に取り付ける場合の一例です。</p>
+<p class="image-container"><img style="width: 479.24px" src="img/511b663db6007c11.jpeg"></p>
+<p>ダッシュボードの奥にはDC 12Vのアクセサリー電源があり、カーナビなどに給電しています。今回、そのアクセサリー電源から給電しつつ、そのままダッシュボードの奥にT366を埋め込むことにします。GPSやセルラー通信の受信感度という点ではベストな取り付け位置とは言えませんが、これによりT366を全く表に出さずにトラッキングが可能になります。</p>
+<p class="image-container"><img style="width: 566.00px" src="img/2122a9513b0035ff.jpeg"></p>
+<p>配線に触れる作業を行う前に、念のためカーバッテリーを外します。これにより、配線作業中の事故によるカーバッテリーのショートを防ぎます。カーバッテリーを外す際は、メモリーバックアップのため、乾電池式のバックアップ電源を接続した状態で、カーバッテリーのみ取り外します。バッテリーの取り外しに際しては、ショート防止の観点から、-端子を先に取り外し、+端子を後から取り外すなど、他にも注意点があります。対象の車種に関してよく情報収集した上で、作業にあたってください。</p>
+<h3 is-upgraded><img style="width: 566.00px" src="img/222607b4076a5d1c.jpeg"></h3>
+<p>内装パーツを外していきます。内装パーツはツメで固定された樹脂部品がほとんどですので、内張りはがしを隙間に差し込んでパーツを浮かしながら、外していきます。一部、ナットやネジ止めされている部品もあるので、レンチやドライバーも必要になります。これについても、それぞれの車種に固有の手順をよく確認した上で、作業にあたってください。</p>
+<p class="image-container"><img style="width: 566.00px" src="img/39dd0b52507c080.jpeg"><img style="width: 283.31px" src="img/dac599a14920c280.jpeg"></p>
+<p>一通り内装パーツを外し終えると、カーナビ裏の配線にアクセスできます。</p>
+<p class="image-container"><img style="width: 283.31px" src="img/b59dd15f20a66b2b.jpeg"></p>
+<p>配線は車種や、カーナビなど電装系にどこまで手を入れているか、によっても異なります。今回、カーナビのアダプタから伸びているアクセサリー電源の端子に空きがあったので、そのまま利用します。端子形状はギボシ端子（メス）です。</p>
+<h3 is-upgraded><img style="width: 458.46px" src="img/4725701a8b5ef445.jpeg"></h3>
+<p>通電確認のため、テスターをあてた状態でカーバッテリーをつなぎ直し、エンジンをかけると、カーナビの電源ONに伴って12V強の電圧が得られました。この端子からアクセサリー電源がとれることが確認できたので、再度カーバッテリーを外して作業再開します。</p>
+<p class="image-container"><img style="width: 283.31px" src="img/a5d2682bcaf54345.jpeg"></p>
+<p>GNDの空き端子がなかったので、GND線に「エーモン 電源取り出しコネクター」を圧着して、GND線を分配します。こちらも先端の端子形状はギボシ端子（メス）です。</p>
+<p class="image-container"><img style="width: 283.31px" src="img/9e76fbd94b6d19a0.jpeg"></p>
+<p>これでアクセサリー電源とGNDが取り出せる状態になりました。車側の端子形状はギボシ端子（メス）なので、T366の電源・GNDにはギボシ端子（オス）を圧着します。</p>
+<p class="image-container"><img style="width: 283.31px" src="img/3ad596f751327e48.jpeg"></p>
+<p>今回、その他の信号線は使いません。ショート防止のため、テープでマスクしておきます。</p>
+<p class="image-container"><img style="width: 283.31px" src="img/aec554d9cbb73167.jpeg"></p>
+<p>ギボシ端子（オス）をしっかり差し込んでT366を車に接続します。</p>
+<p class="image-container"><img style="width: 283.31px" src="img/86f3eacee0847529.jpeg"></p>
+<p>T366本体はカーナビ上のスペースにそのまま収納します。今回、ビニールテープでカーナビに直接固定しています。</p>
+<p class="image-container"><img style="width: 283.31px" src="img/622cdc79769b3bf1.jpeg"></p>
+<p>内装パーツを元に戻し、カーバッテリーをつなぎ直せば完成です。エンジンをかけると、アクセサリー電源からT366に給電され、GPS信号が発信されるようになります。</p>
+
+
+      </google-codelab-step>
+    
+  </google-codelab>
+
+  <script src="https://soracom.github.io/iot-recipes/codelab-elements/native-shim.js"></script>
+  <script src="https://soracom.github.io/iot-recipes/codelab-elements/custom-elements.min.js"></script>
+  <script src="https://soracom.github.io/iot-recipes/codelab-elements/prettify.js"></script>
+  <script src="https://soracom.github.io/iot-recipes/codelab-elements/codelab-elements.js"></script>
+
+</body>
+</html>
