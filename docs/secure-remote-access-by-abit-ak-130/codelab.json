@@ -3,12 +3,12 @@
   "format": "html",
   "prefix": "https://soracom.github.io/iot-recipes",
   "mainga": "UA-66865146-33",
-  "updated": "2020-05-18T08:31:50Z",
-  "id": "secure-remote-access-by-abit-ak130",
-  "duration": 3,
+  "updated": "2020-05-18T08:52:39Z",
+  "id": "secure-remote-access-by-abit-ak-130",
+  "duration": 188,
   "title": "【IoT DIY レシピ】ピセロ AK-130でリモート環境にセキュアアクセス",
   "authors": "SORACOM, INC.",
-  "summary": "AK130で遠隔地のPCにリモートアクセス出来るレシピです。",
+  "summary": "AK-130で遠隔地のPCにリモートアクセス出来るレシピです。",
   "source": "1QDhtnUy-QDWoZE200V1H-0STw25m3RucE1ZtuIzCffE",
   "theme": "500-recipe",
   "status": [
@@ -19,5 +19,5 @@
   ],
   "tags": [],
   "feedback": "https://soracom.jp/products/industrial_devices/microserver_ak1304_kit/",
-  "url": "secure-remote-access-by-abit-ak130"
+  "url": "secure-remote-access-by-abit-ak-130"
 }

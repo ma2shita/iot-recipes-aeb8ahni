@@ -22,7 +22,7 @@
 <body>
   <google-codelab-analytics gaid="UA-66865146-33"></google-codelab-analytics>
   <google-codelab codelab-gaid=""
-                  id="secure-remote-access-by-abit-ak130"
+                  id="secure-remote-access-by-abit-ak-130"
                   title="【IoT DIY レシピ】ピセロ AK-130でリモート環境にセキュアアクセス"
                   environment="web"
                   feedback-link="https://soracom.jp/products/industrial_devices/microserver_ak1304_kit/">
@@ -30,38 +30,40 @@
       <google-codelab-step label="概要" duration="3">
         <p>レシピ難易度：★★★★★</p>
 <p>このレシピでは遠隔地のPCやネットワーク機器にセキュアにリモートアクセス可能な仕組みを構築し、手元のPCからの遠隔地の機器管理を実現します。</p>
-<p>リモートアクセスの仕組みはエイビット社製ワイヤレスマイクロサーバー ピセロ AK-130 と SORACOM Napter を用います。この仕組みでは遠隔地のサーバやPCに追加のソフトウェアやハードウェアを導入する必要がなく、予めセットアップ済みのピセロ AK-130を遠隔地のネットワーク接続するだけでリモートアクセス出来るようになるのでため構成管理の面でシンプルです。</p>
+<p>リモートアクセスの仕組みはエイビット社製ワイヤレスマイクロサーバー ピセロ AK-130 と SORACOM Napter を用います。この仕組みでは遠隔地のサーバやPCに追加のソフトウェアやハードウェアを導入する必要がなく、予めセットアップ済みのピセロ AK-130を遠隔地のネットワーク接続するだけでリモートアクセス出来るようになるので構成管理の面でシンプルです。</p>
 <p class="image-container"><img style="width: 602.00px" src="img/c74de7151a2dd7c0.png"></p>
-<table>
-<tr><td colspan="1" rowspan="1"><p>想定所要時間</p>
-</td><td colspan="1" rowspan="1"><p>2時間</p>
-</td></tr>
-<tr><td colspan="1" rowspan="1"><p>概算費用</p>
-</td><td colspan="1" rowspan="1"><p>7000円（AK130本体と設定用PCを除く）</p>
-</td></tr>
-</table>
 <h2 is-upgraded>本レシピのゴール</h2>
 <ul>
 <li>遠隔地のPCにセキュアにリモートデスクトップ接続できるようになる</li>
 </ul>
+<h3 is-upgraded>本レシピの所要想定時間と金額</h3>
+<ul>
+<li>想定所要時間: 約3時間</li>
+<li>概算費用: 46,000円（設定用PCを除く）</li>
+</ul>
 <h2 is-upgraded>利用するソラコムサービス</h2>
 <table>
-<tr><td colspan="1" rowspan="1"><p>SORACOM Air</p>
-</td><td colspan="1" rowspan="1"><p>ピセロ AK-130でのセルラー通信を実現します。</p>
+<tr><td colspan="1" rowspan="1"><p><strong>サービス名</strong></p>
+</td><td colspan="1" rowspan="1"><p><strong>概要</strong></p>
 </td></tr>
-<tr><td colspan="1" rowspan="1"><p>SORACOM Napter</p>
-</td><td colspan="1" rowspan="1"><p>遠隔地のSORACOM Airを搭載したデバイスにセキュアにリモートアクセスするために利用します</p>
+<tr><td colspan="1" rowspan="1"><p><a href="https://soracom.jp/services/air/" target="_blank">SORACOM Air</a></p>
+</td><td colspan="1" rowspan="1"><p>IoT データ通信サービスです。</p>
+<p>ピセロ AK-130でのセルラー通信を実現します。</p>
+</td></tr>
+<tr><td colspan="1" rowspan="1"><p><a href="https://soracom.jp/services/napter/" target="_blank">SORACOM Napter</a></p>
+</td><td colspan="1" rowspan="1"><p>オンデマンド・リモートアクセスサービスです。</p>
+<p>遠隔地のSORACOM Airを搭載したデバイスにセキュアにリモートアクセスするために利用します</p>
 </td></tr>
 </table>
 
 
       </google-codelab-step>
     
-      <google-codelab-step label="セキュアリモートアクセスの課題" duration="0">
+      <google-codelab-step label="セキュアリモートアクセスの課題" duration="5">
         <p>リモートアクセスの仕組みは大きく分けて以下のように大別され、それぞれ課題があります。</p>
 <ul>
 <li>サーバ・クライアントに専用ソフトウェアをインストールする方式</li>
-<li>リモートアクセスするクライアントやサーバに追加のソフトウェアをインストールする必要がある</li>
+<li>リモートアクセスするサーバやクライアントに追加のソフトウェアをインストールする必要がある</li>
 <li>外部サービスを経由する場合がある</li>
 <li>VPNを経由する方式</li>
 <li>VPNアプライアンスの管理コストが高い </li>
@@ -70,53 +72,53 @@
 </ul>
 <p>いずれに方式にもメリットとデメリットがあり、システム管理者には多くの負担が必要でした。</p>
 <h2 is-upgraded>SORACOM Napterとは？</h2>
-<p>SORACOM NapterはSORACOM Air SIMに</p>
+<p>SORACOM NapterはSORACOM Air SIMに対してセキュアにリモートアクセスするサービスです。サーバやクライアントに追加のソフトウェアをインストールする必要はなく、クライアントからサーバに対してインターネット経由でセキュアかつ直接接続可能なのでこれまでの方式に比べてシンプルにリモートアクセスを実現できます。SORACOM Napterはリモートアクセスするアクセス元IPアドレスを都度ホワイトリストするのでインターネット側からは最大限保護されており、アクセス監査ログも提供されるので企業での利用にも適しています。</p>
 
 
       </google-codelab-step>
     
-      <google-codelab-step label="Pisello/ピセロ AK-130とは" duration="0">
-        <p>本レシピで利用する<a href="https://www.abit.co.jp/products/ak130/" target="_blank">Pisello/ピセロ AK-130</a>（以下AK130）はQuad Core 64bit CPU「ARM Cortex-A53」を搭載した最新のSoM「Raspberry Pi Compute Module 3」とLinux OSを採用したワイヤレスマイクロサーバです。ギガビットSW-HUB（ミラーリング対応）チップを搭載し、PCIe Minicard スロットx2、USBポートx2、SIMスロットを装備しているため汎用性・拡張性が高く、大型ヒートシンク採用で安定運用が可能です。</p>
-<p>本レシピではIoTストアで提供されているAK130に<a href="https://www.raspbian.org/" target="_blank">Raspbian</a>をインストールし、追加の設定を行います。AK130はこのレシピで紹介しているもの以外に便利な使い方が用意されていますので、ご興味ある方は販売元のエイビット社にぜひお問い合わせください。</p>
+      <google-codelab-step label="Pisello/ピセロ AK-130とは" duration="5">
+        <p>本レシピで利用する<a href="https://soracom.jp/products/industrial_devices/microserver_ak1304_kit/" target="_blank">Pisello/ピセロ AK-130</a>（以下AK-130）はQuad Core 64bit CPU「ARM Cortex-A53」を搭載した最新のSoM「Raspberry Pi Compute Module 3」とLinux OSを採用したワイヤレスマイクロサーバです。ギガビットSW-HUB（ミラーリング対応）チップを搭載し、PCIe Minicard スロットx2、USBポートx2、SIMスロットを装備しているため汎用性・拡張性が高く、大型ヒートシンク採用で安定運用が可能です。</p>
+<p>本レシピではIoTストアで提供されているAK-130に<a href="https://www.raspbian.org/" target="_blank">Raspbian</a>をインストールし、追加の設定を行います。AK-130はこのレシピで紹介しているもの以外に便利な使い方が用意されていますので、ご興味ある方は販売元のエイビット社にぜひお問い合わせください。</p>
 <p class="image-container"><img style="width: 300.00px" src="img/10274aec37821c43.png"><img style="width: 245.96px" src="img/1f21aa104e177f60.png"></p>
 
 
       </google-codelab-step>
     
-      <google-codelab-step label="事前準備" duration="0">
-        <p>AK130の調達と平行して事前準備を進めます。別途購入な物品も含まれますので下記リストをご確認のうえ準備を進めてください。</p>
+      <google-codelab-step label="事前準備" duration="60">
+        <p>AK-130の調達と平行して事前準備を進めます。別途購入な物品も含まれますので下記リストをご確認のうえ準備を進めてください。</p>
 <table>
 <tr><td colspan="1" rowspan="1"><p>物品名</p>
 </td><td colspan="1" rowspan="1"><p>概要</p>
 </td></tr>
-<tr><td colspan="1" rowspan="1"><p>AK130設定用PC</p>
+<tr><td colspan="1" rowspan="1"><p>AK-130設定用PC</p>
 </td><td colspan="1" rowspan="1"><p>Wi-Fiでインターネットに接続されたWindowsまたはmacOS搭載のパソコン</p>
 <p>Wi-Fiとは別に有線LANポートが必要です</p>
 <p>※本レシピはmacOSの手順となります</p>
 </td></tr>
 <tr><td colspan="1" rowspan="1"><p>精密ドライバー</p>
-</td><td colspan="1" rowspan="1"><p>AK130本体のケースの取付・取り外しに用います</p>
+</td><td colspan="1" rowspan="1"><p>AK-130本体のケースの取付・取り外しに用います</p>
 </td></tr>
-<tr><td colspan="1" rowspan="1"><p>microSDカード</p>
-</td><td colspan="1" rowspan="1"><p>AK130のLinux OSを格納するために用います</p>
+<tr><td colspan="1" rowspan="1"><p>microSDカード（8GB以上）</p>
+</td><td colspan="1" rowspan="1"><p>AK-130のLinux OSを格納するために用います</p>
 </td></tr>
 <tr><td colspan="1" rowspan="1"><p>SDカードライター</p>
 </td><td colspan="1" rowspan="1"><p>SDカードにデータを書き込むために用います</p>
 </td></tr>
 <tr><td colspan="1" rowspan="1"><p>USBメモリ</p>
-</td><td colspan="1" rowspan="1"><p>AK130に差分パッケージを適用するために用います</p>
+</td><td colspan="1" rowspan="1"><p>AK-130に差分パッケージを適用するために用います</p>
 </td></tr>
 <tr><td colspan="1" rowspan="1"><p>USBケーブル</p>
-</td><td colspan="1" rowspan="1"><p>PCとAK130をシリアル接続するために用います</p>
-<p>AK130側はUSB Micro-Bです。</p>
+</td><td colspan="1" rowspan="1"><p>PCとAK-130をシリアル接続するために用います</p>
+<p>AK-130側はUSB Micro-Bです。</p>
 <p>ケーブル製品例）</p>
 <p><a href="https://www.elecom.co.jp/products/U2C-AMB15BK.html" target="_blank">https://www.elecom.co.jp/products/U2C-AMB15BK.html</a></p>
 </td></tr>
 <tr><td colspan="1" rowspan="1"><p>LANケーブル（Cat5e以上）</p>
-</td><td colspan="1" rowspan="1"><p>AK130の設定に用います</p>
+</td><td colspan="1" rowspan="1"><p>AK-130の設定に用います</p>
 </td></tr>
 <tr><td colspan="1" rowspan="1"><p>ボタン電池（リチウムコイン電池：CR1632）</p>
-</td><td colspan="1" rowspan="1"><p>AK130のリアルタイムクロックを動作させるために用います（必須ではありません）</p>
+</td><td colspan="1" rowspan="1"><p>AK-130のリアルタイムクロックを動作させるために用います（必須ではありません）</p>
 </td></tr>
 </table>
 <h2 is-upgraded>リモートデスクトップ先PCの情報確認</h2>
@@ -125,7 +127,7 @@
 <p>IPアドレス：「IPv4アドレス」で表示されているパラメータです</p>
 <p>MACアドレス：「物理アドレス」で表示されているパラメータです</p>
 <h2 is-upgraded>microSDカードの調達</h2>
-<p>AK130にはOSを格納するRaspbian用のSDカードが付属しませんのでmicroSDカードを別で調達します。microSDカードは耐久性能を重視してドラレコ向けの製品を調達するのがおすすめです。</p>
+<p>AK-130にはOSを格納するRaspbian用のSDカードが付属しませんのでmicroSDカードを別で調達します。microSDカードは耐久性能を重視してドラレコ向けの製品を調達するのがおすすめです。</p>
 <p>ドラレコ向けmicroSDカードの例</p>
 <p><a href="https://www.samsung.com/semiconductor/minisite/jp/memorycard/microsd/proendurance/" target="_blank">https://www.samsung.com/semiconductor/minisite/jp/memorycard/microsd/proendurance/</a></p>
 <h2 is-upgraded>microSDカードへのRaspbianの書き込み</h2>
@@ -171,7 +173,7 @@
 
       </google-codelab-step>
     
-      <google-codelab-step label="リモートデスクトップ先PCのセットアップ" duration="0">
+      <google-codelab-step label="リモートデスクトップ先PCのセットアップ" duration="5">
         <h2 is-upgraded>リモートデスクトップの有効化</h2>
 <p>Windowsのデスクトップ左下の検索ウィンドウに「リモート」と入力し表示された「リモート デスクトップの設定」をクリックします。</p>
 <p class="image-container"><img style="width: 381.50px" src="img/ad4226dc806b1b42.png"></p>
@@ -183,8 +185,8 @@
 
       </google-codelab-step>
     
-      <google-codelab-step label="AK130のセットアップ" duration="0">
-        <p>まず最初にAK130自体の初期セットアップを行います。エイビット社提供の<a href="https://www.abit.co.jp/images/Pisello_AK130QSG_R10_20180507.pdf" target="_blank">クイックスタートガイド</a>を参照しSIMカード、ボタン電池（リチウムコイン電池：CR1632）、アンテナを取り付けます。取付作業は必ず本体から電源ケーブルを抜いた状態で行ってください。</p>
+      <google-codelab-step label="AK-130のセットアップ" duration="60">
+        <p>まず最初にAK-130自体の初期セットアップを行います。エイビット社提供の<a href="https://www.abit.co.jp/images/Pisello_AK130QSG_R10_20180507.pdf" target="_blank">クイックスタートガイド</a>を参照しSIMカード、ボタン電池（リチウムコイン電池：CR1632）、アンテナを取り付けます。取付作業は必ず本体から電源ケーブルを抜いた状態で行ってください。</p>
 <p>SIMカードは予め別途購入したSORACOM Air SIMを利用します。SORACOM Airの導入についてはこちらのリンクをご参照ください。</p>
 <p><a href="https://soracom.jp/start/" target="_blank">https://soracom.jp/start/</a></p>
 <p>microSDカードは模様のある面を上側にして、カチッと音がなるまで奥に押し込んでください。うまく取り付けられるとmicroSDカードは筐体の側面とフラットになります。</p>
@@ -192,11 +194,11 @@
 <p class="image-container"><img style="width: 511.77px" src="img/fbc6dfe437e47c31.jpeg"></p>
 <p>うまく取り付けられている例。</p>
 <p class="image-container"><img style="width: 507.77px" src="img/eb0d20de99419d1c.jpeg"></p>
-<p>microSDカードを取り付けたらAK130に電源ケーブルを接続して起動します。</p>
+<p>microSDカードを取り付けたらAK-130に電源ケーブルを接続して起動します。</p>
 <h2 is-upgraded>PCとのシリアル接続</h2>
-<p>PCとAK130をUSBケーブルで接続します。</p>
+<p>PCとAK-130をUSBケーブルで接続します。</p>
 <p class="image-container"><img style="width: 376.50px" src="img/f55185697f97ad1.jpeg"></p>
-<p>PCでターミナルを起動してAK130にシリアル接続します。</p>
+<p>PCでターミナルを起動してAK-130にシリアル接続します。</p>
 <ul>
 <li>ボーレート：115200bps</li>
 <li>データ長：8ビット</li>
@@ -213,16 +215,16 @@
 </ul>
 <p class="image-container"><img style="width: 434.90px" src="img/37f29fbd15b63fde.png"></p>
 <h2 is-upgraded>差分パッケージの適用</h2>
-<p>エイビット社のWebサイトから差分パッケージをダウンロードしAK130に適用します。</p>
+<p>エイビット社のWebサイトから差分パッケージをダウンロードしAK-130に適用します。</p>
 <p>こちらのWebサイトにアクセスしページ下部のリンクからインストールガイドと差分パッケージをダウンロードします。</p>
 <p><a href="https://www.abit.co.jp/products/ak130/" target="_blank">https://www.abit.co.jp/products/ak130/</a></p>
-<p>ダウンロードしたインストールガイドに従ってAK130に差分パッケージを適用します。</p>
+<p>ダウンロードしたインストールガイドに従ってAK-130に差分パッケージを適用します。</p>
 <p class="image-container"><img style="width: 441.00px" src="img/56eff1012d595923.png"></p>
 <h2 is-upgraded>SORACOM接続設定</h2>
-<p>SORACOM接続にはAK130に追加のソフトウェアパッケージをインストールが必要です。</p>
-<p>最初にAK130をPCを経由してインターネットに接続して必要なソフトウェアをインストールします。</p>
-<h3 is-upgraded>AK130インターネット接続準備</h3>
-<p>初期セットアップ状態のAK130はインターネットに接続できないためmacOSのインターネット共有を経由して作業を進めます。</p>
+<p>SORACOM接続にはAK-130に追加のソフトウェアパッケージをインストールが必要です。</p>
+<p>最初にAK-130をPCを経由してインターネットに接続して必要なソフトウェアをインストールします。</p>
+<h3 is-upgraded>AK-130インターネット接続準備</h3>
+<p>初期セットアップ状態のAK-130はインターネットに接続できないためmacOSのインターネット共有を経由して作業を進めます。</p>
 <p>まず最初にmacOSのインターネット共有を有効にします。デスクトップ左上のリンゴマークをクリックして「System Preferences」を起動します。</p>
 <p class="image-container"><img style="width: 331.00px" src="img/da5e061146b098a9.png"></p>
 <p>「Sharing」をクリックします。</p>
@@ -234,9 +236,9 @@
 <p class="image-container"><img style="width: 271.50px" src="img/573cd3527ecd5410.png"></p>
 <aside class="warning"><p><strong>注意:</strong> 予めPCのファイアウォール設定で外部からのDHCP接続要求を許可するように設定します。</p>
 </aside>
-<p>PCと起動済みAK130のLAN-1ポートをLANケーブルで接続します。</p>
-<h3 is-upgraded>AK130追加設定</h3>
-<p>以下の作業はPCをAK130にシリアル接続して行います。</p>
+<p>PCと起動済みAK-130のLAN-1ポートをLANケーブルで接続します。</p>
+<h3 is-upgraded>AK-130追加設定</h3>
+<p>以下の作業はPCをAK-130にシリアル接続して行います。</p>
 <p>次のコマンドでIPアドレスが割り当てられていることを確認します（この例では192.168.2.8）</p>
 <pre>pi@raspberrypi:~$ ip a show eth0
 2: eth0: &lt;BROADCAST,MULTICAST,UP,LOWER_UP&gt; mtu 1500 qdisc pfifo_fast state UP group default qlen 1000
@@ -245,24 +247,25 @@
        valid_lft forever preferred_lft forever
     inet6 fe80::8878:8cb4:615c:5728/64 scope link
        valid_lft forever preferred_lft forever</pre>
-<aside class="warning"><p><strong>注意:</strong> IPアドレスが割り当てられない場合はAK130を再起動して状況が改善するかお試しください。</p>
+<aside class="warning"><p><strong>注意:</strong> IPアドレスが割り当てられない場合はAK-130を再起動して状況が改善するかお試しください。</p>
 </aside>
 <p>続いて以下のコマンドで<code>wvdial</code>をインストールします</p>
 <pre>sudo apt-get update
 sudo apt-get install wvdial -y</pre>
-<p>続いてAK130にSORACOM接続情報を設定します。</p>
-<pre>sudo sh -c &#39;cat /etc/wvdial_ak130.conf |\
+<p>続いてAK-130にSORACOM接続情報を設定します。</p>
+<pre>sudo sh -c &#39;cat /etc/wvdial_AK-130.conf |\
  sed -e &#34;s/APN/soracom.io/g&#34; \
      -e &#34;s/\(USER\|PASSWORD\)/sora/g&#34; &gt; /etc/wvdial.conf&#39;
 
 sudo sh -c &#39;echo &#34;defaultroute\
 replacedefaultroute&#34; &gt;&gt; /etc/ppp/peers/wvdial&#34;&#39;</pre>
-<p>AK130起動時のセルラー接続を有効化します。</p>
+<p>AK-130起動時のセルラー接続を有効化します。</p>
 <pre>sudo systemctl enable wwan-modem@AK110</pre>
-<p>次のコマンドでAK130を再起動して設定を反映します。</p>
+<p>※ <code>AK110</code> となっている部分はそのまま入力してください</p>
+<p>次のコマンドでAK-130を再起動して設定を反映します。</p>
 <pre>sudo reboot</pre>
 <h2 is-upgraded>SSH接続の有効化</h2>
-<p>AK130の遠隔管理アクセス向けにSSH接続を有効化します。次のコマンドで設定画面を起動します。</p>
+<p>AK-130の遠隔管理アクセス向けにSSH接続を有効化します。次のコマンドで設定画面を起動します。</p>
 <pre>sudo raspi-config</pre>
 <p>メニューが表示されたらカーソルキーで「5 Interfacing Options」を選択してエンターキーを押します。</p>
 <p class="image-container"><img style="width: 476.50px" src="img/bbb70270f383fead.png"></p>
@@ -278,9 +281,9 @@ replacedefaultroute&#34; &gt;&gt; /etc/ppp/peers/wvdial&#34;&#39;</pre>
 
       </google-codelab-step>
     
-      <google-codelab-step label="AK130の設定" duration="0">
+      <google-codelab-step label="AK-130の設定" duration="30">
         <h2 is-upgraded>ネットワーク構成の確認</h2>
-<p>AK130を収容するネットワークの構成によって詳細は変わる場合がありますが、このレシピではLAN-1のネットワークが 192.168.0.0/24 で、AK130に 192.168.0.252/24 を割り当てます。</p>
+<p>AK-130を収容するネットワークの構成によって詳細は変わる場合がありますが、このレシピではLAN-1のネットワークが 192.168.0.0/24 で、AK-130に 192.168.0.252/24 を割り当てます。</p>
 <h2 is-upgraded>LAN-1(eth0)のIPアドレス設定</h2>
 <h3 is-upgraded>/etc/dhcpcd.conf</h3>
 <pre><code>interface eth0
@@ -290,27 +293,27 @@ replacedefaultroute&#34; &gt;&gt; /etc/ppp/peers/wvdial&#34;&#39;</pre>
 <aside class="warning"><p><strong>注意:</strong> 設定はご利用のネットワーク環境によって異なります。設定値がわからない場合はシステム管理者に確認してください。</p>
 </aside>
 <h2 is-upgraded>NAT設定</h2>
-<p>AK130にNATの設定を追加します。以下コマンドの <code>IPADDRESS</code> の部分をリモートデスクトップ先のPCの情報確認で確認したPCのIPアドレスに置き換えて実行してください。</p>
-<pre><code>sudo sh -c &#39;sed -i -e &#34;s/^#net.ipv4.ip_forward=1/net.ipv4.ip_forward=1/&#34; /etc/sysctl.conf&#39;
+<p>AK-130にNATの設定を追加します。以下コマンドの <code>IPADDRESS</code> の部分をリモートデスクトップ先のPCの情報確認で確認したPCのIPアドレスに置き換えて実行してください。</p>
+<pre>sudo sh -c &#39;sed -i -e &#34;s/^#net.ipv4.ip_forward=1/net.ipv4.ip_forward=1/&#34; /etc/sysctl.conf&#39;
 sudo sysctl -p
 sudo iptables -t nat -A POSTROUTING -o ppp0 -j MASQUERADE
 sudo iptables -t nat -A PREROUTING -i ppp0 -p tcp --dport 3389 -j DNAT \
   --to IPADDRESS:3389
-sudo apt-get install iptables-persistent -y</code></pre>
+sudo apt-get install iptables-persistent -y</pre>
 
 
       </google-codelab-step>
     
-      <google-codelab-step label="ルーティング設定" duration="0">
+      <google-codelab-step label="ルーティング設定" duration="10">
         <p>「リモートアクセス先のPC」にルーティング設定を追加します。Windowsコマンドプロンプトを開いてコマンドを実行します。</p>
-<pre><code>route add 100.64.0.0 mask 255.192.0.0 192.168.0.252 -p</code></pre>
+<pre>route add 100.64.0.0 mask 255.192.0.0 192.168.0.252 -p</pre>
 <aside class="warning"><p><strong>注意:</strong> 設定はご利用のネットワーク環境によって異なります。設定値がわからない場合はシステム管理者に確認してください。</p>
 </aside>
 
 
       </google-codelab-step>
     
-      <google-codelab-step label="SORACOM Napterでのリモート接続" duration="0">
+      <google-codelab-step label="SORACOM Napterでのリモート接続" duration="10">
         <p>ここまでの準備で遠隔地のPCにリモートデスクトップする準備が整いました。早速SORACOM Napterでリモートデスクトップ接続をしてみましょう。</p>
 <h2 is-upgraded>Microsoft Remote Desktopのインストール</h2>
 <p>App Storeアプリで「remote desktop」と検索し、Microsoft Remote Desktopをインストールします。</p>
@@ -318,7 +321,7 @@ sudo apt-get install iptables-persistent -y</code></pre>
 <h2 is-upgraded>SORACOM Napterでのリモート接続設定</h2>
 <aside class="special"><p>SORACOM Napterのご利用には費用がかかります。詳細はWebサイト（<a href="https://soracom.jp/services/napter/price/" target="_blank">https://soracom.jp/services/napter/price/</a>）をご参照ください。</p>
 </aside>
-<p>SORACOM Web コンソールにログインし、AK130内のSIMにチェックを入れてメニューから「On-demand Remote Access」をクリックします。</p>
+<p>SORACOM Web コンソールにログインし、AK-130内のSIMにチェックを入れてメニューから「On-demand Remote Access」をクリックします。</p>
 <p class="image-container"><img style="width: 305.50px" src="img/9d3d62d8dea96df8.png"></p>
 <p>ダイアログの「Port to expose」に「3389」を指定し、アクセス許可の時間を30分〜「OK」ボタンをクリックします。</p>
 <p class="image-container"><img style="width: 339.50px" src="img/7d0ba3e31ddc8d84.png"></p>
