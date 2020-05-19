@@ -32,7 +32,7 @@
 <p class="image-container"><img style="width: 602.00px" src="img/9499a42b6174064.png"></p>
 <p>※ SORACOM LTE-M Button powered by AWS は対象外です。</p>
 <h2 is-upgraded>本ハンズオンを行うのに必要な時間、概算費用</h2>
-<p>本レシピは以下の通りです。</p>
+<p>本コンテンツは以下の通りです。</p>
 <ul>
 <li>必要な時間: 約45分</li>
 <li>概算費用: 約6200円</li>
@@ -55,7 +55,7 @@
       </google-codelab-step>
     
       <google-codelab-step label="準備" duration="1">
-        <p>本レシピを行うためには以下のものをご用意ください。</p>
+        <p>本コンテンツを行うためには以下のものをご用意ください。</p>
 <h2 is-upgraded>ハードウェア</h2>
 <table>
 <tr><td colspan="1" rowspan="1"><p><strong>品名</strong></p>
@@ -80,7 +80,7 @@
 </ul>
 </td></tr>
 </table>
-<p>※ 金額はレシピ作成時となります。税抜き・送料別です。</p>
+<p>※ 金額はコンテンツ作成時となります。税抜き・送料別です。</p>
 <h2 is-upgraded>その他必要なもの</h2>
 <table>
 <tr><td colspan="1" rowspan="1"><p><strong>必要なもの</strong></p>
@@ -122,7 +122,7 @@
 </aside>
 <aside class="special"><p><strong>グループとは？</strong></p>
 <p>SORACOM サービスのほとんどが<strong>グループ</strong>という単位に対して設定するようになっています。SORACOM Harvest Data 等、SORACOM サービスのほとんどが SIM に直接設定をするのではなくグループに設定をします。そして、SIM をグループに所属させることで SORACOM サービスが利用できるという間接的な仕組みです。<img style="width: 602.00px" src="img/5e0214fe25b9e9e8.png"></p>
-<p>グループを作成してから SIM を所属させる方法の他、グループの作成と SIM の所属を同時に行う方法もあります。本レシピでは後者の「同時に行う」手順で進めていきます。</p>
+<p>グループを作成してから SIM を所属させる方法の他、グループの作成と SIM の所属を同時に行う方法もあります。本コンテンツでは後者の「同時に行う」手順で進めていきます。</p>
 </aside>
 <h2 is-upgraded><a href="https://console.soracom.io/" target="_blank">SORACOM ユーザーコンソール</a>にログインした後［Menu］&gt;［SIM 管理］とクリックして SIM 管理画面を開きます。</h2>
 <p class="image-container"><img style="width: 566.00px" src="img/c4968675c5a9a1c8.png"></p>
@@ -387,8 +387,8 @@ https://www.google.com/maps?q=&#123;&#123;context.location.lat}},&#123;&#123;con
       </google-codelab-step>
     
       <google-codelab-step label="あとかたづけと注意事項" duration="1">
-        <p>本レシピでは費用がかかるサービスを利用しています。<br>本項をよく読み、必要な操作や解除作業を行うようにして、想定外の費用が掛からないようにしてください。</p>
-<h2 is-upgraded>費用について</h2>
+        <p>本コンテンツでは費用がかかるサービスを利用しています。<br>本項をよく読み、必要な操作や解除作業を行うようにして、想定外の費用が掛からないようにしてください。</p>
+<h2 is-upgraded>費用について（確認）</h2>
 <p>ここで記載している金額は全て税別、送料別となります。</p>
 <h3 is-upgraded>SORACOM LTE-M Button</h3>
 <p>ご利用にあたっては本体の価格とは別に、内蔵されている SIM (plan-KM1) の基本料金(月額100円)と、データ通信量に応じたデータ通信料※が発生します。</p>
@@ -422,22 +422,25 @@ https://www.google.com/maps?q=&#123;&#123;context.location.lat}},&#123;&#123;con
 <aside class="special"><p><strong>無料利用枠について</strong></p>
 <p>SORACOM サービスでは一部サービスにおいて無料枠が設定されています。たとえば SORACOM Air for セルラーであればアカウント毎で30円/月の通信分や、SORACOM Harvest Data であれば31日分の書込みリクエスト、SORACOM Funk であれば 50000 回のリクエストなどです。料金詳細に「無料利用枠」として掲載されていますので、ご確認ください。</p>
 </aside>
-<h2 is-upgraded>グループ解除</h2>
+<h2 is-upgraded>グループ解除（必須）</h2>
 <p>SORACOM Harvest Data 等、「機能が有効になっているグループに所属している SIM × 費用」となっているサービスにおいては、「機能を OFF にする」することで費用の発生を抑えることができます。またもう1つの方法として「グループに所属している SIM の数を減らす(= 解除する)」事でも費用を抑える事ができます。</p>
 <p>また SORACOM Funk の設定やメタデータサービスについては、リクエストが行われなければ費用はかかりませんが、意図せずリクエストが行われるのを避けるため、グループを解除しておくと安心でしょう。</p>
 <p>グループ解除の方法は<a href="https://soracom.github.io/iot-recipes/unjoin-from-group/" target="_blank">グループからの解除 (JP)</a>をご覧ください。</p>
-<h2 is-upgraded>SORACOM Harvest Data のデータ削除</h2>
+<h2 is-upgraded>SORACOM Harvest Data のデータ削除（任意）</h2>
 <p>SORACOM Harvest Data は基本的にはデータ保管料は無料※です。そのため、保存しておいても害はありませんが、デモ等で利用する際にはデータを綺麗にしておく必要が出てくるため、データ削除について解説します。</p>
 <p>※発生から40日を超えたデータは削除されます。40日以上データを保管したい場合は<a href="https://soracom.jp/services/harvest/price/" target="_blank">データ保持期間延長オプション利用料金</a>をご利用ください。</p>
 <p>SORACOM Harvest Data 画面 (［操作］&gt;［データを確認］) のデータテーブルで、削除したいデータのチェックボックスを付けた後に［削除］をクリックします。表示されたダイアログで改めて［削除］をクリックすると、削除されます。<br>※ 複数のデータにチェックをつければ一括で削除可能です。</p>
 <p class="image-container"><img style="width: 414.00px" src="img/637cac3bf206c47c.png"></p>
 <p><strong>データの復元はできません</strong>のでご注意ください。</p>
+<h2 is-upgraded>本コンテンツについて（確認）</h2>
+<p>本コンテンツは無償で公開しています。URL が必要な方はブックマークなど行うようにしてください。事前の断りなく公開中止やURL 変更される場合があります。</p>
+<p>著作権は株式会社ソラコムに帰属しています。再利用を希望される場合はご連絡ください。</p>
 
 
       </google-codelab-step>
     
       <google-codelab-step label="次のステップ" duration="1">
-        <p>本レシピでは、SORACOM LTE-M Button の通信として利用されている plan-KM1 の簡易位置測位機能を解説しました。素材としての紹介となりましたが、応用例は様々です。</p>
+        <p>本コンテンツでは、SORACOM LTE-M Button の通信として利用されている plan-KM1 の簡易位置測位機能を解説しました。素材としての紹介となりましたが、応用例は様々です。</p>
 <p>本ページを参考に、是非とも SORACOM LTE-M Button をご活用ください。</p>
 <p><a href="https://soracom.jp/products/gadgets/enterprise_button/" target="_blank">商品ページへ戻る</a></p>
 <h2 is-upgraded>活用事例集</h2>
@@ -449,7 +452,7 @@ https://www.google.com/maps?q=&#123;&#123;context.location.lat}},&#123;&#123;con
 <p class="image-container"><img style="width: 602.00px" src="img/31579bb41c3222ef.png"></p>
 <p>よくあるご質問は<a href="https://sorazine.soracom.jp/entry/2019/10/11/oct-webinar-report" target="_blank">Let&#39;s try IoT プロトタイピング ～ 位置情報取得ボタンを作ろう 〜 動画とQAのご紹介</a>でご案内しています。こちらもご覧ください。</p>
 <h2 is-upgraded>外部のクラウドと連携する方法</h2>
-<p>本レシピでは SORACOM Harvest Data の連携までとなりましたが、他の SORACOM サービスの利用で AWS (Amazon Web Services) を始めとしたクラウドや SaaS との連携が可能となります。</p>
+<p>本コンテンツでは SORACOM Harvest Data の連携までとなりましたが、他の SORACOM サービスの利用で AWS (Amazon Web Services) を始めとしたクラウドや SaaS との連携が可能となります。</p>
 <p>具体的な方法は<a href="https://dev.soracom.io/jp/design_patterns/design_patterns_for_button/" target="_blank">SORACOM LTE-M Button を様々なクラウドや SaaS で活用するアーキテクチャー例</a>をご覧ください。</p>
 
 
