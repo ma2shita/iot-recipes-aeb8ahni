@@ -39,7 +39,7 @@
 <h3 is-upgraded>本レシピの所要想定時間と金額</h3>
 <ul>
 <li>想定所要時間: 約3時間</li>
-<li>概算費用: 46,000円（設定用PCを除く）</li>
+<li>概算費用: 49,000円（設定用PC本体を除く）</li>
 </ul>
 <h2 is-upgraded>利用するソラコムサービス</h2>
 <table>
@@ -130,6 +130,9 @@
 <p>ケーブル製品例）</p>
 <p><a href="https://www.elecom.co.jp/products/U2C-AMB15BK.html" target="_blank">https://www.elecom.co.jp/products/U2C-AMB15BK.html</a></p>
 </td></tr>
+<tr><td colspan="1" rowspan="1"><p>有線LANアダプタ</p>
+</td><td colspan="1" rowspan="1"><p>設定時に設定用PCとAK-130を接続するためにも用います</p>
+</td></tr>
 <tr><td colspan="1" rowspan="1"><p>LANケーブル（Cat5e以上）</p>
 </td><td colspan="1" rowspan="1"><p>AK-130の設定に用います</p>
 </td></tr>
@@ -143,7 +146,7 @@
 <p>Windows PCのコマンドプロンプトで「<code>ipconfig /all</code>」コマンドの出力を確認しておきます。</p>
 <p class="image-container"><img style="width: 486.50px" src="img/f628fb1592165e19.png"></p>
 <h3 is-upgraded>ログインユーザの確認</h3>
-<p>リモートデスクトップで利用するユーザ名を確認します。リモートデスクトップ先のPCでコマンドプロンプトを開き「whoami」コマンドを実行し表示された文字列（下図赤線内）を控えておきます。</p>
+<p>リモートデスクトップで利用するユーザ名を確認します。リモートデスクトップ先のPCでコマンドプロンプトを開き「<code>whoami</code>」コマンドを実行し表示された文字列（下図赤線内）を控えておきます。</p>
 <p class="image-container"><img style="width: 602.00px" src="img/79d7c580cb7b0664.png"></p>
 <h2 is-upgraded>microSDカードの調達</h2>
 <p>AK-130にはOSを格納するRaspbian用のSDカードが付属しませんのでmicroSDカードを別で調達します。microSDカードは耐久性能を重視してドラレコ向けの製品を調達するのがおすすめです。</p>
@@ -177,9 +180,9 @@
 <p>挿入したmicroSDカードを選択します。</p>
 <aside class="warning"><p><strong>注意:</strong> 間違ったSDカードを選択しないよう十分に注意してください。</p>
 </aside>
-<p>※<img style="width: 349.50px" src="img/4c96dd09a6e00fcf.png"></p>
+<p class="image-container"><img style="width: 349.50px" src="img/4c96dd09a6e00fcf.png"></p>
 <p>RaspbianのイメージファイルとmicroSDカードを選択したら「WRITE」ボタンをクリックします。</p>
-<aside class="warning"><p><strong>注意:</strong> ※間違ったSDカードを選択していないか確認してください。もし間違ったSDカードを選択している場合元から書き込んであったデータは失われます。この操作は取り消せません。</p>
+<aside class="warning"><p><strong>注意:</strong> 間違ったSDカードを選択していないか確認してください。もし間違ったSDカードを選択している場合元から書き込んであったデータは失われます。この操作は取り消せません。</p>
 </aside>
 <p class="image-container"><img style="width: 457.50px" src="img/512d23e80b9a67ef.png"></p>
 <p>パスワードを入力し「OK」をクリックします。</p>
@@ -210,9 +213,9 @@
 <p><a href="https://soracom.jp/start/" target="_blank">https://soracom.jp/start/</a></p>
 <p>microSDカードは模様のある面を上側にして、カチッと音がなるまで奥に押し込んでください。うまく取り付けられるとmicroSDカードは筐体の側面とフラットになります。</p>
 <p>microSDカードは模様のある面を上にして差し込みます。</p>
-<p class="image-container"><img style="width: 511.77px" src="img/fbc6dfe437e47c31.jpeg"></p>
+<p class="image-container"><img style="width: 371.50px" src="img/601f909846b92709.jpeg"></p>
 <p>うまく取り付けられている例。</p>
-<p class="image-container"><img style="width: 507.77px" src="img/eb0d20de99419d1c.jpeg"></p>
+<p class="image-container"><img style="width: 370.50px" src="img/249133ca3fca8cf2.jpeg"></p>
 <p>microSDカードを取り付けたらAK-130に電源ケーブルを接続して起動します。</p>
 <h2 is-upgraded>PCとのシリアル接続</h2>
 <p>PCとAK-130をUSBケーブルで接続します。</p>
@@ -233,56 +236,6 @@
 <li>ユーザ名：<code>pi</code> / パスワード：<code>raspberry</code></li>
 </ul>
 <p class="image-container"><img style="width: 434.90px" src="img/37f29fbd15b63fde.png"></p>
-<h2 is-upgraded>差分パッケージの適用</h2>
-<p>エイビット社のWebサイトから差分パッケージをダウンロードしAK-130に適用します。</p>
-<p>こちらのWebサイトにアクセスしページ下部のリンクからインストールガイドと差分パッケージをダウンロードします。</p>
-<p><a href="https://www.abit.co.jp/products/ak130/" target="_blank">https://www.abit.co.jp/products/ak130/</a></p>
-<p>ダウンロードしたインストールガイドに従ってAK-130に差分パッケージを適用します。</p>
-<p class="image-container"><img style="width: 441.00px" src="img/56eff1012d595923.png"></p>
-<h2 is-upgraded>SORACOM接続設定</h2>
-<p>SORACOM接続にはAK-130に追加のソフトウェアパッケージをインストールが必要です。</p>
-<p>最初にAK-130をPCを経由してインターネットに接続して必要なソフトウェアをインストールします。</p>
-<h3 is-upgraded>AK-130インターネット接続準備</h3>
-<p>初期セットアップ状態のAK-130はインターネットに接続できないためmacOSのインターネット共有を経由して作業を進めます。</p>
-<p>まず最初にmacOSのインターネット共有を有効にします。デスクトップ左上のリンゴマークをクリックして「System Preferences」を起動します。</p>
-<p class="image-container"><img style="width: 331.00px" src="img/da5e061146b098a9.png"></p>
-<p>「Sharing」をクリックします。</p>
-<p class="image-container"><img style="width: 365.50px" src="img/a544a3585ddebffa.png"></p>
-<p>「Share your connection from」で「Wi-Fi」を選択し、「To computers using」で有線LAN接続を選択します。（図の例ではThunderbolt Ethernet）</p>
-<p>2つの選択を終えたら、画面左側の「Internet Sharing」にチェックを入れます。</p>
-<p class="image-container"><img style="width: 457.50px" src="img/ecbf4d23e114b420.png"></p>
-<p>アラートダイアログが表示されたら「Start」をクリックします。</p>
-<p class="image-container"><img style="width: 271.50px" src="img/573cd3527ecd5410.png"></p>
-<aside class="warning"><p><strong>注意:</strong> 予めPCのファイアウォール設定で外部からのDHCP接続要求を許可するように設定します。</p>
-</aside>
-<p>PCと起動済みAK-130のLAN-1ポートをLANケーブルで接続します。</p>
-<h3 is-upgraded>AK-130追加設定</h3>
-<p>以下の作業はPCをAK-130にシリアル接続して行います。</p>
-<p>次のコマンドでIPアドレスが割り当てられていることを確認します（この例では192.168.2.8）</p>
-<pre>pi@raspberrypi:~$ ip a show eth0
-2: eth0: &lt;BROADCAST,MULTICAST,UP,LOWER_UP&gt; mtu 1500 qdisc pfifo_fast state UP group default qlen 1000
-    link/ether 00:c0:ef:12:7f:15 brd ff:ff:ff:ff:ff:ff
-    inet 192.168.2.8/24 brd 192.168.2.255 scope global eth0
-       valid_lft forever preferred_lft forever
-    inet6 fe80::8878:8cb4:615c:5728/64 scope link
-       valid_lft forever preferred_lft forever</pre>
-<aside class="warning"><p><strong>注意:</strong> IPアドレスが割り当てられない場合はAK-130を再起動して状況が改善するかお試しください。</p>
-</aside>
-<p>続いて以下のコマンドで<code>wvdial</code>をインストールします</p>
-<pre>sudo apt-get update
-sudo apt-get install wvdial -y</pre>
-<p>続いてAK-130にSORACOM接続情報を設定します。</p>
-<pre>sudo sh -c &#39;cat /etc/wvdial_AK-130.conf |\
- sed -e &#34;s/APN/soracom.io/g&#34; \
-     -e &#34;s/\(USER\|PASSWORD\)/sora/g&#34; &gt; /etc/wvdial.conf&#39;
-
-sudo sh -c &#39;echo &#34;defaultroute\
-replacedefaultroute&#34; &gt;&gt; /etc/ppp/peers/wvdial&#34;&#39;</pre>
-<p>AK-130起動時のセルラー接続を有効化します。</p>
-<pre>sudo systemctl enable wwan-modem@AK110</pre>
-<p>※ <code>AK110</code> となっている部分はそのまま入力してください</p>
-<p>次のコマンドでAK-130を再起動して設定を反映します。</p>
-<pre>sudo reboot</pre>
 <h2 is-upgraded>SSH接続の有効化</h2>
 <p>AK-130の遠隔管理アクセス向けにSSH接続を有効化します。次のコマンドで設定画面を起動します。</p>
 <pre>sudo raspi-config</pre>
@@ -296,14 +249,73 @@ replacedefaultroute&#34; &gt;&gt; /etc/ppp/peers/wvdial&#34;&#39;</pre>
 <p class="image-container"><img style="width: 305.50px" src="img/5f94a206ab7eb3ed.png"></p>
 <p>最後にカーソルキーを「Finish」に合わせてエンターキーを押します。</p>
 <p class="image-container"><img style="width: 426.50px" src="img/cfabdad43142c87.png"></p>
+<h2 is-upgraded>差分パッケージの適用</h2>
+<p>エイビット社のWebサイトから差分パッケージをダウンロードしAK-130に適用します。</p>
+<aside class="special"><p>差分パッケージの適用にはUSBメモリを用います。予めご用意の上以下の作業をすすめてください。</p>
+</aside>
+<p>こちらのWebサイトにアクセスしページ下部のリンクからインストールガイドと差分パッケージをダウンロードします。</p>
+<p><a href="https://www.abit.co.jp/products/ak130/" target="_blank">https://www.abit.co.jp/products/ak130/</a></p>
+<p>ダウンロードしたインストールガイドに従ってAK-130に差分パッケージを適用します。</p>
+<p class="image-container"><img style="width: 441.00px" src="img/56eff1012d595923.png"></p>
+<h2 is-upgraded>SORACOM接続設定</h2>
+<p>SORACOM接続にはAK-130に追加のソフトウェアパッケージをインストールが必要です。AK-130を設定用PCを経由してインターネットに接続して必要なソフトウェアをインストールします。</p>
+<aside class="special"><p>設定用PCに有線LANアダプターが必要になりますので予めご用意の上以下の作業を進めてください。</p>
+</aside>
+<h3 is-upgraded>AK-130インターネット接続準備</h3>
+<p>初期セットアップ状態のAK-130はインターネットに接続できないため設定用PCのインターネット共有を経由して作業を進めます。</p>
+<p>まずmacOSのインターネット共有を有効にします。デスクトップ左上のリンゴマークをクリックして「System Preferences」を起動します。</p>
+<p class="image-container"><img style="width: 331.00px" src="img/da5e061146b098a9.png"></p>
+<p>「Sharing」をクリックします。</p>
+<p class="image-container"><img style="width: 365.50px" src="img/a544a3585ddebffa.png"></p>
+<p>「Share your connection from」で「Wi-Fi」を選択し、「To computers using」で有線LAN接続を選択します。（図の例ではThunderbolt Ethernet）</p>
+<p>2つの選択を終えたら、画面左側の「Internet Sharing」にチェックを入れます。</p>
+<p class="image-container"><img style="width: 457.50px" src="img/ecbf4d23e114b420.png"></p>
+<p>アラートダイアログが表示されたら「Start」をクリックします。</p>
+<p class="image-container"><img style="width: 271.50px" src="img/573cd3527ecd5410.png"></p>
+<aside class="warning"><p><strong>注意:</strong> 予めPCのファイアウォール設定で外部からのDHCP接続要求を許可するように設定します。</p>
+</aside>
+<p>設定用PCと起動済みAK-130のLAN-1ポートをLANケーブルで接続します。</p>
+<p class="image-container"><img style="width: 384.50px" src="img/16d32543b44722c1.jpeg"></p>
+<p>以上でAK-130に設定用のインターネット接続が提供されました。続いて設定用PCをAK-130にUSBケーブルで繋ぎます。</p>
+<h3 is-upgraded>AK-130追加設定</h3>
+<p>以下の作業はPCをAK-130にUSBケーブルを繋いでシリアル接続して行います。</p>
+<aside class="special"><p>本手順はAK-130に予めインターネット接続が必要です。AK-130インターネット接続準備を参考にしてインターネットに繋がる状態にした上で以下の作業を進めてください。</p>
+</aside>
+<p>次のコマンドでIPアドレスが割り当てられていることを確認します（この例では192.168.2.8）</p>
+<pre>pi@raspberrypi:~$ ip a show eth0
+2: eth0: &lt;BROADCAST,MULTICAST,UP,LOWER_UP&gt; mtu 1500 qdisc pfifo_fast state UP group default qlen 1000
+    link/ether xx:xx:xx:xx:xx:xx brd ff:ff:ff:ff:ff:ff
+    inet 192.168.2.8/24 brd 192.168.2.255 scope global eth0
+       valid_lft forever preferred_lft forever
+    inet6 fe80::8878:8cb4:615c:5728/64 scope link
+       valid_lft forever preferred_lft forever</pre>
+<aside class="warning"><p><strong>注意:</strong> 設定用PCからIPアドレスが割り当てられない場合はAK-130を再起動して状況が改善するかお試しください。</p>
+</aside>
+<p>続いて以下のコマンドで<code>wvdial</code>をインストールします</p>
+<pre>sudo apt-get update
+sudo apt-get install wvdial -y</pre>
+<p>続いてAK-130にSORACOM接続情報を設定します。</p>
+<pre>sudo sh -c &#39;cat /etc/wvdial_AK-130.conf |\
+ sed -e &#34;s/APN/soracom.io/g&#34; \
+     -e &#34;s/\(USER\|PASSWORD\)/sora/g&#34; &gt; /etc/wvdial.conf&#39;
+
+sudo sh -c &#39;echo &#34;defaultroute\
+replacedefaultroute&#34; &gt;&gt; /etc/ppp/peers/wvdial&#34;&#39;</pre>
+<p>AK-130起動時のセルラー接続を有効化します。</p>
+<pre>sudo systemctl enable wwan-modem@AK110</pre>
+<p>※ <code>AK110</code> となっている部分はそのまま入力してください（130に書き換える必要はありません）</p>
+<p>次のコマンドでAK-130を再起動して設定を反映します。</p>
+<pre>sudo reboot</pre>
 
 
       </google-codelab-step>
     
       <google-codelab-step label="AK-130の設定" duration="30">
         <h2 is-upgraded>ネットワーク構成の確認</h2>
-<p>AK-130を収容するネットワークの構成によって詳細は変わる場合がありますが、このレシピではLAN-1のネットワークが 192.168.0.0/24 で、AK-130に 192.168.0.252/24 を割り当てます。</p>
+<p>AK-130を収容するネットワークの構成によって詳細は変わる場合がありますが、このレシピではLAN-1のネットワークが <code>192.168.0.0/24</code> で、AK-130に <code>192.168.0.252/24</code> を割り当てます。</p>
 <h2 is-upgraded>LAN-1(eth0)のIPアドレス設定</h2>
+<p>以下の作業はPCをAK-130にUSBケーブルを繋いでシリアル接続して行います。</p>
+<p><code>ネットワ�</code>�ク構成の確認で把握したパラメータを/etc/dhcpcd.confファイルに書き込みます。書き込み後AK-130を再起動します。</p>
 <h3 is-upgraded>/etc/dhcpcd.conf</h3>
 <pre>interface eth0
  static ip_address=192.168.0.252/24
@@ -311,9 +323,12 @@ replacedefaultroute&#34; &gt;&gt; /etc/ppp/peers/wvdial&#34;&#39;</pre>
  static domain_name_servers=192.168.0.1 # LAN内のDNSサーバ</pre>
 <aside class="warning"><p><strong>注意:</strong> 設定はご利用のネットワーク環境によって異なります。設定値がわからない場合はシステム管理者に確認してください。</p>
 </aside>
+<p>次のコマンドでAK-130を再起動して設定を反映します。</p>
+<pre>sudo reboot</pre>
 <h2 is-upgraded>NAT設定</h2>
+<p>以下の作業はPCをAK-130にUSBケーブルを繋いでシリアル接続して行います。</p>
 <p>AK-130にNATの設定を追加します。以下コマンドの <code>IPADDRESS</code> の部分をリモートデスクトップ先のPCの情報確認で確認したPCのIPアドレスに置き換えて実行してください。</p>
-<p><code>iptables-persistent</code> をインストールした際に既存の<code>iptables設定を永続化するかダイアログが表示されるのでYesで保存します。</code></p>
+<p><code>iptables-persistent</code> をインストールした際に既存の<code>iptables</code>設定を永続化するかダイアログが表示されるので<code>Yes</code>で保存します。</p>
 <pre>sudo sh -c &#39;sed -i -e &#34;s/^#net.ipv4.ip_forward=1/net.ipv4.ip_forward=1/&#34; /etc/sysctl.conf&#39;
 sudo sysctl -p
 sudo iptables -t nat -A POSTROUTING -o ppp0 -j MASQUERADE
@@ -325,20 +340,26 @@ sudo apt-get install iptables-persistent -y</pre>
       </google-codelab-step>
     
       <google-codelab-step label="ルーティング設定" duration="10">
-        <p>「リモートアクセス先のPC」にルーティング設定を追加します。Windowsコマンドプロンプトを開いてコマンドを実行します。</p>
-<pre>route add 100.64.0.0 mask 255.192.0.0 192.168.0.252 -p</pre>
+        <aside class="warning"><p><strong>注意:</strong> ルーティング設定は「リモートアクセス先のPC」に設定します。「設定用PC」ではないのでご注意ください。</p>
+</aside>
 <aside class="warning"><p><strong>注意:</strong> 設定はご利用のネットワーク環境によって異なります。設定値がわからない場合はシステム管理者に確認してください。</p>
 </aside>
+<p>「リモートアクセス先のPC」にルーティング設定を追加します。Windowsコマンドプロンプトを開いてコマンドを実行します。</p>
+<pre>route add 100.64.0.0 mask 255.192.0.0 192.168.0.252 -p</pre>
 
 
       </google-codelab-step>
     
       <google-codelab-step label="SORACOM Napterでのリモート接続" duration="10">
         <p>ここまでの準備で遠隔地のPCにリモートデスクトップする準備が整いました。早速SORACOM Napterでリモートデスクトップ接続をしてみましょう。</p>
+<aside class="warning"><p><strong>重要:</strong> AK-130のLAN-1ポートに設定用PCが接続されている場合は取り外し、AK-130のLAN-1ポートとリモート接続先PCをLANケーブルで接続します。</p>
+</aside>
 <h2 is-upgraded>Microsoft Remote Desktopのインストール</h2>
+<p>この作業は「リモートアクセス元のPC」で行います。</p>
 <p>App Storeアプリで「remote desktop」と検索し、「Microsoft Remote Desktop」をインストールします。</p>
 <p class="image-container"><img style="width: 602.00px" src="img/259ccc0963ddbfa7.png"></p>
 <h2 is-upgraded>SORACOM Napterでのリモート接続設定</h2>
+<p>この作業は「リモートアクセス元のPC」で行います。</p>
 <aside class="special"><p>SORACOM Napterのご利用には費用がかかります。詳細はWebサイト（<a href="https://soracom.jp/services/napter/price/" target="_blank">https://soracom.jp/services/napter/price/</a>）をご参照ください。</p>
 </aside>
 <p>SORACOM Web コンソールにログインし、AK-130内のSIMにチェックを入れてメニューから「On-demand Remote Access」をクリックします。</p>
