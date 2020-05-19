@@ -63,11 +63,11 @@
 <aside class="warning"><p>本コンテンツは現状のままで提供され、株式会社ソラコムは、誤りがないことの保証を含め、明示であると黙示であるとを問わず、本コンテンツの記載内容につき、いかなる種類の表明も保証も行いません。</p>
 <p>掲載情報の閲覧及び利用により、利用者自身、もしくは第三者が被った損害に対して、直接的、間接的を問わず、株式会社ソラコムは責任を負いかねます。</p>
 <p>本コンテンツを実践する中で用意された機器、利用されたサービスについてのご質問は、それぞれの機器やサービスの提供元にお問い合わせをお願いします。機器やサービスの仕様は、本コンテンツ作成当時のものです。</p>
+<p>株式会社ソラコムが提供する機器・サービスについてのご質問は、 <a href="https://soracom.jp/contact/" target="_blank">https://soracom.jp/contact/</a> をご確認の上、適切な窓口へのお問い合わせをお願いします。機器・サービスご利用前の導入相談は <a href="https://soracom.jp/contact/contactsales/" target="_blank">https://soracom.jp/contact/contactsales/</a> に、機器・サービスご利用開始後のサポートは、SORACOMユーザーコンソール内の<a href="https://soracom.zendesk.com/hc/ja/requests/" target="_blank">サポートサイトから「リクエストを送信」</a>(要ログイン)にてお問い合わせください。</p>
 <p>本ドキュメントは <a href="https://github.com/googlecodelabs/tools" target="_blank">CLaaT</a> を用いて制作しています。</p>
-<p>LICENSE<br>Copyright (c) 2020 SORACOM, INC.<br>Released under the MIT license<br><a href="https://opensource.org/licenses/mit-license.php" target="_blank">https://opensource.org/licenses/mit-license.php</a></p>
+<p>Copyright (c) 2020 SORACOM, INC.</p>
 </aside>
 
-<p>ソースドキュメントは<a href="https://docs.google.com/document/d/1GHDSvRgDdxNAKKH8Fz5T3DgaQMIdirIs8S-MJQ8poTg/edit?usp=sharing" target="_blank">こちら</a></p>
 
 
       </google-codelab-step>
@@ -100,10 +100,20 @@
 <li>最新版Google Chrome</li>
 </ul>
 <h2 is-upgraded>Preview Codelab Chrome 拡張機能</h2>
-<p>Google Docsで書いているソースドキュメントをプレビューすることができる機能拡張です。 <a href="https://chrome.google.com/webstore/detail/preview-codelab/lhojjnijnkiglhkggagbapfonpdlinji" target="_blank">https://chrome.google.com/webstore/detail/preview-codelab/lhojjnijnkiglhkggagbapfonpdlinji</a> からインストールしてください。</p>
+<p>Preview Codelab Chrome 拡張機能(以下、本拡張機能)Google Docsで書いているソースドキュメントをプレビューすることができる拡張機能です。 <a href="https://chrome.google.com/webstore/detail/preview-codelab/lhojjnijnkiglhkggagbapfonpdlinji" target="_blank">https://chrome.google.com/webstore/detail/preview-codelab/lhojjnijnkiglhkggagbapfonpdlinji</a> からインストールしてください。</p>
 <h3 is-upgraded>使い方</h3>
 <p>Google Chromeでソースドキュメント(Google Docs)を開き、アドレスバー横の<img style="width: 97.00px" src="img/f1f4ebfa39f928cd.png">をクリックすると、新しいタブが開きプレビューが表示されます。(Google Docs以外のページでは「サイトのデータが読み取れないか、変更できません」と表示され、新しいタブが開きません）</p>
 <p>ソースドキュメントを編集後、プレビュー側のタブを再読み込みすると編集内容が即時反映されます。</p>
+<h3 is-upgraded>初回起動時について</h3>
+<p>本拡張機能は Google Docs を読み込みます。そのためのアクセス権を本拡張機能に渡す必要があり、初回起動時に設定します。</p>
+<p>プレビューをしたい Google Docs を読み込めるアカウントを選択してください。</p>
+<p class="image-container"><img style="width: 482.00px" src="img/d70fb62e680c7894.png"></p>
+<p>以下のアクセス権を確認したら［許可］をクリックします。</p>
+<p class="image-container"><img style="width: 402.00px" src="img/81a9d3ada7fe0072.png"></p>
+<aside class="warning"><p><strong>アクセス権について</strong></p>
+<p>プレビューは CLaaT のチームが構築している AppEngine 上 (<a href="https://codelabs-preview.appspot.com/" target="_blank">https://codelabs-preview.appspot.com/</a>) で実現されています。そのため Google Docs を読むことができるアクセス権を AppEngine 上の Web アプリに渡す必要があるため、利用に関しては情報システム部門や ISMS 委員会にご相談をした方が良いでしょう。</p>
+<p>アクセス権の確認や削除方法は「おわりに（片付けなど）」をご覧ください。</p>
+</aside>
 <h2 is-upgraded>CLaaTコマンド ― Windows 編</h2>
 <p><a href="https://github.com/googlecodelabs/tools/releases/latest" target="_blank">https://github.com/googlecodelabs/tools/releases/latest</a> を開きます。</p>
 <p><code>claat-windows-amd64.exe</code> をダウンロードします。</p>
@@ -123,7 +133,7 @@
 <p><a href="https://github.com/googlecodelabs/tools/releases/latest" target="_blank">https://github.com/googlecodelabs/tools/releases/latest</a> を開きます。</p>
 <p><code>claat-darwin-amd64</code> をダウンロードします。<br>※ Linux もしくは WSL の場合は <code>claat-linux-amd64</code> をダウンロードします。以降の手順で読み替えてください。</p>
 <p class="image-container"><img style="width: 602.00px" src="img/fdd782a88bf3c62d.png"></p>
-<p>なんとかして PATH が通っているところ 例) <code>/usr/local/bin</code> にコピーしてください。（後で書きます）</p>
+<p>PATH が通っているところ (例 <code>/usr/local/bin</code>) にコピーしてください。</p>
 <h3 is-upgraded>使い方とアップデート</h3>
 <p>Terminal.app(bash) にて <code>claat</code> で実行できるようになります。</p>
 <p>アップデートについても同様の作業で、新しいバージョンをダウンロードして上書きしてください。</p>
@@ -134,7 +144,7 @@
       <google-codelab-step label="テンプレートファイルを準備する" duration="5">
         <p>ゼロから作ってもいいですが、早く体験するためにもテンプレートファイルから始めましょう。</p>
 <ol type="1" start="1">
-<li><h3 is-upgraded><a href="https://drive.google.com/open?id=1FXJGzsrTjDkHTtfaOsZkzZeU7ZUZQ7M52hHuKm9Fl8o" target="_blank">テンプレートファイル</a>を開き［ファイル］&gt;［マイドライブに追加］をクリックします。</h3>
+<li><h3 is-upgraded><a href="https://docs.google.com/document/d/1FXJGzsrTjDkHTtfaOsZkzZeU7ZUZQ7M52hHuKm9Fl8o/edit?usp=sharing" target="_blank">テンプレートファイル</a>を開き［ファイル］&gt;［マイドライブに追加］をクリックします。</h3>
 </li>
 </ol>
 <p class="image-container"><img style="width: 214.00px" src="img/420b223ae71fc3b4.png"></p>
@@ -193,8 +203,23 @@
 となります。上記の例ならば以下の通りです。
 $ claat export -ga &#34;&#34; 1FXJGzsrTjDkHTtfaOsZkzZeU7ZUZQ7M52hHuKm9Fl8o</code></pre>
 <p>正常に実行されると <code>ok      claat-template-100</code> といった表示がされ、同名のディレクトリが作成されています。これは Google Docs 内の冒頭にあるメタ情報テーブルの <code>URL</code> がこのディレクトリになります。この URL を変更することで出力先を制御できます。(= Google Docs のファイル名は利用されません)</p>
+<h3 is-upgraded>初回起動時について</h3>
+<p>claat コマンドは Google Docs を読み込みます。そのためのアクセス権を claat コマンドに渡す必要があり、初回起動時に設定します。</p>
+<p>claat コマンド実行時に表示された URL にアクセスします。(ターミナルから URL をコピーしてブラウザに貼り付けます)</p>
+<p class="image-container"><img style="width: 602.00px" src="img/e801461079ef99b3.png"></p>
+<p>claat でコンテンツ化したい Google Docs が読み込めるアクセス権を持つアカウントを選択します。</p>
+<p class="image-container"><img style="width: 482.00px" src="img/6be465ee9737ea83.png"></p>
+<p>表示されたコードをメモします。</p>
+<p class="image-container"><img style="width: 521.00px" src="img/1bf2e1bf365742d2.png"></p>
+<p>ターミナルに戻り、先ほどのコードを Code: に入力します。</p>
+<p class="image-container"><img style="width: 602.00px" src="img/db56adfe65fd0f9f.png"></p>
+<aside class="special"><p><strong>claat コマンド実行時のコードの保管先</strong></p>
+<p>コード(OAuth2 token)は <code>$HOME/.config/claat/goog-cred.json</code> に格納されます。初期化や他のアクセス権に変更したい場合はこのファイルを削除することで、次回の claat コマンド実行時に同様にコードを得るフローに遷移します。（他のアクセス権に一時的に変更したい場合は claat コマンドの -auth オプションでも可能です）</p>
+<p>また、Google アカウントの管理画面からアクセス権を削除することもできます。詳しくは「おわりに（片付けなど）」をご覧ください。</p>
+</aside>
+<h3 is-upgraded>出力されたアセットについて</h3>
+<p>メタテーブルの URL に設定したディレクトリの中に全てのアセットが生成されています。</p>
 <p class="image-container"><img style="width: 602.00px" src="img/d8e062141aedc127.png"></p>
-<p>このディレクトリの中に全てのアセットが生成されています。</p>
 <pre><code>❯ ls -F claat-template-100/
 codelab.json  img/  index.html</code></pre>
 <h2 is-upgraded><code>claat serve</code> でローカル確認します</h2>
@@ -211,8 +236,16 @@ Serving codelabs on localhost:9090, opening browser tab now...</code></pre>
         <ul>
 <li>ローカルに出力された <code>claat-template-100</code> ディレクトリの削除</li>
 <li>Google Docs の <strong>claat-template-100 のコピー</strong> の削除</li>
-<li>(任意) <code>claat</code> コマンドの削除</li>
+<li>(任意) claat コマンドとアクセス権の削除</li>
+<li>(任意) Preview CodeLab 拡張機能とアクセス権の削除</li>
 </ul>
+<h2 is-upgraded>アクセス権の確認と削除方法</h2>
+<p>Preview CodeLab 拡張機能（以下、拡張機能）と claat コマンドのアクセス権は Google アカウントの設定から確認と削除が可能です。</p>
+<p><a href="https://myaccount.google.com/permissions" target="_blank">アカウントにアクセスできるアプリ</a>を開き &#34;Google のアプリ&#34; に表示されている &#34;clasp - The Apps Script CLI&#34; が claat コマンドの、&#34;CodeLabs Preview&#34; が機能拡張のアクセス権です。</p>
+<p class="image-container"><img style="width: 602.00px" src="img/d3a9e15caf9cb172.png"></p>
+<p>クリックするとアクセス権の内容確認と共に、ここからアクセス権の削除ができます。それぞれのアクセス権(5/19/2020 時点)を掲載しておきます。</p>
+<p class="image-container"><img style="width: 602.00px" src="img/e73287d1aba746f7.png"></p>
+<p class="image-container"><img style="width: 602.00px" src="img/b353f0e8719bfa30.png"></p>
 
 
       </google-codelab-step>
@@ -221,7 +254,7 @@ Serving codelabs on localhost:9090, opening browser tab now...</code></pre>
         <p>お疲れ様でした。ハンズオンは終了です。</p>
 <p>この先で学べることは以下の通りです。</p>
 <ul>
-<li>CLaaT アセットのアップロード</li>
+<li>CLaaT アセットのアップロード (準備中)</li>
 <li><a href="https://ma2shita.github.io/claat-serve/claat-google-analytics-200/" target="_blank">CLaaT Google Analytics 連携ハンズオン</a></li>
 </ul>
 
@@ -258,6 +291,14 @@ Serving codelabs on localhost:9090, opening browser tab now...</code></pre>
 </td><td colspan="1" rowspan="1"><p><code>rm -rf claat_assets</code> をした後に改めて export する方法があります。</p>
 </td></tr>
 </table>
+<h2 is-upgraded>アクセス権に起因する実運用のアイデア</h2>
+<p>CLaaT の利用を検討する前提は、外部へ広く一般公開するハンズオンコンテンツの製作となります。そのため、ソースドキュメントである Google Docs も見られてしまっても良いように作成すべきです。</p>
+<p>一方、claat コマンドや拡張機能へ付与するアクセス権は、Google Drive 内の全てのファイルが読み込めたりと比較的大きいため、気になる組織も存在すると考えられます。</p>
+<p>そこで、「CLaaT 専用アカウント」を <code>@gmail.com</code> で作成し、そこで作成していくという方法が考えられます。考えられる要件を箇条書きで提案します。</p>
+<ul>
+<li>CLaaT 作成者は @gmail.com でアカウントを取得 (アカウントを共有するか、それぞれ取得するかはポリシー。共有の場合は MFA の有効化を強く推奨)</li>
+<li>ブラウザで別プロファイルを作成し、同アカウント専用とする</li>
+</ul>
 
 
       </google-codelab-step>
