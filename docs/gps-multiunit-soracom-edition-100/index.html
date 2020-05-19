@@ -27,7 +27,7 @@
                   environment="web"
                   feedback-link="https://soracom.jp/products/kit/gps_multiunit/">
     
-      <google-codelab-step label="ハンズオン概要" duration="0">
+      <google-codelab-step label="ハンズオン概要" duration="1">
         <p>必要な機材</p>
 <ul>
 <li>GPS マルチユニット SORACOM Edition（バッテリー内蔵タイプ）</li>
@@ -45,7 +45,7 @@
 
       </google-codelab-step>
     
-      <google-codelab-step label="ステップ 1: GPS マルチユニットに SIM をセットする" duration="0">
+      <google-codelab-step label="ステップ 1: GPS マルチユニットに SIM をセットする" duration="5">
         <p>GPS マルチユニット SORACOM Edition(以降、GPS マルチユニット)に SIM をセットします。</p>
 <p>SIM のセットは、電源オフの状態でおこないます。 電源の状態を確認するため、ファンクションボタンを1秒押してください。LEDが点灯すれば電源が入っています。</p>
 <p>また電源をオフにするには、ファンクションボタンを約 4 秒押してください。電源オフの後、以下のように LED が点灯します。</p>
@@ -60,7 +60,7 @@
 
       </google-codelab-step>
     
-      <google-codelab-step label="ステップ 2: GPS マルチユニットのデバイス設定を行う" duration="0">
+      <google-codelab-step label="ステップ 2: GPS マルチユニットのデバイス設定を行う" duration="5">
         <p>次に、<a href="https://console.soracom.io/#/gadgets/gps_multiunit?coverage_type=jp" target="_blank">ユーザーコンソール</a>からデバイス設定を行い、送信データ、送信先の設定を行います。</p>
 <p><a href="https://console.soracom.io/#/gadgets/gps_multiunit?coverage_type=jp" target="_blank">ユーザーコンソールのGPSマルチユニット</a>メニュー（コンソール左上 Menu → ガジェット管理 → GPS マルチユニット）をクリックします。</p>
 <p class="image-container"><img style="width: 586.50px" src="img/9cb3e2a2b95450f7.png"></p>
@@ -118,7 +118,7 @@
 
       </google-codelab-step>
     
-      <google-codelab-step label="ステップ 3: SORACOM Harvest でデータを確認する" duration="0">
+      <google-codelab-step label="ステップ 3: SORACOM Harvest でデータを確認する" duration="5">
         <p>GPS マルチユニットのセンサーデータを送信します。</p>
 <p>ファンクションボタンを短押し(約 1 秒間)すると、定期送信の設定に関わらず、センサーデータ(電波強度・温度・湿 度・電池残量)をクラウドサーバに送信します。</p>
 <p class="image-container"><img alt="ファンクションボタン" style="width: 552.28px" src="img/1a27b395ebc337ae.png"></p>
@@ -147,7 +147,7 @@
 
       </google-codelab-step>
     
-      <google-codelab-step label="ステップ 4：SORACOM Lagoon でデータを可視化する" duration="0">
+      <google-codelab-step label="ステップ 4：SORACOM Lagoon でデータを可視化する" duration="10">
         <p>ここでは、送信したデータを SORACOM Lagoon を使って可視化します。</p>
 <p><a href="https://console.soracom.io/" target="_blank">SORACOMのユーザーコンソール</a>にログインし、メニュー（コンソール左上 Menu）→「データ収集・蓄積・可視化」→「SORACOM Lagoon」メニューをクリックします。</p>
 <p class="image-container"><img style="width: 263.00px" src="img/de081faa81c1cc90.png"></p>
@@ -203,7 +203,7 @@
 
       </google-codelab-step>
     
-      <google-codelab-step label="ステップ 5: SORACOM Lagoonでメールに通知を飛ばす" duration="0">
+      <google-codelab-step label="ステップ 5: SORACOM Lagoonでメールに通知を飛ばす" duration="10">
         <p>SORACOM Lagoon には、取得したデータの監視を行うアラート機能があります。設定した閾値等のルールに従ってEmail、Slack、Webhook 等へ通知を飛ばすことができます。</p>
 <p>ここででは、アラート機能を利用し、設定した閾値を超えた場合にメールに通知を飛ばす仕組みを構築します。</p>
 <p>左上の ベルアイコンをクリックし新しい「通知チャンネル」をクリックします。</p>
@@ -257,6 +257,58 @@
 
       </google-codelab-step>
     
+      <google-codelab-step label="あとかたづけと注意事項" duration="1">
+        <p>本コンテンツでは費用がかかるサービスを利用しています。<br>本項をよく読み、必要な操作や解除作業を行うようにして、想定外の費用が掛からないようにしてください。</p>
+<h2 is-upgraded>費用について（確認）</h2>
+<p>ここで記載している金額は全て税別、送料別となります。</p>
+<h3 is-upgraded>SORACOM プラットフォームの利用料金</h3>
+<table>
+<tr><td colspan="1" rowspan="1"><p><strong>サービス／機能</strong></p>
+</td><td colspan="1" rowspan="1"><p><strong>料金</strong></p>
+</td></tr>
+<tr><td colspan="1" rowspan="1"><p><a href="https://soracom.jp/services/air/cellular/price_specific_area_sim/" target="_blank">SORACOM Air (plan-D)</a></p>
+</td><td colspan="1" rowspan="1"><p>基本料: 10円/日</p>
+<p>通信料: 0.2円~/MB</p>
+<p>(今回の利用であれば 1MB 以内で収まる範囲)</p>
+</td></tr>
+<tr><td colspan="1" rowspan="1"><p><a href="https://soracom.jp/services/harvest/price/" target="_blank">SORACOM Harvest Data</a></p>
+</td><td colspan="1" rowspan="1"><p>本機能を有効にしたグループに所属する1SIMあたり5円/日 (2000リクエスト/日/SIMを含む)</p>
+<p>2000リクエスト/日を超えた分は0.004円/リクエスト</p>
+</td></tr>
+<tr><td colspan="1" rowspan="1"><p><a href="https://soracom.jp/services/lagoon/price/" target="_blank">SORACOM Lagoon</a></p>
+</td><td colspan="1" rowspan="1"><p>本レシピでは Free プラン(無料)を使用しました。その他の有料プランで出来るようになること等は <a href="https://soracom.jp/services/lagoon/price/" target="_blank">SORACOM Lagoon 利用料金のページ</a>をご覧ください。</p>
+</td></tr>
+</table>
+<p>※ 費用詳細はリンク先をご確認ください。</p>
+<p>GPS マルチユニットのデータ通信料の目安については <a href="https://dev.soracom.io/jp/gps_multiunit/faqs/" target="_blank">GPS マルチユニット SORACOM Edition: よくある質問</a> をご覧ください。</p>
+<aside class="special"><p><strong>無料利用枠について</strong></p>
+<p>SORACOM サービスでは一部サービスにおいて無料枠が設定されています。たとえば SORACOM Air for セルラーであればアカウント毎で30円/月の通信分や、SORACOM Harvest Data であれば31日分の書込みリクエストなどです。料金詳細に「無料利用枠」として掲載されていますので、ご確認ください。</p>
+</aside>
+<h2 is-upgraded>GPS マルチユニットを電源 OFF にする（必須）</h2>
+<p>ハンズオンで利用した GPS マルチユニットは、現在1分に一回データを送る設定になっており、電源を OFF にするまで送信しつづけます（即ち、データ通信料が発生します）</p>
+<p><a href="https://dev.soracom.io/jp/gps_multiunit/how-to-use/#off" target="_blank">GPS マルチユニットの電源を OFF にする</a>を参照して、必ず OFF にしてください。</p>
+<aside class="warning"><p><strong>充電を開始すると自動的に ON になります</strong></p>
+<p>microUSB によって充電を開始すると電源が自動的に ON となり、データ送信を開始します。データ送信を行わないようにするためには「a. 充電開始直後に OFF にする操作をする」「b. SIM を抜いておく」これらのどれかを行い、不用意なデータ送信を避けるようにしてください。</p>
+</aside>
+<h2 is-upgraded>グループ解除（必須）</h2>
+<p>SORACOM Harvest Data 等、「機能が有効になっているグループに所属している SIM × 費用」となっているサービスにおいては、「機能を OFF にする」することで費用の発生を抑えることができます。またもう1つの方法として「グループに所属している SIM の数を減らす(= 解除する)」事でも費用を抑える事ができます。</p>
+<p>グループ解除の方法は<a href="https://soracom.github.io/iot-recipes/unjoin-from-group/" target="_blank">グループからの解除 (JP)</a>をご覧ください。</p>
+<h2 is-upgraded>SORACOM Harvest Data のデータ削除（任意）</h2>
+<p>SORACOM Harvest Data は基本的にはデータ保管料は無料※です。そのため、保存しておいても害はありませんが、デモ等で利用する際にはデータを綺麗にしておく必要が出てくるため、データ削除について解説します。</p>
+<p>※発生から40日を超えたデータは削除されます。40日以上データを保管したい場合は<a href="https://soracom.jp/services/harvest/price/" target="_blank">データ保持期間延長オプション利用料金</a>をご利用ください。</p>
+<p>SORACOM Harvest Data 画面 (［操作］&gt;［データを確認］) のデータテーブルで、削除したいデータのチェックボックスを付けた後に［削除］をクリックします。表示されたダイアログで改めて［削除］をクリックすると、削除されます。<br>※ 複数のデータにチェックをつければ一括で削除可能です。</p>
+<p class="image-container"><img style="width: 414.00px" src="img/637cac3bf206c47c.png"></p>
+<p><strong>データの復元はできません</strong>のでご注意ください。</p>
+<h2 is-upgraded>SORACOM Lagoon の解約（任意）</h2>
+<p>SORACOM Lagoon はオンラインで解約が可能です。 Free プランであれば有効化しておいても費用は発生しませんが、長期に渡って利用しない場合には解約も選択いただけます。</p>
+<p>解約の方法は<a href="https://soracom.github.io/iot-recipes/disable-soracom-lagoon" target="_blank">SORACOM Lagoon の解約(JP)</a>をご覧ください。</p>
+<h2 is-upgraded>本コンテンツについて（確認）</h2>
+<p>本コンテンツは無償で公開しています。URL が必要な方はブックマークなど行うようにしてください。事前の断りなく公開中止やURL 変更される場合があります。</p>
+<p>著作権は株式会社ソラコムに帰属しています。再利用を希望される場合はご連絡ください。</p>
+
+
+      </google-codelab-step>
+    
       <google-codelab-step label="Appendix : SORACOM Lagoonで作成したダッシュボードを共有する" duration="0">
         <p><br>SORACOM Lagoon アカウントがMaker、Pro プランの方のみご利用いただけます。</p>
 <p>本内容は、SORACOM Lagoonで作成したダッシュボードを、第三者に共有する方法をご紹介します。<br>まず、SORACOM Lagoonにログインし、共有したいダッシュボードを開きます。</p>
@@ -274,11 +326,6 @@
 <p class="image-container"><img style="width: 624.00px" src="img/4d4d564b8148b7f.png"></p>
 <p>追加したLagoon ユーザーのメールアドレスとパスワードを入力すると、GPS マルチユニットの温湿度データを表示したダッシュボードを確認できます。</p>
 <p>以上でLagoon でダッシュボードの作成、共有は終了です。</p>
-<h2 is-upgraded>片付け</h2>
-<p>ハンズオンで利用した GPS マルチユニットは、現在1分に一回データを送る設定になっています。送信頻度を変更したい方は、GPS マルチユニット設定画面から時間を変更します。変更後、GPS マルチユニットのファンクションボタンを押し設定を反映させてください。</p>
-<h2 is-upgraded>料金について</h2>
-<p>GPS マルチユニット SORACOM Edition の利用料金については下記のよくある質問をご確認ください。</p>
-<p><a href="https://dev.soracom.io/jp/gps_multiunit/faqs/" target="_blank">https://dev.soracom.io/jp/gps_multiunit/faqs/</a></p>
 
 
       </google-codelab-step>
