@@ -315,7 +315,7 @@ replacedefaultroute&#34; &gt;&gt; /etc/ppp/peers/wvdial&#34;&#39;</pre>
 <p>AK-130を収容するネットワークの構成によって詳細は変わる場合がありますが、このレシピではLAN-1のネットワークが <code>192.168.0.0/24</code> で、AK-130に <code>192.168.0.252/24</code> を割り当てます。</p>
 <h2 is-upgraded>LAN-1(eth0)のIPアドレス設定</h2>
 <p>以下の作業はPCをAK-130にUSBケーブルを繋いでシリアル接続して行います。</p>
-<p><code>ネットワ�</code>�ク構成の確認で把握したパラメータを/etc/dhcpcd.confファイルに書き込みます。書き込み後AK-130を再起動します。</p>
+<p>ネットワーク構成の確認で把握したパラメータを <code>/etc/dhcpcd.conf</code> ファイルに書き込みます。書き込み後AK-130を再起動します。</p>
 <h3 is-upgraded>/etc/dhcpcd.conf</h3>
 <pre>interface eth0
  static ip_address=192.168.0.252/24
