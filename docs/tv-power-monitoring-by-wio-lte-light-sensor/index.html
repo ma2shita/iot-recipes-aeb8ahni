@@ -366,7 +366,7 @@ void loop() {
     
       <google-codelab-step label="SORACOM Harvest Data でデータを蓄積する (グループの設定)" duration="5">
         <p>グループに「<strong>SORACOM Harvest Data</strong>」の3つの設定を行います。</p>
-<h2 is-upgraded>SIM 管理画面から、SORACOM LTE-M Button に割り当てたグループ名をクリックします。</h2>
+<h2 is-upgraded>SIM 管理画面から、Wio LTE に割り当てたグループ名をクリックします。</h2>
 <p class="image-container"><img style="width: 602.00px" src="img/e25dea9cd2d1a6e6.png"></p>
 <h2 is-upgraded>［SORACOM Air for Cellular 設定］をクリックして設定が出来るように開きます。</h2>
 <p class="image-container"><img style="width: 602.00px" src="img/b998b07a00552e4a.png"></p>
@@ -891,14 +891,14 @@ void loop() {
 <p class="image-container"><img style="width: 602.00px" src="img/219cb838231aad63.png"></p>
 <aside class="special"><p><strong>設定内容の意味は？</strong></p>
 <ul>
-<li><code>last()</code> は、条件(OF) で設定した期間内の最後(=最新)の値です。</li>
-<li><code>query(A, 90s, now)</code> は、「メトリックの &#34;A&#34; を対象に、過去 90s から now までの間」となります。</li>
+<li><code>avg()</code> は、条件(OF) で設定した期間内における平均値です。</li>
+<li><code>query(A, 1m, now)</code> は、「メトリックの &#34;A&#34; を対象に、 1m から now までの間」となります。</li>
 </ul>
-<p>合わせると、メトリック &#34;A&#34; すなわち SORACOM LTE-M Button の ClickType を対象に、過去 <code>90s</code>(秒) から <code>now</code>(現在) における最後の値が <code>0</code> 以上（の時はアラート発生）という意味になります。</p>
+<p>合わせると、メトリック &#34;A&#34; すなわち、光センサーの値を対象に、過去 <code>1m</code>(分) から <code>now</code>(現在) における最後の値が <code>0.25</code> 以上（の時はアラート発生）という意味になります。</p>
 </aside>
-<p>ここまで入力が完了できたら［ルールを確認］をクリックします。この時点でボタンからのデータが過去90秒以内に発生していなければ  <code>firing: false</code> 即ち、アラートは発生せず、正常な設定となります。</p>
+<p>ここまで入力が完了できたら［ルールを確認］をクリックします。この時点でTV が暗い状態でデータが何度か送信されて、平均値が 0.25 が下回っていれば  <code>firing: false</code> 即ち、アラートは発生せず、正常な設定となります。</p>
 <p class="image-container"><img style="width: 268.00px" src="img/912d9bf6fb0c3838.png"></p>
-<p>次に、ボタンを押してデータを発生させます。30秒～60秒経過した後に、再度［ルールを確認］をクリックすると <code>firing: true</code> 即ち、アラートが発生した状態となります。（この時点では通知の送信先を設定していないため、アラート発生の有無を確認するのみとなります。）</p>
+<p>次に、TV が明るい状態でデータを発生させます。30秒～60秒経過した後に、再度［ルールを確認］をクリックすると <code>firing: true</code> 即ち、アラートが発生した状態となります。（この時点では通知の送信先を設定していないため、アラート発生の有無を確認するのみとなります。）</p>
 <p class="image-container"><img style="width: 266.00px" src="img/47407b00b4337b96.png"></p>
 <p>そこから30秒～60秒経過した後に、再度［ルールを確認］をクリックすると <code>firing: false</code> に戻ることが確認できるでしょう。</p>
 <p>［ルールを確認］ボタンは何度でも押すことが可能ですので、何度か試してみることをお勧めいたします。</p>
@@ -907,7 +907,7 @@ void loop() {
 <p class="image-container"><img style="width: 602.00px" src="img/2f8ab94c75e663c0.png"></p>
 <h2 is-upgraded>&#34;メッセージ&#34; にアラート発生時のメッセージを入力します。</h2>
 <p>ここではテレビがつけっぱなしであることを通知するメッセージを入力しています。</p>
-<p class="image-container"><img style="width: 408.00px" src="img/b449589e9fa0a857.png"></p>
+<p class="image-container"><img style="width: 408.00px" src="img/8302ccf7ff0c9bc1.png"></p>
 <h2 is-upgraded>右上の保存ボタン<img style="width: 33.00px" src="img/6780dfe4cd33f2a0.png">をクリックし、［保存］をクリックします。</h2>
 <p>以上で全ての設定が終了しました。画面右上のダッシュボードに戻る<img style="width: 54.00px" src="img/2c69286f16fd7716.png">ボタンをクリックし、ダッシュボードに戻ります。</p>
 
