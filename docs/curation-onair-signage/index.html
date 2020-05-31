@@ -1,0 +1,137 @@
+
+<!doctype html>
+
+<html>
+<head>
+  <meta name="viewport" content="width=device-width, minimum-scale=1.0, initial-scale=1.0, user-scalable=yes">
+  <meta name="theme-color" content="#4F7DC9">
+  <meta charset="UTF-8">
+  <title>【ユーザー IoT DIY レシピ】M5Stack と SORACOM LTE-M Button powered by AWS で作る「オンエアー看板」</title>
+  <link rel="stylesheet" href="//fonts.googleapis.com/css?family=Source+Code+Pro:400|Roboto:400,300,400italic,500,700|Roboto+Mono">
+  <link rel="stylesheet" href="//fonts.googleapis.com/icon?family=Material+Icons">
+  <link rel="stylesheet" href="https://soracom.github.io/iot-recipes/codelab-elements/codelab-elements.css">
+  <style>
+    .success {
+      color: #1e8e3e;
+    }
+    .error {
+      color: red;
+    }
+  </style>
+</head>
+<body>
+  <google-codelab-analytics gaid="UA-66865146-33"></google-codelab-analytics>
+  <google-codelab codelab-gaid=""
+                  id="curation-onair-signage"
+                  title="【ユーザー IoT DIY レシピ】M5Stack と SORACOM LTE-M Button powered by AWS で作る「オンエアー看板」"
+                  environment="web"
+                  feedback-link="https://qiita.com/keni_w/items/e5e49f05ff72f14cda8a">
+    
+      <google-codelab-step label="M5Stack と SORACOM LTE-M Button powered by AWS で作る「オンエアー看板」" duration="0">
+        <p>レシピ難易度: ★★★☆☆</p>
+<p>テレワークをしていると家族の方から「今、声かけても大丈夫なのかな？」と心配されることが多々あります。</p>
+<p>そこで、ネット環境が無くても AWS Lambda が実行可能な LTE-M 搭載ボタン型IoTデバイス「SORACOM LTE-M Button powered by AWS」と、液晶モニター付きプロトタイピング向けマイコンキット 「M5Stack」にモバイルデータ通信機能を加える &#34;3G 拡張モジュール&#34; を組み合わせて、今何してる？を表示する「オンエアー看板」を作ります。</p>
+<p class="image-container"><img style="width: 378.00px" src="img/147f8a6e67e5fcb3.png"></p>
+<p>ボタンデバイス、M5Stack 共にモバイル通信を利用しているため、ネット環境が無くても利用できます。表示の内容を変更したら、色々な応用例が考えられるのでは無いでしょうか？</p>
+<aside class="warning"><p>本コンテンツ並びにリンク先コンテンツ(以下、コンテンツとします)は現状のままで提供され、株式会社ソラコムはを含め誤りがないことの保証を含め、明示であると黙示であるとを問わず、コンテンツの記載内容につき、いかなる種類の表明も保証も行いません。</p>
+<p>コンテンツの掲載情報の閲覧及び利用により、利用者自身、もしくは第三者が被った損害に対して、直接的、間接的を問わず、株式会社ソラコムは責任を負いかねます。</p>
+<p>Copyright (c) 2020 SORACOM, INC.</p>
+</aside>
+
+<h2 is-upgraded>準備</h2>
+<p>本レシピを行うためには以下のものをご用意ください。</p>
+<h3 is-upgraded>ハードウェア</h3>
+<table>
+<tr><td colspan="1" rowspan="1"><p><strong>品名</strong></p>
+</td><td colspan="1" rowspan="1"><p><strong>数量</strong></p>
+</td><td colspan="1" rowspan="1"><p><strong>価格</strong></p>
+</td><td colspan="1" rowspan="1"><p><strong>購入先</strong></p>
+</td><td colspan="1" rowspan="1"><p><strong>備考</strong></p>
+</td></tr>
+<tr><td colspan="1" rowspan="1"><p>M5Stack Basic 3G 拡張ボード セット※1</p>
+</td><td colspan="1" rowspan="1"><p>1</p>
+</td><td colspan="1" rowspan="1"><p>12,800円</p>
+</td><td colspan="1" rowspan="1"><p><a href="https://soracom.jp/products/kit/3g_module_m5stack_set/" target="_blank">ソラコム</a></p>
+</td><td colspan="1" rowspan="1"><p>M5Stack と <a href="https://soracom.jp/products/kit/3g_module_m5stack/" target="_blank">M5Stack 用 3G 拡張ボード</a>をそれぞれ準備いただいてもレシピを進めることができます。</p>
+<p>M5Stack 用 3G 拡張ボードが対応している M5Stack は <a href="https://www.switch-science.com/catalog/3647/" target="_blank">Basic</a> と <a href="https://www.switch-science.com/catalog/3648/" target="_blank">Gray</a> の2モデルです。M5Stack FIRE は非対応ですのでご注意ください。</p>
+</td></tr>
+<tr><td colspan="1" rowspan="1"><p>SORACOM 特定地域向け IoT SIM (plan-D / データ通信のみ / nanoSIM サイズ)</p>
+</td><td colspan="1" rowspan="1"><p>1</p>
+</td><td colspan="1" rowspan="1"><p>852円</p>
+</td><td colspan="1" rowspan="1"><p><a href="https://soracom.jp/products/sim/plan-d/" target="_blank">ソラコム</a></p>
+<p><a href="https://www.amazon.co.jp/dp/B07WMQ49W3/" target="_blank">Amazon.co.jp</a></p>
+</td><td colspan="1" rowspan="1"><p>サイズは nano をお求めください。「マルチカット」には nano サイズが含まれています。</p>
+</td></tr>
+<tr><td colspan="1" rowspan="1"><p>SORACOM LTE-M Button powered by AWS</p>
+</td><td colspan="1" rowspan="1"><p>1</p>
+</td><td colspan="1" rowspan="1"><p>7,980円</p>
+</td><td colspan="1" rowspan="1"><p><a href="https://soracom.jp/products/gadgets/aws_button/" target="_blank">ソラコム</a></p>
+</td><td colspan="1" rowspan="1"><p>類似している SORACOM LTE-M Button for Enterprise や 同 Plus を用いる場合は AWS 側の設定が異なるため、ここで紹介しているレシピが適用できません。</p>
+</td></tr>
+<tr><td colspan="1" rowspan="1"><p>対辺1.5mm 六角レンチ(ドライバー)</p>
+</td><td colspan="1" rowspan="1"><p>1</p>
+</td><td colspan="1" rowspan="1"><p>約410円</p>
+</td><td colspan="1" rowspan="1"><p><a href="https://www.amazon.co.jp/dp/B00B4TCYIW/" target="_blank">Amazon.co.jp</a></p>
+</td><td colspan="1" rowspan="1"><p>M5Stack 用 3G 拡張ボードへ SIM を挿す際にボードの取り付け・取り外しに使用します。</p>
+</td></tr>
+<tr><td colspan="1" rowspan="1"><p>開発用パソコン</p>
+</td><td colspan="1" rowspan="1"><p>1</p>
+</td><td colspan="1" rowspan="1"><p>―</p>
+</td><td colspan="1" rowspan="1"><p>―</p>
+</td><td colspan="1" rowspan="1"><p>Arduino IDE と M5Stack 開発環境が整っていること (セットアップ方法は <a href="https://soracom.github.io/iot-recipes/setup-for-m5stack-with-arduino-ide/" target="_blank">【SORACOM ハンズオン】M5Stack 開発環境セットアップ (Windows / macOS 共通) (全体で約90分)</a> をご覧ください)</p>
+</td></tr>
+<tr><td colspan="1" rowspan="1"><p>(必要な方のみ)</p>
+<p>USB 変換アダプタ</p>
+</td><td colspan="1" rowspan="1"><p>1</p>
+</td><td colspan="1" rowspan="1"><p>―</p>
+</td><td colspan="1" rowspan="1"><p>―</p>
+</td><td colspan="1" rowspan="1"><p>パソコンに USB Type-A ポートがない場合に準備してください。</p>
+<p>1A 以上の電力が供給できるものを利用してください。(USB 3.0以上に対応していれば概ね安心です)</p>
+</td></tr>
+<tr><td colspan="1" rowspan="1"><p>(必要な方のみ)</p>
+<p>USB Type-C ↔ Type-C ケーブル</p>
+</td><td colspan="1" rowspan="1"><p>1</p>
+</td><td colspan="1" rowspan="1"><p>―</p>
+</td><td colspan="1" rowspan="1"><p>―</p>
+</td><td colspan="1" rowspan="1"><p>パソコンに USB Type-A ポートが用意できず、また、USB 変換アダプタも用意できない場合に準備してください。</p>
+</td></tr>
+</table>
+<p>※ 金額はレシピ作成時となります。ソラコムで販売している金額は税抜き・送料別です。それ以外のものは参考価格です。</p>
+<h3 is-upgraded>その他必要なもの</h3>
+<table>
+<tr><td colspan="1" rowspan="1"><p><strong>必要なもの</strong></p>
+</td><td colspan="1" rowspan="1"><p><strong>費用</strong></p>
+</td><td colspan="1" rowspan="1"><p><strong>作成方法など</strong></p>
+</td></tr>
+<tr><td colspan="1" rowspan="1"><p>SORACOM アカウント</p>
+</td><td colspan="1" rowspan="1"><p>無料※</p>
+</td><td colspan="1" rowspan="1"><p><a href="https://soracom.github.io/iot-recipes/create-account-soracom-jp/" target="_blank">SORACOM アカウントの作成 (JP)</a></p>
+</td></tr>
+<tr><td colspan="1" rowspan="1"><p>AWS アカウント</p>
+</td><td colspan="1" rowspan="1"><p>無料※</p>
+</td><td colspan="1" rowspan="1"><p><a href="https://soracom.github.io/iot-recipes/create-account-aws/" target="_blank">AWS アカウントの作成 (JP)</a></p>
+</td></tr>
+</table>
+<p>※ アカウント作成・維持の費用の料金です。</p>
+<h2 is-upgraded>レシピへのリンク</h2>
+<p>実際のレシピは以下をご覧ください。</p>
+<ul>
+<li><a href="https://qiita.com/keni_w/items/e5e49f05ff72f14cda8a" target="_blank">あのボタンを押したらM5Stackに今何してるを表示させる</a></li>
+</ul>
+<aside class="special"><p><strong>感想やフィードバックをぜひ！</strong></p>
+<p>はてなブログであればスター、Qiita であれば LGTM など、制作者へのフィードバックは、新しいコンテンツ作成の原動力となります。是非フィードバックや感想をお願いします。</p>
+<p>Twitter や Facebook であれば <code>#soracom</code> のハッシュタグを付けていただけると、スタッフが発見しやすくなりますので、合わせてお願いします。</p>
+</aside>
+
+
+      </google-codelab-step>
+    
+  </google-codelab>
+
+  <script src="https://soracom.github.io/iot-recipes/codelab-elements/native-shim.js"></script>
+  <script src="https://soracom.github.io/iot-recipes/codelab-elements/custom-elements.min.js"></script>
+  <script src="https://soracom.github.io/iot-recipes/codelab-elements/prettify.js"></script>
+  <script src="https://soracom.github.io/iot-recipes/codelab-elements/codelab-elements.js"></script>
+
+</body>
+</html>

@@ -1,0 +1,23 @@
+{
+  "environment": "web",
+  "format": "html",
+  "prefix": "https://soracom.github.io/iot-recipes",
+  "mainga": "UA-66865146-33",
+  "updated": "2020-05-31T09:55:03Z",
+  "id": "curation-onair-signage",
+  "duration": 0,
+  "title": "【ユーザー IoT DIY レシピ】M5Stack と SORACOM LTE-M Button powered by AWS で作る「オンエアー看板」",
+  "authors": "Twitter: @Keni_W",
+  "summary": "テレワークをしていると家族の方から「今、声かけても大丈夫なのかな？」と心配されることが多々あります。そこで、ネット環境が無くても AWS Lambda が実行可能な LTE-M 搭載ボタン型IoTデバイス「SORACOM LTE-M Button powered by AWS」と、液晶モニター付きプロトタイピング向けマイコンキット 「M5Stack」にモバイルデータ通信機能を加える \"3G 拡張モジュール\" を組み合わせて、今何してる？を表示する「オンエアー看板」を作ります。",
+  "source": "1G18nfr1Fn-1i2XApIlCBaQM4G3_gYCpiAuzGPBq0qXA",
+  "theme": "300-userrecipe",
+  "status": [
+    "published"
+  ],
+  "category": [
+    "300-UserRecipe"
+  ],
+  "tags": [],
+  "feedback": "https://qiita.com/keni_w/items/e5e49f05ff72f14cda8a",
+  "url": "curation-onair-signage"
+}
