@@ -3,13 +3,13 @@
   "format": "html",
   "prefix": "https://soracom.github.io/iot-recipes",
   "mainga": "UA-66865146-33",
-  "updated": "2020-04-21T15:14:58Z",
+  "updated": "2020-05-31T04:09:34Z",
   "id": "create-account-ifttt",
   "duration": 12,
   "title": "【SORACOM ハンズオン】IFTTT アカウントの作成",
   "authors": "SORACOM, INC.",
   "summary": "IFTTT(イフト) アカウントの作成を行います。",
-  "source": "1Bo7-8-FM8bv8KcMQ55jLD0l-P4tAgmd4NjgxdFhJcjQ",
+  "source": "1tsMjWDCo6So72CB_loz6ibgQ9_uNieEqvU01Z-plUSQ",
   "theme": "100-basic",
   "status": [
     "published"

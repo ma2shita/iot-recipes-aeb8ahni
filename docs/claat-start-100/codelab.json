@@ -3,13 +3,13 @@
   "format": "html",
   "prefix": "https://soracom.github.io/iot-recipes",
   "mainga": "UA-66865146-33",
-  "updated": "2020-05-19T02:02:34Z",
+  "updated": "2020-05-31T04:09:09Z",
   "id": "claat-start-100",
   "duration": 58,
   "title": "CLaaT コンテンツ作成ハンズオン",
   "authors": "SORACOM, INC.",
   "summary": "ハンズオンコンテンツ生成・ポータルフレームワーク \"CLaaT\" を利用した「ハンズオンコンテンツ製作のハンズオン」です。Google Docsで製作したドキュメントからHTMLや画像などのファイル一式を生成し、PC上で確認できるところまでを行います。",
-  "source": "1GHDSvRgDdxNAKKH8Fz5T3DgaQMIdirIs8S-MJQ8poTg",
+  "source": "1QEf8loQyKrSbEWwNtSVD4qWaxogdZwRnR5fDDsFsiqk",
   "theme": "100-basic",
   "status": [
     "published"

@@ -3,13 +3,13 @@
   "format": "html",
   "prefix": "https://soracom.github.io/iot-recipes",
   "mainga": "UA-66865146-33",
-  "updated": "2020-05-20T02:20:36Z",
+  "updated": "2020-05-31T04:13:32Z",
   "id": "tv-power-monitoring-by-wio-lte-light-sensor",
   "duration": 125,
   "title": "【IoT DIY レシピ】Wio LTE と光センサーで作る「テレビの付けっ放しを確認しよう」",
   "authors": "SORACOM, INC.",
   "summary": "光センサーを活用して「テレビの ON/OFF が確認できるデバイス」を作り、長時間のテレビのつけっぱなしを知る、そしてアラートをする仕組みを作ります。センサーを制御するマイコンには LTE モデム搭載済みプロトタイプ向けデバイス Wio LTE JP Version を使い、どのような場所からでもクラウド通信できるデバイスとして作り上げます。",
-  "source": "1uYNXJcnpms30fRndaUnRojOQiOckzlCcdJHi14b8ixk",
+  "source": "19GWLgjqMxBUCcPyMHL0tyEgjUJhAWf8JlUsMcycr3y8",
   "theme": "200-recipe",
   "status": [
     "published"

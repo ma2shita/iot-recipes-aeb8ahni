@@ -3,13 +3,13 @@
   "format": "html",
   "prefix": "https://soracom.github.io/iot-recipes",
   "mainga": "UA-66865146-33",
-  "updated": "2020-04-22T18:48:54Z",
+  "updated": "2020-05-31T04:13:20Z",
   "id": "site-viewer-by-raspberry-pi",
   "duration": 141,
   "title": "【IoT DIY レシピ】Raspberry Pi と USB カメラで作る「定点カメラデバイス」",
   "authors": "SORACOM, INC.",
   "summary": "お家のペットやご家族の見守りがしたい、防犯用にカメラを取り付けたいと思ったことはありませんか？本レシピでは、プロトタイピングから実際のビジネス現場でも幅広く活用される Raspberry Pi と USB カメラを使い、DIYで作る簡単な定点カメラデバイスを作成します。",
-  "source": "1OyZR9YNnsuRglODDpe-m9KVntFxd1pNqnB9PLZvh0QQ",
+  "source": "1g94tkDaKdgNcMGOn_OQg9VzW-tEvh90tgvdBP9DkddM",
   "theme": "200-recipe",
   "status": [
     "published"

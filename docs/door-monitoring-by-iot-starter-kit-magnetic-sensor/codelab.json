@@ -3,13 +3,13 @@
   "format": "html",
   "prefix": "https://soracom.github.io/iot-recipes",
   "mainga": "UA-66865146-33",
-  "updated": "2020-05-15T12:17:09Z",
+  "updated": "2020-05-31T04:09:58Z",
   "id": "door-monitoring-by-iot-starter-kit-magnetic-sensor",
   "duration": 119,
   "title": "【IoT DIY レシピ】IoT 体験キット ～磁気センサー～ で作る「ドアの開閉モニタリング」",
   "authors": "SORACOM, INC.",
   "summary": "SORACOM LTE-M Button Plus と磁石で動くスイッチセンサー(磁気式リードスイッチ)がセットになった「IoT 体験キット ～磁気センサー～」を利用したドアのモニタリングです。SORACOM のサービスを活用してドア開閉の記録から通知までを行います。",
-  "source": "1mdc7g4neusEXcC4zJcTuiYRFHM-D06OsTBBXbWDdS6g",
+  "source": "1D6zYfl3wuSKsVykZqCaOvmgMKh2-g0IPVsFP_82c_4o",
   "theme": "100-recipe",
   "status": [
     "published"

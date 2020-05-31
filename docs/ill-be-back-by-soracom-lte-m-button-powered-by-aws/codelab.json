@@ -3,13 +3,13 @@
   "format": "html",
   "prefix": "https://soracom.github.io/iot-recipes",
   "mainga": "UA-66865146-33",
-  "updated": "2020-04-21T20:14:26Z",
+  "updated": "2020-05-31T04:11:50Z",
   "id": "ill-be-back-by-soracom-lte-m-button-powered-by-aws",
   "duration": 106,
   "title": "【IoT DIY レシピ】SORACOM LTE-M Button powered by AWS と LINE で作る「今から帰りますボタン」",
   "authors": "SORACOM, INC.",
   "summary": "塾のお迎え連絡の為だけに子供にスマートフォンを持たせるのはちょっと、、、とお悩みの方へ。省電力のモバイル通信「LTE-M」を搭載した乾電池動作するボタンデバイス「SORACOM LTE-M Button powered by AWS」を使ってみませんか。ボタンを押した後の通知先は AWS Lambda で自由にプログラミングが可能なこのデバイスで LINE へ「今から帰ります」を通知してみます。",
-  "source": "1snTaLpqaSBFAKOyCnHgJ00-bo_kQGedoNfCJ0ZMMNGo",
+  "source": "1h3Y3jfQp407gZJdhtGIRta1S6OOYzPAxgH4hthi48G4",
   "theme": "100-recipe",
   "status": [
     "published"

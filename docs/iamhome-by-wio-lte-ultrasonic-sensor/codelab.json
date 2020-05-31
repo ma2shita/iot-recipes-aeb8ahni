@@ -3,13 +3,13 @@
   "format": "html",
   "prefix": "https://soracom.github.io/iot-recipes",
   "mainga": "UA-66865146-33",
-  "updated": "2020-05-15T11:40:03Z",
+  "updated": "2020-05-31T04:11:41Z",
   "id": "iamhome-by-wio-lte-ultrasonic-sensor",
   "duration": 94,
   "title": "【IoT DIY レシピ】Wio LTE と超音波センサーで作る「簡易ジェスチャーデバイス ～ ただいまを届けよう」",
   "authors": "SORACOM, INC.",
   "summary": "超音波距離センサーを活用して「手のひらをかざすと反応する簡易ジェスチャーデバイス」を作り、帰宅を知らせる仕組みを作ります。センサーを制御するマイコンには LTE モデム搭載済みプロトタイプ向けデバイス Wio LTE JP Version を使い、どのような場所からでもクラウド通信できるデバイスとして作り上げます。",
-  "source": "1ZLUnx4UKXdq5dDhTC11TvRiP4RQzcso-Lb4sUXVUG5A",
+  "source": "11ee2XPEB01RnRLaMVlykJB5QTLa9qMbd2Mg9reX118E",
   "theme": "200-recipe",
   "status": [
     "published"

@@ -3,13 +3,13 @@
   "format": "html",
   "prefix": "https://soracom.github.io/iot-recipes",
   "mainga": "UA-66865146-33",
-  "updated": "2020-04-03T11:50:27Z",
+  "updated": "2020-05-31T04:08:55Z",
   "id": "chrome-remotedesktop-100",
   "duration": 38,
   "title": "chrome リモートデスクトップで操作支援を受ける",
   "authors": "SORACOM, INC.",
   "summary": "Google Chrome を利用した「chrome リモートデスクトップ」で、質問時の操作支援を受ける方法を解説します。このハンズオンは「操作支援を受けたい人」向けとなります。 Web 会議システムを経由した場合における「デスクトップが全ての参加者に見られてしまう」という問題を解決します。",
-  "source": "1BLGPudU0piT7zlasXVCEgmv48n-YewfgStVz_jmhGD0",
+  "source": "1L0fG6fUnerOLeu_yYYF0ZCkl7Y19hxZyodqnFZZC_jg",
   "theme": "100-basic",
   "status": [
     "published"

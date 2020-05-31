@@ -3,13 +3,13 @@
   "format": "html",
   "prefix": "https://soracom.github.io/iot-recipes",
   "mainga": "UA-66865146-33",
-  "updated": "2020-04-10T01:39:43Z",
+  "updated": "2020-05-31T04:12:13Z",
   "id": "register-byod-sim-jp",
   "duration": 5,
   "title": "【SORACOM ハンズオン】通販サイトやイベント等で入手した SIM を登録する (JP)",
   "authors": "SORACOM, INC.",
   "summary": "通販サイトでの購入やイベント等で入手した SORACOM IoT SIM を SORACOM へ登録する方法を学びます。",
-  "source": "1tnsn9E2HO1RI397ck2otl0I-LQGhtlMqrHj-Zu7zB54",
+  "source": "1wzRM1y8G73DS8vv_ECvF85sUAkJPh-1MZua6e_USP3o",
   "theme": "100-basic",
   "status": [
     "published"

@@ -3,13 +3,13 @@
   "format": "html",
   "prefix": "https://soracom.github.io/iot-recipes",
   "mainga": "UA-66865146-33",
-  "updated": "2020-04-10T01:39:31Z",
+  "updated": "2020-05-31T04:12:27Z",
   "id": "register-ordering-sim-jp",
   "duration": 5,
   "title": "【SORACOM ハンズオン】発注済みの SIM を登録する (JP)",
   "authors": "SORACOM, INC.",
   "summary": "SORACOM ユーザーコンソールから発注して入手した SORACOM IoT SIM を SORACOM へ登録する方法を学びます。",
-  "source": "1ytB9ZMEl3WwP_o9rqTggWtFzLVlgOz7CJ9QEfzTH9Uw",
+  "source": "1LMSC8TsO-Nu7BtXOEPA33jbqdg7x16I8DgqHjcBLuok",
   "theme": "100-basic",
   "status": [
     "published"

@@ -3,13 +3,13 @@
   "format": "html",
   "prefix": "https://soracom.github.io/iot-recipes",
   "mainga": "UA-66865146-33",
-  "updated": "2020-04-20T15:25:47Z",
+  "updated": "2020-05-31T04:09:51Z",
   "id": "disable-soracom-lagoon",
   "duration": 5,
   "title": "【SORACOM ハンズオン】SORACOM Lagoonの解約 (JP)",
   "authors": "SORACOM, INC.",
   "summary": "SORACOM Lagoon の解約方法です。",
-  "source": "1ulwzvi5ZTnFUQpmeWunHgV2wnio62N8xy2zyQSRXzKA",
+  "source": "1OF8bBdSeNxuGPSX7jmFHl1XYGOvCAg1O0geY6a3xMqY",
   "theme": "100-basic",
   "status": [
     "published"
