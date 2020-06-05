@@ -3,8 +3,8 @@
   "format": "html",
   "prefix": "https://soracom.github.io/iot-recipes",
   "mainga": "UA-66865146-33",
-  "updated": "2020-05-31T10:06:25Z",
-  "id": "curation-onair-signage",
+  "updated": "2020-06-05T10:21:19Z",
+  "id": "onair-signage-by-m5stack-and-lte-m-button",
   "duration": 0,
   "title": "【ユーザー IoT DIY レシピ】M5Stack と SORACOM LTE-M Button powered by AWS で作る「オンエアー看板」",
   "authors": "Twitter: @Keni_W",
@@ -19,5 +19,5 @@
   ],
   "tags": [],
   "feedback": "https://qiita.com/keni_w/items/e5e49f05ff72f14cda8a",
-  "url": "curation-onair-signage"
+  "url": "onair-signage-by-m5stack-and-lte-m-button"
 }
