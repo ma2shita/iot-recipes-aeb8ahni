@@ -635,33 +635,33 @@ exports.handler = function(e, ctx, cb) {
 <p>SORACOM サービスでは一部サービスにおいて無料枠が設定されています。たとえば SORACOM Air for セルラーであればアカウント毎で30円/月の通信分や、SORACOM Harvest Data であれば31日分の書込みリクエストなどです。料金詳細に「無料利用枠」として掲載されていますので、ご確認ください。</p>
 </aside>
 <h3 is-upgraded>今回の目安</h3>
-<p>加速度センサーの値のみで1分毎に送信すると、1時間当たりのデータ通信量は上り 約11.5 KiB、下り 約13.0 KiB となります。</p>
+<p>加速度センサーの値のみで1分毎に送信し、Unified Endpoint 経由で SORACOM Harvest Data と SORACOM Funk 両方に送信した場合、1時間当たりのデータ通信量は上り 約11.5 KiB、下り 約13.0 KiB となります。(SORACOM Funk のみにした場合、上りは11.5KiBとほとんど変わりませんが、下りは4.0KiB と削減できます。)</p>
 <p>今回はデバイスの送信設定を「一日あたり 8:00 ～ 18:00 の10時間」と「月～金の週5日」としています。</p>
-<p>これらを基に1ヵ月あたりのデータ通信に係る費用は、以下のようになります。</p>
+<p>これらを基に1日あたりのデータ通信に係る費用は、以下のようになります。</p>
 <table>
 <tr><td colspan="1" rowspan="1"><p>データ通信量</p>
 <p>(plan-D データ通信のみ / s1.minimum)</p>
-</td><td colspan="1" rowspan="1"><p>2 円 ※</p>
+</td><td colspan="1" rowspan="1"><p>3 円 ※</p>
 </td></tr>
 <tr><td colspan="1" rowspan="1"><p>基本料</p>
 <p>(plan-D データ通信のみ)</p>
-</td><td colspan="1" rowspan="1"><p>300 円 (10 円 × 30日) ※</p>
+</td><td colspan="1" rowspan="1"><p>10 円/日 ※</p>
 </td></tr>
 <tr><td colspan="1" rowspan="1"><p><strong>計</strong></p>
-</td><td colspan="1" rowspan="1"><p>302 円/月</p>
+</td><td colspan="1" rowspan="1"><p>13 円/日</p>
 </td></tr>
 </table>
 <ul>
-<li>※ 1日あたりのデータ通信量は上りが 115 KiB、下りが 130 KiB としています。</li>
+<li>※ 1日(10時間)あたりのデータ通信量は上りが 115 KiB、下りが 130 KiB としています。</li>
 <li>※ 土日はデータ送信は行いませんが、基本料金は発生します。</li>
 </ul>
-<p>これに加えて、SORACOM Harvest Data や SORACOM Funk 、そして AWS 費用が発生することになります。</p>
+<p>これに加えて、<a href="https://soracom.jp/services/harvest/price/" target="_blank">SORACOM Harvest Data</a> や <a href="https://soracom.jp/services/funk/price/" target="_blank">SORACOM Funk</a> 、そして <a href="https://aws.amazon.com/jp/lambda/pricing/" target="_blank">AWS 費用</a>が発生することになります。SORACOMやAWSの各種サービスはオンラインでお見積りが可能となっています。<a href="https://calculator.soracom.io/#/ja" target="_blank">SORACOM 料金見積もりツール</a> / <a href="https://calculator.aws/#/" target="_blank">AWS Pricing Calculator</a></p>
 <aside class="special"><p><strong>GPS マルチユニット SORACOM Edition に適している通信速度は？</strong></p>
 <p>SORACOM は通信速度に応じて費用が設定されており、最も低速な s1.minimum は最も安価となっています。一方、GPS マルチユニット SORACOM Edition から送信されるデータは小さく、また、送信間隔も最小で1分と長いため通信速度は必要としません。</p>
 <p>GPS マルチユニット SORACOM Edition を安価に運用する方法として、通信速度を s1.minimum にすることをお勧めいたします。</p>
 </aside>
 <aside class="special"><p><strong>SORACOM Harvest Data と SORACOM Funk は同時に使う必要があるの？</strong></p>
-<p>SORACOM のサービスは、必要な機能を選んでお使いいただけます。データ収集・蓄積は SORACOM Harvest Data で、メールの通知は SORACOM Funk で実現されています。通知のみで十分であれば、 SORACOM Harvest Data は OFF にすることができ、費用(5円/日/SIM)も抑えることができるため、より一層安価に運用することが可能です。もちろん、必要になったタイミングで ON にできます。</p>
+<p>SORACOM のサービスは、必要な機能を選んでお使いいただけます。データ収集・蓄積は SORACOM Harvest Data で、Slack ステータスの変更は SORACOM Funk で実現されています。ステータス変更を実行するだけでばあれば SORACOM Harvest Data は OFF にすることで費用(5円/日/SIM)も抑えることができるため、より一層安価に運用することが可能です。もちろん、必要になったタイミングで ON にできます。</p>
 </aside>
 <h2 is-upgraded>グループ解除</h2>
 <p>SORACOM Harvest Data 等、「機能が有効になっているグループに所属している SIM × 費用」となっているサービスにおいては、「機能を OFF にする」することで費用の発生を抑えることができます。またもう1つの方法として「グループに所属している SIM の数を減らす(= 解除する)」事でも費用を抑える事ができます。</p>
@@ -677,8 +677,12 @@ exports.handler = function(e, ctx, cb) {
       </google-codelab-step>
     
       <google-codelab-step label="次のステップ" duration="1">
-        <p>本レシピでは、デバイスの置き方に「自分の状態」という意味を持たせました。このように加速度などそれ自体では意味がない数値を使い方次第で役立つデータに変換できるのが IoT の面白いところです。またSORACOM Funk を活用すれば各種クラウドの FaaS と連携できるため「デバイスから送信されたデータをもとにプログラムの実行」が簡単に実現できます。</p>
+        <p>本レシピでは、GPS マルチユニット SORACOM Edition が持つ「加速度センサー」で置かれ方をセンシングし、その情報を「自分の状態」として意味を持たせました。このように、センサーは意味付けによって幅広い活用の仕方ができる例として紹介いたしました。SORACOM Funk の利用で各種クラウドの FaaS と連携による自分だけのアプリケーション構築も、サーバの構築などせずとも実現できる事が体感いただければ幸いです。</p>
 <p><a href="https://soracom.jp/products/kit/gps_multiunit/" target="_blank">商品ページへ戻る</a></p>
+<h2 is-upgraded>ここからの発展アイデア</h2>
+<ul>
+<li>状態の履歴を Google Spreadsheet へ記録 (参考: <a href="https://dev.classmethod.jp/articles/iot-button-to-spreadsheet/" target="_blank">AWS IoT Enterprise ButtonのデータをGoogle Spreadsheetに記録する</a>)</li>
+</ul>
 
 
       </google-codelab-step>
