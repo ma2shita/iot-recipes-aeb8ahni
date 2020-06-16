@@ -1,0 +1,694 @@
+
+<!doctype html>
+
+<html>
+<head>
+  <meta name="viewport" content="width=device-width, minimum-scale=1.0, initial-scale=1.0, user-scalable=yes">
+  <meta name="theme-color" content="#4F7DC9">
+  <meta charset="UTF-8">
+  <title>【IoT DIY レシピ】GPS マルチユニット SORACOM Edition で作る「在席状況の自動更新デバイス」</title>
+  <link rel="stylesheet" href="//fonts.googleapis.com/css?family=Source+Code+Pro:400|Roboto:400,300,400italic,500,700|Roboto+Mono">
+  <link rel="stylesheet" href="//fonts.googleapis.com/icon?family=Material+Icons">
+  <link rel="stylesheet" href="https://soracom.github.io/iot-recipes/codelab-elements/codelab-elements.css">
+  <style>
+    .success {
+      color: #1e8e3e;
+    }
+    .error {
+      color: red;
+    }
+  </style>
+</head>
+<body>
+  <google-codelab-analytics gaid="UA-66865146-33"></google-codelab-analytics>
+  <google-codelab codelab-gaid=""
+                  id="status-changer-by-gps-multiunit"
+                  title="【IoT DIY レシピ】GPS マルチユニット SORACOM Edition で作る「在席状況の自動更新デバイス」"
+                  environment="web"
+                  feedback-link="https://soracom.jp/products/kit/gps_multiunit/">
+    
+      <google-codelab-step label="GPS マルチユニット SORACOM Edition で作る「在席状況の自動更新デバイス」" duration="1">
+        <p>レシピ難易度：★★★☆☆</p>
+<p>4種のセンサーとバッテリーを内蔵した LTE-M 通信 IoT デバイス「GPS マルチユニット SORACOM Edition」の加速度センサーを活用して、「在席状況の自動更新デバイス」を作成します。デバイスの置き方で Slack 上のステータスを更新するレシピです。</p>
+<p class="image-container"><img style="width: 602.00px" src="img/4b28be069f346ab3.png"></p>
+<h2 is-upgraded>本レシピを行うのに必要な時間、概算費用</h2>
+<p>本レシピは以下の通りです。</p>
+<ul>
+<li>必要な時間: 約2時間</li>
+<li>概算費用: 約11,100円</li>
+</ul>
+<p>※ 概算費用: ハードウェアや SORACOM を始めとした各種サービスの概ねの費用 (税や送料などの付帯費用や無料枠適用は考慮しないものとしています)</p>
+<h2 is-upgraded>このコンテンツの進め方</h2>
+<p>ページの内容を読み、また作業を行ったら右下の［Next］を押して次のステップへ進みます。また、［Back］を使って戻ったり、左のナビゲーションメニューでもページの移動が可能です。</p>
+<p>左上の［×］を押してコンテンツを終了することができます。また、ページを開きなおすことで再開できます。ページのアドレスはブラウザの［履歴］メニューを利用してください。</p>
+
+<aside class="warning"><p>本コンテンツは現状のままで提供され、株式会社ソラコムは、誤りがないことの保証を含め、明示であると黙示であるとを問わず、本コンテンツの記載内容につき、いかなる種類の表明も保証も行いません。</p>
+<p>掲載情報の閲覧及び利用により、利用者自身、もしくは第三者が被った損害に対して、直接的、間接的を問わず、株式会社ソラコムは責任を負いかねます。</p>
+<p>本コンテンツを実践する中で用意された機器、利用されたサービスについてのご質問は、それぞれの機器やサービスの提供元にお問い合わせをお願いします。機器やサービスの仕様は、本コンテンツ作成当時のものです。</p>
+<p>株式会社ソラコムが提供する機器・サービスについてのご質問は、 <a href="https://soracom.jp/contact/" target="_blank">https://soracom.jp/contact/</a> をご確認の上、適切な窓口へのお問い合わせをお願いします。機器・サービスご利用前の導入相談は <a href="https://soracom.jp/contact/contactsales/" target="_blank">https://soracom.jp/contact/contactsales/</a> に、機器・サービスご利用開始後のサポートは、SORACOMユーザーコンソール内の<a href="https://soracom.zendesk.com/hc/ja/requests/" target="_blank">サポートサイトから「リクエストを送信」</a>(要ログイン)にてお問い合わせください。</p>
+<p>本ドキュメントは <a href="https://github.com/googlecodelabs/tools" target="_blank">CLaaT</a> を用いて制作しています</p>
+<p>Copyright (c) 2020 SORACOM, INC.</p>
+</aside>
+
+
+
+      </google-codelab-step>
+    
+      <google-codelab-step label="準備" duration="1">
+        <p>本レシピを行うためには以下のものをご用意ください。</p>
+<h2 is-upgraded>ハードウェア</h2>
+<table>
+<tr><td colspan="1" rowspan="1"><p><strong>品名</strong></p>
+</td><td colspan="1" rowspan="1"><p><strong>数量</strong></p>
+</td><td colspan="1" rowspan="1"><p><strong>価格</strong></p>
+</td><td colspan="1" rowspan="1"><p><strong>購入先</strong></p>
+</td><td colspan="1" rowspan="1"><p><strong>備考</strong></p>
+</td></tr>
+<tr><td colspan="1" rowspan="1"><p>GPSマルチユニットSORACOM Edition（バッテリー内蔵タイプ）スターターキット</p>
+</td><td colspan="1" rowspan="1"><p>1</p>
+</td><td colspan="1" rowspan="1"><p>11,000円</p>
+</td><td colspan="1" rowspan="1"><p><a href="https://soracom.jp/products/kit/gps_multiunit/" target="_blank">ソラコム</a></p>
+</td><td colspan="1" rowspan="1"><p>キットの中には以下のものが含まれています。</p>
+<ul>
+<li>GPS マルチユニット SORACOM Edition 本体 x 1</li>
+<li>SORACOM 特定地域向け IoT SIM (plan-D ナノサイズ) x 1</li>
+<li>microUSB ケーブル x 1</li>
+</ul>
+</td></tr>
+<tr><td colspan="1" rowspan="1"><p>パソコン</p>
+</td><td colspan="1" rowspan="1"><p>1</p>
+</td><td colspan="1" rowspan="1"><p>―</p>
+</td><td colspan="1" rowspan="1"><p>―</p>
+</td><td colspan="1" rowspan="1"><ul>
+<li>インターネット接続が可能でサイトへの接続が自由であること。</li>
+<li>Google Chrome 等の最新ブラウザーが利用可能な事。</li>
+</ul>
+</td></tr>
+<tr><td colspan="1" rowspan="1"><p>(必要な方のみ)</p>
+<p>USB 型 AC アダプタ</p>
+</td><td colspan="1" rowspan="1"><p>―</p>
+</td><td colspan="1" rowspan="1"><p>―</p>
+</td><td colspan="1" rowspan="1"><p>―</p>
+</td><td colspan="1" rowspan="1"><p>GPS マルチユニット SORACOM Edition の充電に利用します。パソコンからの給電でも代用可能です。</p>
+</td></tr>
+<tr><td colspan="1" rowspan="1"><p>(必要な方のみ)</p>
+<p>ネームシール</p>
+</td><td colspan="1" rowspan="1"><p>―</p>
+</td><td colspan="1" rowspan="1"><p>100円</p>
+</td><td colspan="1" rowspan="1"><p>―</p>
+</td><td colspan="1" rowspan="1"><p>100円ショップ等で入手可能です。デバイスの向きとステータスとの紐づけの備忘にお使いください。</p>
+</td></tr>
+</table>
+<p>※ 金額はレシピ作成時となります。ソラコムで販売している金額は税抜き・送料別です。</p>
+<h2 is-upgraded>その他必要なもの</h2>
+<table>
+<tr><td colspan="1" rowspan="1"><p><strong>必要なもの</strong></p>
+</td><td colspan="1" rowspan="1"><p><strong>費用</strong></p>
+</td><td colspan="1" rowspan="1"><p><strong>作成方法など</strong></p>
+</td></tr>
+<tr><td colspan="1" rowspan="1"><p>SORACOM アカウント</p>
+</td><td colspan="1" rowspan="1"><p>無料※</p>
+</td><td colspan="1" rowspan="1"><p><a href="https://soracom.github.io/iot-recipes/create-account-soracom-jp/" target="_blank">SORACOM アカウントの作成 (JP)</a></p>
+</td></tr>
+<tr><td colspan="1" rowspan="1"><p>AWS アカウント</p>
+</td><td colspan="1" rowspan="1"><p>無料※</p>
+</td><td colspan="1" rowspan="1"><p><a href="https://soracom.github.io/iot-recipes/create-account-aws/" target="_blank">AWS アカウントの作成 (JP)</a></p>
+</td></tr>
+<tr><td colspan="1" rowspan="1"><p>Slack アカウント</p>
+</td><td colspan="1" rowspan="1"><p>無料※</p>
+</td><td colspan="1" rowspan="1"><p><a href="https://slack.com/intl/ja-jp/" target="_blank">https://slack.com/intl/ja-jp/</a> より作成可能です</p>
+</td></tr>
+</table>
+<p>※ アカウント作成・維持の費用の料金です。</p>
+<aside class="special"><p><strong>Slack および AWS の手順について</strong></p>
+<p>当レシピでは Slack アプリを作成し、AWS Lambda、AWS IAM の設定をします。これらの利用経験があるとスムーズです。なおわかりやすさのため当社で検証した内容をスクリーンショット付きで掲載しておりますが、公式な手順は各社のドキュメントをご確認ください。</p>
+</aside>
+<h3 is-upgraded>すでに AWS アカウントを持っている場合の確認事項</h3>
+<ul>
+<li>ルートアカウントを利用する場合：特に確認すべき事項はありません。先に進んでください。</li>
+<li>IAM アカウントを利用する場合：<strong>AWS Lambda の関数作成および実行権限の有無</strong>を確認してください。また、必要権限の解説およびサポートは致しかねますが、AdministratorAccess ポリシーが割り当てられていれば当レシピは完遂可能です (同ポリシーを割り当てたことによる影響については IAM アカウント管理者にご相談ください)</li>
+</ul>
+<h3 is-upgraded>すでに Slack アカウントを持っている場合の確認事項</h3>
+<ul>
+<li>職場の Slack ワークスペースなどを利用する場合、アプリのインストールが制限されている可能性があります。インストールできない場合は、個人用のワークスペースを作成してお試しいただくか、管理者の方に相談してください。</li>
+</ul>
+<h2 is-upgraded>システムの構成</h2>
+<p>今回作成するシステムは以下のような構成となっています。</p>
+<p class="image-container"><img style="width: 602.00px" src="img/eed310da42f97f24.png"></p>
+
+
+      </google-codelab-step>
+    
+      <google-codelab-step label="GPS マルチユニットが届いたら" duration="5">
+        <p>GPS マルチユニットは SIM を挿入することでセルラー通信 (LTE-M) を通じて、クラウドと連携できるようになります。そのため、まず GPS マルチユニットに同梱されている SIM を SORACOM へ登録をしましょう。<br>※ すでに登録済み、もしくは登録済みの別の SIM を利用する場合は次へお進みください。</p>
+<p>登録の方法は<a href="https://soracom.github.io/iot-recipes/register-ordering-sim-jp/" target="_blank">発注済みの SIM を登録する(JP)</a>をご覧ください。約5分で完了します。</p>
+<p>登録が完了すると SIM 管理の一覧に表示されますので、確認ください。</p>
+<p class="image-container"><img style="width: 602.00px" src="img/2da56bb5e1a17c28.png"></p>
+<aside class="special"><p><strong>SORACOM の便利な使い方: SIM の「名前」機能</strong></p>
+<p>SIM には「名前」を付けることができ、これで整理が可能です。特に複数の SIM (ボタン含む) をお持ちの際には、名前を付けることを強くお勧めいたします。</p>
+<p>名前の付け方は <a href="https://dev.soracom.io/jp/start/console/#name_tag" target="_blank">SIM への名前の付け方</a>をご覧ください。</p>
+</aside>
+
+
+      </google-codelab-step>
+    
+      <google-codelab-step label="SIM を GPS マルチユニットに取り付ける" duration="5">
+        <p>SORACOM 特定地域向け IoT SIM (以下 SIM) をカードから切り離し、GPS マルチユニットの側面に挿入します。</p>
+<h2 is-upgraded>GPS マルチユニットの側面を開け、SIM トレイ (赤色) を取り出す。</h2>
+<p>爪で引っ掛けるようにして取り出します。</p>
+<p class="image-container"><img style="width: 602.00px" src="img/961f6484b7c60f7b.png"></p>
+<h2 is-upgraded>SIM を SIM トレイに乗せる。</h2>
+<p>SIM トレイに収まるように SIM を乗せます。SIM の方向に気をつけてください。また、<strong>SIM トレイは無くさないようにしてください。</strong></p>
+<p class="image-container"><img style="width: 529.00px" src="img/de54657d5ea8fad2.png"></p>
+<h2 is-upgraded>SIM トレイごと GPS マルチユニットに挿入する。</h2>
+<p>元々入ってた向きで SIM トレイごと SIM を GPS マルチユニットに挿入します。このとき、SIM トレイから SIM が飛び出ないように気をつけてください。</p>
+<p class="image-container"><img style="width: 468.00px" src="img/7d4693ac501d2a58.png"></p>
+<p>最後に側面を閉じて終了です。</p>
+<p class="image-container"><img style="width: 602.00px" src="img/5202d33a26a08ae5.png"></p>
+<p>GPS マルチユニットに挿入した SIM の IMSI (クレジットカードサイズのカードの裏面に記載されている15桁の番号) を使用しますので、すぐ取り出せるようにしておいてください。</p>
+<h3 is-upgraded>ここでの作業は動画 (約1分) でもご覧いただけます。</h3>
+<iframe class="youtube-video" src="https://www.youtube.com/embed/OmOoXtNY4jQ?rel=0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+
+
+      </google-codelab-step>
+    
+      <google-codelab-step label="GPS マルチユニットの設定を行う" duration="10">
+        <p>GPS マルチユニットの設定は SORACOM ユーザコンソール上で行います。</p>
+<h2 is-upgraded><a href="https://console.soracom.io/" target="_blank">SORACOM ユーザーコンソール</a>にログインした後［Menu］&gt;［ガジェット管理］&gt;［GPS マルチユニット］とクリックします。</h2>
+<p class="image-container"><img style="width: 547.00px" src="img/f3e006ed7b5caac7.png"></p>
+<p>GPS マルチユニット管理画面が表示されます。ここには、GPS マルチユニットとして利用している SIM 一覧が表示されます。初めて利用する場合は「データが見つかりません」と表示されますが、正常です。</p>
+<h2 is-upgraded>［新規デバイス設定］をクリックします。</h2>
+<p class="image-container"><img style="width: 602.00px" src="img/5d15a7d482bda46.png"></p>
+<h2 is-upgraded>GPS マルチユニットに挿入した SIM にチェックをつけてから［次へ：グループを選択］をクリックします。</h2>
+<p>複数 SIM を持っている場合は IMSI で見つけ出すようにしてください。<br>※図では「名前」を登録してあるため、見つけやすくなっています。</p>
+<p class="image-container"><img style="width: 602.00px" src="img/de64f1e37490ff0d.png"></p>
+<h2 is-upgraded>&#34;新規グループを作成&#34; をクリックし、グループ名入力してから［次へ：設定を編集］をクリックします。</h2>
+<p>グループ名は任意です。日本語も利用可能です。ここでは「<strong>GPSマルチユニット</strong>」としています。</p>
+<p class="image-container"><img style="width: 465.00px" src="img/daad986a2fc914ed.png"></p>
+<h2 is-upgraded>GPS マルチユニットの設定を行います。</h2>
+<h3 is-upgraded>送信内容</h3>
+<p>「加速度」にチェックがついているようにします。(その他のチェックは外します)</p>
+<p class="image-container"><img style="width: 255.00px" src="img/4990a6a4c8823b8f.png"></p>
+<h3 is-upgraded>送信先</h3>
+<p>「SORACOM Harvest (Lagoon)」 にチェックをつけます。</p>
+<p class="image-container"><img style="width: 329.00px" src="img/e7825c9869049a82.png"></p>
+<h3 is-upgraded>送信モード</h3>
+<p>「定期送信 ― 手動モード」にチェックをつけます。</p>
+<p class="image-container"><img style="width: 602.00px" src="img/41d67e056ed1606c.png"></p>
+<h3 is-upgraded>定期送信 ― 手動モード 詳細設定</h3>
+<p>以下の通り設定します。</p>
+<table>
+<tr><td colspan="1" rowspan="1"><p><strong>項目</strong></p>
+</td><td colspan="1" rowspan="1"><p><strong>設定値</strong></p>
+</td><td colspan="1" rowspan="1"><p><strong>コメント</strong></p>
+</td></tr>
+<tr><td colspan="1" rowspan="1"><p>送信間隔</p>
+</td><td colspan="1" rowspan="1"><p><code>1</code></p>
+</td><td colspan="1" rowspan="1"><p>初期値は <code>10</code> となっているので、変更します。</p>
+</td></tr>
+<tr><td colspan="1" rowspan="1"><p>期間</p>
+</td><td colspan="1" rowspan="1"><p>（何も変更しません）</p>
+</td><td colspan="1" rowspan="1"><p>―</p>
+</td></tr>
+<tr><td colspan="1" rowspan="1"><p>曜日</p>
+</td><td colspan="1" rowspan="1"><p>月 / 火 / 水 / 木 / 金</p>
+</td><td colspan="1" rowspan="1"><p>「常に送信する」のチェックを外すと変更できるようになります。</p>
+<p>日、土 をクリックして OFF (白色) にします。</p>
+</td></tr>
+<tr><td colspan="1" rowspan="1"><p>時刻</p>
+</td><td colspan="1" rowspan="1"><p>8:00 から 18:00 まで</p>
+</td><td colspan="1" rowspan="1"><p>「常に送信する」のチェックを外すと変更できるようになります。</p>
+<p>初期値は 0:00 から 23:59 となっているので、変更します。</p>
+</td></tr>
+</table>
+<p class="image-container"><img style="width: 594.50px" src="img/99971c8246a34e66.png"></p>
+<p>ここまで入力が完了したら、最後に［保存］をクリックします。</p>
+<p>すると以下のダイアログが表示されるので［デバイス一覧に戻る］をクリックします。</p>
+<p class="image-container"><img style="width: 602.00px" src="img/6e059a562464b11b.png"></p>
+<p>GPS マルチユニット管理画面に戻りますが、先ほど設定した SIM が一覧に表示されていることが確認できます。</p>
+<p class="image-container"><img style="width: 602.00px" src="img/25dfcf98d4b91319.png"></p>
+<h3 is-upgraded>設定を GPS マルチユニット本体に反映させる。</h3>
+<p>GPS マルチユニットのファンクションボタン（本体表面の四角のボタン）を1秒ほど押します。すると LED が緑色に点灯します。</p>
+<p class="image-container"><img style="width: 602.00px" src="img/29a821786b385382.gif"></p>
+<p>GPS マルチユニット本体から SORACOM に保存されている設定情報を取得して設定が反映されます。また、設定が反映された GPS マルチユニットは新たな設定で動き続けるようになります。</p>
+<p>以上で GPS マルチユニットの設定は終了となります。</p>
+
+
+      </google-codelab-step>
+    
+      <google-codelab-step label="SORACOM Harvest Data で設定の確認を行う" duration="5">
+        <p>SORACOM Harvest Data を利用して、設定が正しく反映されているか確認します。</p>
+<h2 is-upgraded>GPS マルチユニット管理画面で、先ほど設定した SIM にチェックを付けて［データを確認］をクリックします。</h2>
+<p class="image-container"><img style="width: 602.00px" src="img/b9a7092f3482e4dc.png"></p>
+<aside class="special"><p>SIM 管理画面からチェックをつけて［操作］&gt;［データを確認］でも同様のことができます。</p>
+</aside>
+<p>以下のようにグラフが確認できます。SORACOM Harvest Data の操作として、画面左側のグラフ種類を選んだり、画面中央の「自動更新」で自動的に新たなデータを表示できたり、画面右側の表示する値を選択できたりします。</p>
+<p class="image-container"><img style="width: 602.00px" src="img/fd905d8c8fb10f4b.png"></p>
+<p>「bat(電池残量)」「rs電波強度)」「x (短辺方向の加速度)」「y (長辺方向の加速度)」「z (高さ方向の加速度)」「type(送信モード)」の 6つの値が1分間隔で送信されていれば、設定成功です。デバイスをひっくり返してみて、z の値が変わることを確認してみてください。</p>
+<aside class="special"><p><strong>静止しているのに加速度加速度 x, y, z の値がある理由</strong></p>
+<p>SORACOM カラーのシールを上向きにマルチユニットを置くと、z が約 -1000 となります。これは重力加速度によって下方向に -1000mG (ミリ G。G は加速度の単位) の加速度が生じているためです。今回のレシピではこれを利用し、デバイスの置き方によって x, y, z の値を変化させ、それに応じて Slack のステータスを変更します。</p>
+</aside>
+<aside class="special"><p><strong>rs, bat, type について</strong></p>
+<p>これらの値は必ず送信されてくるようになっています。値の意味については<a href="https://dev.soracom.io/jp/gps_multiunit/how-it-works/" target="_blank">GPS マルチユニット SORACOM Edition 機能の説明</a>をご覧ください。</p>
+</aside>
+
+
+      </google-codelab-step>
+    
+      <google-codelab-step label="Slack アプリを作成し、アクセストークンを発行する" duration="20">
+        <h2 is-upgraded>アプリの作成</h2>
+<p>Slack の「App」メニューを開き、右上の<img style="width: 40.00px" src="img/c41e119870c3c3f8.png">をクリックします。すると、ブラウザーが立ち上がります。</p>
+<p class="image-container"><img style="width: 602.00px" src="img/60309a50cb75e80a.png"></p>
+<p>右上の [ビルド] をクリックします。</p>
+<p class="image-container"><img style="width: 602.00px" src="img/5a2e0502922a846a.png"></p>
+<aside class="warning"><p><strong>「ワークスペース」に注意！</strong></p>
+<p>複数の Slack チームに所属している場合は［ビルド］をクリックする前に、その右にあるワークスペース名を確認するようにしてください。</p>
+</aside>
+<p>[Start Building] をクリックします。<img style="width: 602.00px" src="img/b3e08f3f2a77f993.png"></p>
+<p>アプリケーション作成画面にて <code>App Name</code> と <code>Development Slack Workspace</code> を設定し [Create App] を選択します。</p>
+<table>
+<tr><td colspan="1" rowspan="1"><p><strong>項目</strong></p>
+</td><td colspan="1" rowspan="1"><p><strong>例</strong></p>
+</td><td colspan="1" rowspan="1"><p><strong>備考</strong></p>
+</td></tr>
+<tr><td colspan="1" rowspan="1"><p>App Name</p>
+</td><td colspan="1" rowspan="1"><p><code>status changer</code></p>
+</td><td colspan="1" rowspan="1"><p>自由に入力可能です。</p>
+</td></tr>
+<tr><td colspan="1" rowspan="1"><p>Development Slack Workspace</p>
+</td><td colspan="1" rowspan="1"><p><code>アプリをインストールしたいワークスペース</code></p>
+</td><td colspan="1" rowspan="1"><p>利用しているワークスペースを選択してください。</p>
+</td></tr>
+</table>
+<p class="image-container"><img style="width: 551.00px" src="img/71e85e38b281675e.png"></p>
+<h2 is-upgraded>ステータスを更新する権限を付与する</h2>
+<p>OAuth &amp; Permissions タブへ移動します。</p>
+<p class="image-container"><img style="width: 602.00px" src="img/be9d0a66e121f50c.png"></p>
+<p>Scopes &gt; User Token Scopes &gt; [Add an OAuth Scope] をクリックしてドロップダウンメニューから <code>users.profile:write</code> 権限を選択します。なおこの権限はステータスだけでなく<a href="https://api.slack.com/methods/users.profile.set" target="_blank">自身の氏名や電話番号といった情報も変更できてしまう</a>ので、次にコピーするトークンの取り扱いには十分注意してください。以下の画像のようになっていれば権限を付与できています。</p>
+<p class="image-container"><img style="width: 602.00px" src="img/37995c0440d6689b.png"></p>
+<h2 is-upgraded>トークンをコピーする</h2>
+<p>OAuth Tokens &amp; Redirect URLs タブの上部より [Install App to Workspace] をクリックします。</p>
+<p class="image-container"><img style="width: 602.00px" src="img/4da6d99fea21c90c.png"></p>
+<p>権限がリクエストされたら [許可する] クリックしてください。</p>
+<p class="image-container"><img style="width: 602.00px" src="img/2c7f36bb7b6e995a.png"></p>
+<p><code>OAuth Access Token</code> が発行されるので [Copy] をクリックして控えます。</p>
+<p class="image-container"><img style="width: 602.00px" src="img/10a23f46879106ca.png"></p>
+<aside class="warning"><p><strong>トークンの取り扱いに注意！</strong></p>
+<p><code>users.profile:write</code> 権限が付与されているこのトークンは、ステータスだけでなく自身の氏名や電話番号といった情報も変更できてしまうので取り扱いには注意しましょう。もし不審な動作を確認したら、即座に［Revoke All OAuth Tokens］をして、権限を解除するようにしてください。</p>
+</aside>
+
+
+      </google-codelab-step>
+    
+      <google-codelab-step label="Slack のステータスを変更する AWS Lambda を設定する" duration="25">
+        <h2 is-upgraded>AWS Lambda 関数を作成する</h2>
+<p>AWS マネジメントコンソールのサービス一覧より Lambda を選択し、[関数の作成] をクリックします。</p>
+<p class="image-container"><img style="width: 602.00px" src="img/8e69890fa503a275.png"></p>
+<p>関数名やランタイムを指定して [関数の作成] をクリックします。</p>
+<table>
+<tr><td colspan="1" rowspan="1"><p><strong>項目</strong></p>
+</td><td colspan="1" rowspan="1"><p><strong>例</strong></p>
+</td><td colspan="1" rowspan="1"><p><strong>備考</strong></p>
+</td></tr>
+<tr><td colspan="1" rowspan="1"><p>関数作成のオプション</p>
+</td><td colspan="1" rowspan="1"><p><code>一から作成</code></p>
+</td><td colspan="1" rowspan="1"><p>-</p>
+</td></tr>
+<tr><td colspan="1" rowspan="1"><p>関数名</p>
+</td><td colspan="1" rowspan="1"><p><code>change-slack-status</code></p>
+</td><td colspan="1" rowspan="1"><p>自由に入力可能です。</p>
+</td></tr>
+<tr><td colspan="1" rowspan="1"><p>ランタイム</p>
+</td><td colspan="1" rowspan="1"><p><code>Node.js 12.x</code></p>
+</td><td colspan="1" rowspan="1"><p>Node.js ランタイムを選択します。当レシピは 12.x で検証しました。</p>
+</td></tr>
+</table>
+<p class="image-container"><img style="width: 602.00px" src="img/7238481dd24b3250.png"></p>
+<h2 is-upgraded>環境変数に Slack のトークンを設定する</h2>
+<p>環境変数 &gt; [環境変数を管理] をクリックします</p>
+<p class="image-container"><img style="width: 602.00px" src="img/ee01cbd318cea3b.png"></p>
+<p>[環境変数の追加] をクリックして各キーと値を設定します。その後、[保存] をクリックします。</p>
+<table>
+<tr><td colspan="1" rowspan="1"><p><strong>キー</strong></p>
+</td><td colspan="1" rowspan="1"><p><strong>値</strong></p>
+</td></tr>
+<tr><td colspan="1" rowspan="1"><p><code>SLACK_TOKEN</code></p>
+</td><td colspan="1" rowspan="1"><p>控えておいた Slack のトークン</p>
+</td></tr>
+</table>
+<p class="image-container"><img style="width: 602.00px" src="img/c25c5fa4c6258226.png"></p>
+<p>以下のようにキー・値が見られれば環境変数の設定は完了です。(以下の画像では一部値をマスクしています)</p>
+<p class="image-container"><img style="width: 602.00px" src="img/e398306e4a6342f7.png"></p>
+<h2 is-upgraded>関数のコードを設定する</h2>
+<p>関数コードにて、以下の内容で上書きします。上書きしたら [保存] をクリックして Lambda の設定は完了です。</p>
+<pre><code>const https = require(&#39;https&#39;);
+const url = require(&#39;url&#39;);
+const slackToken = process.env.SLACK_TOKEN;
+const slackUrl = &#34;https://slack.com/api/users.profile.set&#34;;
+
+exports.handler = function(e, ctx, cb) {
+    console.log(&#39;event: %j&#39;, e);
+    console.log(&#39;context: %j&#39;, ctx);
+
+    var slackReqOptions = url.parse(slackUrl);
+    slackReqOptions.method = &#39;POST&#39;;
+    
+    var payload = 
+      e.type == 1 ? { &#34;profile&#34;:{&#34;status_text&#34;: &#34;&#34;, &#34;status_emoji&#34;: &#34;&#34;}}
+    : e.z &gt; 900 ? { &#34;profile&#34;:{&#34;status_text&#34;: &#34;lunch break&#34;, &#34;status_emoji&#34;: &#34;:rice:&#34;}}
+    : e.x &gt; 900 ? { &#34;profile&#34;:{&#34;status_text&#34;: &#34;coffee break&#34;, &#34;status_emoji&#34;: &#34;:coffee:&#34;}}
+    : e.x &lt; -900 ? { &#34;profile&#34;:{&#34;status_text&#34;: &#34;concentrating&#34;, &#34;status_emoji&#34;: &#34;:male-technologist:&#34;}}
+    : { &#34;profile&#34;:&#34;&#34;}
+    ;
+    
+    var body = JSON.stringify(payload);
+    console.log(&#34;body: %j&#34;, body);
+    var auth = &#34;Bearer &#34; + slackToken; 
+    slackReqOptions.headers = { 
+        &#34;Authorization&#34;: auth,
+        &#39;Content-Type&#39;: &#39;application/json; charset=utf-8&#39;,
+        &#39;Content-Length&#39;: Buffer.byteLength(body),
+        };
+    var req = https.request(slackReqOptions, function(res) {
+        if (res.statusCode === 200) {
+            console.log(&#39;Posted to slack&#39;);
+            console.log(&#39;res: %s&#39;,res);
+            cb(null, {&#34;result&#34;:&#34;ok&#34;});
+        } else {
+            cb(false, {&#34;result&#34;:&#34;ng&#34;, &#34;reason&#34;:&#39;Failed to post slack &#39; + res.statusCode});
+        }
+        return res;
+    });
+    req.write(body);
+    req.end();
+};</code></pre>
+<p class="image-container"><img style="width: 602.00px" src="img/b8071fdb7b0accfc.png"></p>
+<h2 is-upgraded>作成した AWS Lambda のテスト</h2>
+<p>マルチユニットからの実データを送信する前に、AWS Lambda 単体でテストしてみましょう。[テストイベントの選択] &gt; [テストイベントの設定] をクリックします。</p>
+<p class="image-container"><img style="width: 602.00px" src="img/bba405b92bcd61ce.png"></p>
+<p>イベント名を任意に指定し、以下のテストイベントを入力し [作成] をクリックします。</p>
+<pre><code>{
+  &#34;bat&#34;: 3,
+  &#34;rs&#34;: 4,
+  &#34;x&#34;: 0,
+  &#34;y&#34;: 64,
+  &#34;z&#34;: 960,
+  &#34;type&#34;: 0
+}</code></pre>
+<p class="image-container"><img style="width: 602.00px" src="img/cd953e73338cc815.png"></p>
+<p>作成したテスト名が選択されていることを確認して、[テスト] をクリックしてください。</p>
+<p class="image-container"><img style="width: 602.00px" src="img/76cdc2902e1579e3.png"></p>
+<p>Slack のステータス表示が変更されていたら、テスト成功です。</p>
+<p class="image-container"><img style="width: 264.00px" src="img/a720440e4d2127e0.png"></p>
+<h2 is-upgraded>(参考) コードの解説</h2>
+<p>コードの以下の部分で、置き方に応じてステータスを変更しています。</p>
+<pre><code>    var payload = 
+      e.type == 1 ? { &#34;profile&#34;:{&#34;status_text&#34;: &#34;&#34;, &#34;status_emoji&#34;: &#34;&#34;}}
+    : e.z &gt; 900 ? { &#34;profile&#34;:{&#34;status_text&#34;: &#34;lunch break&#34;, &#34;status_emoji&#34;: &#34;:rice:&#34;}}
+    : e.x &gt; 900 ? { &#34;profile&#34;:{&#34;status_text&#34;: &#34;coffee break&#34;, &#34;status_emoji&#34;: &#34;:coffee:&#34;}}
+    : e.x &lt; -900 ? { &#34;profile&#34;:{&#34;status_text&#34;: &#34;concentrating&#34;, &#34;status_emoji&#34;: &#34;:male-technologist:&#34;}}
+    : { &#34;profile&#34;:&#34;&#34;}
+    ;</code></pre>
+<p>それぞれ、以下のような条件を表しています。<code>status_text</code>や<code>status_emoji</code>を自分の好きなものに変えてみてください。Slackの絵文字コードは<a href="https://www.webfx.com/tools/emoji-cheat-sheet/" target="_blank">こちらのリファレンス</a>を参考にしてください。</p>
+<table>
+<tr><td colspan="1" rowspan="1"><p><strong>条件</strong></p>
+</td><td colspan="1" rowspan="1"><p><strong>status_text</strong></p>
+</td><td colspan="1" rowspan="1"><p><strong>status_emoji</strong></p>
+</td><td colspan="1" rowspan="1"><p><strong>解説</strong></p>
+</td></tr>
+<tr><td colspan="1" rowspan="1"><p><code>e.type == 1</code></p>
+</td><td colspan="1" rowspan="1"><p>空白</p>
+</td><td colspan="1" rowspan="1"><p>空白</p>
+</td><td colspan="1" rowspan="1"><p><code>ファンクションボタンを押すとステータスをリセットする</code></p>
+</td></tr>
+<tr><td colspan="1" rowspan="1"><p><code>e.z &gt; 900</code></p>
+</td><td colspan="1" rowspan="1"><p><code>lunch break</code></p>
+</td><td colspan="1" rowspan="1"><p><code>:rice:</code></p>
+</td><td colspan="1" rowspan="1"><p><code>裏返しで置くとランチタイムのステータスにする</code></p>
+</td></tr>
+<tr><td colspan="1" rowspan="1"><p><code>e.x &gt; 900</code></p>
+</td><td colspan="1" rowspan="1"><p><code>coffee break</code></p>
+</td><td colspan="1" rowspan="1"><p><code>:coffee:</code></p>
+</td><td colspan="1" rowspan="1"><p><code>SORACOM文字を上向きに立てるコーヒータイムのステータスにする</code></p>
+</td></tr>
+<tr><td colspan="1" rowspan="1"><p><code>e.x &lt; -900</code></p>
+</td><td colspan="1" rowspan="1"><p><code>concentrating</code></p>
+</td><td colspan="1" rowspan="1"><p><code>:male-technologist:</code></p>
+</td><td colspan="1" rowspan="1"><p><code>SORACOM文字を下向きに立てると集中タイムのステータスにする</code></p>
+</td></tr>
+<tr><td colspan="1" rowspan="1"><p><code>その他</code></p>
+</td><td colspan="1" rowspan="1"><p>-</p>
+</td><td colspan="1" rowspan="1"><p>-</p>
+</td><td colspan="1" rowspan="1"><p><code>何も変更しない</code></p>
+</td></tr>
+</table>
+<p class="image-container"><img style="width: 602.00px" src="img/4b28be069f346ab3.png"></p>
+
+
+      </google-codelab-step>
+    
+      <google-codelab-step label="AWS Lambda の ARN をコピーする" duration="3">
+        <p>SORACOM Funk から AWS Lambda へ連携できるよう、ARN (Amazon Resource Name) をコピーし、控えておきます。</p>
+<p class="image-container"><img style="width: 602.00px" src="img/49dc2a3ac075b93a.png"></p>
+
+
+      </google-codelab-step>
+    
+      <google-codelab-step label="AWS IAM ユーザーを作成し、認証情報を取得する" duration="15">
+        <p>SORACOM Funk から AWS Lambda を呼び出すためには、IAM ユーザーの認証情報が必要となります。ここでは IAM ユーザーを作成し、認証情報を取得します。</p>
+<h2 is-upgraded>IAM ポリシーを作成する</h2>
+<p>IAM ユーザーには AWS 上のリソースに対する権限である IAM ポリシーを付与します。セキュリティリスクを極小化するために、先ほど作成した Lambda を実行する権限だけを持つ IAM ポリシーを作成します。</p>
+<p>AWS コンソールより Identity andAccess Management (IAM) メニューを開き、[ポリシー] をクリックします。</p>
+<p class="image-container"><img style="width: 602.00px" src="img/a67bdeb6b483fb9a.png"></p>
+<p>[ポリシーの作成] をクリックします。</p>
+<p class="image-container"><img style="width: 602.00px" src="img/793bea74694b447f.png"></p>
+<p>新しくポリシーの作成画面が表示されるので、それぞれ設定していきます。まず、「サービスの選択」では今回連携したい <code>Lambda</code> を選択します。 次の「アクション」では、検索ウィンドウに <code>InvokeFunction</code> と入力してそれを選択します。 3つ目の「リソース」では、[ARN の追加] をクリックして ARN の指定で先ほどコピーした ARN を貼り付けます。</p>
+<p>以上の設定が終わったら、[ポリシーの確認] ボタンをクリックします。</p>
+<p class="image-container"><img style="width: 602.00px" src="img/c18eef83bd0239aa.png"></p>
+<p>ポリシー名を指定して [ポリシーの作成] をクリックします。</p>
+<p class="image-container"><img style="width: 602.00px" src="img/332a6d8d3539acef.png"></p>
+<h2 is-upgraded>IAM ユーザーを作成する</h2>
+<p>AWS コンソールより Identity andAccess Management (IAM) メニューを開き、[ユーザー] をクリックします。</p>
+<p class="image-container"><img style="width: 602.00px" src="img/ca8fab62975a000.png"></p>
+<p>[ユーザーを追加] をクリックします。</p>
+<p class="image-container"><img style="width: 602.00px" src="img/d8c8ae1c52912f83.png"></p>
+<p>任意のユーザー名を設定しアクセスの種類にて [プログラムによるアクセス] にチェックを入れ、[次のステップ : アクセス権限] をクリックします。</p>
+<p class="image-container"><img style="width: 602.00px" src="img/dd5c68c256e55ff.png"></p>
+<p>アクセス許可の設定では、<code>既存</code>のポリシーを直接アタッチを選択したあと、先ほど作成したポリシー名で検索します。ポリシーをチェックして、[次のステップ : タグ] をクリックします。</p>
+<p class="image-container"><img style="width: 602.00px" src="img/b2cf3dba5a9a235e.png"></p>
+<p>タグは特に不要なので何も入力せず [次のステップ : 確認] をクリックします。</p>
+<p class="image-container"><img style="width: 602.00px" src="img/812b415144488a08.png"></p>
+<p>以下の項目を確認して [ユーザーを作成] をクリックします。</p>
+<table>
+<tr><td colspan="1" rowspan="1"><p><strong>確認項目</strong></p>
+</td><td colspan="1" rowspan="1"><p><strong>値</strong></p>
+</td></tr>
+<tr><td colspan="1" rowspan="1"><p>AWS アクセスの種類</p>
+</td><td colspan="1" rowspan="1"><p>プログラムによるアクセス - アクセスキーを使用</p>
+</td></tr>
+<tr><td colspan="1" rowspan="1"><p>管理ポリシー</p>
+</td><td colspan="1" rowspan="1"><p>作成した管理ポリシー</p>
+</td></tr>
+</table>
+<p class="image-container"><img style="width: 602.00px" src="img/978dc56b3864075d.png"></p>
+<h2 is-upgraded>IAM 認証情報をコピーする</h2>
+<p>IAM ユーザーが作成されると、認証情報が発行されます。アクセスキー ID やシークレットアクセスキーを控えておきます。これらは再発行できないので、[.csv のダウンロード] をクリックして csv ファイル形式でダウンロードしておくと良いでしょう。</p>
+<p class="image-container"><img style="width: 602.00px" src="img/7b8fff62a8813deb.png"></p>
+<aside class="special"><p><strong>アクセス制御の重要性</strong></p>
+<p>IAM 設定によるアクセス制御は一見手順が多く、煩雑に感じるかもしれません。またこの部分の設定を誤ると、正しく Lambda を実行できません。しかしながら、適切なユーザーが適切なリソースにのみアクセスできるよう制御することは万が一の事故を防ぐためにもとても重要です。SORACOM プラットフォームでも<a href="https://dev.soracom.io/jp/start/sam/" target="_blank">SORACOM Access Management(SAM)</a>というアクセス制御機能を提供しています。 SAM は今回のレシピでは取り扱いませんが、今後さらなる応用にご活用ください。</p>
+</aside>
+
+
+      </google-codelab-step>
+    
+      <google-codelab-step label="AWS Lambda と連携する SORACOM Funk を設定する" duration="15">
+        <p>SORACOM Funk から AWS Lambda を呼び出すための設定をおこなっていきます。</p>
+<h2 is-upgraded>作成したIAMユーザ情報をソラコムの認証情報ストアへ登録する</h2>
+<aside class="special"><p><strong>認証情報ストアとは？</strong></p>
+<p>ソラコムからの連携先サーバーやクラウドサービスへの接続設定や認証情報をソラコムプラットフォームに保存することができる機能です。 認証情報ストアに保存した認証情報を利用してソラコムの各種サービスは接続ができるため、デバイス側に認証情報を保持する必要がなくなります。また認証情報ストアは一度保存した証明書などの機密情報は取り出せないようになっており情報流出のリスクを軽減します。</p>
+</aside>
+<p>ユーザーコンソールの右上にあるユーザー名をクリックし ［セキュリティ］をクリックします。</p>
+<p class="image-container"><img style="width: 271.00px" src="img/2bdec8dd44839aa9.png"></p>
+<p>［認証情報ストア］&gt; ［認証情報を登録］をクリックします。</p>
+<p class="image-container"><img style="width: 424.00px" src="img/fce83353027aaa55.png"></p>
+<p>下記の情報を認証情報として登録します。</p>
+<p class="image-container"><img style="width: 477.00px" src="img/2d1ba79acfd63ce8.png"></p>
+<table>
+<tr><td colspan="1" rowspan="1"><p><strong>項目</strong></p>
+</td><td colspan="1" rowspan="1"><p><strong>例</strong></p>
+</td><td colspan="1" rowspan="1"><p><strong>備考</strong></p>
+</td></tr>
+<tr><td colspan="1" rowspan="1"><p>認証情報 ID</p>
+</td><td colspan="1" rowspan="1"><p><code>slack-status-change-secret</code></p>
+</td><td colspan="1" rowspan="1"><p>自由に入力可能です</p>
+</td></tr>
+<tr><td colspan="1" rowspan="1"><p>概要</p>
+</td><td colspan="1" rowspan="1"><p><code>任意に入力</code></p>
+</td><td colspan="1" rowspan="1"><p>自由に入力可能です</p>
+</td></tr>
+<tr><td colspan="1" rowspan="1"><p>種別</p>
+</td><td colspan="1" rowspan="1"><p><code>AWS 認証情報</code></p>
+</td><td colspan="1" rowspan="1"><p>-</p>
+</td></tr>
+<tr><td colspan="1" rowspan="1"><p>AWS Access Key ID</p>
+</td><td colspan="1" rowspan="1"><p><code>作成した IAM 情報を入力</code></p>
+</td><td colspan="1" rowspan="1"><p>-</p>
+</td></tr>
+<tr><td colspan="1" rowspan="1"><p>AWS Secret Access Key</p>
+</td><td colspan="1" rowspan="1"><p><code>作成した IAM 情報を入力</code></p>
+</td><td colspan="1" rowspan="1"><p>-</p>
+</td></tr>
+</table>
+<h2 is-upgraded>SORACOM Funk の設定をする</h2>
+<p>GPS マルチユニット管理画面から、設定するマルチユニットをクリックして [グループ設定変更] をクリックします。</p>
+<p class="image-container"><img style="width: 602.00px" src="img/7b10036d109caf3f.png"></p>
+<p>[基本設定］ &gt;［SORACOM Funk 設定］をクリックして設定ができるように開き情報を設定します。</p>
+<table>
+<tr><td colspan="1" rowspan="1"><p><strong>項目</strong></p>
+</td><td colspan="1" rowspan="1"><p><strong>例</strong></p>
+</td><td colspan="1" rowspan="1"><p><strong>備考</strong></p>
+</td></tr>
+<tr><td colspan="1" rowspan="1"><p>（スイッチ）</p>
+</td><td colspan="1" rowspan="1"><p>ON</p>
+</td><td colspan="1" rowspan="1"><p>-</p>
+</td></tr>
+<tr><td colspan="1" rowspan="1"><p>サービス</p>
+</td><td colspan="1" rowspan="1"><p><code>AWS Lambda</code></p>
+</td><td colspan="1" rowspan="1"><p>-</p>
+</td></tr>
+<tr><td colspan="1" rowspan="1"><p>送信データ形式</p>
+</td><td colspan="1" rowspan="1"><p><code>テキスト</code></p>
+</td><td colspan="1" rowspan="1"><p>-</p>
+</td></tr>
+<tr><td colspan="1" rowspan="1"><p>認証情報</p>
+</td><td colspan="1" rowspan="1"><p><code>slack-status-change-secret</code></p>
+</td><td colspan="1" rowspan="1"><p>認証情報ストアに登録した認証情報を指定してください。</p>
+</td></tr>
+<tr><td colspan="1" rowspan="1"><p>関数の ARN</p>
+</td><td colspan="1" rowspan="1"><p><code>SORACOM FunkからコールするLambdaファンクションのARN</code></p>
+</td><td colspan="1" rowspan="1"><p>作成した Lambda ファンクションの ARN を指定してください。</p>
+</td></tr>
+</table>
+<p class="image-container"><img style="width: 602.00px" src="img/23d946a5bfc2575d.png"></p>
+<aside class="special"><p><strong>設定後にマルチユニットのファンクションボタンを押す必要がないのはなぜ？</strong></p>
+<p>マルチユニットの設定で送信間隔などを設定した際は最後にファンクションボタンを押しました。これは、デバイスへ設定を反映するためです。一方で SORACOM Funk を設定してもファンクションボタンを押す必要はありません。これは、SORACOM Funk の送り先や認証情報といった内容がデバイスに意識されないためです。このように、SORACOM サービスを利用するとデバイス側の設定を変更することなく柔軟に送信されるデータを活用できます。</p>
+</aside>
+
+
+      </google-codelab-step>
+    
+      <google-codelab-step label="動作確認" duration="1">
+        <p>マルチユニットを裏返したり立てたりすることで Slack のステータスが変わることを確認しましょう。また、ファンクションボタンを押すことでステータスがリセットされることを確認しましょう。このレシピで提供したサンプルコードではそれぞれの置き方に応じて Slack 上では以下のようなステータスになることを想定しています。</p>
+<p class="image-container"><img style="width: 602.00px" src="img/4b28be069f346ab3.png"></p>
+<p>ファンクションボタン（本体表面の四角のボタン）は1秒ほど押す必要があります。LED が緑色に点灯すれば送信できています。</p>
+<p class="image-container"><img style="width: 602.00px" src="img/29a821786b385382.gif"></p>
+<h2 is-upgraded>トラブルシューティング</h2>
+<p>Slack 上のステータスが更新されない場合は、以下のポイントを確認してください。</p>
+<h3 is-upgraded>時間が十分に経過しているか</h3>
+<p>マルチユニットの「デバイス設定」にて設定した送信間隔分のタイムラグがあります。送信間隔は最短で1分です。設定した内容を確認して、時間をおいてみてください。</p>
+<h3 is-upgraded>SORACOM Harvest Data にデータが格納されているか</h3>
+<p>マルチユニットは SORACOM Unified Endpoint を経由して SORACOM Harvest Data と SORACOM Funk との両方にデータを送信しています。SORACOM Harvest Data 上にデータが格納されているかをもとに、以下を切り分けてください。</p>
+<ul>
+<li>時間が十分に経過しているにもかかわらず SORACOM Harvest Data 上でデータが確認できない場合は、電波状況などでマルチユニットからデータが送信できていないことが考えられます。場所を移動し、ファンクションボタンを押してみてください。</li>
+<li>SORACOM Harvest Data 上でデータが確認できるものの Slack のステータスが変わっていない場合は SORACOM Funk や AWS Labmda の設定が原因と考えられます。AWS Lambda のログが出力されているかを確認してください。</li>
+</ul>
+<h3 is-upgraded>AWS Lambda のログが出力されているか</h3>
+<p>AWS Lambda では関数の編集画面にて「モニタリング」タブの「CloudWatch Logs Insights」より関数の実行ログを確認できます。このログをもとに、以下を切り分けてください。</p>
+<ul>
+<li>ログが出力されていない場合、SORACOM Funk から AWS Lambda にデータが送信できていないことが考えられます。SORACOM Funk が有効になっているか、認証情報の設定が正しいか確認してください。</li>
+<li>ログが出力されているにもかかわらず Slack のステータスが更新されていない場合は、何かログにエラーなど出力されていないか確認してください。</li>
+</ul>
+
+
+      </google-codelab-step>
+    
+      <google-codelab-step label="あとかたづけと注意事項" duration="1">
+        <p>本レシピでは費用がかかるサービスを利用しています。<br>本項をよく読み、必要な操作や解除作業を行うようにして、想定外の費用が掛からないようにしてください。</p>
+<h2 is-upgraded>費用について</h2>
+<p>ここで記載している金額は全て税別、送料別となります。</p>
+<h3 is-upgraded>SORACOM プラットフォームの利用料金</h3>
+<table>
+<tr><td colspan="1" rowspan="1"><p><strong>サービス／機能</strong></p>
+</td><td colspan="1" rowspan="1"><p><strong>料金</strong></p>
+</td></tr>
+<tr><td colspan="1" rowspan="1"><p><a href="https://soracom.jp/services/air/cellular/price_specific_area_sim/" target="_blank">SORACOM Air (plan-D)</a></p>
+</td><td colspan="1" rowspan="1"><ul>
+<li>基本料: 10円/日</li>
+<li>通信料: 0.2円~/MB</li>
+</ul>
+<p>(今回の利用であれば 1MB 以内で収まる範囲)</p>
+</td></tr>
+<tr><td colspan="1" rowspan="1"><p><a href="https://soracom.jp/services/harvest/price/" target="_blank">SORACOM Harvest Data</a></p>
+</td><td colspan="1" rowspan="1"><ul>
+<li>本機能を有効にしたグループに所属する1SIMあたり5円/日 (2000リクエスト/日/SIMを含む)</li>
+<li>2000リクエスト/日を超えた分は0.004円/リクエスト</li>
+</ul>
+</td></tr>
+<tr><td colspan="1" rowspan="1"><p><a href="https://soracom.jp/services/funk/price/" target="_blank">SORACOM Funk</a></p>
+</td><td colspan="1" rowspan="1"><ul>
+<li>50000リクエスト/月を超えた分は0.0018円/リクエスト</li>
+</ul>
+</td></tr>
+</table>
+<p>※ 費用詳細はリンク先をご確認ください。</p>
+<aside class="special"><p><strong>無料利用枠について</strong></p>
+<p>SORACOM サービスでは一部サービスにおいて無料枠が設定されています。たとえば SORACOM Air for セルラーであればアカウント毎で30円/月の通信分や、SORACOM Harvest Data であれば31日分の書込みリクエストなどです。料金詳細に「無料利用枠」として掲載されていますので、ご確認ください。</p>
+</aside>
+<h3 is-upgraded>今回の目安</h3>
+<p>加速度センサーの値のみで1分毎に送信すると、1時間当たりのデータ通信量は上り 約11.5 KiB、下り 約13.0 KiB となります。</p>
+<p>今回はデバイスの送信設定を「一日あたり 8:00 ～ 18:00 の10時間」と「月～金の週5日」としています。</p>
+<p>これらを基に1ヵ月あたりのデータ通信に係る費用は、以下のようになります。</p>
+<table>
+<tr><td colspan="1" rowspan="1"><p>データ通信量</p>
+<p>(plan-D データ通信のみ / s1.minimum)</p>
+</td><td colspan="1" rowspan="1"><p>2 円 ※</p>
+</td></tr>
+<tr><td colspan="1" rowspan="1"><p>基本料</p>
+<p>(plan-D データ通信のみ)</p>
+</td><td colspan="1" rowspan="1"><p>300 円 (10 円 × 30日) ※</p>
+</td></tr>
+<tr><td colspan="1" rowspan="1"><p><strong>計</strong></p>
+</td><td colspan="1" rowspan="1"><p>302 円/月</p>
+</td></tr>
+</table>
+<ul>
+<li>※ 1日あたりのデータ通信量は上りが 115 KiB、下りが 130 KiB としています。</li>
+<li>※ 土日はデータ送信は行いませんが、基本料金は発生します。</li>
+</ul>
+<p>これに加えて、SORACOM Harvest Data や SORACOM Funk 、そして AWS 費用が発生することになります。</p>
+<aside class="special"><p><strong>GPS マルチユニット SORACOM Edition に適している通信速度は？</strong></p>
+<p>SORACOM は通信速度に応じて費用が設定されており、最も低速な s1.minimum は最も安価となっています。一方、GPS マルチユニット SORACOM Edition から送信されるデータは小さく、また、送信間隔も最小で1分と長いため通信速度は必要としません。</p>
+<p>GPS マルチユニット SORACOM Edition を安価に運用する方法として、通信速度を s1.minimum にすることをお勧めいたします。</p>
+</aside>
+<aside class="special"><p><strong>SORACOM Harvest Data と SORACOM Funk は同時に使う必要があるの？</strong></p>
+<p>SORACOM のサービスは、必要な機能を選んでお使いいただけます。データ収集・蓄積は SORACOM Harvest Data で、メールの通知は SORACOM Funk で実現されています。通知のみで十分であれば、 SORACOM Harvest Data は OFF にすることができ、費用(5円/日/SIM)も抑えることができるため、より一層安価に運用することが可能です。もちろん、必要になったタイミングで ON にできます。</p>
+</aside>
+<h2 is-upgraded>グループ解除</h2>
+<p>SORACOM Harvest Data 等、「機能が有効になっているグループに所属している SIM × 費用」となっているサービスにおいては、「機能を OFF にする」することで費用の発生を抑えることができます。またもう1つの方法として「グループに所属している SIM の数を減らす(= 解除する)」事でも費用を抑える事ができます。</p>
+<p>グループ解除の方法は<a href="https://soracom.github.io/iot-recipes/unjoin-from-group/" target="_blank">グループからの解除 (JP)</a>をご覧ください。</p>
+<h2 is-upgraded>SORACOM Harvest Data のデータ削除</h2>
+<p>SORACOM Harvest Data は基本的にはデータ保管料は無料※です。そのため、保存しておいても害はありませんが、デモ等で利用する際にはデータを綺麗にしておく必要が出てくるため、データ削除について解説します。</p>
+<p>※発生から40日を超えたデータは削除されます。40日以上データを保管したい場合は<a href="https://soracom.jp/services/harvest/price/" target="_blank">データ保持期間延長オプション利用料金</a>をご利用ください。</p>
+<p>SORACOM Harvest Data 画面 (［操作］&gt;［データを確認］) のデータテーブルで、削除したいデータのチェックボックスを付けた後に［削除］をクリックします。表示されたダイアログで改めて［削除］をクリックすると、削除されます。<br>※ 複数のデータにチェックをつければ一括で削除可能です。</p>
+<p class="image-container"><img style="width: 414.00px" src="img/637cac3bf206c47c.png"></p>
+<p><strong>データの復元はできません</strong>のでご注意ください。</p>
+
+
+      </google-codelab-step>
+    
+      <google-codelab-step label="次のステップ" duration="1">
+        <p>本レシピでは、デバイスの置き方に「自分の状態」という意味を持たせました。このように加速度などそれ自体では意味がない数値を使い方次第で役立つデータに変換できるのが IoT の面白いところです。またSORACOM Funk を活用すれば各種クラウドの FaaS と連携できるため「デバイスから送信されたデータをもとにプログラムの実行」が簡単に実現できます。</p>
+<p><a href="https://soracom.jp/products/kit/gps_multiunit/" target="_blank">商品ページへ戻る</a></p>
+
+
+      </google-codelab-step>
+    
+  </google-codelab>
+
+  <script src="https://soracom.github.io/iot-recipes/codelab-elements/native-shim.js"></script>
+  <script src="https://soracom.github.io/iot-recipes/codelab-elements/custom-elements.min.js"></script>
+  <script src="https://soracom.github.io/iot-recipes/codelab-elements/prettify.js"></script>
+  <script src="https://soracom.github.io/iot-recipes/codelab-elements/codelab-elements.js"></script>
+
+</body>
+</html>
