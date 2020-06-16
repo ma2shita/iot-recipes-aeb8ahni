@@ -31,10 +31,13 @@
         <p>レシピ難易度：★★★☆☆</p>
 <p>4種のセンサーとバッテリーを内蔵した LTE-M 通信 IoT デバイス「GPS マルチユニット SORACOM Edition」の加速度センサーを活用して、「在席状況の自動更新デバイス」を作成します。デバイスの置き方で Slack 上のステータスを更新するレシピです。</p>
 <p class="image-container"><img style="width: 602.00px" src="img/4b28be069f346ab3.png"></p>
+<h2 is-upgraded>システムの構成</h2>
+<p>今回作成するシステムは以下のような構成となっています。</p>
+<p class="image-container"><img style="width: 602.00px" src="img/eed310da42f97f24.png"></p>
 <h2 is-upgraded>本レシピを行うのに必要な時間、概算費用</h2>
 <p>本レシピは以下の通りです。</p>
 <ul>
-<li>必要な時間: 約2時間</li>
+<li>必要な時間: 1時間30分</li>
 <li>概算費用: 約11,100円</li>
 </ul>
 <p>※ 概算費用: ハードウェアや SORACOM を始めとした各種サービスの概ねの費用 (税や送料などの付帯費用や無料枠適用は考慮しないものとしています)</p>
@@ -132,9 +135,6 @@
 <ul>
 <li>職場の Slack ワークスペースなどを利用する場合、アプリのインストールが制限されている可能性があります。インストールできない場合は、個人用のワークスペースを作成してお試しいただくか、管理者の方に相談してください。</li>
 </ul>
-<h2 is-upgraded>システムの構成</h2>
-<p>今回作成するシステムは以下のような構成となっています。</p>
-<p class="image-container"><img style="width: 602.00px" src="img/eed310da42f97f24.png"></p>
 
 
       </google-codelab-step>
@@ -255,7 +255,7 @@
 
       </google-codelab-step>
     
-      <google-codelab-step label="Slack アプリを作成し、アクセストークンを発行する" duration="20">
+      <google-codelab-step label="Slack アプリを作成し、アクセストークンを発行する" duration="15">
         <h2 is-upgraded>アプリの作成</h2>
 <p>Slack の「App」メニューを開き、右上の<img style="width: 40.00px" src="img/c41e119870c3c3f8.png">をクリックします。すると、ブラウザーが立ち上がります。</p>
 <p class="image-container"><img style="width: 602.00px" src="img/60309a50cb75e80a.png"></p>
@@ -300,7 +300,7 @@
 
       </google-codelab-step>
     
-      <google-codelab-step label="Slack のステータスを変更する AWS Lambda を設定する" duration="25">
+      <google-codelab-step label="Slack のステータスを変更する AWS Lambda を設定する" duration="20">
         <h2 is-upgraded>AWS Lambda 関数を作成する</h2>
 <p>AWS マネジメントコンソールのサービス一覧より Lambda を選択し、[関数の作成] をクリックします。</p>
 <p class="image-container"><img style="width: 602.00px" src="img/8e69890fa503a275.png"></p>
@@ -447,7 +447,7 @@ exports.handler = function(e, ctx, cb) {
 
       </google-codelab-step>
     
-      <google-codelab-step label="AWS Lambda の ARN をコピーする" duration="3">
+      <google-codelab-step label="AWS Lambda の ARN をコピーする" duration="1">
         <p>SORACOM Funk から AWS Lambda へ連携できるよう、ARN (Amazon Resource Name) をコピーし、控えておきます。</p>
 <p class="image-container"><img style="width: 602.00px" src="img/49dc2a3ac075b93a.png"></p>
 
@@ -501,7 +501,7 @@ exports.handler = function(e, ctx, cb) {
 
       </google-codelab-step>
     
-      <google-codelab-step label="AWS Lambda と連携する SORACOM Funk を設定する" duration="15">
+      <google-codelab-step label="AWS Lambda と連携する SORACOM Funk を設定する" duration="10">
         <p>SORACOM Funk から AWS Lambda を呼び出すための設定をおこなっていきます。</p>
 <h2 is-upgraded>作成したIAMユーザ情報をソラコムの認証情報ストアへ登録する</h2>
 <aside class="special"><p><strong>認証情報ストアとは？</strong></p>
@@ -577,7 +577,7 @@ exports.handler = function(e, ctx, cb) {
 
       </google-codelab-step>
     
-      <google-codelab-step label="動作確認" duration="1">
+      <google-codelab-step label="動作確認" duration="10">
         <p>マルチユニットを裏返したり立てたりすることで Slack のステータスが変わることを確認しましょう。また、ファンクションボタンを押すことでステータスがリセットされることを確認しましょう。このレシピで提供したサンプルコードではそれぞれの置き方に応じて Slack 上では以下のようなステータスになることを想定しています。</p>
 <p class="image-container"><img style="width: 602.00px" src="img/4b28be069f346ab3.png"></p>
 <p>ファンクションボタン（本体表面の四角のボタン）は1秒ほど押す必要があります。LED が緑色に点灯すれば送信できています。</p>
