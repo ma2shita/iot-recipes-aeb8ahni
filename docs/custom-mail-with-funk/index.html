@@ -1,0 +1,601 @@
+
+<!doctype html>
+
+<html>
+<head>
+  <meta name="viewport" content="width=device-width, minimum-scale=1.0, initial-scale=1.0, user-scalable=yes">
+  <meta name="theme-color" content="#4F7DC9">
+  <meta charset="UTF-8">
+  <title>【参考資料】SORACOM Funk でカスタマイズしたメールを送信する</title>
+  <link rel="stylesheet" href="//fonts.googleapis.com/css?family=Source+Code+Pro:400|Roboto:400,300,400italic,500,700|Roboto+Mono">
+  <link rel="stylesheet" href="//fonts.googleapis.com/icon?family=Material+Icons">
+  <link rel="stylesheet" href="https://soracom.github.io/iot-recipes/codelab-elements/codelab-elements.css">
+  <style>
+    .success {
+      color: #1e8e3e;
+    }
+    .error {
+      color: red;
+    }
+  </style>
+</head>
+<body>
+  <google-codelab-analytics gaid="UA-66865146-33"></google-codelab-analytics>
+  <google-codelab codelab-gaid=""
+                  id="custom-mail-with-funk"
+                  title="【参考資料】SORACOM Funk でカスタマイズしたメールを送信する"
+                  environment="web"
+                  feedback-link="">
+    
+      <google-codelab-step label="概要" duration="1">
+        <p>IoT レシピで紹介した Hosted Funk を自分で実装する手順です。AWS Lambda, Amazon SES を利用します。</p>
+<aside class="warning"><p><strong>Hosted Funk について</strong></p>
+<p>Hosted Funk はソラコムが提供するハンズオンやレシピ向けとしての試験途上の機能(2020年6月現在)です。そのため、今後やむなく、また事前の連絡無く機能の変更や廃止の可能性があることをご承知おきください。今後も継続して利用したい場合やさらにカスタマイズしたい場合に、こちらの参考資料を用いて自身で実装します。</p>
+</aside>
+<h2 is-upgraded>システムの構成</h2>
+<p>以下のような構成となります。</p>
+<p class="image-container"><img style="width: 601.70px" src="img/334d38692a7e86f0.png"></p>
+
+
+      </google-codelab-step>
+    
+      <google-codelab-step label="SAM ユーザーを作成する" duration="15">
+        <h2 is-upgraded>SAM ユーザーの作成</h2>
+<p>AWS Lambda から SIM 情報を取得するためには、Lambda に SORACOM API の実行権限が必要です。SIM 情報を取得するための権限を持った SAM (SORACOM Access Management) ユーザーを作成します。</p>
+<h3 is-upgraded>SORACOM ユーザコンソールにログインし、右上のメールアドレスのドロップダウンより [セキュリティ] をクリックします。</h3>
+<p class="image-container"><img style="width: 601.70px" src="img/3364461e5811dea9.png"></p>
+<h3 is-upgraded>[ユーザー作成] をクリックします。</h3>
+<p class="image-container"><img style="width: 601.70px" src="img/882b43d76ded6c4f.png"></p>
+<h3 is-upgraded>名前と概要を入力して [作成] をクリックします。</h3>
+<p class="image-container"><img style="width: 601.70px" src="img/18e76f4dbc9c5b41.png"></p>
+<h3 is-upgraded>作成したユーザー名をクリックして編集します。</h3>
+<p class="image-container"><img style="width: 601.70px" src="img/346503601ba56e58.png"></p>
+<h3 is-upgraded>「権限設定」タブにて以下のパーミッション構文を貼り付け、[保存] をクリックします。</h3>
+<p>パーミッション構文の詳細は<a href="https://dev.soracom.io/jp/docs/sam_permission/" target="_blank">アクセス権限設定のためのパーミッション構文</a>を参照してください。今回は SIM に関する情報と SIM が所属するグループの情報のみを取得できる権限を割り当てます。</p>
+<pre><code>{
+  &#34;statements&#34;: [
+    {
+      &#34;api&#34;: [
+        &#34;Subscriber:getSubscriber&#34;,
+        &#34;Group:getGroup&#34;
+      ],
+      &#34;effect&#34;: &#34;allow&#34;
+    }
+ ]
+}</code></pre>
+<p class="image-container"><img style="width: 601.70px" src="img/d88addd2c4c6b47.png"></p>
+<h2 is-upgraded>SAM 認証キーの作成</h2>
+<p>「認証設定」タブで [認証キーを生成] をクリックします。</p>
+<p class="image-container"><img style="width: 601.70px" src="img/f31e9afb126f477.png"></p>
+<h3 is-upgraded>作成された認証キー ID 、認証キーシークレットを控えておきます。</h3>
+<p>[クリップボードにコピー] をクリックしてメモ帳などにコピーしておくと良いでしょう。</p>
+<p class="image-container"><img style="width: 601.70px" src="img/534d4bd908f0d30b.png"></p>
+<p>ここでコピーした認証情報は後の AWS Lambda 設定で使用します。</p>
+
+
+      </google-codelab-step>
+    
+      <google-codelab-step label="Amazon SES を準備する" duration="30">
+        <p>Amazon SES (Amazon Simple Email Service) をセットアップします。Amazon SES についての詳細は <a href="https://aws.amazon.com/jp/ses/" target="_blank">AWS 公式ドキュメント</a>を参照してください。</p>
+<h2 is-upgraded>メールアドレスを登録する</h2>
+<h3 is-upgraded><a href="https://console.aws.amazon.com/" target="_blank">AWS マネジメントコンソール</a>のリージョンが オレゴン (us-west-2) になっている事を確認します。</h3>
+<p>なっていなければ オレゴン に切り替えてください。現時点において東京リージョンでは Amazon SES を利用できないためです。</p>
+<p class="image-container"><img style="width: 601.70px" src="img/15e4a03c71efd569.png"></p>
+<h3 is-upgraded>Amazon SES (Simple Email Service) のコンソールを開きます。</h3>
+<p>[サービス] をクリックした後、検索窓に <code>ses</code> と入れるか、 &#34;カスタマーエンゲージメント&#34; カテゴリの中の Simple Email Service をクリックしてください。</p>
+<p class="image-container"><img style="width: 601.70px" src="img/7d135b893d0f5e75.png"></p>
+<h3 is-upgraded>[Email Addresses] をクリックした後、[Verify a New Email Address] をクリックします。</h3>
+<p class="image-container"><img style="width: 555.00px" src="img/d42dafb6032c799.png"></p>
+<h3 is-upgraded>フォームの &#34;Email Address:&#34; にLTE-M Button を押した際に送信される先の Email アドレスを入力して、 [Verify This Email Address] をクリックします。</h3>
+<p class="image-container"><img style="width: 601.70px" src="img/68bcebb4b83425d.png"></p>
+<p>その次に表示されたダイアログは [Close] をクリックします。</p>
+<h3 is-upgraded>直後の状態は以下の通りです。</h3>
+<p><strong>pending verification</strong> と表示されている事を確認してください。</p>
+<p class="image-container"><img style="width: 601.70px" src="img/b04cac83a761c5f2.png"></p>
+<h3 is-upgraded>メールソフトを開き、下記のようなメールが届いている事を確認したら、メール本文内の URL をクリックしてください。</h3>
+<p class="image-container"><img style="width: 259.00px" src="img/e2b59eeb44d4ea2e.png"></p>
+<p>クリックすると「検証に成功しました」というページが表示されます。<br>また、クリックした後は本メールは削除してしまって構いません。</p>
+<aside class="warning"><p><strong>メールが届かない場合は？</strong></p>
+<p>メール受信側で迷惑メールとして判定されている可能があります。お使いのメールソフトの迷惑メールフォルダを確認してください。</p>
+<p>また、Amazon SES 上から送信テストしてみることができます。Amazon SES の管理画面上から <strong>Send a Test Email</strong> をしてみて、届くか確認してください。</p>
+<p>メール受信までに時間がかかる事があります。しばらく待ってみるのも良いでしょう。</p>
+</aside>
+<h3 is-upgraded>Amazon SES コンソールに戻りリロードボタン<img style="width: 73.00px" src="img/8f83665906b338ba.png"> で表示を更新した後に <strong>verified</strong> と表示されている事を確認してください。</h3>
+<p class="image-container"><img style="width: 601.70px" src="img/70c2e1eb82ffd9fd.png"></p>
+<aside class="warning"><p><strong>verified にならない(pending verification から変化しない)場合は？</strong></p>
+<p>&#34;resend&#34; を使って、確認メールを再送してください。会社でのメールアドレスの場合、迷惑メール判定やアドレスの自動書き換えによって正常に完了できない場合があります。Gmail 等を利用するのをお勧めいたします。</p>
+</aside>
+<aside class="warning"><p><strong>送信先のメールアドレスを追加したい場合は？</strong></p>
+<p>初期設定においては Email Address に表示されているメールアドレスへのみメールが送信できます。[Verify a New Email Address] ボタンより追加のメールアドレスも登録しましょう。登録していないメールアドレスへも送信したい場合は、<a href="https://docs.aws.amazon.com/ja_jp/ses/latest/DeveloperGuide/request-production-access.html" target="_blank">Amazon SES サンドボックス外への移動</a>を AWS のサポートに依頼してください。</p>
+</aside>
+<h2 is-upgraded>SES からメールを送信するための IAM ポリシーを作成する</h2>
+<p>次のステップで設定する AWS Lambda が SES と連携できるよう、IAM ポリシーを作成します。</p>
+<h2 is-upgraded>IAM ポリシーを作成する</h2>
+<p>IAM ユーザーには AWS 上のリソースに対する権限である IAM ポリシーを付与します。セキュリティリスクを極小化するために、SES を利用してメールを送信する権限だけを持つ IAM ポリシーを作成します。</p>
+<p>AWS コンソールより Identity andAccess Management (IAM) メニューを開き、[ポリシー] をクリックします。</p>
+<p class="image-container"><img style="width: 601.70px" src="img/7c1241d73f733c32.png"></p>
+<p class="image-container"><img style="width: 601.70px" src="img/e167cdaf806d73f4.png"></p>
+<p>[ポリシーの作成] をクリックします。</p>
+<p class="image-container"><img style="width: 601.70px" src="img/39ae17226a3e3475.png"></p>
+<p>新しくポリシーの作成画面が表示されるので、それぞれ設定していきます。まず、「サービスの選択」では今回連携したい <code>SES</code> を選択します。 次の「アクション」では、検索ウィンドウに <code>sendEmail</code>と入力してそれを選択します。最後の「リソース」では、「すべてのリソース」を選択します。</p>
+<p>以上の設定が終わったら、[ポリシーの確認] ボタンをクリックします。</p>
+<p class="image-container"><img style="width: 601.70px" src="img/291d4039bb05c534.png"></p>
+<p>ポリシー名 (例 : funk-sendEmail) を指定して [ポリシーの作成] をクリックします。</p>
+<p class="image-container"><img style="width: 601.70px" src="img/30495189915b485d.png"></p>
+
+
+      </google-codelab-step>
+    
+      <google-codelab-step label="AWS Lambda を設定する" duration="40">
+        <h2 is-upgraded>AWS Lambda 関数を作成する</h2>
+<p>まず<strong>リージョンをアジアパシフィック (東京) に変更します</strong>。次に、AWS マネジメントコンソールのサービス一覧より Lambda を選択し、[関数の作成] をクリックします。</p>
+<p class="image-container"><img style="width: 601.70px" src="img/c42a0575f2773c22.png"></p>
+<p>関数名やランタイムを指定して [関数の作成] をクリックします。</p>
+<table>
+<tr><td colspan="1" rowspan="1"><p><strong>項目</strong></p>
+</td><td colspan="1" rowspan="1"><p><strong>例</strong></p>
+</td><td colspan="1" rowspan="1"><p><strong>備考</strong></p>
+</td></tr>
+<tr><td colspan="1" rowspan="1"><p>関数作成のオプション</p>
+</td><td colspan="1" rowspan="1"><p><code>一から作成</code></p>
+</td><td colspan="1" rowspan="1"><p>-</p>
+</td></tr>
+<tr><td colspan="1" rowspan="1"><p>関数名</p>
+</td><td colspan="1" rowspan="1"><p><code>funk-send-mail</code></p>
+</td><td colspan="1" rowspan="1"><p>自由に入力可能です。</p>
+</td></tr>
+<tr><td colspan="1" rowspan="1"><p>ランタイム</p>
+</td><td colspan="1" rowspan="1"><p><code>Python 3.x</code></p>
+</td><td colspan="1" rowspan="1"><p>Python 3 ランタイムを選択します。当レシピは 3.7 で検証しました。</p>
+</td></tr>
+</table>
+<p class="image-container"><img style="width: 601.70px" src="img/784db96f5bc144de.png"></p>
+<h2 is-upgraded>IAM ロールを追加する</h2>
+<h3 is-upgraded>「アクセス権限」タブよりロール名をクリックします。</h3>
+<p class="image-container"><img style="width: 601.70px" src="img/79e34311cdf41f6b.png"></p>
+<h3 is-upgraded>[ポリシーをアタッチします] をクリックします。</h3>
+<p class="image-container"><img style="width: 601.70px" src="img/d0de29a718cfdab0.png"></p>
+<h3 is-upgraded>新しいタブが開くので、先ほど作成した SES からメールを送信するポリシー名で検索し、チェックボックスにチェックを入れて [ポリシーのアタッチ] をクリックします。</h3>
+<p class="image-container"><img style="width: 601.70px" src="img/46b1793d7f5fd353.png"></p>
+<h3 is-upgraded>ポリシーがアタッチできていることを確認します。</h3>
+<p class="image-container"><img style="width: 601.70px" src="img/487bc0f424a32efe.png"></p>
+<h2 is-upgraded>Lambda レイヤーを設定する</h2>
+<p>SORACOM CLI は Lambda 上で簡単に利用できるよう Lambda Layer として提供されています。Lambda Layer については<a href="https://docs.aws.amazon.com/ja_jp/lambda/latest/dg/configuration-layers.html" target="_blank">こちら</a>を参照してください。</p>
+<h3 is-upgraded>[設定] &gt; [Layers] &gt; [レイヤーの追加] をクリックします。</h3>
+<p class="image-container"><img style="width: 601.70px" src="img/61fb6035874f2c99.png"></p>
+<h3 is-upgraded>「レイヤーバージョン ARN を提供」を選択し ARN を入力して [追加] をクリックします。</h3>
+<table>
+<tr><td colspan="1" rowspan="1"><p><strong>項目</strong></p>
+</td><td colspan="1" rowspan="1"><p><strong>例</strong></p>
+</td><td colspan="1" rowspan="1"><p><strong>備考</strong></p>
+</td></tr>
+<tr><td colspan="1" rowspan="1"><p>レイヤーバージョン ARN</p>
+</td><td colspan="1" rowspan="1"><p><code>arn:aws:lambda:ap-northeast-1:717257875195:layer:soracom-cli-054:1</code></p>
+</td><td colspan="1" rowspan="1"><p><code>054</code> 部分はは最新の SORACOM CLI バージョンを選択可能。最新バージョンは<a href="https://github.com/soracom/soracom-cli/releases" target="_blank">こちら</a>を参照。当レシピは<code>054</code>で検証。</p>
+</td></tr>
+</table>
+<p class="image-container"><img style="width: 601.70px" src="img/904987f6926dc7b7.png"></p>
+<h3 is-upgraded>レイヤーの設定を確認したら関数名をクリックし、設定画面に戻ります。</h3>
+<p class="image-container"><img style="width: 601.70px" src="img/ac03a393d62174cf.png"></p>
+<h2 is-upgraded>環境変数を設定する</h2>
+<p>固定で設定するパラメータについて環境変数に指定します。</p>
+<h3 is-upgraded>環境変数 &gt; [環境変数を管理] をクリックします</h3>
+<p class="image-container"><img style="width: 601.70px" src="img/703ec02e47a69bc4.png"></p>
+<p>[環境変数の追加] をクリックして各キーと値を設定します。その後、[保存] をクリックします。</p>
+<table>
+<tr><td colspan="1" rowspan="1"><p><strong>キー</strong></p>
+</td><td colspan="1" rowspan="1"><p><strong>値</strong></p>
+</td></tr>
+<tr><td colspan="1" rowspan="1"><p><code>AUTH_KEY_ID</code></p>
+</td><td colspan="1" rowspan="1"><p>「SAM 認証キー作成」で作成した認証キー ID (key-id から始まる文字列)</p>
+</td></tr>
+<tr><td colspan="1" rowspan="1"><p><code>AUTH_KEY</code></p>
+</td><td colspan="1" rowspan="1"><p>「SAM 認証キー作成」で作成した認証キーシークレット (secret から始まる文字列)</p>
+</td></tr>
+<tr><td colspan="1" rowspan="1"><p><code>SOURCE_MAIL_ADDRESS</code></p>
+</td><td colspan="1" rowspan="1"><p>AWS SES に登録したアドレスのうち、送信元アドレスとして使用したいもの</p>
+</td></tr>
+</table>
+<p class="image-container"><img style="width: 601.70px" src="img/e23e0faced2a21f0.png"></p>
+<p>以下のようにキー・値が見られれば環境変数の設定は完了です。(以下の画像では一部値をマスクしています)</p>
+<p class="image-container"><img style="width: 601.70px" src="img/500fb7363f0c89c5.png"></p>
+<h2 is-upgraded>タイムアウトを設定する</h2>
+<p>SORACOM API の呼び出しに時間がかかるため、タイムアウトをデフォルトの 3 秒よりも長くします。</p>
+<h3 is-upgraded>基本設定 &gt; [編集] をクリックします</h3>
+<p class="image-container"><img style="width: 601.70px" src="img/d224f2d46624d300.png"></p>
+<h3 is-upgraded>タイムアウトを 10 秒に設定し [保存] をクリックします。</h3>
+<h2 is-upgraded><img style="width: 601.70px" src="img/4642dbc6b328a7b6.png"></h2>
+<h2 is-upgraded>関数のコードを設定する</h2>
+<p>関数コードにて、以下の内容で上書きします。</p>
+<h3 is-upgraded>lambda_function.py の内容</h3>
+<pre><code>import defaults
+from botocore.exceptions import ClientError
+import boto3
+import json
+import os
+import subprocess
+import re
+import pprint
+pp = pprint.PrettyPrinter(indent=4)
+
+
+ses = boto3.client(&#39;ses&#39;, region_name=&#39;us-west-2&#39;)
+
+
+source_email_address = os.getenv(&#39;SOURCE_MAIL_ADDRESS&#39;)
+default_destination_email_address = source_email_address
+
+
+def replacement(match, d):
+    for key in d:
+        if key == match.group(1):
+            return str(d[key])
+    return match.group()
+
+
+def get_email_body(email_format, event, context, tags):
+    import time
+    from datetime import datetime, timedelta, timezone
+
+    JST = timezone(timedelta(hours=+9), &#39;JST&#39;)
+    UTC = timezone(timedelta(hours=0), &#39;UTC&#39;)
+
+    etc = {
+        &#39;unixtime&#39;: time.time(),
+        &#39;timestamp&#39;: datetime.now(JST).strftime(&#39;%Y/%m/%d %H:%M:%S&#39;),
+        &#39;timestampUtc&#39;: datetime.now(UTC).strftime(&#39;%Y/%m/%d %H:%M:%S&#39;),
+    }
+
+    email_body = email_format
+
+    email_body = re.sub(r&#39;&#123;&#123;event\.(\w+)}}&#39;,
+                        lambda m: replacement(m, event), email_body)
+
+    email_body = re.sub(r&#39;&#123;&#123;context\.(\w+)}}&#39;,
+                        lambda m: replacement(m, context), email_body)
+
+    email_body = re.sub(r&#39;&#123;&#123;context\.location\.(\w+)}}&#39;,
+                        lambda m: replacement(m, context.get(&#39;location&#39;, {})), email_body)
+
+    email_body = re.sub(r&#39;&#123;&#123;tags\.(\w+)}}&#39;,
+                        lambda m: replacement(m, tags), email_body)
+
+    email_body = re.sub(r&#39;&#123;&#123;etc\.(\w+)}}&#39;,
+                        lambda m: replacement(m, etc), email_body)
+
+    return email_body
+
+
+def lambda_handler(event, context):
+    print(json.dumps(event))
+    if event.get(&#39;batteryLevel&#39;):
+        event[&#39;batteryLevelPercent&#39;] = 100 * event.get(&#39;batteryLevel&#39;)
+
+    print(json.dumps(context.client_context.custom))
+    custom_context = context.client_context.custom
+
+    imsi = custom_context.get(&#39;imsi&#39;)
+
+    get_subscriber_cmd = &#39;soracom subscribers get --imsi &#39; + imsi + &#39; --auth-key-id &#39; + os.getenv(&#39;AUTH_KEY_ID&#39;) + &#39; --auth-key &#39; + os.getenv(&#39;AUTH_KEY&#39;)
+    
+    subscriber = json.loads(subprocess.run(get_subscriber_cmd, shell=True, stdout=subprocess.PIPE).stdout.decode())
+    if not subscriber:
+        raise Exception(f&#39;Could not find imsi: {imsi}&#39;)  # it should not happen
+    
+    print(&#34;subscriber is&#34;)
+
+    group_id = subscriber.get(&#39;groupId&#39;)
+    if not group_id:
+        raise Exception(f&#39;Could not get groupId for imsi: {imsi}&#39;)
+
+    get_group_cmd = &#39;soracom groups get --group-id &#39; + group_id + &#39; --auth-key-id &#39; + os.getenv(&#39;AUTH_KEY_ID&#39;) + &#39; --auth-key &#39; + os.getenv(&#39;AUTH_KEY&#39;)
+
+    group = json.loads(subprocess.run(get_group_cmd, shell=True, stdout=subprocess.PIPE).stdout.decode())
+    if not group:
+        raise Exception(
+            f&#39;Could not read group configuration for group: {group_id}&#39;)
+
+    email_format = group.get(&#39;configuration&#39;).get(&#39;SoracomAir&#39;, {}).get(&#39;userdata&#39;, &#39;&#39;)
+    if email_format == &#39;&#39; or group.get(&#39;configuration&#39;).get(&#39;SoracomAir&#39;, {}).get(&#39;metadata&#39;, {}).get(&#39;enabled&#39;, False) == False:
+        email_format = defaults.email_format
+
+    email_to = subscriber.get(&#39;tags&#39;, {}).get(&#39;mail_to&#39;, default_destination_email_address)
+
+    email_body = get_email_body(email_format, event,
+                                custom_context, subscriber.get(&#39;tags&#39;, {}))
+    email_subject = email_body.split(&#39;\n&#39;)[0]
+    emaiL_body = &#39;\n&#39;.join(email_body.split(&#39;\n&#39;)[1:])
+
+    body_type = &#39;Text&#39;
+    if re.search(r&#39;&lt;.+&gt;&#39;, email_body):
+        body_type = &#39;Html&#39;
+
+    res = ses.send_email(
+        Source=source_email_address,
+        Destination={
+            &#39;ToAddresses&#39;: [
+                email_to
+            ]
+        },
+        Message={
+            &#39;Subject&#39;: {
+                &#39;Data&#39;: email_subject,
+                &#39;Charset&#39;: &#39;UTF-8&#39;
+            },
+            &#39;Body&#39;: {
+                body_type: {
+                    &#39;Data&#39;: emaiL_body,
+                    &#39;Charset&#39;: &#39;UTF-8&#39;
+                }
+            }
+        }
+    )
+    print(res)
+
+    return True</code></pre>
+<p>また、メール本文が設定されていないときにデフォルトのメッセージを送信するよう、<code>defaults.py</code> を作成し以下の内容を貼り付けます。</p>
+<h3 is-upgraded>defaults.py の内容</h3>
+<pre><code>email_format = &#39;&#39;&#39;データ送信通知
+SIM &#123;&#123;tags.name}} からデータが送信されました
+
+--
+以下の情報はメールテンプレートで &#123;&#123;event.xxx}} &#123;&#123;context.xxx}} &#123;&#123;tags.xxx}} &#123;&#123;etc.xxx}} のように参照できます
+
+event:
+  clickType: &#123;&#123;event.clickType}}
+  clickTypeName: &#34;&#123;&#123;event.clickTypeName}}&#34;
+  BatteryLevel: &#123;&#123;event.batteryLevel}}
+  BatteryLevelPercent: &#123;&#123;event.batteryLevelPercent}}
+
+context:
+  imsi: &#123;&#123;context.imsi}}
+  imei: &#123;&#123;context.imei}}
+  operatorId: &#34;&#123;&#123;context.operatorId}}&#34;
+  location:
+    lat: &#123;&#123;context.location.lat}}
+    lon: &#123;&#123;context.location.lon}}
+
+tags:
+  name: &#34;&#123;&#123;tags.name}}&#34;
+  mail_to: &#34;&#123;&#123;tags.mail_to}}&#34; (未設定の場合は空欄) 
+
+etc:
+  timestamp: &#34;&#123;&#123;etc.timestamp}}&#34; JST
+  timestampUtc: &#34;&#123;&#123;etc.timestampUtc}}&#34; UTC
+  unixtime: &#123;&#123;etc.unixtime}}
+&#39;&#39;&#39;</code></pre>
+<p>それぞれ貼り付けたら [保存] をクリックして Lambda の設定は完了です。</p>
+<p class="image-container"><img style="width: 601.70px" src="img/b54b870184a6a2b7.png"></p>
+<p class="image-container"><img style="width: 601.70px" src="img/d5226467c63be380.png"></p>
+<p class="image-container"><img style="width: 601.70px" src="img/2afaadae5f232231.png"></p>
+
+
+      </google-codelab-step>
+    
+      <google-codelab-step label="AWS Lambda の ARN をコピーする" duration="1">
+        <p>SORACOM Funk から AWS Lambda へ連携できるよう、ARN (Amazon Resource Name) をコピーし、控えておきます。</p>
+<p class="image-container"><img style="width: 601.70px" src="img/4530331786445ae1.png"></p>
+
+
+      </google-codelab-step>
+    
+      <google-codelab-step label="AWS IAM ユーザーを作成し、認証情報を取得する" duration="15">
+        <p>SORACOM Funk から AWS Lambda を呼び出すためには、IAM ユーザーの認証情報が必要となります。ここでは IAM ユーザーを作成し、認証情報を取得します。</p>
+<h2 is-upgraded>IAM ポリシーを作成する</h2>
+<p>IAM ユーザーには AWS 上のリソースに対する権限である IAM ポリシーを付与します。セキュリティリスクを極小化するために、先ほど作成した Lambda を実行する権限だけを持つ IAM ポリシーを作成します。</p>
+<p>AWS コンソールより Identity andAccess Management (IAM) メニューを開き、[ポリシー] をクリックします。</p>
+<p class="image-container"><img style="width: 602.00px" src="img/a67bdeb6b483fb9a.png"></p>
+<p>[ポリシーの作成] をクリックします。</p>
+<p class="image-container"><img style="width: 602.00px" src="img/793bea74694b447f.png"></p>
+<p>新しくポリシーの作成画面が表示されるので、それぞれ設定していきます。まず、「サービスの選択」では今回連携したい <code>Lambda</code> を選択します。 次の「アクション」では、検索ウィンドウに <code>InvokeFunction</code> と入力してそれを選択します。 3つ目の「リソース」では、[ARN の追加] をクリックして ARN の指定で先ほどコピーした ARN を貼り付けます。</p>
+<p>以上の設定が終わったら、[ポリシーの確認] ボタンをクリックします。</p>
+<p class="image-container"><img style="width: 602.00px" src="img/22bc220fe7e93241.png"></p>
+<p>ポリシー名 (例 : <code>funk-send-mail-policy</code>)を指定して [ポリシーの作成] をクリックします。</p>
+<p class="image-container"><img style="width: 602.00px" src="img/28e957cf0cf18489.png"></p>
+<h2 is-upgraded>IAM ユーザーを作成する</h2>
+<p>AWS コンソールより Identity andAccess Management (IAM) メニューを開き、[ユーザー] をクリックします。</p>
+<p class="image-container"><img style="width: 602.00px" src="img/ca8fab62975a000.png"></p>
+<p>[ユーザーを追加] をクリックします。</p>
+<p class="image-container"><img style="width: 602.00px" src="img/d8c8ae1c52912f83.png"></p>
+<p>任意のユーザー名を設定しアクセスの種類にて [プログラムによるアクセス] にチェックを入れ、[次のステップ : アクセス権限] をクリックします。</p>
+<p class="image-container"><img style="width: 602.00px" src="img/dd5c68c256e55ff.png"></p>
+<p>アクセス許可の設定では、<code>既存</code>のポリシーを直接アタッチを選択したあと、先ほど作成したポリシー名で検索します。ポリシーをチェックして、[次のステップ : タグ] をクリックします。</p>
+<p class="image-container"><img style="width: 602.00px" src="img/2fb09477c88b4ade.png"></p>
+<p>タグは特に不要なので何も入力せず [次のステップ : 確認] をクリックします。</p>
+<p class="image-container"><img style="width: 602.00px" src="img/812b415144488a08.png"></p>
+<p>以下の項目を確認して [ユーザーを作成] をクリックします。</p>
+<table>
+<tr><td colspan="1" rowspan="1"><p><strong>確認項目</strong></p>
+</td><td colspan="1" rowspan="1"><p><strong>値</strong></p>
+</td></tr>
+<tr><td colspan="1" rowspan="1"><p>AWS アクセスの種類</p>
+</td><td colspan="1" rowspan="1"><p>プログラムによるアクセス - アクセスキーを使用</p>
+</td></tr>
+<tr><td colspan="1" rowspan="1"><p>管理ポリシー</p>
+</td><td colspan="1" rowspan="1"><p>作成した管理ポリシー</p>
+</td></tr>
+</table>
+<p class="image-container"><img style="width: 602.00px" src="img/bafceff1d9c7850.png"></p>
+<h2 is-upgraded>IAM 認証情報をコピーする</h2>
+<p>IAM ユーザーが作成されると、認証情報が発行されます。アクセスキー ID やシークレットアクセスキーを控えておきます。これらは再発行できないので、[.csv のダウンロード] をクリックして csv ファイル形式でダウンロードしておくと良いでしょう。</p>
+<p class="image-container"><img style="width: 602.00px" src="img/7b8fff62a8813deb.png"></p>
+<aside class="special"><p><strong>アクセス制御の重要性</strong></p>
+<p>IAM 設定によるアクセス制御は一見手順が多く、煩雑に感じるかもしれません。またこの部分の設定を誤ると、正しく Lambda を実行できません。しかしながら、適切なユーザーが適切なリソースにのみアクセスできるよう制御することは万が一の事故を防ぐためにもとても重要です。SORACOM プラットフォームでも<a href="https://dev.soracom.io/jp/start/sam/" target="_blank">SORACOM Access Management(SAM)</a>というアクセス制御機能を提供しています。 SAM は今回のレシピでは取り扱いませんが、今後さらなる応用にご活用ください。</p>
+</aside>
+
+
+      </google-codelab-step>
+    
+      <google-codelab-step label="AWS Lambda と連携する SORACOM Funk を設定する" duration="10">
+        <p>SORACOM Funk から AWS Lambda を呼び出すための設定をおこなっていきます。</p>
+<h2 is-upgraded>作成したIAMユーザ情報をソラコムの認証情報ストアへ登録する</h2>
+<aside class="special"><p><strong>認証情報ストアとは？</strong></p>
+<p>ソラコムからの連携先サーバーやクラウドサービスへの接続設定や認証情報をソラコムプラットフォームに保存することができる機能です。 認証情報ストアに保存した認証情報を利用してソラコムの各種サービスは接続ができるため、デバイス側に認証情報を保持する必要がなくなります。また認証情報ストアは一度保存した証明書などの機密情報は取り出せないようになっており情報流出のリスクを軽減します。</p>
+</aside>
+<p>ユーザーコンソールの右上にあるユーザー名をクリックし ［セキュリティ］をクリックします。</p>
+<p class="image-container"><img style="width: 271.00px" src="img/2bdec8dd44839aa9.png"></p>
+<p>［認証情報ストア］&gt; ［認証情報を登録］をクリックします。</p>
+<p class="image-container"><img style="width: 424.00px" src="img/fce83353027aaa55.png"></p>
+<p>下記の情報を認証情報として登録します。</p>
+<p class="image-container"><img style="width: 477.00px" src="img/87042d3a9e54f8e1.png"></p>
+<table>
+<tr><td colspan="1" rowspan="1"><p><strong>項目</strong></p>
+</td><td colspan="1" rowspan="1"><p><strong>例</strong></p>
+</td><td colspan="1" rowspan="1"><p><strong>備考</strong></p>
+</td></tr>
+<tr><td colspan="1" rowspan="1"><p>認証情報 ID</p>
+</td><td colspan="1" rowspan="1"><p><code>funk-send-mail</code></p>
+</td><td colspan="1" rowspan="1"><p>自由に入力可能です</p>
+</td></tr>
+<tr><td colspan="1" rowspan="1"><p>概要</p>
+</td><td colspan="1" rowspan="1"><p><code>任意に入力</code></p>
+</td><td colspan="1" rowspan="1"><p>自由に入力可能です</p>
+</td></tr>
+<tr><td colspan="1" rowspan="1"><p>種別</p>
+</td><td colspan="1" rowspan="1"><p><code>AWS 認証情報</code></p>
+</td><td colspan="1" rowspan="1"><p>-</p>
+</td></tr>
+<tr><td colspan="1" rowspan="1"><p>AWS Access Key ID</p>
+</td><td colspan="1" rowspan="1"><p><code>作成した IAM 情報を入力</code></p>
+</td><td colspan="1" rowspan="1"><p>-</p>
+</td></tr>
+<tr><td colspan="1" rowspan="1"><p>AWS Secret Access Key</p>
+</td><td colspan="1" rowspan="1"><p><code>作成した IAM 情報を入力</code></p>
+</td><td colspan="1" rowspan="1"><p>-</p>
+</td></tr>
+</table>
+<h2 is-upgraded>SORACOM Funk の設定をする</h2>
+<h3 is-upgraded>SIM 管理画面にて Funk を設定したい SIM にチェックを付け、［操作］&gt;［所属グループ変更］とクリックします。</h3>
+<p class="image-container"><img style="width: 601.70px" src="img/ab4be1eb67407923.png"></p>
+<aside class="special"><p><strong>SORACOM の便利な使い方: 複数の SIM を同時に扱う</strong></p>
+<p>チェックをつける対象を複数にすれば、一度の複数の SIM を対象に操作が可能です。</p>
+</aside>
+<h3 is-upgraded>「新しい所属グループ」のプルダウンボックスをクリックした後、［新しいグループを作成...］をクリックします。</h3>
+<p class="image-container"><img style="width: 601.70px" src="img/eca14a331c8696cf.png"></p>
+<h3 is-upgraded>「グループ作成」のグループ名を入力して［グループ作成］をクリックします。</h3>
+<table>
+<tr><td colspan="1" rowspan="1"><p><strong>項目</strong></p>
+</td><td colspan="1" rowspan="1"><p><strong>例</strong></p>
+</td><td colspan="1" rowspan="1"><p><strong>備考</strong></p>
+</td></tr>
+<tr><td colspan="1" rowspan="1"><p>グループ名</p>
+</td><td colspan="1" rowspan="1"><p><code>send-mail</code></p>
+</td><td colspan="1" rowspan="1"><p>自由に入力可能です。日本語も設定可能です。</p>
+</td></tr>
+</table>
+<p class="image-container"><img style="width: 385.00px" src="img/d1d036a315f62bbd.png"></p>
+<h3 is-upgraded>新しい所属グループが先ほど作成したグループになっていることを確認したら［グループ変更］をクリックします。</h3>
+<p class="image-container"><img style="width: 601.70px" src="img/f4f590136e62612e.png"></p>
+<h3 is-upgraded>自動的に SIM 管理画面に戻ります。<br>SIM の「グループ」に先ほど作ったグループが設定されていることを確認してください。</h3>
+<p class="image-container"><img style="width: 601.70px" src="img/4de88b75c6c30d3.png"></p>
+<h3 is-upgraded>グループ名をクリックして、Funk を設定します。</h3>
+<p>[基本設定］ &gt;［SORACOM Funk 設定］をクリックして設定ができるように開き情報を設定します。</p>
+<table>
+<tr><td colspan="1" rowspan="1"><p><strong>項目</strong></p>
+</td><td colspan="1" rowspan="1"><p><strong>例</strong></p>
+</td><td colspan="1" rowspan="1"><p><strong>備考</strong></p>
+</td></tr>
+<tr><td colspan="1" rowspan="1"><p>（スイッチ）</p>
+</td><td colspan="1" rowspan="1"><p>ON</p>
+</td><td colspan="1" rowspan="1"><p>-</p>
+</td></tr>
+<tr><td colspan="1" rowspan="1"><p>サービス</p>
+</td><td colspan="1" rowspan="1"><p><code>AWS Lambda</code></p>
+</td><td colspan="1" rowspan="1"><p>-</p>
+</td></tr>
+<tr><td colspan="1" rowspan="1"><p>送信データ形式</p>
+</td><td colspan="1" rowspan="1"><p><code>テキスト</code></p>
+</td><td colspan="1" rowspan="1"><p>-</p>
+</td></tr>
+<tr><td colspan="1" rowspan="1"><p>認証情報</p>
+</td><td colspan="1" rowspan="1"><p><code>funk-send-mail</code></p>
+</td><td colspan="1" rowspan="1"><p>認証情報ストアに登録した認証情報を指定してください。</p>
+</td></tr>
+<tr><td colspan="1" rowspan="1"><p>関数の ARN</p>
+</td><td colspan="1" rowspan="1"><p><code>SORACOM FunkからコールするLambdaファンクションのARN</code></p>
+</td><td colspan="1" rowspan="1"><p>作成した Lambda ファンクションの ARN を指定してください。</p>
+</td></tr>
+</table>
+<p class="image-container"><img style="width: 602.00px" src="img/7ffad1c09d665ffd.png"></p>
+<p>これで SIM からデータが送信された際にメールが送信されるようになりました。SORACOM LTE-M Button for Enterprise を利用する場合は、別途 SORACOM Air for Cellular 設定よりバイナリパーサーを設定するのを忘れないようにしてください。</p>
+<p class="image-container"><img style="width: 460.00px" src="img/28b099e05097f04b.png"></p>
+
+
+      </google-codelab-step>
+    
+      <google-codelab-step label="メール送信のための設定" duration="1">
+        <h2 is-upgraded>メールの宛先を変更するには</h2>
+<p>オペレータのメールアドレス以外のメールアドレスに送信したい場合には、以下の方法で送信先メールアドレスを変更できます。初期設定においては SES の Email Address に表示されているメールアドレスへのみメールが送信できますので注意してください。 </p>
+<aside class="warning"><p><strong>SES の設定</strong></p>
+<p>初期設定においては Email Address に表示されているメールアドレスへのみメールが送信できます。[Verify a New Email Address] ボタンより追加のメールアドレスも登録しましょう。登録していないメールアドレスへも送信したい場合は、<a href="https://docs.aws.amazon.com/ja_jp/ses/latest/DeveloperGuide/request-production-access.html" target="_blank">Amazon SES サンドボックス外への移動</a>を AWS のサポートに依頼してください。</p>
+</aside>
+<h3 is-upgraded>［Menu］&gt;［SIM 管理］とクリックして SIM 管理画面を開きます。<img style="width: 566.00px" src="img/c4968675c5a9a1c8.png"></h3>
+<h3 is-upgraded>対象の SIM を選択し、[ 詳細 ] を押して詳細画面を開きます。<img style="width: 439.00px" src="img/29670f747a3b4a8b.png"></h3>
+<p>[タグ] を選択し、[ ＋ ] を押します。<img style="width: 601.70px" src="img/22e2b15bdf0a6643.png"></p>
+<h3 is-upgraded>「タグの編集」で以下のように設定します。</h3>
+<table>
+<tr><td colspan="1" rowspan="1"><p><strong>項目</strong></p>
+</td><td colspan="1" rowspan="1"><p><strong>設定値</strong></p>
+</td><td colspan="1" rowspan="1"><p><strong>備考</strong></p>
+</td></tr>
+<tr><td colspan="1" rowspan="1"><p>名前</p>
+</td><td colspan="1" rowspan="1"><p>mail_to</p>
+</td></tr>
+<tr><td colspan="1" rowspan="1"><p>値</p>
+</td><td colspan="1" rowspan="1"><p>(送信先メールアドレス)</p>
+</td><td colspan="1" rowspan="1"><p>間違えないように気を付けてください</p>
+</td></tr>
+</table>
+<p class="image-container"><img style="width: 601.70px" src="img/55fc7cc99d1a3cf9.png"></p>
+<p>最後に保存を押します。これで送信先メールアドレスの変更が出来ました。</p>
+<h2 is-upgraded>メールの件名や本文を変更するには</h2>
+<p>メールの件名や本文をカスタマイズするには、メタデータサービスのユーザデータを使います。</p>
+<h3 is-upgraded>SIM 管理画面から、SORACOM LTE-M Button に割り当てたグループ名をクリックします。</h3>
+<p class="image-container"><img style="width: 601.70px" src="img/828edebde6c3591b.png"></p>
+<h3 is-upgraded>［SORACOM Air for Cellular 設定］をクリックして設定ができるように開きます。</h3>
+<p class="image-container"><img style="width: 601.70px" src="img/983d263d446175bd.png"></p>
+<h3 is-upgraded>「メタデータサービス設定」で以下のように設定します。</h3>
+<table>
+<tr><td colspan="1" rowspan="1"><p><strong>項目</strong></p>
+</td><td colspan="1" rowspan="1"><p><strong>設定値</strong></p>
+</td><td colspan="1" rowspan="1"><p><strong>備考</strong></p>
+</td></tr>
+<tr><td colspan="1" rowspan="1"><p>(スイッチ)</p>
+</td><td colspan="1" rowspan="1"><p>ON</p>
+</td><td colspan="1" rowspan="1"><p>スイッチはクリックすることで OFF から ON に切り替えることができます。</p>
+</td></tr>
+<tr><td colspan="1" rowspan="1"><p>ユーザーデータ</p>
+</td><td colspan="1" rowspan="1"><p>任意の文章</p>
+</td><td colspan="1" rowspan="1"><p>フォーマットについては下記参照</p>
+</td></tr>
+</table>
+<p><strong>[ 保存 ] ボタンを押すのを忘れないようにしましょう。</strong></p>
+<h3 is-upgraded>ユーザーデータのフォーマット</h3>
+<p>ユーザーデータの１行目は件名として使われ、２行目以降が本文となります。</p>
+<p>また、HTMLタグを入れると自動的に HTML メールとなります。</p>
+<p>本文中に &#123;&#123;event.clickTypeName}} などと書く事によって、メールの中に様々な情報を差し込むことが出来ます。利用可能なパラメータは、ユーザーデータ未設定時やメタデータのスイッチが OFF の場合に送信されるデフォルトのメールに記載があります。</p>
+<h2 is-upgraded>メール本文の設定例</h2>
+<h3 is-upgraded>SORACOM LTE-M Button for Enterprice から位置情報を送信する場合</h3>
+<p>簡易位置情報機能を有効にするようにしてください。</p>
+<pre>迎えにきて！
+&lt;h1&gt;ボタン &#123;&#123;tags.name}} が &#123;&#123;event.clickTypeName}} クリックされました&lt;/h1&gt;
+
+&lt;ul&gt;
+&lt;li&gt;バッテリー残量: &#123;&#123;event.batteryLevelPercent}} %
+&lt;li&gt;&lt;a href=
+https://www.google.com/maps?q=&#123;&#123;context.location.lat}},&#123;&#123;context.location.lon}}&gt;位置情報&lt;/a&gt;
+&lt;li&gt;時刻: &#123;&#123;etc.timestamp}}
+&lt;/ul&gt;</pre>
+
+
+      </google-codelab-step>
+    
+  </google-codelab>
+
+  <script src="https://soracom.github.io/iot-recipes/codelab-elements/native-shim.js"></script>
+  <script src="https://soracom.github.io/iot-recipes/codelab-elements/custom-elements.min.js"></script>
+  <script src="https://soracom.github.io/iot-recipes/codelab-elements/prettify.js"></script>
+  <script src="https://soracom.github.io/iot-recipes/codelab-elements/codelab-elements.js"></script>
+
+</body>
+</html>
