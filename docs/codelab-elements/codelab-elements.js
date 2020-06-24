@@ -266,7 +266,7 @@ function Qc(a){a.c=Array.from(a.querySelectorAll("google-codelab-step"));Lc(a,sc
 /* monkeypatch by patch_cssjs (Max) */
 (function(){
     const e = document.getElementsByTagName('google-codelab')[0];
-    const backurl = e.attributes["feedback-link"].value || 'https://soracom.jp';
+    const backurl = 'https://soracom.jp/iot-recipes/';
     document.getElementById('arrow-back')['href'] = backurl;
     document.getElementById('done')['href'] = backurl;
 }).call(this);
