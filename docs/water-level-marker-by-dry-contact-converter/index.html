@@ -1,0 +1,442 @@
+
+<!doctype html>
+
+<html>
+<head>
+  <meta name="viewport" content="width=device-width, minimum-scale=1.0, initial-scale=1.0, user-scalable=yes">
+  <meta name="theme-color" content="#4F7DC9">
+  <meta charset="UTF-8">
+  <title>【IoT DIY レシピ】ドライコンタクトコンバーター＋冠水センサーで作る「冠水検知・通知・可視化システム」</title>
+  <link rel="stylesheet" href="//fonts.googleapis.com/css?family=Source+Code+Pro:400|Roboto:400,300,400italic,500,700|Roboto+Mono">
+  <link rel="stylesheet" href="//fonts.googleapis.com/icon?family=Material+Icons">
+  <link rel="stylesheet" href="https://soracom.github.io/iot-recipes/codelab-elements/codelab-elements.css">
+  <style>
+    .success {
+      color: #1e8e3e;
+    }
+    .error {
+      color: red;
+    }
+  </style>
+</head>
+<body>
+  <google-codelab-analytics gaid="UA-66865146-33"></google-codelab-analytics>
+  <google-codelab codelab-gaid=""
+                  id="water-level-marker-by-dry-contact-converter"
+                  title="【IoT DIY レシピ】ドライコンタクトコンバーター＋冠水センサーで作る「冠水検知・通知・可視化システム」"
+                  environment="web"
+                  feedback-link="https://soracom.jp/iot-recipes/">
+    
+      <google-codelab-step label="ドライコンタクトコンバーター＋冠水センサーで作る「冠水検知・可視化システム」" duration="0">
+        <p>レシピ難易度：★★★☆☆</p>
+<p>Watty社製冠水センサー「HL-MC1」とOPTEX社製Sigfoxデバイス「ドライコンタクトコンバーター」を活用して、冠水の検知・可視化を行うためのレシピです。本レシピでは冠水センサーを2つ利用し、二段階の冠水レベルを検知します。</p>
+<p class="image-container"><img style="width: 601.70px" src="img/70334697d33846ec.png"></p>
+<h2 is-upgraded>本レシピを行うのに必要な時間、概算費用</h2>
+<p>本レシピは以下の通りです。</p>
+<ul>
+<li>必要な時間: 約2時間</li>
+<li>概算費用: 約100,000円</li>
+</ul>
+<p>※ 概算費用: ハードウェアや SORACOM を始めとした各種サービスの概ねの費用 (税や送料などの付帯費用や無料枠適用は考慮しないものとしています)</p>
+<h2 is-upgraded>このコンテンツの進め方</h2>
+<p>ページの内容を読み、また作業を行ったら右下の［Next］を押して次のステップへ進みます。また、［Back］を使って戻ったり、左のナビゲーションメニューでもページの移動が可能です。</p>
+<p>左上の［×］を押してコンテンツを終了することができます。また、ページを開きなおすことで再開できます。ページのアドレスはブラウザの［履歴］メニューを利用してください。</p>
+
+<aside class="warning"><p>本コンテンツは現状のままで提供され、株式会社ソラコムは、誤りがないことの保証を含め、明示であると黙示であるとを問わず、本コンテンツの記載内容につき、いかなる種類の表明も保証も行いません。</p>
+<p>掲載情報の閲覧及び利用により、利用者自身、もしくは第三者が被った損害に対して、直接的、間接的を問わず、株式会社ソラコムは責任を負いかねます。</p>
+<p>本コンテンツを実践する中で用意された機器、利用されたサービスについてのご質問は、それぞれの機器やサービスの提供元にお問い合わせをお願いします。機器やサービスの仕様は、本コンテンツ作成当時のものです。</p>
+<p>株式会社ソラコムが提供する機器・サービスについてのご質問は、 <a href="https://soracom.jp/contact/" target="_blank">https://soracom.jp/contact/</a> をご確認の上、適切な窓口へのお問い合わせをお願いします。機器・サービスご利用前の導入相談は <a href="https://soracom.jp/contact/contactsales/" target="_blank">https://soracom.jp/contact/contactsales/</a> に、機器・サービスご利用開始後のサポートは、SORACOMユーザーコンソール内の<a href="https://soracom.zendesk.com/hc/ja/requests/" target="_blank">サポートサイトから「リクエストを送信」</a>(要ログイン)にてお問い合わせください。</p>
+<p>本ドキュメントは <a href="https://github.com/googlecodelabs/tools" target="_blank">CLaaT</a> を用いて制作しています</p>
+<p>Copyright (c) 2020 SORACOM, INC.</p>
+</aside>
+
+
+
+      </google-codelab-step>
+    
+      <google-codelab-step label="準備" duration="0">
+        <p>本レシピを行うためには以下のものをご用意ください。</p>
+<h2 is-upgraded>ハードウェア</h2>
+<table>
+<tr><td colspan="1" rowspan="1"><p><strong>品名</strong></p>
+</td><td colspan="1" rowspan="1"><p><strong>数量</strong></p>
+</td><td colspan="1" rowspan="1"><p><strong>価格</strong></p>
+</td><td colspan="1" rowspan="1"><p><strong>購入先</strong></p>
+</td><td colspan="1" rowspan="1"><p><strong>備考</strong></p>
+</td></tr>
+<tr><td colspan="1" rowspan="1"><p>ドライコンタクトコンバーター</p>
+</td><td colspan="1" rowspan="1"><p>1</p>
+</td><td colspan="1" rowspan="1"><p>14,980円</p>
+</td><td colspan="1" rowspan="1"><p><a href="https://soracom.jp/products/sigfox/dcc/" target="_blank">ソラコム</a></p>
+</td><td colspan="1" rowspan="1"><p>付属品は以下のとおりです。</p>
+<ul>
+<li>アンテナ(1本)</li>
+<li>壁取付ビス(4本)</li>
+<li>専用リチウム電池(2本パック)</li>
+</ul>
+<p>ステー等は別売りとなります。</p>
+</td></tr>
+<tr><td colspan="1" rowspan="1"><p>HL-MC1 ワイヤレス冠水センサー</p>
+</td><td colspan="1" rowspan="1"><p>1</p>
+</td><td colspan="1" rowspan="1"><p>80,000円</p>
+</td><td colspan="1" rowspan="1"><p>ソラコム？</p>
+</td><td colspan="1" rowspan="1"><p>今回利用するセンサーは「HL-MC1A」となります。こちらは接点形式：a接点(NO)のセンサーとなります。</p>
+</td></tr>
+<tr><td colspan="1" rowspan="1"><p>ポール取付金具 SSK-P100</p>
+</td><td colspan="1" rowspan="1"><p>1</p>
+</td><td colspan="1" rowspan="1"><p>?どこの値段にしようか</p>
+</td><td colspan="1" rowspan="1"><p><a href="https://www.takachi-el.co.jp/products/SSK_AL" target="_blank">タカチさんのサイト</a> or ミスミとかみたいな実際に買えるところ？</p>
+</td><td colspan="1" rowspan="1"><p>バンドで本体を固定する場合に利用する金属ステーとなります。</p>
+</td></tr>
+<tr><td colspan="1" rowspan="1"><p>ビスセットSSK-B4-25N(M4×25 </p>
+</td><td colspan="1" rowspan="1"><p>1</p>
+</td><td colspan="1" rowspan="1"><p>？どこの値段にしようか</p>
+</td><td colspan="1" rowspan="1"><p><a href="https://www.takachi-el.co.jp/products/SSK_AL" target="_blank">タカチさんのサイト</a> or ミスミとかみたいな実際に買えるところ？</p>
+</td><td colspan="1" rowspan="1"><p>「ポール取付金具 SSK-P100」を本体に固定するためのビスのセットとなります。</p>
+</td></tr>
+</table>
+<p>※ 金額はレシピ作成時となります。ソラコムで販売している金額は税抜き・送料別です。</p>
+<h2 is-upgraded>その他必要なもの</h2>
+<table>
+<tr><td colspan="1" rowspan="1"><p><strong>必要なもの</strong></p>
+</td><td colspan="1" rowspan="1"><p><strong>費用</strong></p>
+</td><td colspan="1" rowspan="1"><p><strong>作成方法など</strong></p>
+</td></tr>
+<tr><td colspan="1" rowspan="1"><p>SORACOM アカウント</p>
+</td><td colspan="1" rowspan="1"><p>無料※</p>
+</td><td colspan="1" rowspan="1"><p><a href="https://soracom.github.io/iot-recipes/create-account-soracom-jp/" target="_blank">SORACOM アカウントの作成 (JP)</a></p>
+</td></tr>
+</table>
+<p>※ アカウント作成・維持の費用の料金です。</p>
+<h2 is-upgraded>準備・設置に利用したもの</h2>
+<p>本レシピで設置時に利用した部材です。必須ではありませんがご参考にお使いください。</p>
+<table>
+<tr><td colspan="1" rowspan="1"><p><strong>品名</strong></p>
+</td><td colspan="1" rowspan="1"><p><strong>数量</strong></p>
+</td><td colspan="1" rowspan="1"><p><strong>備考</strong></p>
+</td></tr>
+<tr><td colspan="1" rowspan="1"><p>プラスドライバー</p>
+</td><td colspan="1" rowspan="1"><p>1</p>
+</td><td colspan="1" rowspan="1"><p>ドライコンタクトコンバーターの蓋の開閉、金属ステー取り付け時に利用します。</p>
+</td></tr>
+<tr><td colspan="1" rowspan="1"><p>スパナ 7mm</p>
+</td><td colspan="1" rowspan="1"><p>1</p>
+</td><td colspan="1" rowspan="1"><p>金属ステーへの取り付け時のナットの固定に利用します。ラジオペンチでも代用可能です。</p>
+</td></tr>
+<tr><td colspan="1" rowspan="1"><p>結束バンド</p>
+</td><td colspan="1" rowspan="1"><p>6</p>
+</td><td colspan="1" rowspan="1"><p>ドライコンタクトコンバーター、センサー２つにそれぞれ２本ずつ使用。</p>
+<p>ホームセンター、100円ショップ等で入手可能です。</p>
+</td></tr>
+</table>
+
+
+      </google-codelab-step>
+    
+      <google-codelab-step label="ドライコンタクトコンバーターの登録確認" duration="5">
+        <p>ドライコンタクトコンバーターをIoTストアで購入いただいた場合、購入にご利用いただいたSORACOM アカウントに紐付いた状態で出荷されます。</p>
+<p><a href="https://console.soracom.io/" target="_blank">SORACOM Webコンソール</a>にログインしたあと、Menu &gt; Sigfoxデバイス管理で、お手元のドライコンタクトコンバーターがコンソールに登録されているか確認します。</p>
+<p class="image-container"><img style="width: 601.70px" src="img/fa79d9f10ca1ca3.png"></p>
+
+
+      </google-codelab-step>
+    
+      <google-codelab-step label="ドライコンタクトコンバーターの準備とセンサーの接続" duration="40">
+        <p>ドライコンタクトコンバーターを箱から取り出し、冠水センサーの取り付けを行います。</p>
+<h2 is-upgraded>ドライコンタクトコンバーターのアンテナを取り付ける。</h2>
+<p>付属のアンテナを本体のコネクタ部に接続します。</p>
+<p class="image-container"><img style="width: 601.70px" src="img/6239aae41dcc79d3.jpeg"></p>
+<h2 is-upgraded>ドライコンタクトコンバーターの蓋を外す。</h2>
+<p>本体の表側に樹脂製のネジ4本で蓋が固定されているので、プラスドライバーを利用して蓋を外す。</p>
+<h2 is-upgraded>ケーブルグランドに冠水センサーのケーブルを挿入する。</h2>
+<p>ケーブルグランドのキャップを外し、キャップにセンサーのケーブルを通す。キャップにセンサーを通した状態で、本体のケーブルグランドにセンサーを挿入します。</p>
+<p class="image-container"><img style="width: 601.70px" src="img/7c2510eab5eb51ed.jpeg"></p>
+<p>ケーブルを挿入し終えたら、キャップをケーブルグランドに取り付けます。</p>
+<h2 is-upgraded>冠水センサーをドライコンタクトコンバーターの接点に接続する。</h2>
+<p>冠水センサーをドライコンタクトコンバーターの接点部分に接続します。今回は冠水センサーを2つ利用しますので、接点の入力1、入力2にそれぞれセンサーを接続します。本センサーに極性はないため、配線の向きはどちらでもかまいません。注意点として、センサーの配線が4本あるので、バラバラの接続にならないよう一つのセンサーの配線二本を入力1にもう片方のセンサーの配線二本を入力2に接続するようにします。</p>
+<p>今回は水位を二段階で検出できるようにするため、低水位側を入力1に高水位側を入力2に接続します。</p>
+<p class="image-container"><img style="width: 600.00px" src="img/31bfd7e18dec875a.png"></p>
+<p>本体の入力端子の上部のボタンを強く押しながら配線を奥まで挿入し、ボタンを離すことで固定されます。</p>
+<p class="image-container"><img style="width: 601.70px" src="img/8e2b8620a81ea07.png"></p>
+<h2 is-upgraded>動作モードをDIPスイッチを利用して設定する。</h2>
+<p>DIPスイッチで動作モードの設定を行います。それぞれのスイッチは以下の設定に対応しています。</p>
+<table>
+<tr><td colspan="1" rowspan="1"><p>CH1</p>
+</td><td colspan="1" rowspan="1"><p>モード</p>
+</td><td colspan="1" rowspan="1"><p>OFF：アラームモード</p>
+<p>ON：カウントモード</p>
+</td></tr>
+<tr><td colspan="1" rowspan="1"><p>CH2</p>
+</td><td colspan="1" rowspan="1"><p>NO/NC</p>
+</td><td colspan="1" rowspan="1"><p>OFF：NO</p>
+<p>ON：NC</p>
+</td></tr>
+<tr><td colspan="1" rowspan="1"><p>CH3</p>
+</td><td colspan="1" rowspan="1"><p>信号検知</p>
+</td><td colspan="1" rowspan="1"><p>OFF：両エッジ</p>
+<p>ON：片エッジ</p>
+</td></tr>
+<tr><td colspan="1" rowspan="1"><p>CH4</p>
+</td><td colspan="1" rowspan="1"><p>死活監視</p>
+</td><td colspan="1" rowspan="1"><p>OFF：切り</p>
+<p>ON：入り</p>
+</td></tr>
+</table>
+<p>本レシピでは冠水を検知するたびに通知するためCH1はOFFのアラートモード、利用するセンサーはa接点(NO)なのでOFFのNOモード、冠水と水が引いたことの両方を検知するためにCH3はOFFの両エッジモード、死活監視は本レシピでは利用しないためOFFに設定します。各モードの詳細については、<a href="https://soracom.jp/files/products/ODC-01_OperationGuide.pdf" target="_blank">ODC-01_OperationGuide.pdf</a>をご覧ください。</p>
+<p class="image-container"><img style="width: 601.70px" src="img/e410b03fed10cf24.jpeg"></p>
+<h2 is-upgraded>電源コネクタを接続し、初回起動操作を行う。</h2>
+<p>リチウムイオン電池のコネクタを本体に接続し、青色のイニシャルボタンを３秒以上長押しして起動します。初回起動後は電源コネクタを抜き差しすることで本体のON/OFFを行います。</p>
+<p>正常に起動するとボタン上部の赤色LEDが点灯し、起動が確認できます。</p>
+<p class="image-container"><img style="width: 601.70px" src="img/d5d5b4ecab0eca52.png"></p>
+<h2 is-upgraded>冠水センサーの動作を確認する。</h2>
+<p>冠水センサーを水につける、もしくは上下逆さまにして中のフローターを動かします。冠水センサーの接点がつながると赤色のLEDが点灯し、データが送信されていることがわかります。</p>
+<p class="image-container"><img style="width: 601.70px" src="img/1fb52fd23532a41e.jpeg"></p>
+<h2 is-upgraded>本体設置用のステーを取り付ける。</h2>
+<p>ポール取付金具 SSK-P100を本体にとりつけます。ビスセットSSK-B4-25N(M4×25)を使って本体裏側にステーを取り付けます。このときナットが外装の外側にくるように取り付けを行ってください。</p>
+<p class="image-container"><img style="width: 601.70px" src="img/a7bf7131b539f3a3.jpeg"></p>
+<h2 is-upgraded>カバーを閉めて、ビスでカバーを固定する。</h2>
+<p>全ての接続が終わったらカバーを元のとおりに閉め、付属のビスで4箇所を固定します。ビスはプラスチック製なのでなめないよう注意して作業をしてください。また、1箇所を最初に強く締めすぎると他のビスが締めにくくなるので、4箇所をバランス良く締めてください。このカバーがしっかり固定されていないと防水性能が発揮できなくなるため、確実にカバーと本体が密着している状態になるよう作業をしてください。</p>
+
+
+      </google-codelab-step>
+    
+      <google-codelab-step label="ドライコンタクトコンバーターのデバイス設定" duration="5">
+        <p>ドライコンタクトコンバーターのデバイスの設定は SORACOM ユーザコンソール上で行います。</p>
+<h2 is-upgraded>ドライコンタクトコンバーターに名前をつける。</h2>
+<p><a href="https://console.soracom.io/" target="_blank">SORACOM ユーザーコンソール</a>にログインした後［Menu］&gt;［SORACOM Air for Sigfox］&gt; [Sigfoxデバイス管理]とクリックします。</p>
+<p class="image-container"><img style="width: 601.70px" src="img/2528e423d09cd431.png"></p>
+<p>Sigfoxデバイスの一覧画面が表示されます。IDで検索をして対象のドライコンタクトコンバーターを表示させます。検索には本体側面のラベルにあるIDを利用します。先頭に0が入っている場合は先頭にあるすべての0を外して検索を実行します。</p>
+<p>例：00543210と記載があった場合、543210と入力して検索を行います。</p>
+<p class="image-container"><img style="width: 601.70px" src="img/4e714f4f0ac2c0a5.png"></p>
+<p class="image-container"><img style="width: 601.70px" src="img/cd754d3656388b68.png"></p>
+<p>表示されたデバイスが手元にあるドライコンタクトコンバーターとなります。こちらのドライコンタクトコンバーターに名前を設定します。</p>
+<p>名前の部分にカーソルを合わせるとペンのマークが出るので、クリックします。</p>
+<p class="image-container"><img style="width: 601.70px" src="img/3745081d30a6cd49.png"></p>
+<p>クリックするとそのままテキスト編集ボックスが表示されるので好きな名前をつけてEnterを押し、決定します。</p>
+<p class="image-container"><img style="width: 601.70px" src="img/870be55c7a4a75cd.png"></p>
+
+
+      </google-codelab-step>
+    
+      <google-codelab-step label="SORACOM Harvest Dataの設定" duration="5">
+        <p>SORACOM の IoT データ収集・蓄積サービス <a href="https://soracom.jp/services/harvest/" target="_blank"><strong>SORACOM Harvest Data</strong></a> を利用して、データの可視化を簡単に実現してみましょう。</p>
+<p>まずは<strong>グループ</strong>の作成と、作成したグループへ Sigfoxデバイス を所属させる事から始めます。</p>
+<aside class="special"><p><strong>SORACOM Harvest Data とは？</strong></p>
+<p>IoT デバイスからのデータの収集や蓄積、およびファイルを保存するサービスが SORACOM Harvest (ソラコム ハーベスト) です。IoT デバイスからのデータの収集・蓄積対応しているのが SORACOM Harvest Data、画像ファイルやログファイルといったファイルに対応しているのが SORACOM Harvest Files となります。</p>
+</aside>
+<aside class="special"><p><strong>グループとは？</strong></p>
+<p>SORACOM サービスのほとんどが<strong>グループ</strong>という単位に対して設定するようになっています。SORACOM Harvest Data 等、SORACOM サービスのほとんどが SIMやSigfoxデバイス に直接設定をするのではなくグループに設定をします。そして、SIMやSigfoxデバイス をグループに所属させることで SORACOM サービスが利用できるという間接的な仕組みです。<img style="width: 587.00px" src="img/a9af1cef0f747a1d.png"></p>
+</aside>
+<h2 is-upgraded><a href="https://console.soracom.io/" target="_blank">SORACOM ユーザーコンソール</a>にログインした後［Menu］&gt;［SORACOM Air for Sigfox］&gt; [Sigfoxグループ]とクリックして Sigfoxグループを開きます。</h2>
+<p class="image-container"><img style="width: 475.12px" src="img/9fd20b8972faad05.png"></p>
+<h2 is-upgraded>追加ボタンをクリックし、新しいグループを作成します。<img style="width: 601.70px" src="img/be4080d17dbd459d.png"></h2>
+<h2 is-upgraded><img style="width: 601.70px" src="img/790429ffd06f020e.png"></h2>
+<h2 is-upgraded>［Menu］&gt;［SORACOM Air for Sigfox］&gt; [Sigfoxデバイス管理]とクリックして Sigfoxグループを開きます。</h2>
+<p class="image-container"><img style="width: 601.70px" src="img/2528e423d09cd431.png"></p>
+<h2 is-upgraded>SORACOM Harvest Data でデータの収集を行いたい Sigfoxデバイスにチェックを付け、［操作］&gt;［所属グループ変更］とクリックします。</h2>
+<p class="image-container"><img style="width: 601.70px" src="img/3bb4c58677017072.png"></p>
+<h2 is-upgraded>「新しい所属グループ」のプルダウンボックスをクリックした後、さきほど作成したグループを選択し、グループ変更をクリックする。</h2>
+<p class="image-container"><img style="width: 601.70px" src="img/23daa5bedb475330.png"></p>
+<h2 is-upgraded>Sigfoxデバイス 管理画面から、利用すSigfoxデバイスに割り当てたグループ名をクリックします。</h2>
+<p class="image-container"><img style="width: 601.70px" src="img/fa837e39343e6c62.png"></p>
+<h2 is-upgraded>［基本設定］ &gt;［SORACOM Harvest Data 設定］をクリックして設定ができるように開きます。</h2>
+<p>先ほどの設定を行ったページ内にあります。</p>
+<p class="image-container"><img style="width: 601.70px" src="img/73e27000be19d4be.png"></p>
+<h2 is-upgraded>「SORACOM Harvest 設定」で以下のように設定します。</h2>
+<table>
+<tr><td colspan="1" rowspan="1"><p><strong>項目</strong></p>
+</td><td colspan="1" rowspan="1"><p><strong>設定値</strong></p>
+</td><td colspan="1" rowspan="1"><p><strong>備考</strong></p>
+</td></tr>
+<tr><td colspan="1" rowspan="1"><p>（スイッチ）</p>
+</td><td colspan="1" rowspan="1"><p>ON</p>
+</td><td colspan="1" rowspan="1"><p>―</p>
+</td></tr>
+</table>
+<p>スイッチはクリックすることで OFF から ON に切り替えることができます。</p>
+<p class="image-container"><img style="width: 601.70px" src="img/fe64c987973e63c9.png"></p>
+<p>最後に［保存］をクリックしてください。<br>その後表示される「SORACOM Harvest が有効になっています」のダイアログでは［OK］をクリックしてください。</p>
+<p>以上で「SORACOM Harvest Data」の設定が完了しました。</p>
+
+
+      </google-codelab-step>
+    
+      <google-codelab-step label="バイナリパーサーの設定" duration="5">
+        <p>Sigfoxデバイスからの情報はデバイスで定義されたバイナリで送信されます。しかし、バイナリ形式ではデータを取り扱うことが難しいため、バイナリパーサー機能を利用して、JSONに変換します。</p>
+<h2 is-upgraded>Sigfoxデバイス 管理画面から、利用すSigfoxデバイスに割り当てたグループ名をクリックします。</h2>
+<p class="image-container"><img style="width: 601.70px" src="img/fa837e39343e6c62.png"></p>
+<h2 is-upgraded>［基本設定］ &gt;［SORACOM Air for Sigfox 設定］をクリックして開き、バイナリパーサーを設定します。</h2>
+<p class="image-container"><img style="width: 601.70px" src="img/a6fc925a35392e9f.png"></p>
+<p>バイナリパーサーをONに設定し、フォーマットに下記の設定を入力したら、保存をクリックします。</p>
+<pre>event:0:char:2 usr_channel:0:uint:2:2 usr_value:1:uint:1:2 count_ch1:2:uint:16 count_ch2:4:uint:16 battery_status:6:uint:8 low:0:uint:8:1:-82 high:0:uint:8:1:-146</pre>
+
+
+      </google-codelab-step>
+    
+      <google-codelab-step label="冠水センサーとドライコンタクトコンバーターの設置" duration="20">
+        <p>次に冠水センサーとドライコンタクトコンバーターを設置していきます。本レシピではポールに結束バンドで固定する方法での設置を行います。</p>
+<h2 is-upgraded>ドライコンタクトコンバーターの設置</h2>
+<p>ドライコンタクトコンバーターに取り付けたポール取付金具 SSK-P100に結束バンドを通し、ポールに固定します。</p>
+<p>ドライコンタクトコンバーターは水没してしまうと故障してしまうため、なるべく高い位置に設置することが望ましいです。</p>
+<p class="image-container"><img style="width: 601.70px" src="img/56deea1d8ea8ccb1.jpeg"></p>
+<p class="image-container"><img style="width: 601.70px" src="img/e67902c977916ea1.jpeg"></p>
+<h2 is-upgraded>冠水センサーの設置</h2>
+<p>冠水センサーにはステンレスのケースと一体となってステーがついており、これを設置に利用します。</p>
+<p class="image-container"><img style="width: 601.70px" src="img/cc1754696abab26d.png"></p>
+<p>ドライコンタクトコンバーター同様に結束バンドを通し、ポールに固定します。</p>
+<p class="image-container"><img style="width: 601.70px" src="img/bde7f5bd29969c33.jpeg"></p>
+<p>本レシピでは二段階の水位を検知するために入力1に接続したセンサーを低水位側に入力2に接続したセンサーを高水位側に設置します。</p>
+<p class="image-container"><img style="width: 601.70px" src="img/40e2d663f80e5fc9.png"></p>
+
+
+      </google-codelab-step>
+    
+      <google-codelab-step label="SORACOM Lagoon でダッシュボードを作成する（有効化まで）" duration="10">
+        <p>設定と設置が完了したら、蓄積されたデータを SORACOM Lagoon で活用していきます。</p>
+<h3 is-upgraded>SORACOM Lagoon 用語解説</h3>
+<p>ここで SORACOM Lagoon で使われる用語を解説します。</p>
+<table>
+<tr><td colspan="1" rowspan="1"><p><strong>用語</strong></p>
+</td><td colspan="1" rowspan="1"><p><strong>意味</strong></p>
+</td></tr>
+<tr><td colspan="1" rowspan="1"><p>プラン</p>
+</td><td colspan="1" rowspan="1"><p>SORACOM Lagoon の契約プランです。機能と料金が異なります。<a href="https://soracom.jp/services/lagoon/price/" target="_blank">SORACOM Lagoon のご利用料金</a>に機能や料金の比較表があります。</p>
+</td></tr>
+<tr><td colspan="1" rowspan="1"><p>メトリクス</p>
+<p>(メトリック)</p>
+</td><td colspan="1" rowspan="1"><p>データが格納されている先です。SORACOM Lagoon では以下の4つの中から選び、その中からノード(SIMや回線)を選択します。</p>
+<ul>
+<li>Air = SORACOM Air for セルラー</li>
+<li>LoRa = SORACOM Air for LoRaWAN</li>
+<li>Sigfox = SORACOM Air for Sigfox</li>
+<li>Device = SORACOM Inventory デバイス</li>
+</ul>
+</td></tr>
+<tr><td colspan="1" rowspan="1"><p>データソース</p>
+</td><td colspan="1" rowspan="1"><p>メトリクスの参照先です。SORACOM Lagoon では &#34;Harvest&#34; (= SORACOM Harvest) を選ぶとメトリクスが展開されます。 Grafana ではテスト用のランダムデータが表示されます。</p>
+</td></tr>
+<tr><td colspan="1" rowspan="1"><p>パネル</p>
+</td><td colspan="1" rowspan="1"><p>パネルはデータを表示する領域です。データソースとメトリクスを指定すると、そのメトリクス(たとえばSIM)のデータをパネルで使えるようになります。</p>
+<p>様々なパネルが存在します。</p>
+</td></tr>
+<tr><td colspan="1" rowspan="1"><p>ダッシュボード</p>
+</td><td colspan="1" rowspan="1"><p>複数のパネルを束ねて「1枚の画面」にしたものがダッシュボードです。共有の単位となります。</p>
+</td></tr>
+<tr><td colspan="1" rowspan="1"><p>SORACOM Lagoon ユーザー</p>
+<p>(Lagoon ユーザー)</p>
+</td><td colspan="1" rowspan="1"><p>SORACOM Lagoon へログインするためのユーザー(IDとパスワードの組)</p>
+<p>SORACOM ユーザコンソールへのログインとは異なるユーザ一覧となり、皆さん自身で登録・削除が可能です。ダッシュボードやパネルを編集できる「編集可能」と表示専用の「読み取り」の2段階の権限を設定できます。</p>
+<p>作成可能数はプランによります。</p>
+</td></tr>
+<tr><td colspan="1" rowspan="1"><p>データリフレッシュ</p>
+</td><td colspan="1" rowspan="1"><p>SORACOM Harvest から SORACOM Lagoon へデータが反映される事、もしくは反映タイミングとなります。反映タイミングはプランによります。</p>
+</td></tr>
+<tr><td colspan="1" rowspan="1"><p>アラート</p>
+</td><td colspan="1" rowspan="1"><p>メトリクスのデータに対して条件を設定し、その条件を満たしたら通知を行う仕組みの事です。</p>
+</td></tr>
+</table>
+<h2 is-upgraded><a href="https://console.soracom.io/" target="_blank">SORACOM ユーザーコンソール</a>の［Menu］&gt;［データ収集・蓄積・可視化］&gt;［SORACOM Lagoon］とクリックします。</h2>
+<p class="image-container"><img style="width: 547.00px" src="img/df078d78ef3c64c9.png"></p>
+<h2 is-upgraded>［SORACOM Lagoon の利用を開始する］をクリックします。</h2>
+<p class="image-container"><img style="width: 602.00px" src="img/4a10b1d6ed1f5cc0.png"></p>
+<h2 is-upgraded>プランのうち［Free］を選択したあと［続行する］をクリックします。</h2>
+<p class="image-container"><img style="width: 602.00px" src="img/60107b200a7a5a98.png"></p>
+<h2 is-upgraded>SORACOM Lagoon ユーザーの初期ユーザーに設定するパスワードを入力した後、［利用開始］をクリックします。</h2>
+<p class="image-container"><img style="width: 602.00px" src="img/f2b324c51b7a071e.png"></p>
+<aside class="special"><p><strong>SORACOM Lagoon ユーザーの初期ユーザの ID は？</strong></p>
+<p>ID は SORACOM ユーザコンソールにログインしたときのメールアドレスが使われることになります。そのため、ここではパスワードのみ設定することになります。<strong>SORACOM ユーザコンソールへのログインとは異なるパスワードを設定する事を強くお勧めします。</strong></p>
+</aside>
+<aside class="warning"><p><strong>利用開始がクリックできない場合は？</strong></p>
+<p>パスワードの条件が不足しています。全てに✔がつくようにパスワードを設定してください。</p>
+</aside>
+<p>SORACOM Lagoon の有効化に成功すると、以下のように SORACOM Lagoon コンソールへのリンクと、Lagoon ユーザーの一覧が管理できるようになります。</p>
+<p>この画面を SORACOM Lagoon 管理画面と呼びます。</p>
+<p class="image-container"><img style="width: 602.00px" src="img/6c91011f8fa4eb2.png"></p>
+<p>SORACOM Lagoon 管理画面は、SORACOM Lagoon が有効化されている間は ［Menu］&gt;［データ収集・蓄積・可視化］&gt;［SORACOM Lagoon］で表示する事ができます。</p>
+
+
+      </google-codelab-step>
+    
+      <google-codelab-step label="SORACOM Lagoon でダッシュボードを作成する（高水位・低水位パネル作成まで）" duration="20">
+        <h2 is-upgraded>SORACOM Lagoon 管理画面を表示したあと、［SORACOM Lagoon console にアクセス］をクリックします。</h2>
+<p>※ SORACOM Lagoon 管理画面は ［Menu］&gt;［データ収集・蓄積・可視化］&gt;［SORACOM Lagoon］で表示する事ができます。</p>
+<p class="image-container"><img style="width: 602.00px" src="img/e056d4558913af2.png"></p>
+<h2 is-upgraded>SORACOM Lagoon へログインします。</h2>
+<p>メールアドレス (SORACOM ユーザコンソールへログインする際のメールアドレス) と、SORACOM Lagoon 初期ユーザ作成時に利用したパスワードでログインします。</p>
+<p class="image-container"><img style="width: 602.00px" src="img/d442ea101d6ae875.png"></p>
+<p>ログインに成功すると、以下のような画面が表示されます。これが SORACOM Lagoon ログイン直後の画面です。ここから「ダッシュボード」や「パネル」を作成していきます。</p>
+<p class="image-container"><img style="width: 838.50px" src="img/1b5745e822b81074.png"></p>
+<h2 is-upgraded>作成アイコン<img style="width: 40.00px" src="img/940a7161e06b7174.png">にカーソルを乗せると表示される「作成」メニューから［ダッシュボード］をクリックします。</h2>
+<p class="image-container"><img style="width: 297.00px" src="img/3efe197697d950a1.png"></p>
+<h2 is-upgraded>［Graph］ をクリックします。</h2>
+<p class="image-container"><img style="width: 602.00px" src="img/c3360800d3def06.png"></p>
+<aside class="special"><p>ダッシュボードが新規作成されると、最初のパネルも自動的にされます。パネルを追加したい場合は画面右上の<img style="width: 271.00px" src="img/ba6e7c6ec8c48277.png">で新たなパネルを追加できます。</p>
+</aside>
+<h2 is-upgraded>&#34;Panel Title&#34; &gt;［編集］をクリックします。</h2>
+<p class="image-container"><img style="width: 602.00px" src="img/78d86dcd59a18a6e.png"></p>
+<h2 is-upgraded>&#34;メトリック&#34; タブでノード(= Sigfoxデバイス) をクリックし、ドライコンタクトコンバーターに紐づいている ノード を選びます。</h2>
+<p>データソースは &#34;default&#34;  になっているので、メトリクスは &#34;Sigfox&#34;に設定し、ノード(= Sigfoxデバイス) を選びます。</p>
+<p>表示データは&#34;low&#34;を選択します。この&#34;low&#34;は低水位側のセンサーの値を示しています。</p>
+<p class="image-container"><img style="width: 601.70px" src="img/d127b0f692ae21d4.png"></p>
+<aside class="special"><p><strong>データが表示されていない？</strong></p>
+<p>データがグラフの右端に「少しだけ」表示されている、あるいは過去にデータを送ったはずなのにデータが表示されない場合があります。これは、パネルの表示時間の標準が「過去6時間分」を表示するようになっているからです。</p>
+<p>右上の「時間」ボタンで表示範囲を設定可能です。データを送った時刻にあるように設定をします。</p>
+<p class="image-container"><img style="width: 587.00px" src="img/76a64d941a095f3.png"></p>
+<p>それでもデータが表示されていない場合は、いったん SORACOM Harvest Data データの蓄積具合を確認するようにしてください。</p>
+</aside>
+<h2 is-upgraded>もう一枚Graphパネルを作成し、高水位側のグラフを作成します。</h2>
+<p>先ほどと同じ手順でGraphパネルを作成し、&#34;メトリック&#34;タブで高水位側のデータを指定します。高水位側の表示データは&#34;high&#34;となります。</p>
+<p class="image-container"><img style="width: 601.70px" src="img/1c00a4b7f55e481.png"></p>
+<h2 is-upgraded>画面右上のダッシュボードに戻る<img style="width: 54.00px" src="img/2c69286f16fd7716.png">ボタンをクリックします。</h2>
+<p class="image-container"><img style="width: 493.00px" src="img/9196ca6f166013da.png"></p>
+<h2 is-upgraded>ここからの作業</h2>
+<p>ダッシュボードでは、右上の保存ボタン<img style="width: 33.00px" src="img/6780dfe4cd33f2a0.png">でダッシュボードを保存したり、パネルを追加ボタン<img style="width: 45.00px" src="img/26a41e8f56714b95.png">でパネルをダッシュボードに追加していくことになります。<br>また、既存のパネルは &#34;Panel Title&#34; のクリックで表示される［編集］から内容を変更できます。</p>
+
+
+      </google-codelab-step>
+    
+      <google-codelab-step label="グラフの詳細設定" duration="10">
+        <p>冠水センサーのON/OFFがわかりやすく見えるようにグラフの詳細設定を行っていきます。設定は行う項目は以下のとおりです。</p>
+<ul>
+<li>パネルタイトルを設定する。</li>
+<li>「Y軸」の最大値、最小値の設定を行う。</li>
+<li>「表示」の階段表示の設定を行う。</li>
+</ul>
+<p>これらの設定を行った結果が以下の図です。</p>
+<p class="image-container"><img style="width: 601.70px" src="img/ff83bdb7d903db37.png"></p>
+<h2 is-upgraded>パネルタイトルを設定</h2>
+<p>&#34;全般&#34; タブの &#34;タイトル&#34; を入力すると、パネル上部の &#34;Panel Title&#34; の部分が、タイトルで入力した内容になります。今回は２枚のパネルを利用するため、一枚目は&#34;高水位&#34;、二枚目は&#34;低水位&#34;とします。</p>
+<p class="image-container"><img style="width: 463.00px" src="img/ec46f0d9ee76498d.png"></p>
+<h2 is-upgraded><img style="width: 477.00px" src="img/dfebb3bfe3417e4a.png"></h2>
+<h2 is-upgraded>Y軸の最小値、最大値の設定</h2>
+<p>&#34;軸&#34; タブを選択し、左Yの最小に&#34;0&#34;、最大に&#34;1&#34;を設定します。</p>
+<p class="image-container"><img style="width: 336.00px" src="img/330f94a9297a9603.png"></p>
+<h2 is-upgraded>階段表示の設定</h2>
+<p>ドライコンタクトコンバーターは接点がONまたはOFFになったときにデータを送信します。そのため、送られてきたデータを単純に線で結ぶと以下のように斜めの形になってしまい、実際の接点のONとOFFの切り替わり地点がわかりにくくなってしまいます。</p>
+<p class="image-container"><img style="width: 601.70px" src="img/cfda7fb2314284.png"></p>
+<p>そこで&#34;階段表示&#34;の設定を行うことでONとOFFの切り替わりを矩形で表現できるようになり、わかりやすいグラフとなります。</p>
+<p class="image-container"><img style="width: 601.70px" src="img/c305a07abf0294a4.png"></p>
+<p>&#34;表示&#34;タブの&#34;モードオプション&#34;にある&#34;階段表示&#34;のチェックをONにすることで階段表示の設定ができます。</p>
+<p class="image-container"><img style="width: 566.00px" src="img/8eeec2f47d1a3b34.png"></p>
+
+
+      </google-codelab-step>
+    
+      <google-codelab-step label="次のステップ" duration="0">
+        <p>本レシピでは、屋外で長期間利用可能な冠水センサー2つとドライコンタクトコンバーターを用いて、二段階の冠水レベルを検知可能なシステムを実現しました。</p>
+<p>さらなる応用例としては、よりアクティブな監視システムとして冠水センサーがONになったことを通知する機能の実装や、過去数年分のデータの統計情報の可視化などが考えられます。また運用面ではいざというときにドライコンタクトコンバーターが故障していた、電池が切れていたといったことはないように死活監視を行うことも必要になるかと考えられます。</p>
+<p>屋外で長期間動作可能なシステムとなっておりますので、機能の実現だけでなく運用やメンテナンスも重要となります。そのあたりも考慮していただくとよりよいシステムとして進化させていくことができるのではないでしょうか。</p>
+<p><a href="https://soracom.jp/products/kit/gps_multiunit/" target="_blank">商品ページへ戻る</a></p>
+
+
+      </google-codelab-step>
+    
+  </google-codelab>
+
+  <script src="https://soracom.github.io/iot-recipes/codelab-elements/native-shim.js"></script>
+  <script src="https://soracom.github.io/iot-recipes/codelab-elements/custom-elements.min.js"></script>
+  <script src="https://soracom.github.io/iot-recipes/codelab-elements/prettify.js"></script>
+  <script src="https://soracom.github.io/iot-recipes/codelab-elements/codelab-elements.js"></script>
+
+</body>
+</html>
