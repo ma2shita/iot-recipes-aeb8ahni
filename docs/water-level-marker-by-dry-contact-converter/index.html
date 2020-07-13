@@ -6,7 +6,7 @@
   <meta name="viewport" content="width=device-width, minimum-scale=1.0, initial-scale=1.0, user-scalable=yes">
   <meta name="theme-color" content="#4F7DC9">
   <meta charset="UTF-8">
-  <title>【IoT DIY レシピ】ドライコンタクトコンバーター＋冠水センサーで作る「冠水検知・通知・可視化システム」</title>
+  <title>【IoT DIY レシピ】ドライコンタクトコンバーター＋冠水センサーで作る「冠水検知・可視化システム」</title>
   <link rel="stylesheet" href="//fonts.googleapis.com/css?family=Source+Code+Pro:400|Roboto:400,300,400italic,500,700|Roboto+Mono">
   <link rel="stylesheet" href="//fonts.googleapis.com/icon?family=Material+Icons">
   <link rel="stylesheet" href="https://soracom.github.io/iot-recipes/codelab-elements/codelab-elements.css">
@@ -23,14 +23,14 @@
   <google-codelab-analytics gaid="UA-66865146-33"></google-codelab-analytics>
   <google-codelab codelab-gaid=""
                   id="water-level-marker-by-dry-contact-converter"
-                  title="【IoT DIY レシピ】ドライコンタクトコンバーター＋冠水センサーで作る「冠水検知・通知・可視化システム」"
+                  title="【IoT DIY レシピ】ドライコンタクトコンバーター＋冠水センサーで作る「冠水検知・可視化システム」"
                   environment="web"
                   feedback-link="https://soracom.jp/iot-recipes/">
     
       <google-codelab-step label="ドライコンタクトコンバーター＋冠水センサーで作る「冠水検知・可視化システム」" duration="0">
         <p>レシピ難易度：★★★☆☆</p>
-<p>Watty社製冠水センサー「HL-MC1」とOPTEX社製Sigfoxデバイス「ドライコンタクトコンバーター」を活用して、冠水の検知・可視化を行うためのレシピです。本レシピでは冠水センサーを2つ利用し、二段階の冠水レベルを検知します。</p>
-<p class="image-container"><img style="width: 601.70px" src="img/70334697d33846ec.png"></p>
+<p>Watty社製冠水センサー「HL-MC1A」とOPTEX社製Sigfoxデバイス「ドライコンタクトコンバーター」を活用して、冠水の検知・可視化を行うためのレシピです。Sigfoxによる低消費電力通信を活かした電池駆動デバイスで長期間屋外で動作させることができる冠水検知システムとなっています。</p>
+<p class="image-container"><img style="width: 430.15px" src="img/e67902c977916ea1.jpeg"><img style="width: 434.50px" src="img/bde7f5bd29969c33.jpeg"></p>
 <h2 is-upgraded>本レシピを行うのに必要な時間、概算費用</h2>
 <p>本レシピは以下の通りです。</p>
 <ul>
@@ -76,22 +76,22 @@
 </ul>
 <p>ステー等は別売りとなります。</p>
 </td></tr>
-<tr><td colspan="1" rowspan="1"><p>HL-MC1 ワイヤレス冠水センサー</p>
+<tr><td colspan="1" rowspan="1"><p>HL-MC1A ワイヤレス冠水センサー</p>
 </td><td colspan="1" rowspan="1"><p>1</p>
 </td><td colspan="1" rowspan="1"><p>80,000円</p>
-</td><td colspan="1" rowspan="1"><p>ソラコム？</p>
+</td><td colspan="1" rowspan="1"><p><a href="https://soracom.jp/products/industrial_devices/floodsensor-hl-mc1a/" target="_blank">ソラコム</a></p>
 </td><td colspan="1" rowspan="1"><p>今回利用するセンサーは「HL-MC1A」となります。こちらは接点形式：a接点(NO)のセンサーとなります。</p>
 </td></tr>
 <tr><td colspan="1" rowspan="1"><p>ポール取付金具 SSK-P100</p>
 </td><td colspan="1" rowspan="1"><p>1</p>
-</td><td colspan="1" rowspan="1"><p>?どこの値段にしようか</p>
-</td><td colspan="1" rowspan="1"><p><a href="https://www.takachi-el.co.jp/products/SSK_AL" target="_blank">タカチさんのサイト</a> or ミスミとかみたいな実際に買えるところ？</p>
+</td><td colspan="1" rowspan="1"><p>1,790円</p>
+</td><td colspan="1" rowspan="1"><p><a href="https://www.monotaro.com/p/5512/9558/" target="_blank">モノタロウ</a></p>
 </td><td colspan="1" rowspan="1"><p>バンドで本体を固定する場合に利用する金属ステーとなります。</p>
 </td></tr>
 <tr><td colspan="1" rowspan="1"><p>ビスセットSSK-B4-25N(M4×25 </p>
 </td><td colspan="1" rowspan="1"><p>1</p>
-</td><td colspan="1" rowspan="1"><p>？どこの値段にしようか</p>
-</td><td colspan="1" rowspan="1"><p><a href="https://www.takachi-el.co.jp/products/SSK_AL" target="_blank">タカチさんのサイト</a> or ミスミとかみたいな実際に買えるところ？</p>
+</td><td colspan="1" rowspan="1"><p>209円</p>
+</td><td colspan="1" rowspan="1"><p><a href="https://www.monotaro.com/p/5512/9463/" target="_blank">モノタロウ</a></p>
 </td><td colspan="1" rowspan="1"><p>「ポール取付金具 SSK-P100」を本体に固定するためのビスのセットとなります。</p>
 </td></tr>
 </table>
@@ -124,8 +124,8 @@
 </td><td colspan="1" rowspan="1"><p>金属ステーへの取り付け時のナットの固定に利用します。ラジオペンチでも代用可能です。</p>
 </td></tr>
 <tr><td colspan="1" rowspan="1"><p>結束バンド</p>
-</td><td colspan="1" rowspan="1"><p>6</p>
-</td><td colspan="1" rowspan="1"><p>ドライコンタクトコンバーター、センサー２つにそれぞれ２本ずつ使用。</p>
+</td><td colspan="1" rowspan="1"><p>4</p>
+</td><td colspan="1" rowspan="1"><p>ドライコンタクトコンバーター、冠水センサーにそれぞれ２本ずつ使用。</p>
 <p>ホームセンター、100円ショップ等で入手可能です。</p>
 </td></tr>
 </table>
@@ -136,7 +136,11 @@
       <google-codelab-step label="ドライコンタクトコンバーターの登録確認" duration="5">
         <p>ドライコンタクトコンバーターをIoTストアで購入いただいた場合、購入にご利用いただいたSORACOM アカウントに紐付いた状態で出荷されます。</p>
 <p><a href="https://console.soracom.io/" target="_blank">SORACOM Webコンソール</a>にログインしたあと、Menu &gt; Sigfoxデバイス管理で、お手元のドライコンタクトコンバーターがコンソールに登録されているか確認します。</p>
-<p class="image-container"><img style="width: 601.70px" src="img/fa79d9f10ca1ca3.png"></p>
+<p class="image-container"><img style="width: 601.70px" src="img/2528e423d09cd431.png"></p>
+<p>Sigfoxデバイスの一覧画面が表示されます。IDで検索をして対象のドライコンタクトコンバーターを表示させます。検索には本体側面のラベルにあるIDを利用します。先頭に0が入っている場合は先頭にあるすべての0を外して検索を実行します。</p>
+<p>例：00543210と記載があった場合、543210と入力して検索を行います。</p>
+<p class="image-container"><img style="width: 601.70px" src="img/4e714f4f0ac2c0a5.png"></p>
+<p class="image-container"><img style="width: 601.70px" src="img/cd754d3656388b68.png"></p>
 
 
       </google-codelab-step>
@@ -150,14 +154,13 @@
 <p>本体の表側に樹脂製のネジ4本で蓋が固定されているので、プラスドライバーを利用して蓋を外す。</p>
 <h2 is-upgraded>ケーブルグランドに冠水センサーのケーブルを挿入する。</h2>
 <p>ケーブルグランドのキャップを外し、キャップにセンサーのケーブルを通す。キャップにセンサーを通した状態で、本体のケーブルグランドにセンサーを挿入します。</p>
-<p class="image-container"><img style="width: 601.70px" src="img/7c2510eab5eb51ed.jpeg"></p>
+<p class="image-container"><img style="width: 601.70px" src="img/45480969b49a117.jpeg"></p>
 <p>ケーブルを挿入し終えたら、キャップをケーブルグランドに取り付けます。</p>
 <h2 is-upgraded>冠水センサーをドライコンタクトコンバーターの接点に接続する。</h2>
-<p>冠水センサーをドライコンタクトコンバーターの接点部分に接続します。今回は冠水センサーを2つ利用しますので、接点の入力1、入力2にそれぞれセンサーを接続します。本センサーに極性はないため、配線の向きはどちらでもかまいません。注意点として、センサーの配線が4本あるので、バラバラの接続にならないよう一つのセンサーの配線二本を入力1にもう片方のセンサーの配線二本を入力2に接続するようにします。</p>
-<p>今回は水位を二段階で検出できるようにするため、低水位側を入力1に高水位側を入力2に接続します。</p>
-<p class="image-container"><img style="width: 600.00px" src="img/31bfd7e18dec875a.png"></p>
+<p>冠水センサーをドライコンタクトコンバーターの接点部分に接続します。今回は接点の入力1にセンサーを接続します。本センサーに極性はないため、配線の向きはどちらでもかまいません。</p>
+<p class="image-container"><img style="width: 601.70px" src="img/a5ca48b6e45c6b4.png"></p>
 <p>本体の入力端子の上部のボタンを強く押しながら配線を奥まで挿入し、ボタンを離すことで固定されます。</p>
-<p class="image-container"><img style="width: 601.70px" src="img/8e2b8620a81ea07.png"></p>
+<p class="image-container"><img style="width: 601.70px" src="img/69de66e321fbbab9.png"></p>
 <h2 is-upgraded>動作モードをDIPスイッチを利用して設定する。</h2>
 <p>DIPスイッチで動作モードの設定を行います。それぞれのスイッチは以下の設定に対応しています。</p>
 <table>
@@ -187,10 +190,10 @@
 <h2 is-upgraded>電源コネクタを接続し、初回起動操作を行う。</h2>
 <p>リチウムイオン電池のコネクタを本体に接続し、青色のイニシャルボタンを３秒以上長押しして起動します。初回起動後は電源コネクタを抜き差しすることで本体のON/OFFを行います。</p>
 <p>正常に起動するとボタン上部の赤色LEDが点灯し、起動が確認できます。</p>
-<p class="image-container"><img style="width: 601.70px" src="img/d5d5b4ecab0eca52.png"></p>
+<p class="image-container"><img style="width: 601.70px" src="img/db70c47b7dae4b2e.png"></p>
 <h2 is-upgraded>冠水センサーの動作を確認する。</h2>
 <p>冠水センサーを水につける、もしくは上下逆さまにして中のフローターを動かします。冠水センサーの接点がつながると赤色のLEDが点灯し、データが送信されていることがわかります。</p>
-<p class="image-container"><img style="width: 601.70px" src="img/1fb52fd23532a41e.jpeg"></p>
+<p class="image-container"><img style="width: 601.70px" src="img/2529cdb5501a837e.png"></p>
 <h2 is-upgraded>本体設置用のステーを取り付ける。</h2>
 <p>ポール取付金具 SSK-P100を本体にとりつけます。ビスセットSSK-B4-25N(M4×25)を使って本体裏側にステーを取り付けます。このときナットが外装の外側にくるように取り付けを行ってください。</p>
 <p class="image-container"><img style="width: 601.70px" src="img/a7bf7131b539f3a3.jpeg"></p>
@@ -204,13 +207,7 @@
         <p>ドライコンタクトコンバーターのデバイスの設定は SORACOM ユーザコンソール上で行います。</p>
 <h2 is-upgraded>ドライコンタクトコンバーターに名前をつける。</h2>
 <p><a href="https://console.soracom.io/" target="_blank">SORACOM ユーザーコンソール</a>にログインした後［Menu］&gt;［SORACOM Air for Sigfox］&gt; [Sigfoxデバイス管理]とクリックします。</p>
-<p class="image-container"><img style="width: 601.70px" src="img/2528e423d09cd431.png"></p>
-<p>Sigfoxデバイスの一覧画面が表示されます。IDで検索をして対象のドライコンタクトコンバーターを表示させます。検索には本体側面のラベルにあるIDを利用します。先頭に0が入っている場合は先頭にあるすべての0を外して検索を実行します。</p>
-<p>例：00543210と記載があった場合、543210と入力して検索を行います。</p>
-<p class="image-container"><img style="width: 601.70px" src="img/4e714f4f0ac2c0a5.png"></p>
-<p class="image-container"><img style="width: 601.70px" src="img/cd754d3656388b68.png"></p>
-<p>表示されたデバイスが手元にあるドライコンタクトコンバーターとなります。こちらのドライコンタクトコンバーターに名前を設定します。</p>
-<p>名前の部分にカーソルを合わせるとペンのマークが出るので、クリックします。</p>
+<p>手元にあるドライコンタクトコンバーターのIDで検索し、名前の部分にカーソルを合わせるとペンのマークが出るので、クリックします。</p>
 <p class="image-container"><img style="width: 601.70px" src="img/3745081d30a6cd49.png"></p>
 <p>クリックするとそのままテキスト編集ボックスが表示されるので好きな名前をつけてEnterを押し、決定します。</p>
 <p class="image-container"><img style="width: 601.70px" src="img/870be55c7a4a75cd.png"></p>
@@ -268,7 +265,7 @@
 <h2 is-upgraded>［基本設定］ &gt;［SORACOM Air for Sigfox 設定］をクリックして開き、バイナリパーサーを設定します。</h2>
 <p class="image-container"><img style="width: 601.70px" src="img/a6fc925a35392e9f.png"></p>
 <p>バイナリパーサーをONに設定し、フォーマットに下記の設定を入力したら、保存をクリックします。</p>
-<pre>event:0:char:2 usr_channel:0:uint:2:2 usr_value:1:uint:1:2 count_ch1:2:uint:16 count_ch2:4:uint:16 battery_status:6:uint:8 low:0:uint:8:1:-82 high:0:uint:8:1:-146</pre>
+<pre>event:0:char:2 usr_channel:0:uint:2:2 usr_value:1:uint:1:2 count_ch1:2:uint:16 count_ch2:4:uint:16 battery_status:6:uint:8</pre>
 
 
       </google-codelab-step>
@@ -283,10 +280,8 @@
 <h2 is-upgraded>冠水センサーの設置</h2>
 <p>冠水センサーにはステンレスのケースと一体となってステーがついており、これを設置に利用します。</p>
 <p class="image-container"><img style="width: 601.70px" src="img/cc1754696abab26d.png"></p>
-<p>ドライコンタクトコンバーター同様に結束バンドを通し、ポールに固定します。</p>
+<p>ドライコンタクトコンバーター同様に結束バンドを通し、ポールに固定します。本レシピでは結束バンドで固定をしていますが、より信頼性を求められるユースケースの際は対象へのネジ止めや専門業者への設置工事依頼もご検討ください。</p>
 <p class="image-container"><img style="width: 601.70px" src="img/bde7f5bd29969c33.jpeg"></p>
-<p>本レシピでは二段階の水位を検知するために入力1に接続したセンサーを低水位側に入力2に接続したセンサーを高水位側に設置します。</p>
-<p class="image-container"><img style="width: 601.70px" src="img/40e2d663f80e5fc9.png"></p>
 
 
       </google-codelab-step>
@@ -357,7 +352,7 @@
 
       </google-codelab-step>
     
-      <google-codelab-step label="SORACOM Lagoon でダッシュボードを作成する（高水位・低水位パネル作成まで）" duration="20">
+      <google-codelab-step label="SORACOM Lagoon でダッシュボードを作成する（水位パネル作成まで）" duration="20">
         <h2 is-upgraded>SORACOM Lagoon 管理画面を表示したあと、［SORACOM Lagoon console にアクセス］をクリックします。</h2>
 <p>※ SORACOM Lagoon 管理画面は ［Menu］&gt;［データ収集・蓄積・可視化］&gt;［SORACOM Lagoon］で表示する事ができます。</p>
 <p class="image-container"><img style="width: 602.00px" src="img/e056d4558913af2.png"></p>
@@ -376,17 +371,13 @@
 <p class="image-container"><img style="width: 602.00px" src="img/78d86dcd59a18a6e.png"></p>
 <h2 is-upgraded>&#34;メトリック&#34; タブでノード(= Sigfoxデバイス) をクリックし、ドライコンタクトコンバーターに紐づいている ノード を選びます。</h2>
 <p>データソースは &#34;default&#34;  になっているので、メトリクスは &#34;Sigfox&#34;に設定し、ノード(= Sigfoxデバイス) を選びます。</p>
-<p>表示データは&#34;low&#34;を選択します。この&#34;low&#34;は低水位側のセンサーの値を示しています。</p>
-<p class="image-container"><img style="width: 601.70px" src="img/d127b0f692ae21d4.png"></p>
+<p>表示データは&#34;usr_value&#34;を選択します。<img style="width: 601.70px" src="img/e7481b3277ef26b9.png"></p>
 <aside class="special"><p><strong>データが表示されていない？</strong></p>
 <p>データがグラフの右端に「少しだけ」表示されている、あるいは過去にデータを送ったはずなのにデータが表示されない場合があります。これは、パネルの表示時間の標準が「過去6時間分」を表示するようになっているからです。</p>
 <p>右上の「時間」ボタンで表示範囲を設定可能です。データを送った時刻にあるように設定をします。</p>
 <p class="image-container"><img style="width: 587.00px" src="img/76a64d941a095f3.png"></p>
 <p>それでもデータが表示されていない場合は、いったん SORACOM Harvest Data データの蓄積具合を確認するようにしてください。</p>
 </aside>
-<h2 is-upgraded>もう一枚Graphパネルを作成し、高水位側のグラフを作成します。</h2>
-<p>先ほどと同じ手順でGraphパネルを作成し、&#34;メトリック&#34;タブで高水位側のデータを指定します。高水位側の表示データは&#34;high&#34;となります。</p>
-<p class="image-container"><img style="width: 601.70px" src="img/1c00a4b7f55e481.png"></p>
 <h2 is-upgraded>画面右上のダッシュボードに戻る<img style="width: 54.00px" src="img/2c69286f16fd7716.png">ボタンをクリックします。</h2>
 <p class="image-container"><img style="width: 493.00px" src="img/9196ca6f166013da.png"></p>
 <h2 is-upgraded>ここからの作業</h2>
@@ -403,18 +394,17 @@
 <li>「表示」の階段表示の設定を行う。</li>
 </ul>
 <p>これらの設定を行った結果が以下の図です。</p>
-<p class="image-container"><img style="width: 601.70px" src="img/ff83bdb7d903db37.png"></p>
+<p class="image-container"><img style="width: 601.70px" src="img/ed2e5fe2fce1a30.png"></p>
 <h2 is-upgraded>パネルタイトルを設定</h2>
-<p>&#34;全般&#34; タブの &#34;タイトル&#34; を入力すると、パネル上部の &#34;Panel Title&#34; の部分が、タイトルで入力した内容になります。今回は２枚のパネルを利用するため、一枚目は&#34;高水位&#34;、二枚目は&#34;低水位&#34;とします。</p>
-<p class="image-container"><img style="width: 463.00px" src="img/ec46f0d9ee76498d.png"></p>
-<h2 is-upgraded><img style="width: 477.00px" src="img/dfebb3bfe3417e4a.png"></h2>
+<p>&#34;全般&#34; タブの &#34;タイトル&#34; を入力すると、パネル上部の &#34;Panel Title&#34; の部分が、タイトルで入力した内容になります。タイトルは&#34;水位&#34;とします。</p>
+<p class="image-container"><img style="width: 494.00px" src="img/fdfd211252e5961c.png"></p>
 <h2 is-upgraded>Y軸の最小値、最大値の設定</h2>
 <p>&#34;軸&#34; タブを選択し、左Yの最小に&#34;0&#34;、最大に&#34;1&#34;を設定します。</p>
 <p class="image-container"><img style="width: 336.00px" src="img/330f94a9297a9603.png"></p>
 <h2 is-upgraded>階段表示の設定</h2>
 <p>ドライコンタクトコンバーターは接点がONまたはOFFになったときにデータを送信します。そのため、送られてきたデータを単純に線で結ぶと以下のように斜めの形になってしまい、実際の接点のONとOFFの切り替わり地点がわかりにくくなってしまいます。</p>
 <p class="image-container"><img style="width: 601.70px" src="img/cfda7fb2314284.png"></p>
-<p>そこで&#34;階段表示&#34;の設定を行うことでONとOFFの切り替わりを矩形で表現できるようになり、わかりやすいグラフとなります。</p>
+<p>そこで&#34;階段表示&#34;の設定を行うことでONとOFFの切り替わりを矩形で表現できるようになり、接点の切り替わりがよりわかりやすくなります。</p>
 <p class="image-container"><img style="width: 601.70px" src="img/c305a07abf0294a4.png"></p>
 <p>&#34;表示&#34;タブの&#34;モードオプション&#34;にある&#34;階段表示&#34;のチェックをONにすることで階段表示の設定ができます。</p>
 <p class="image-container"><img style="width: 566.00px" src="img/8eeec2f47d1a3b34.png"></p>
@@ -423,10 +413,45 @@
       </google-codelab-step>
     
       <google-codelab-step label="次のステップ" duration="0">
-        <p>本レシピでは、屋外で長期間利用可能な冠水センサー2つとドライコンタクトコンバーターを用いて、二段階の冠水レベルを検知可能なシステムを実現しました。</p>
+        <p>本レシピでは、屋外で長期間利用可能な冠水センサーとドライコンタクトコンバーターを用いて、冠水検知可能なシステムを実現しました。</p>
 <p>さらなる応用例としては、よりアクティブな監視システムとして冠水センサーがONになったことを通知する機能の実装や、過去数年分のデータの統計情報の可視化などが考えられます。また運用面ではいざというときにドライコンタクトコンバーターが故障していた、電池が切れていたといったことはないように死活監視を行うことも必要になるかと考えられます。</p>
 <p>屋外で長期間動作可能なシステムとなっておりますので、機能の実現だけでなく運用やメンテナンスも重要となります。そのあたりも考慮していただくとよりよいシステムとして進化させていくことができるのではないでしょうか。</p>
 <p><a href="https://soracom.jp/products/kit/gps_multiunit/" target="_blank">商品ページへ戻る</a></p>
+
+
+      </google-codelab-step>
+    
+      <google-codelab-step label="(参考)二段階の水位レベルの取得" duration="0">
+        <p>本レシピでは、屋外で長期間利用可能な冠水センサーをご紹介いたしました。本レシピで利用したドライコンタクトコンバーターは接点を２つまで接続することが可能ですので、冠水センサーを２つ取り付けて２段階の水位レベルを取得することが可能です。</p>
+<p>その方法を簡単にご紹介します。</p>
+<h2 is-upgraded>冠水センサーの接続</h2>
+<p>冠水センサーをドライコンタクトコンバーターの接点部分に接続します。今回は冠水センサーを2つ利用しますので、接点の入力1、入力2にそれぞれセンサーを接続します。本センサーに極性はないため、配線の向きはどちらでもかまいません。注意点として、センサーの配線が4本あるので、バラバラの接続にならないよう一つのセンサーの配線二本を入力1にもう片方のセンサーの配線二本を入力2に接続するようにします。</p>
+<p>今回は水位を二段階で検出できるようにするため、低水位側を入力1に高水位側を入力2に接続します。</p>
+<p class="image-container"><img style="width: 600.00px" src="img/fbcaac99b0a19fcd.png"></p>
+<p>本体の入力端子の上部のボタンを強く押しながら配線を奥まで挿入し、ボタンを離すことで固定されます。</p>
+<h2 is-upgraded>冠水センサードライコンタクトコンバーターの設置</h2>
+<p>二段階の水位を検知するために入力1に接続したセンサーを低水位側に入力2に接続したセンサーを高水位側に設置します。</p>
+<p class="image-container"><img style="width: 601.70px" src="img/aba936754c6406f6.png"></p>
+<h2 is-upgraded>バイナリパーサーの設定</h2>
+<p class="image-container"><img style="width: 601.70px" src="img/a6fc925a35392e9f.png"></p>
+<p>バイナリパーサーをONに設定し、フォーマットに下記の設定を入力したら、保存をクリックします。</p>
+<pre>event:0:char:2 usr_channel:0:uint:2:2 usr_value:1:uint:1:2 count_ch1:2:uint:16 count_ch2:4:uint:16 battery_status:6:uint:8 low:0:uint:8:1:-82 high:0:uint:8:1:-146</pre>
+<h2 is-upgraded>SORACOM Lagoonの設定</h2>
+<p>レシピ本文と同様にSORACOM Lagoonにてメトリクスの設定を行います。データソースは &#34;default&#34; になっているので、メトリクスを &#34;Sigfox&#34;に設定し、ノード(= Sigfoxデバイス) を選びます。表示データは&#34;low&#34;を選択します。この&#34;low&#34;は低水位側のセンサーの値を示しています。</p>
+<p class="image-container"><img style="width: 601.70px" src="img/11e996c9394945a7.png"></p>
+<p>先ほどと同じ手順でGraphパネルを作成し、&#34;メトリック&#34;タブで高水位側のデータを指定します。高水位側の表示データは&#34;high&#34;となります。</p>
+<p class="image-container"><img style="width: 601.70px" src="img/16ae1a5582577834.png"></p>
+<h3 is-upgraded>グラフの詳細を設定</h3>
+<ul>
+<li>パネルタイトルを設定する。</li>
+<li>「Y軸」の最大値、最小値の設定を行う。</li>
+<li>「表示」の階段表示の設定を行う。</li>
+</ul>
+<p>&#34;全般&#34; タブの &#34;タイトル&#34; を入力すると、パネル上部の &#34;Panel Title&#34; の部分が、タイトルで入力した内容になります。今回は２枚のパネルを利用するため、一枚目は&#34;高水位&#34;、二枚目は&#34;低水位&#34;とします。</p>
+<p class="image-container"><img style="width: 463.00px" src="img/5a86cba6a59f4b59.png"></p>
+<p class="image-container"><img style="width: 477.00px" src="img/304a9f9eb2fda533.png"></p>
+<p>「Y軸」の最大値、最小値の設定、「表示」の階段表示の設定はレシピ本文と同様の手順で設定を行います。正しく設定が完了すると、以下のように&#34;低水位&#34;と&#34;高水位&#34;の状況がグラフで確認できます。</p>
+<p class="image-container"><img style="width: 601.70px" src="img/ff83bdb7d903db37.png"></p>
 
 
       </google-codelab-step>
