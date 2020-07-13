@@ -1,0 +1,23 @@
+{
+  "environment": "web",
+  "format": "html",
+  "prefix": "https://soracom.github.io/iot-recipes",
+  "mainga": "UA-66865146-33",
+  "updated": "2020-07-13T14:16:31Z",
+  "id": "yummy-icecream-timing-by-gps-multiunit",
+  "duration": 77,
+  "title": "【IoT DIY レシピ】IoT でアイスの食べ時をお知らせ",
+  "authors": "SORACOM, INC.",
+  "summary": "アイスクリームの食べ方の一つに「とろけ食べ」という溶け始めを楽しむ方法があります。しかし、溶け始めを待っていると「忘れてしまう」という問題がありますが、本レシピは IoT によって溶け始めを感知し、確実に「溶け始めのアイスクリーム」を楽しめる方法を作ります。",
+  "source": "1uz-c4vXlknOYK23jGkkjHY1E1EkE9BSiY4MY6DxBmHo",
+  "theme": "100-recipe",
+  "status": [
+    "published"
+  ],
+  "category": [
+    "100-Recipe"
+  ],
+  "tags": [],
+  "feedback": "https://soracom.jp/products/kit/gps_multiunit/",
+  "url": "yummy-icecream-timing-by-gps-multiunit"
+}
