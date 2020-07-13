@@ -3,10 +3,10 @@
   "format": "html",
   "prefix": "https://soracom.github.io/iot-recipes",
   "mainga": "UA-66865146-33",
-  "updated": "2020-06-24T07:53:04Z",
-  "id": "vehicle-tracking-by-meitrack-t366",
+  "updated": "2020-07-13T15:32:18Z",
+  "id": "vehicle-tracking-by-meitrack-t366-with-funk",
   "duration": 140,
-  "title": "【IoT DIY レシピ】Meitrack T366による車両トラッキング",
+  "title": "【IoT DIY レシピ】Meitrack T366による車両トラッキング (SORACOM Funk 利用版)",
   "authors": "SORACOM, INC.",
   "summary": "車載GPSトラッカーを使った車載の位置情報管理の仕組みを構築します。ロケーションデータの取得にはMeitrack T366、ロケーションデータの保存＋可視化にはSORACOM Harvest、SORACOM Lagoonを活用します。またMeitrack T366からのロケーションデータを可視化するためのデータ加工処理としてSORACOM Funkを組み合わせます。",
   "source": "1oXnOjKTsWioKyzKQR8JQ9hTM0VZMVQukFRAMvZ_iEYE",
@@ -19,5 +19,5 @@
   ],
   "tags": [],
   "feedback": "https://soracom.jp/products/industrial_devices/tracker_t366l_kit/",
-  "url": "vehicle-tracking-by-meitrack-t366"
+  "url": "vehicle-tracking-by-meitrack-t366-with-funk"
 }
