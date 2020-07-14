@@ -1,0 +1,413 @@
+
+<!doctype html>
+
+<html>
+<head>
+  <meta name="viewport" content="width=device-width, minimum-scale=1.0, initial-scale=1.0, user-scalable=yes">
+  <meta name="theme-color" content="#4F7DC9">
+  <meta charset="UTF-8">
+  <title>【IoT DIY レシピ】IoT カメラで計測機器のデータを可視化</title>
+  <link rel="stylesheet" href="//fonts.googleapis.com/css?family=Source+Code+Pro:400|Roboto:400,300,400italic,500,700|Roboto+Mono">
+  <link rel="stylesheet" href="//fonts.googleapis.com/icon?family=Material+Icons">
+  <link rel="stylesheet" href="https://soracom.github.io/iot-recipes/codelab-elements/codelab-elements.css">
+  <style>
+    .success {
+      color: #1e8e3e;
+    }
+    .error {
+      color: red;
+    }
+  </style>
+</head>
+<body>
+  <google-codelab-analytics gaid="UA-66865146-33"></google-codelab-analytics>
+  <google-codelab codelab-gaid=""
+                  id="quick-start-ocr-by-s&#43;camera-basic"
+                  title="【IoT DIY レシピ】IoT カメラで計測機器のデータを可視化"
+                  environment="web"
+                  feedback-link="https://soracom.jp/products/">
+    
+      <google-codelab-step label="IoT カメラで計測機器のデータを可視化" duration="1">
+        <p>レシピ難易度：★★★☆☆</p>
+<p>ネットワークにつながっていない機器のIoT化を諦めていませんか。このレシピではS+ Camera Basicを使って、カメラに映った数字や文字を読み取ってOCR(Optical Character Recognition)によって電子データ化します。</p>
+<p class="image-container"><img alt="A picture containing indoor, sitting, computer, table\n\nDescription automatically generated" style="width: 601.93px" src="img/170aa28f74848f72.png"></p>
+<h2 is-upgraded>全体構成</h2>
+<p class="image-container"><img alt="A picture containing sitting, screen, dark, monitor\n\nDescription automatically generated" style="width: 601.93px" src="img/40c45750119ee230.png"></p>
+<h2 is-upgraded>本レシピを行うために必要な時間、概算費用</h2>
+<p>本レシピは以下の通りです。</p>
+<ul>
+<li>必要な時間: 約1時間15分</li>
+<li>概算費用: 約82,000円</li>
+</ul>
+<p>※ 概算費用: </p>
+<ul>
+<li>S+ Camera Basic費用 79,800円</li>
+<li>月額費用 2,200円</li>
+<li>SORACOM Air, SORACOM Inventory, SORACOM Mosaic、SORACOM Harvestの各種サービスの概ねの費用 (税や送料などの付帯費用や無料枠適用は考慮しないものとしています)を含む。</li>
+</ul>
+<h2 is-upgraded>このコンテンツの進め方</h2>
+<p>ページの内容を読み、また作業を行ったら右下の［Next］を押して次のステップへ進みます。また、［Back］を使って戻ったり、左のナビゲーションメニューでもページの移動が可能です。</p>
+<p>左上の［×］を押してコンテンツを終了することができます。また、ページを開きなおすことで再開できます。ページのアドレスはブラウザの［履歴］メニューを利用してください。</p>
+
+<aside class="warning"><p>本コンテンツは現状のままで提供され、株式会社ソラコムは、誤りがないことの保証を含め、明示であると黙示であるとを問わず、本コンテンツの記載内容につき、いかなる種類の表明も保証も行いません。</p>
+<p>掲載情報の閲覧及び利用により、利用者自身、もしくは第三者が被った損害に対して、直接的、間接的を問わず、株式会社ソラコムは責任を負いかねます。</p>
+<p>本コンテンツを実践する中で用意された機器、利用されたサービスについてのご質問は、それぞれの機器やサービスの提供元にお問い合わせをお願いします。機器やサービスの仕様は、本コンテンツ作成当時のものです。</p>
+<p>株式会社ソラコムが提供する機器・サービスについてのご質問は、 <a href="https://soracom.jp/contact/" target="_blank">https://soracom.jp/contact/</a> をご確認の上、適切な窓口へのお問い合わせをお願いします。機器・サービスご利用前の導入相談は <a href="https://soracom.jp/contact/contactsales/" target="_blank">https://soracom.jp/contact/contactsales/</a> に、機器・サービスご利用開始後のサポートは、SORACOMユーザーコンソール内の<a href="https://soracom.zendesk.com/hc/ja/requests/" target="_blank">サポートサイトから「リクエストを送信」</a>(要ログイン)にてお問い合わせください。</p>
+<p>本ドキュメントは <a href="https://github.com/googlecodelabs/tools" target="_blank">CLaaT</a> を用いて制作しています</p>
+<p>Copyright (c) 2020 SORACOM, INC.</p>
+</aside>
+
+
+
+      </google-codelab-step>
+    
+      <google-codelab-step label="準備" duration="1">
+        <p>本レシピを行うためには以下のものをご用意ください。</p>
+<h2 is-upgraded>ハードウェア</h2>
+<table>
+<tr><td colspan="1" rowspan="1"><p><strong>品名</strong></p>
+</td><td colspan="1" rowspan="1"><p><strong>数量</strong></p>
+</td><td colspan="1" rowspan="1"><p><strong>価格</strong></p>
+</td><td colspan="1" rowspan="1"><p><strong>購入先</strong></p>
+</td><td colspan="1" rowspan="1"><p><strong>備考</strong></p>
+</td></tr>
+<tr><td colspan="1" rowspan="1"><p>S+ Camera Basic</p>
+</td><td colspan="1" rowspan="1"><p>1</p>
+</td><td colspan="1" rowspan="1"><p>79,800円</p>
+</td><td colspan="1" rowspan="1"><p><a href="https://soracom.jp/products/industrial_devices/soracom-plus-camera-basic/" target="_blank">ソラコム</a></p>
+</td><td colspan="1" rowspan="1"><p>―</p>
+</td></tr>
+<tr><td colspan="1" rowspan="1"><p>パソコン</p>
+</td><td colspan="1" rowspan="1"><p>1</p>
+</td><td colspan="1" rowspan="1"><p>―</p>
+</td><td colspan="1" rowspan="1"><p>―</p>
+</td><td colspan="1" rowspan="1"><ul>
+<li>インターネット接続が可能でサイトへの接続が自由であること。</li>
+<li>Google Chrome 等の最新ブラウザーが利用可能な事。</li>
+</ul>
+</td></tr>
+</table>
+<p>※ 金額はレシピ作成時となります。ソラコムで販売している金額は税抜き・送料別です。</p>
+<h2 is-upgraded>その他必要なもの</h2>
+<table>
+<tr><td colspan="1" rowspan="1"><p><strong>必要なもの</strong></p>
+</td><td colspan="1" rowspan="1"><p><strong>費用</strong></p>
+</td><td colspan="1" rowspan="1"><p><strong>作成方法など</strong></p>
+</td></tr>
+<tr><td colspan="1" rowspan="1"><p>SORACOM アカウント</p>
+</td><td colspan="1" rowspan="1"><p>無料※</p>
+</td><td colspan="1" rowspan="1"><p><a href="https://soracom.github.io/iot-recipes/create-account-soracom-jp/" target="_blank">SORACOM アカウントの作成 (JP)</a></p>
+</td></tr>
+</table>
+<p>※ アカウント作成・維持の費用の料金です。</p>
+
+
+      </google-codelab-step>
+    
+      <google-codelab-step label="S&#43; Camera Basic が届いたら" duration="5">
+        <p>S+ Camera Basic にはSIM(SORACOM Air Plan-D)が内蔵されています。そのため、最初にデバイスを利用する場合、ソラコムコンソールへログインして SIM の受け取り確認を行ってください。確認が完了するとSIM管理の一覧にSIMが表示されます。</p>
+<p>次に、<a href="https://dev.soracom.io/jp/start/console/#group" target="_blank">グループ作成画面</a>よりS+ Camera Basicで利用するグループを作成します。作成したグループに対して以下のサービスを有効にします。</p>
+<ul>
+<li><a href="https://dev.soracom.io/jp/start/metadata/" target="_blank">SORACOM Air メタデータサービス</a></li>
+<li><a href="https://dev.soracom.io/jp/start/harvest/#enable" target="_blank">SORACOM Harvest</a>/<a href="https://dev.soracom.io/jp/start/harvestfiles/#enable" target="_blank">SORACOM Harvest Files</a></li>
+</ul>
+<p class="image-container"><img alt="A screenshot of a cell phone\n\nDescription automatically generated" style="width: 601.93px" src="img/f78c5ae39f52c25a.png"></p>
+<p>先ほど作成したグループをS+ Camera Basicに割り当てるとともに、Speed classを<em>s1.fast</em>に変更します[1]。</p>
+<p class="image-container"><img alt="A screenshot of a computer\n\nDescription automatically generated" style="width: 601.93px" src="img/7b996fccb697acfc.png"></p>
+<aside class="special"><p><strong>SORACOM の便利な使い方: SIM の「名前」機能</strong></p>
+<p>SIM には「名前」を付けることができ、これで整理が可能です。特に複数の SIMをお持ちの際には、名前を付けることを強くお勧めいたします。名前の付け方は <a href="https://dev.soracom.io/jp/start/console/#name_tag" target="_blank">SIM への名前の付け方</a>をご覧ください。</p>
+</aside>
+
+
+      </google-codelab-step>
+    
+      <google-codelab-step label="S&#43; Camera Basic の電源を入れる" duration="5">
+        <p>電源をいれて青いLEDが点滅すると、<a href="https://console.mosaic.soracom.io/" target="_blank">SORACOM Mosaic Console</a>にS+ Camera Basicが登録され、自動的にオンラインになります。</p>
+<h2 is-upgraded><img style="width: 375.11px" src="img/f77703cc5a52fcb6.gif"></h2>
+<p class="image-container"><img alt="A screenshot of a computer screen\n\nDescription automatically generated" style="width: 601.93px" src="img/fe6248966fa3b43c.png"></p>
+
+
+      </google-codelab-step>
+    
+      <google-codelab-step label="S&#43; Camera Basic の動作を確認する" duration="10">
+        <p><em>Device ID</em>一覧から対象のデバイスをクリックすると、デバイスの詳細画面に移動します。現在カメラに写っている画像は、デバイス詳細画面の<em>CAMERA</em>メニューから確認することができます。</p>
+<p class="image-container"><img alt="A screenshot of a cell phone\n\nDescription automatically generated" style="width: 601.93px" src="img/f203adcafc1f72ed.png"></p>
+<p>Updateボタンをクリックすると現在のカメラの画像[2]が表示されます。</p>
+<p class="image-container"><img alt="A screenshot of a cell phone\n\nDescription automatically generated" style="width: 601.93px" src="img/99f2073ac1289eb.png"></p>
+
+
+      </google-codelab-step>
+    
+      <google-codelab-step label="PCの開発環境を整える" duration="20">
+        <p>S+ Camera Basicで実行するアルゴリズムの開発を行う場合には、PCにS+ Camera Basicの開発環境を構築します。アルゴリズムを実行するだけであればこのステップは飛ばして次に進んでください。</p>
+<p>S+ Camera Basicと同じ環境を構築するためにpythonのruntime環境を準備します。runtime環境の構築には<em>pyenv</em>と<em>venv</em>を使用します。詳しい環境の構築方法に関しては<a href="https://dev.soracom.io/jp/mosaic/algorithm-development/#environment" target="_blank">開発者ドキュメント</a>を参照してください。</p>
+<p>開発環境の構築完了後、PCにS+ Camera Basicの画像を取り込んで、動作の確認を行います。最初にサンプルアルゴリズムを<a href="https://drive.google.com/file/d/16iLRfPCJmdvRh5Dbc9ETFslAPq9U5f12" target="_blank">ダウンロード</a>します。ダウンロードしたファイルには次のファイルが含まれます。</p>
+<ul>
+<li>info.json: バージョン情報ファイル</li>
+<li>CameraApp0: 実行モジュール</li>
+<li>CameraApp.py: アルゴリズムの本体</li>
+<li>PreSetup: アルゴリズム実行前に実行するスクリプト</li>
+<li>CameraApp0_custom_oma.xml: アルゴリズムのパラメータ設定ファイル</li>
+</ul>
+<p>S+ Camera Basicのカメラ画像へPCから直接アクセするためにRemote accessボタンをクリックしてSORACOM Napterを設定します。</p>
+<p class="image-container"><img alt="A screenshot of a computer\n\nDescription automatically generated" style="width: 601.93px" src="img/91e82bc7935333da.png"></p>
+<p class="image-container"><img alt="A screenshot of a cell phone\n\nDescription automatically generated" style="width: 601.93px" src="img/820f512901950995.png"></p>
+<p>PORT TO EXPOSE に<strong>8080</strong>を設定してUpdateをクリックするとS+ Camera BasicのにアクセするためのHTTPの情報が表示されます。こちらをコピーして、サンプルアルゴリズムを実行します。上記の例の場合、次のようなコマンドを実行します。</p>
+<pre>DEVICE_INTERFACE_RI=http://13.112.127.216:46098 python  CameraApp.py</pre>
+<p>成功すると次のような実行ログが表示されます。</p>
+<pre>INFO:__main__:main
+INFO:__main__:randomized delay 1 sec
+INFO:__main__:randomized delay 123 sec
+INFO:soracom_device_interface:getCapture start
+INFO:soracom_device_interface:startCapture start
+DEBUG:urllib3.connectionpool:Starting new HTTP connection (1): 13.112.127.216:46098
+DEBUG:urllib3.connectionpool:http://13.112.127.216:46098 &#34;GET /v1/stopCameraCapture HTTP/1.1&#34; 200 0
+INFO:soracom_device_interface:stopCameraCapture response = &lt;Response [200]&gt;
+INFO:soracom_device_interface:cameraState cameraStateJson = {&#39;width&#39;: 1280, &#39;height&#39;: 720, &#39;framerate&#39;: 10}
+DEBUG:urllib3.connectionpool:Starting new HTTP connection (1): 13.112.127.216:46098
+DEBUG:urllib3.connectionpool:http://13.112.127.216:46098 &#34;PATCH /v1/cameraState HTTP/1.1&#34; 200 0
+INFO:soracom_device_interface:cameraState response = &lt;Response [200]&gt;
+DEBUG:urllib3.connectionpool:Starting new HTTP connection (1): 13.112.127.216:46098
+DEBUG:urllib3.connectionpool:http://13.112.127.216:46098 &#34;GET /v1/startCameraCapture HTTP/1.1&#34; 200 0
+INFO:soracom_device_interface:startCameraCapture response = &lt;Response [200]&gt;
+DEBUG:urllib3.connectionpool:Starting new HTTP connection (1): 13.112.127.216:46098</pre>
+<h3 is-upgraded>デフォルトでは120秒ごとに画像を取得するように設定されています。間隔を変更する場合にはCameraApp.pyの42行目の<em>SORACOM_ENV_WAIT</em>の数値（秒）を適当な値へ変更して下さい。</h3>
+<h3 is-upgraded>CameraApp.py</h3>
+<pre><code># 0: upload an image every wait second.
+# 100: upload an image if a face is detected.
+# 101: upload an image with masking eyes.
+FACE_MODE = int(os.getenv(&#39;SORACOM_ENV_MODE&#39;, &#39;0&#39;))
+
+# image upload interval. too short interval increases upload data volume.
+WAIT = int(os.getenv(&#39;SORACOM_ENV_WAIT&#39;, &#39;120&#39;))</code></pre>
+<h3 is-upgraded>画像は/tmp/io.soracom.harvestfilesに<a href="https://developers.google.com/speed/webp" target="_blank">webp</a>形式の画像ファイルとして保存されます。Webp形式の画像はGoogle Chrome等のブラウザを使って確認することができます。</h3>
+<h3 is-upgraded>余談にはなりますが、<em>SORACOM_ENV_MODE</em>を変更することで、アルゴリズムの動作を変更することができます。本レシピの執筆時点でサポートされているモードは次の通りです。</h3>
+<table>
+<tr><td colspan="1" rowspan="1"><p>モード</p>
+</td><td colspan="1" rowspan="1"><p>備考</p>
+</td></tr>
+<tr><td colspan="1" rowspan="1"><p>0</p>
+</td><td colspan="1" rowspan="1"><p><em>SORACOM_ENV_WAIT</em>間隔で画像のアップロード</p>
+</td></tr>
+<tr><td colspan="1" rowspan="1"><p>100</p>
+</td><td colspan="1" rowspan="1"><p><em>SORACOM_ENV_WAIT</em>間隔で、目線を検出した際に画像をアップロード</p>
+</td></tr>
+<tr><td colspan="1" rowspan="1"><p>101</p>
+</td><td colspan="1" rowspan="1"><p><em>SORACOM_ENV_WAIT</em>間隔で、目線を検出した際に、目線にモザイクをかけて画像をアップロード</p>
+</td></tr>
+</table>
+
+
+      </google-codelab-step>
+    
+      <google-codelab-step label="ORCアルゴリズムの開発" duration="20">
+        <p>OCRを行うためには<em>tesseract</em>の<a href="https://github.com/tesseract-ocr/tesseract/wiki" target="_blank">インストール</a>が必要になります。<em> tesseract</em>をインストールした後に<em>python</em>のwrapperとなる<a href="https://pypi.org/project/pytesseract/" target="_blank"><em>pytesseract</em></a>をインストールします。</p>
+<pre>pip install pytesseract</pre>
+<h3 is-upgraded>S+ Camera Basicの画像を利用して<em>tesseract</em>の動作確認を行います。まず、次のようにカメラの前にアルファベットまたは数字の書いたボードを用意します。</h3>
+<h3 is-upgraded><img alt="A picture containing indoor, table, sitting, small\n\nDescription automatically generated" style="width: 290.99px" src="img/cab319f2d6e83e92.png"></h3>
+<p>そしてPCに保存された画像に対して次のコマンドを実行します。</p>
+<pre>tesseract xxxx.local_yyyyy.webp result -l eng</pre>
+<p>OCRの結果が<em>result.txt</em>に保存されるので確認してください。うまく認識しない場合には、次のことを試してみてください。</p>
+<ol type="1" start="1">
+<li>カメラをボードに対して正体させる。</li>
+<li>数字や文字が大きくなるようにカメラをボードに近づける</li>
+<li><em>--oem</em>と<em>--psm</em>を設定する。各値については<a href="https://tesseract-ocr.github.io/tessdoc/Command-Line-Usage" target="_blank">こちら</a>を参照してください。</li>
+</ol>
+<p>結果が確認できたら、アルゴリズムにOCR処理を追加します。最初に<em>CameraApp.py</em>の21行目と22行目に次の２行を追加します。</p>
+<h3 is-upgraded>CameraApp.py</h3>
+<pre><code>import cv2
+
+import pytesseract
+from pytesseract import Output</code></pre>
+<p>CameraApp.pyの268行目以降にOCR処理を追加します。</p>
+<h3 is-upgraded>CameraApp.py</h3>
+<pre><code>crop_image = cv2.resize(crop_image, size)
+logger.info(&#39;image resize end&#39;)
+
+# OCR
+ocr_result = []
+configuration = (&#34;-l eng –oem 3 --psm 3&#34;)
+try:
+    ocr_result = pytesseract.image_to_data(
+        image,
+        lang=&#39;eng&#39;,
+        output_type=Output.DICT,
+        timeout=30.0,
+        config=configuration
+    )
+    logger.debug(&#39;ocr results: %s&#39;, ocr_result)
+except Exception as e:
+    logger.error(&#34;can&#39;t ocr by %s&#34;, e)
+   raise</code></pre>
+<p>この状態で再度実行すると次のようなログが新たに出力されと思います。</p>
+<pre>ocr result: {&#39;level&#39;: [1, 2, 3, 4, 5, 4, 5, 4, 5, 2, 3, 4, 5, 2, 3, 4, 5], &#39;page_num&#39;: [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1], &#39;block_num&#39;: [0, 1, 1, 1, 1, 1, 1, 1, 1, 2, 2, 2, 2, 3, 3, 3, 3], &#39;par_num&#39;: [0, 0, 1, 1, 1, 1, 1, 1, 1, 0, 1, 1, 1, 0, 1, 1, 1], &#39;line_num&#39;: [0, 0, 0, 1, 1, 2, 2, 3, 3, 0, 0, 1, 1, 0, 0, 1, 1], &#39;word_num&#39;: [0, 0, 0, 0, 1, 0, 1, 0, 1, 0, 0, 0, 1, 0, 0, 0, 1], &#39;left&#39;: [0, 204, 204, 204, 204, 382, 382, 388, 388, 193, 193, 193, 193, 0, 0, 0, 0], &#39;top&#39;: [0, 157, 157, 157, 157, 209, 209, 269, 269, 283, 283, 283, 283, 0, 0, 0, 0], &#39;width&#39;: [640, 315, 315, 117, 117, 137, 137, 93, 93, 132, 132, 132, 132, 640, 640, 640, 640], &#39;height&#39;: [360, 142, 142, 32, 32, 34, 34, 30, 30, 34, 34, 34, 34, 360, 360, 360, 360], &#39;conf&#39;: [&#39;-1&#39;, &#39;-1&#39;, &#39;-1&#39;, &#39;-1&#39;, 84, &#39;-1&#39;, 96, &#39;-1&#39;, 94, &#39;-1&#39;, &#39;-1&#39;, &#39;-1&#39;, 96, &#39;-1&#39;, &#39;-1&#39;, &#39;-1&#39;, 95], &#39;text&#39;: [&#39;&#39;, &#39;&#39;, &#39;&#39;, &#39;&#39;, &#39;ABCDE&#39;, &#39;&#39;, &#39;1234567&#39;, &#39;&#39;, &#39;abcde&#39;, &#39;&#39;, &#39;&#39;, &#39;&#39;, &#39;1234567&#39;, &#39;&#39;, &#39;&#39;, &#39;&#39;, &#39;&#39;]}</pre>
+<p>認識された文字は、<em>Text</em>として表示されます。この例では &#34;ABCDE&#34;, &#34;1234567&#34;,  &#34;abcde&#34;, &#34;1234567&#34;が認識されたことがわかります。</p>
+
+
+      </google-codelab-step>
+    
+      <google-codelab-step label="SORACOM Harvest Dataへ結果のアップロード" duration="5">
+        <p>OCRの結果を<em>SORACOM Harvest Data</em>へアップロードする処理を追加します。先ほどのOCRの処理を次のように書き換えます。</p>
+<h3 is-upgraded>CameraApp.py</h3>
+<pre><code>crop_image = cv2.resize(crop_image, size)
+logger.info(&#39;image resize end&#39;)
+ 
+# OCR
+ocr_result = []
+configuration = (&#34;-l eng –oem 3 --psm 3&#34;)
+try:
+    ocr_result = pytesseract.image_to_data(
+        image,
+        lang=&#39;eng&#39;,
+        output_type=Output.DICT,
+        timeout=30.0,
+        config=configuration
+    )
+except Exception as e:
+    logger.error(&#34;can&#39;t ocr by %s&#34;, e)
+   raise
+ 
+texts = ocr_result.get(&#39;text&#39;, None)
+new_texts = []
+for txt in texts:
+    if txt.isdigit():
+        txt = int(txt)
+    new_texts.append(txt)
+ocr_result[&#39;text&#39;] = new_texts
+encode_json_data = json.dumps(ocr_result)
+response = HARVEST_DATA.uploadData(encode_json_data)</code></pre>
+<p>最終的な<em>CameraApp.py</em>の<em>Interval_mode_000</em>は次のようになります。</p>
+<h3 is-upgraded>CameraApp.py</h3>
+<pre><code>def Interval_mode_000(deviceInterface):
+    &#34;upload an image periodically&#34;
+ 
+    wait_for_next = False
+ 
+    try:
+        image = deviceInterface.getCapture()
+        if image is None:
+            return wait_for_next
+ 
+        # crop image
+        logger.info(&#39;crop_im start&#39;)
+        crop_image = IMAGE_UTIL.crop_im(
+            image, int(CROP_TOP), int(CROP_BOTTOM),
+            int(CROP_LEFT), int(CROP_RIGHT))
+        logger.info(&#39;crop_im end&#39;)
+ 
+        # resize image
+        logger.info(&#39;image resize start&#39;)
+        size = (int(UPLOAD_SIZE_W), int(UPLOAD_SIZE_H))
+        crop_image = cv2.resize(crop_image, size)
+        logger.info(&#39;image resize end&#39;)
+ 
+        # OCR
+        ocr_result = []
+        configuration = (&#34;-l eng --oem 3 --psm 3&#34;)
+        try:
+            ocr_result = pytesseract.image_to_data(
+                image,
+                lang=&#39;eng&#39;,
+                output_type=Output.DICT,
+                timeout=30.0,
+                config=configuration
+            )           
+        except Exception as e:
+            logger.error(&#34;can&#39;t ocr by %s&#34;, e)
+            raise
+ 
+        texts = ocr_result.get(&#39;text&#39;, None)
+        new_texts = []
+        for txt in texts:
+            if txt.isdigit():
+                txt = int(txt)
+            new_texts.append(txt)
+        ocr_result[&#39;text&#39;] = new_texts
+        encode_json_data = json.dumps(ocr_result)
+        response = HARVEST_DATA.uploadData(encode_json_data)
+ 
+        deviceState = deviceInterface.getDeviceState()
+        upload(&#39;cap&#39;, deviceState, crop_image)
+        wait_for_next = True
+    except Exception as e:
+        logger.error(e)
+    return wait_for_next</code></pre>
+
+
+      </google-codelab-step>
+    
+      <google-codelab-step label="S&#43; Camera Basicへアルゴリズムのデプロイ" duration="10">
+        <p>編集したアルゴリズムをS+ Camera Basicへデプロイします。最初に不必要なファイル（<em>__pycache__</em>, <em>*.pyc等</em>）を削除し、ディレクトリ全体のアーカイブを作成します。この際にアーカイブのDirectory名は必ず<strong>CameraApp0</strong>から変更しないでください。</p>
+<pre>tar cfv CameraApp0.tgz CameraApp0</pre>
+<p>作成した アーカイブを<em>SORACOM Harvest Files</em>（/SORACOM-Mosaic/CameraApp0/）にアップロードします。</p>
+<p class="image-container"><img alt="A screenshot of a computer screen\n\nDescription automatically generated" style="width: 601.93px" src="img/cfbb9da006062d9a.png"></p>
+<p>アーカイブの作成が終わったら<em>SORACOM Mosaic</em>の<em>APP(CAMERAAPP0)</em>タブからアルゴリズムのインストールを行います。先ほどは SORACOM Harvest Filesの<em>/SORACOM-Mosaic/CameraApp0/CameraApp0.tgz</em> へアップトードを行ったので、指定するパスは<a href="http://harvest-files.soracom.io/SORACOM-Mosaic/CameraApp0/1.0.0/2020-07-11T19-23-04/CameraApp0.tgz" target="_blank"><strong><em>http://harvest-files.soracom.io</em></strong><em>/SORACOM-Mosaic/CameraApp0/CameraApp0.tgz</em></a>になります。<em>Update</em>を押すとカメラへのアルゴリズムのデプロイメントが開始されます。</p>
+<p class="image-container"><img alt="A screenshot of a cell phone\n\nDescription automatically generated" style="width: 601.93px" src="img/265aad7af5412a0a.png"></p>
+<p>インストールが成功すると<em>APP(CAMERAAPP0)</em>のタブの<em>PACKAGE NAME</em>および<em>PACKAGE VERSION</em>が表示されるとともに、アルゴリズム実行次の環境変数を設定する画面が表示されます。インストールに失敗する場合は、アーカイブ作成元のディレクトリ名がCameraApp0になっているか、<em>SORACOM Harvest Files</em>のパスが<a href="https://dev.soracom.io/jp/mosaic/algorithm-development/#deployment" target="_blank">http://harvest-files.soracom.io/から始まるものになっているかを確認してください。それでもうまくいかない場合にはこちら</a>を参照してください。</p>
+<p>インストール後、しばらくしてから<em>Harvest Data</em>タブをクリックするとカメラからOCRの結果が<em>SORACOM Harvest Data</em>へアップロードされていることが確認できると思います。</p>
+<p class="image-container"><img style="width: 601.70px" src="img/cf46ac51857f3335.png"></p>
+
+
+      </google-codelab-step>
+    
+      <google-codelab-step label="あとかたづけと注意事項" duration="1">
+        <p>本レシピでは費用がかかるサービスを利用しています。本項をよく読み、必要な操作や解除作業を行うようにして、想定外の費用が掛からないようにしてください。</p>
+<h2 is-upgraded>費用について</h2>
+<p>ここで記載している金額は全て税別、送料別となります。</p>
+<h3 is-upgraded>SORACOM プラットフォームの利用料金</h3>
+<table>
+<tr><td colspan="1" rowspan="1"><p><strong>サービス／機能</strong></p>
+</td><td colspan="1" rowspan="1"><p><strong>料金</strong></p>
+</td></tr>
+<tr><td colspan="1" rowspan="1"><p><a href="https://soracom.jp/services/air/cellular/price_specific_area_sim/" target="_blank">SORACOM Air (plan-D)</a></p>
+</td><td colspan="1" rowspan="1"><ul>
+<li>基本料: 10円/日</li>
+<li>通信料: 0.2円~/MB</li>
+</ul>
+<p>(今回の利用であれば 100MB 以内で収まる範囲)</p>
+</td></tr>
+<tr><td colspan="1" rowspan="1"><p><a href="https://soracom.jp/services/harvest/price/" target="_blank">SORACOM Harvest Data</a></p>
+</td><td colspan="1" rowspan="1"><p>1 リクエストあたり 0.004 円</p>
+</td></tr>
+<tr><td colspan="1" rowspan="1"><p><a href="https://soracom.jp/services/harvest/price/" target="_blank">SORACOM Harvest Files</a></p>
+</td><td colspan="1" rowspan="1"><p>SORACOM Harvest FIles は一般的なファイル管理サービスとは異なり「データ転送量」に応じた課金体系です。保管されているファイル(サイズ)には費用は発生しません。例えば先月に1GBのファイルのアップロードを行った場合、1GBの転送に関して課金されます。翌月の転送が0バイトだった場合、先月の1GB分は保管されていますが、このファイルには費用は発生しません。</p>
+</td></tr>
+<tr><td colspan="1" rowspan="1"><p><a href="https://soracom.jp/services/napter/price/" target="_blank">SORACOM Napter</a></p>
+</td><td colspan="1" rowspan="1"><p>300 円 (SIM 1枚あたり、月額、税別)</p>
+</td></tr>
+<tr><td colspan="1" rowspan="1"><p><a href="https://soracom.jp/services/inventory/price/" target="_blank">SORACOM Inventory</a></p>
+</td><td colspan="1" rowspan="1"><p>最初の登録: 1 USD/台・回</p>
+<p>50 円/台・月</p>
+</td></tr>
+<tr><td colspan="1" rowspan="1"><p><a href="https://soracom.jp/services/mosaic/price/" target="_blank">SORACOM Mosaic</a></p>
+</td><td colspan="1" rowspan="1"><p>月額費用 1,700円。利用月は無料。</p>
+</td></tr>
+</table>
+<p>※ 費用詳細はリンク先をご確認ください。</p>
+<aside class="special"><p><strong>無料利用枠について</strong></p>
+<p>SORACOM サービスでは一部サービスにおいて無料枠が設定されています。たとえば SORACOM Air for セルラーであればアカウント毎で30円/月の通信分や、SORACOM Harvest Data であれば31日分の書込みリクエストなどです。料金詳細に「無料利用枠」として掲載されていますので、ご確認ください。</p>
+</aside>
+<p><em>SORACOM Harvest Data</em>にアップロードしたデータ、<em>SORACOM Harvest Files</em>にアップロードしたファイル、<em>SORACOM Inventory</em>のデバイス、<em>SORACOM Mosaic</em>など必要ない場合には削除/解約処理をお願いします。</p>
+
+
+      </google-codelab-step>
+    
+      <google-codelab-step label="次のステップ" duration="1">
+        <p>本レシピでは、OCRによって、通信機能を持たない機器の数値や文字を電子化してSORACOM Harvest Dataに送信しました。OCRの結果とカメラの映像を同時に出したいときや、ある数値が検出された際にアラートを出したいような場合には<a href="https://soracom.jp/services/lagoon/" target="_blank"><em>SORACOM Lagoon</em></a>をご利用いただけます。</p>
+<p><a href="https://soracom.jp/products/kit/camera_kit/" target="_blank">商品ページへ戻る</a></p>
+<p>よくあるご質問は<a href="https://dev.soracom.io/jp/mosaic/faqs/" target="_blank">こちら</a>でご案内しています。</p>
+<p>[1] 画像の送信に時間がかかると場合エラーになる場合があるので、<em>s1.fast</em>を設定してください。</p>
+<p>[2] S+ Camera Basicでは暗い場所でも映像を取得するため、Non-IRカメラを採用しているため日中は赤味がかった画像になります。</p>
+
+
+      </google-codelab-step>
+    
+  </google-codelab>
+
+  <script src="https://soracom.github.io/iot-recipes/codelab-elements/native-shim.js"></script>
+  <script src="https://soracom.github.io/iot-recipes/codelab-elements/custom-elements.min.js"></script>
+  <script src="https://soracom.github.io/iot-recipes/codelab-elements/prettify.js"></script>
+  <script src="https://soracom.github.io/iot-recipes/codelab-elements/codelab-elements.js"></script>
+
+</body>
+</html>
