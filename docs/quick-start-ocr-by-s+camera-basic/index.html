@@ -153,33 +153,32 @@
 <p class="image-container"><img alt="A screenshot of a computer\n\nDescription automatically generated" style="width: 601.93px" src="img/91e82bc7935333da.png"></p>
 <p class="image-container"><img alt="A screenshot of a cell phone\n\nDescription automatically generated" style="width: 601.93px" src="img/820f512901950995.png"></p>
 <p>PORT TO EXPOSE に<strong>8080</strong>を設定してUpdateをクリックするとS+ Camera BasicのにアクセするためのHTTPの情報が表示されます。こちらをコピーして、サンプルアルゴリズムを実行します。上記の例の場合、次のようなコマンドを実行します。</p>
-<pre>DEVICE_INTERFACE_RI=http://13.112.127.216:46098 python  CameraApp.py</pre>
+<p>DEVICE_INTERFACE_RI=http://13.112.127.216:46098 python  CameraApp.py</p>
 <p>成功すると次のような実行ログが表示されます。</p>
-<pre>INFO:__main__:main
-INFO:__main__:randomized delay 1 sec
-INFO:__main__:randomized delay 123 sec
-INFO:soracom_device_interface:getCapture start
-INFO:soracom_device_interface:startCapture start
-DEBUG:urllib3.connectionpool:Starting new HTTP connection (1): 13.112.127.216:46098
-DEBUG:urllib3.connectionpool:http://13.112.127.216:46098 &#34;GET /v1/stopCameraCapture HTTP/1.1&#34; 200 0
-INFO:soracom_device_interface:stopCameraCapture response = &lt;Response [200]&gt;
-INFO:soracom_device_interface:cameraState cameraStateJson = {&#39;width&#39;: 1280, &#39;height&#39;: 720, &#39;framerate&#39;: 10}
-DEBUG:urllib3.connectionpool:Starting new HTTP connection (1): 13.112.127.216:46098
-DEBUG:urllib3.connectionpool:http://13.112.127.216:46098 &#34;PATCH /v1/cameraState HTTP/1.1&#34; 200 0
-INFO:soracom_device_interface:cameraState response = &lt;Response [200]&gt;
-DEBUG:urllib3.connectionpool:Starting new HTTP connection (1): 13.112.127.216:46098
-DEBUG:urllib3.connectionpool:http://13.112.127.216:46098 &#34;GET /v1/startCameraCapture HTTP/1.1&#34; 200 0
-INFO:soracom_device_interface:startCameraCapture response = &lt;Response [200]&gt;
-DEBUG:urllib3.connectionpool:Starting new HTTP connection (1): 13.112.127.216:46098</pre>
+<p>INFO:__main__:main</p>
+<p>INFO:__main__:randomized delay 1 sec</p>
+<p>INFO:__main__:randomized delay 123 sec</p>
+<p>INFO:soracom_device_interface:getCapture start</p>
+<p>INFO:soracom_device_interface:startCapture start</p>
+<p>DEBUG:urllib3.connectionpool:Starting new HTTP connection (1): 13.112.127.216:46098</p>
+<p>DEBUG:urllib3.connectionpool:http://13.112.127.216:46098 &#34;GET /v1/stopCameraCapture HTTP/1.1&#34; 200 0</p>
+<p>INFO:soracom_device_interface:stopCameraCapture response = &lt;Response [200]&gt;</p>
+<p>INFO:soracom_device_interface:cameraState cameraStateJson = {&#39;width&#39;: 1280, &#39;height&#39;: 720, &#39;framerate&#39;: 10}</p>
+<p>DEBUG:urllib3.connectionpool:Starting new HTTP connection (1): 13.112.127.216:46098</p>
+<p>DEBUG:urllib3.connectionpool:http://13.112.127.216:46098 &#34;PATCH /v1/cameraState HTTP/1.1&#34; 200 0</p>
+<p>INFO:soracom_device_interface:cameraState response = &lt;Response [200]&gt;</p>
+<p>DEBUG:urllib3.connectionpool:Starting new HTTP connection (1): 13.112.127.216:46098</p>
+<p>DEBUG:urllib3.connectionpool:http://13.112.127.216:46098 &#34;GET /v1/startCameraCapture HTTP/1.1&#34; 200 0</p>
+<p>INFO:soracom_device_interface:startCameraCapture response = &lt;Response [200]&gt;</p>
+<p>DEBUG:urllib3.connectionpool:Starting new HTTP connection (1): 13.112.127.216:46098</p>
 <h3 is-upgraded>デフォルトでは120秒ごとに画像を取得するように設定されています。間隔を変更する場合にはCameraApp.pyの42行目の<em>SORACOM_ENV_WAIT</em>の数値（秒）を適当な値へ変更して下さい。</h3>
 <h3 is-upgraded>CameraApp.py</h3>
-<pre><code># 0: upload an image every wait second.
-# 100: upload an image if a face is detected.
-# 101: upload an image with masking eyes.
-FACE_MODE = int(os.getenv(&#39;SORACOM_ENV_MODE&#39;, &#39;0&#39;))
-
-# image upload interval. too short interval increases upload data volume.
-WAIT = int(os.getenv(&#39;SORACOM_ENV_WAIT&#39;, &#39;120&#39;))</code></pre>
+<p># 0: upload an image every wait second.</p>
+<p># 100: upload an image if a face is detected.</p>
+<p># 101: upload an image with masking eyes.</p>
+<p>FACE_MODE = int(os.getenv(&#39;SORACOM_ENV_MODE&#39;, &#39;0&#39;))</p>
+<p># image upload interval. too short interval increases upload data volume.</p>
+<p>WAIT = int(os.getenv(&#39;SORACOM_ENV_WAIT&#39;, &#39;120&#39;))</p>
 <h3 is-upgraded>画像は/tmp/io.soracom.harvestfilesに<a href="https://developers.google.com/speed/webp" target="_blank">webp</a>形式の画像ファイルとして保存されます。Webp形式の画像はGoogle Chrome等のブラウザを使って確認することができます。</h3>
 <h3 is-upgraded>余談にはなりますが、<em>SORACOM_ENV_MODE</em>を変更することで、アルゴリズムの動作を変更することができます。本レシピの執筆時点でサポートされているモードは次の通りです。</h3>
 <table>
@@ -202,11 +201,11 @@ WAIT = int(os.getenv(&#39;SORACOM_ENV_WAIT&#39;, &#39;120&#39;))</code></pre>
     
       <google-codelab-step label="ORCアルゴリズムの開発" duration="20">
         <p>OCRを行うためには<em>tesseract</em>の<a href="https://github.com/tesseract-ocr/tesseract/wiki" target="_blank">インストール</a>が必要になります。<em> tesseract</em>をインストールした後に<em>python</em>のwrapperとなる<a href="https://pypi.org/project/pytesseract/" target="_blank"><em>pytesseract</em></a>をインストールします。</p>
-<pre>pip install pytesseract</pre>
+<p>pip install pytesseract</p>
 <h3 is-upgraded>S+ Camera Basicの画像を利用して<em>tesseract</em>の動作確認を行います。まず、次のようにカメラの前にアルファベットまたは数字の書いたボードを用意します。</h3>
 <h3 is-upgraded><img alt="A picture containing indoor, table, sitting, small\n\nDescription automatically generated" style="width: 290.99px" src="img/cab319f2d6e83e92.png"></h3>
 <p>そしてPCに保存された画像に対して次のコマンドを実行します。</p>
-<pre>tesseract xxxx.local_yyyyy.webp result -l eng</pre>
+<p>tesseract xxxx.local_yyyyy.webp result -l eng</p>
 <p>OCRの結果が<em>result.txt</em>に保存されるので確認してください。うまく認識しない場合には、次のことを試してみてください。</p>
 <ol type="1" start="1">
 <li>カメラをボードに対して正体させる。</li>
@@ -215,32 +214,30 @@ WAIT = int(os.getenv(&#39;SORACOM_ENV_WAIT&#39;, &#39;120&#39;))</code></pre>
 </ol>
 <p>結果が確認できたら、アルゴリズムにOCR処理を追加します。最初に<em>CameraApp.py</em>の21行目と22行目に次の２行を追加します。</p>
 <h3 is-upgraded>CameraApp.py</h3>
-<pre><code>import cv2
-
-import pytesseract
-from pytesseract import Output</code></pre>
+<p>import cv2</p>
+<p>import pytesseract</p>
+<p>from pytesseract import Output</p>
 <p>CameraApp.pyの268行目以降にOCR処理を追加します。</p>
-<h3 is-upgraded>CameraApp.py</h3>
-<pre><code>crop_image = cv2.resize(crop_image, size)
-logger.info(&#39;image resize end&#39;)
-
-# OCR
-ocr_result = []
-configuration = (&#34;-l eng –oem 3 --psm 3&#34;)
-try:
-    ocr_result = pytesseract.image_to_data(
-        image,
-        lang=&#39;eng&#39;,
-        output_type=Output.DICT,
-        timeout=30.0,
-        config=configuration
-    )
-    logger.debug(&#39;ocr results: %s&#39;, ocr_result)
-except Exception as e:
-    logger.error(&#34;can&#39;t ocr by %s&#34;, e)
-   raise</code></pre>
+<p>CameraApp.py</p>
+<p>crop_image = cv2.resize(crop_image, size)</p>
+<p>logger.info(&#39;image resize end&#39;)</p>
+<p># OCR</p>
+<p>ocr_result = []</p>
+<p>configuration = (&#34;-l eng –oem 3 --psm 3&#34;)</p>
+<p>try:</p>
+<p>    ocr_result = pytesseract.image_to_data(</p>
+<p>        image,</p>
+<p>        lang=&#39;eng&#39;,</p>
+<p>        output_type=Output.DICT,</p>
+<p>        timeout=30.0,</p>
+<p>        config=configuration</p>
+<p>    )</p>
+<p>    logger.debug(&#39;ocr results: %s&#39;, ocr_result)</p>
+<p>except Exception as e:</p>
+<p>    logger.error(&#34;can&#39;t ocr by %s&#34;, e)</p>
+<p>   raise</p>
 <p>この状態で再度実行すると次のようなログが新たに出力されと思います。</p>
-<pre>ocr result: {&#39;level&#39;: [1, 2, 3, 4, 5, 4, 5, 4, 5, 2, 3, 4, 5, 2, 3, 4, 5], &#39;page_num&#39;: [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1], &#39;block_num&#39;: [0, 1, 1, 1, 1, 1, 1, 1, 1, 2, 2, 2, 2, 3, 3, 3, 3], &#39;par_num&#39;: [0, 0, 1, 1, 1, 1, 1, 1, 1, 0, 1, 1, 1, 0, 1, 1, 1], &#39;line_num&#39;: [0, 0, 0, 1, 1, 2, 2, 3, 3, 0, 0, 1, 1, 0, 0, 1, 1], &#39;word_num&#39;: [0, 0, 0, 0, 1, 0, 1, 0, 1, 0, 0, 0, 1, 0, 0, 0, 1], &#39;left&#39;: [0, 204, 204, 204, 204, 382, 382, 388, 388, 193, 193, 193, 193, 0, 0, 0, 0], &#39;top&#39;: [0, 157, 157, 157, 157, 209, 209, 269, 269, 283, 283, 283, 283, 0, 0, 0, 0], &#39;width&#39;: [640, 315, 315, 117, 117, 137, 137, 93, 93, 132, 132, 132, 132, 640, 640, 640, 640], &#39;height&#39;: [360, 142, 142, 32, 32, 34, 34, 30, 30, 34, 34, 34, 34, 360, 360, 360, 360], &#39;conf&#39;: [&#39;-1&#39;, &#39;-1&#39;, &#39;-1&#39;, &#39;-1&#39;, 84, &#39;-1&#39;, 96, &#39;-1&#39;, 94, &#39;-1&#39;, &#39;-1&#39;, &#39;-1&#39;, 96, &#39;-1&#39;, &#39;-1&#39;, &#39;-1&#39;, 95], &#39;text&#39;: [&#39;&#39;, &#39;&#39;, &#39;&#39;, &#39;&#39;, &#39;ABCDE&#39;, &#39;&#39;, &#39;1234567&#39;, &#39;&#39;, &#39;abcde&#39;, &#39;&#39;, &#39;&#39;, &#39;&#39;, &#39;1234567&#39;, &#39;&#39;, &#39;&#39;, &#39;&#39;, &#39;&#39;]}</pre>
+<p>ocr result: {&#39;level&#39;: [1, 2, 3, 4, 5, 4, 5, 4, 5, 2, 3, 4, 5, 2, 3, 4, 5], &#39;page_num&#39;: [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1], &#39;block_num&#39;: [0, 1, 1, 1, 1, 1, 1, 1, 1, 2, 2, 2, 2, 3, 3, 3, 3], &#39;par_num&#39;: [0, 0, 1, 1, 1, 1, 1, 1, 1, 0, 1, 1, 1, 0, 1, 1, 1], &#39;line_num&#39;: [0, 0, 0, 1, 1, 2, 2, 3, 3, 0, 0, 1, 1, 0, 0, 1, 1], &#39;word_num&#39;: [0, 0, 0, 0, 1, 0, 1, 0, 1, 0, 0, 0, 1, 0, 0, 0, 1], &#39;left&#39;: [0, 204, 204, 204, 204, 382, 382, 388, 388, 193, 193, 193, 193, 0, 0, 0, 0], &#39;top&#39;: [0, 157, 157, 157, 157, 209, 209, 269, 269, 283, 283, 283, 283, 0, 0, 0, 0], &#39;width&#39;: [640, 315, 315, 117, 117, 137, 137, 93, 93, 132, 132, 132, 132, 640, 640, 640, 640], &#39;height&#39;: [360, 142, 142, 32, 32, 34, 34, 30, 30, 34, 34, 34, 34, 360, 360, 360, 360], &#39;conf&#39;: [&#39;-1&#39;, &#39;-1&#39;, &#39;-1&#39;, &#39;-1&#39;, 84, &#39;-1&#39;, 96, &#39;-1&#39;, 94, &#39;-1&#39;, &#39;-1&#39;, &#39;-1&#39;, 96, &#39;-1&#39;, &#39;-1&#39;, &#39;-1&#39;, 95], &#39;text&#39;: [&#39;&#39;, &#39;&#39;, &#39;&#39;, &#39;&#39;, &#39;ABCDE&#39;, &#39;&#39;, &#39;1234567&#39;, &#39;&#39;, &#39;abcde&#39;, &#39;&#39;, &#39;&#39;, &#39;&#39;, &#39;1234567&#39;, &#39;&#39;, &#39;&#39;, &#39;&#39;, &#39;&#39;]}</p>
 <p>認識された文字は、<em>Text</em>として表示されます。この例では &#34;ABCDE&#34;, &#34;1234567&#34;,  &#34;abcde&#34;, &#34;1234567&#34;が認識されたことがわかります。</p>
 
 
@@ -249,101 +246,92 @@ except Exception as e:
       <google-codelab-step label="SORACOM Harvest Dataへ結果のアップロード" duration="5">
         <p>OCRの結果を<em>SORACOM Harvest Data</em>へアップロードする処理を追加します。先ほどのOCRの処理を次のように書き換えます。</p>
 <h3 is-upgraded>CameraApp.py</h3>
-<pre><code>crop_image = cv2.resize(crop_image, size)
-logger.info(&#39;image resize end&#39;)
- 
-# OCR
-ocr_result = []
-configuration = (&#34;-l eng –oem 3 --psm 3&#34;)
-try:
-    ocr_result = pytesseract.image_to_data(
-        image,
-        lang=&#39;eng&#39;,
-        output_type=Output.DICT,
-        timeout=30.0,
-        config=configuration
-    )
-except Exception as e:
-    logger.error(&#34;can&#39;t ocr by %s&#34;, e)
-   raise
- 
-texts = ocr_result.get(&#39;text&#39;, None)
-new_texts = []
-for txt in texts:
-    if txt.isdigit():
-        txt = int(txt)
-    new_texts.append(txt)
-ocr_result[&#39;text&#39;] = new_texts
-encode_json_data = json.dumps(ocr_result)
-response = HARVEST_DATA.uploadData(encode_json_data)</code></pre>
+<p>crop_image = cv2.resize(crop_image, size)</p>
+<p>logger.info(&#39;image resize end&#39;)</p>
+<p># OCR</p>
+<p>ocr_result = []</p>
+<p>configuration = (&#34;-l eng –oem 3 --psm 3&#34;)</p>
+<p>try:</p>
+<p>    ocr_result = pytesseract.image_to_data(</p>
+<p>        image,</p>
+<p>        lang=&#39;eng&#39;,</p>
+<p>        output_type=Output.DICT,</p>
+<p>        timeout=30.0,</p>
+<p>        config=configuration</p>
+<p>    )</p>
+<p>except Exception as e:</p>
+<p>    logger.error(&#34;can&#39;t ocr by %s&#34;, e)</p>
+<p>   raise</p>
+<p>texts = ocr_result.get(&#39;text&#39;, None)</p>
+<p>new_texts = []</p>
+<p>for txt in texts:</p>
+<p>    if txt.isdigit():</p>
+<p>        txt = int(txt)</p>
+<p>    new_texts.append(txt)</p>
+<p>ocr_result[&#39;text&#39;] = new_texts</p>
+<p>encode_json_data = json.dumps(ocr_result)</p>
+<p>response = HARVEST_DATA.uploadData(encode_json_data)</p>
 <p>最終的な<em>CameraApp.py</em>の<em>Interval_mode_000</em>は次のようになります。</p>
 <h3 is-upgraded>CameraApp.py</h3>
-<pre><code>def Interval_mode_000(deviceInterface):
-    &#34;upload an image periodically&#34;
- 
-    wait_for_next = False
- 
-    try:
-        image = deviceInterface.getCapture()
-        if image is None:
-            return wait_for_next
- 
-        # crop image
-        logger.info(&#39;crop_im start&#39;)
-        crop_image = IMAGE_UTIL.crop_im(
-            image, int(CROP_TOP), int(CROP_BOTTOM),
-            int(CROP_LEFT), int(CROP_RIGHT))
-        logger.info(&#39;crop_im end&#39;)
- 
-        # resize image
-        logger.info(&#39;image resize start&#39;)
-        size = (int(UPLOAD_SIZE_W), int(UPLOAD_SIZE_H))
-        crop_image = cv2.resize(crop_image, size)
-        logger.info(&#39;image resize end&#39;)
- 
-        # OCR
-        ocr_result = []
-        configuration = (&#34;-l eng --oem 3 --psm 3&#34;)
-        try:
-            ocr_result = pytesseract.image_to_data(
-                image,
-                lang=&#39;eng&#39;,
-                output_type=Output.DICT,
-                timeout=30.0,
-                config=configuration
-            )           
-        except Exception as e:
-            logger.error(&#34;can&#39;t ocr by %s&#34;, e)
-            raise
- 
-        texts = ocr_result.get(&#39;text&#39;, None)
-        new_texts = []
-        for txt in texts:
-            if txt.isdigit():
-                txt = int(txt)
-            new_texts.append(txt)
-        ocr_result[&#39;text&#39;] = new_texts
-        encode_json_data = json.dumps(ocr_result)
-        response = HARVEST_DATA.uploadData(encode_json_data)
- 
-        deviceState = deviceInterface.getDeviceState()
-        upload(&#39;cap&#39;, deviceState, crop_image)
-        wait_for_next = True
-    except Exception as e:
-        logger.error(e)
-    return wait_for_next</code></pre>
+<p>def Interval_mode_000(deviceInterface):</p>
+<p>    &#34;upload an image periodically&#34;</p>
+<p>    wait_for_next = False</p>
+<p>    try:</p>
+<p>        image = deviceInterface.getCapture()</p>
+<p>        if image is None:</p>
+<p>            return wait_for_next</p>
+<p>        # crop image</p>
+<p>        logger.info(&#39;crop_im start&#39;)</p>
+<p>        crop_image = IMAGE_UTIL.crop_im(</p>
+<p>            image, int(CROP_TOP), int(CROP_BOTTOM),</p>
+<p>            int(CROP_LEFT), int(CROP_RIGHT))</p>
+<p>        logger.info(&#39;crop_im end&#39;)</p>
+<p>        # resize image</p>
+<p>        logger.info(&#39;image resize start&#39;)</p>
+<p>        size = (int(UPLOAD_SIZE_W), int(UPLOAD_SIZE_H))</p>
+<p>        crop_image = cv2.resize(crop_image, size)</p>
+<p>        logger.info(&#39;image resize end&#39;)</p>
+<p>        # OCR</p>
+<p>        ocr_result = []</p>
+<p>        configuration = (&#34;-l eng --oem 3 --psm 3&#34;)</p>
+<p>        try:</p>
+<p>            ocr_result = pytesseract.image_to_data(</p>
+<p>                image,</p>
+<p>                lang=&#39;eng&#39;,</p>
+<p>                output_type=Output.DICT,</p>
+<p>                timeout=30.0,</p>
+<p>                config=configuration</p>
+<p>            )           </p>
+<p>        except Exception as e:</p>
+<p>            logger.error(&#34;can&#39;t ocr by %s&#34;, e)</p>
+<p>            raise</p>
+<p>        texts = ocr_result.get(&#39;text&#39;, None)</p>
+<p>        new_texts = []</p>
+<p>        for txt in texts:</p>
+<p>            if txt.isdigit():</p>
+<p>                txt = int(txt)</p>
+<p>            new_texts.append(txt)</p>
+<p>        ocr_result[&#39;text&#39;] = new_texts</p>
+<p>        encode_json_data = json.dumps(ocr_result)</p>
+<p>        response = HARVEST_DATA.uploadData(encode_json_data)</p>
+<p>        deviceState = deviceInterface.getDeviceState()</p>
+<p>        upload(&#39;cap&#39;, deviceState, crop_image)</p>
+<p>        wait_for_next = True</p>
+<p>    except Exception as e:</p>
+<p>        logger.error(e)</p>
+<p>    return wait_for_next</p>
 
 
       </google-codelab-step>
     
       <google-codelab-step label="S&#43; Camera Basicへアルゴリズムのデプロイ" duration="10">
         <p>編集したアルゴリズムをS+ Camera Basicへデプロイします。最初に不必要なファイル（<em>__pycache__</em>, <em>*.pyc等</em>）を削除し、ディレクトリ全体のアーカイブを作成します。この際にアーカイブのDirectory名は必ず<strong>CameraApp0</strong>から変更しないでください。</p>
-<pre>tar cfv CameraApp0.tgz CameraApp0</pre>
+<p>tar cfv CameraApp0.tgz CameraApp0</p>
 <p>作成した アーカイブを<em>SORACOM Harvest Files</em>（/SORACOM-Mosaic/CameraApp0/）にアップロードします。</p>
 <p class="image-container"><img alt="A screenshot of a computer screen\n\nDescription automatically generated" style="width: 601.93px" src="img/cfbb9da006062d9a.png"></p>
-<p>アーカイブの作成が終わったら<em>SORACOM Mosaic</em>の<em>APP(CAMERAAPP0)</em>タブからアルゴリズムのインストールを行います。先ほどは SORACOM Harvest Filesの<em>/SORACOM-Mosaic/CameraApp0/CameraApp0.tgz</em> へアップトードを行ったので、指定するパスは<a href="http://harvest-files.soracom.io/SORACOM-Mosaic/CameraApp0/1.0.0/2020-07-11T19-23-04/CameraApp0.tgz" target="_blank"><strong><em>http://harvest-files.soracom.io</em></strong><em>/SORACOM-Mosaic/CameraApp0/CameraApp0.tgz</em></a>になります。<em>Update</em>を押すとカメラへのアルゴリズムのデプロイメントが開始されます。</p>
+<p>アーカイブの作成が終わったら<em>SORACOM Mosaic</em>の<em>APP(CAMERAAPP0)</em>タブからアルゴリズムのインストールを行います。先ほどは SORACOM Harvest Filesの<em>/SORACOM-Mosaic/CameraApp0/CameraApp0.tgz</em> へアップトードを行ったので、指定するパスは<a href="http://harvest-files.soracom.io/SORACOM-Mosaic/CameraApp0/1.0.0/2020-07-11T19-23-04/CameraApp0.tgz" target="_blank"><strong><em>http://harvest-files.soracom.io</em></strong><em>/SORACOM-Mosaic/CameraApp0/CameraApp0.tgz</em></a> になります。<em>Update</em>を押すとカメラへのアルゴリズムのデプロイメントが開始されます。</p>
 <p class="image-container"><img alt="A screenshot of a cell phone\n\nDescription automatically generated" style="width: 601.93px" src="img/265aad7af5412a0a.png"></p>
-<p>インストールが成功すると<em>APP(CAMERAAPP0)</em>のタブの<em>PACKAGE NAME</em>および<em>PACKAGE VERSION</em>が表示されるとともに、アルゴリズム実行次の環境変数を設定する画面が表示されます。インストールに失敗する場合は、アーカイブ作成元のディレクトリ名がCameraApp0になっているか、<em>SORACOM Harvest Files</em>のパスが<a href="https://dev.soracom.io/jp/mosaic/algorithm-development/#deployment" target="_blank">http://harvest-files.soracom.io/から始まるものになっているかを確認してください。それでもうまくいかない場合にはこちら</a>を参照してください。</p>
+<p>インストールが成功すると<em>APP(CAMERAAPP0)</em>のタブの<em>PACKAGE NAME</em>および<em>PACKAGE VERSION</em>が表示されるとともに、アルゴリズム実行次の環境変数を設定する画面が表示されます。インストールに失敗する場合は、アーカイブ作成元のディレクトリ名がCameraApp0になっているか、<em>SORACOM Harvest Files</em>のパスが<a href="https://dev.soracom.io/jp/mosaic/algorithm-development/#deployment" target="_blank">http://harvest-files.soracom.io/ から始まるものになっているかを確認してください。それでもうまくいかない場合にはこちら</a>を参照してください。</p>
 <p>インストール後、しばらくしてから<em>Harvest Data</em>タブをクリックするとカメラからOCRの結果が<em>SORACOM Harvest Data</em>へアップロードされていることが確認できると思います。</p>
 <p class="image-container"><img style="width: 601.70px" src="img/cf46ac51857f3335.png"></p>
 
@@ -394,7 +382,7 @@ response = HARVEST_DATA.uploadData(encode_json_data)</code></pre>
     
       <google-codelab-step label="次のステップ" duration="1">
         <p>本レシピでは、OCRによって、通信機能を持たない機器の数値や文字を電子化してSORACOM Harvest Dataに送信しました。OCRの結果とカメラの映像を同時に出したいときや、ある数値が検出された際にアラートを出したいような場合には<a href="https://soracom.jp/services/lagoon/" target="_blank"><em>SORACOM Lagoon</em></a>をご利用いただけます。</p>
-<p><a href="https://soracom.jp/products/kit/camera_kit/" target="_blank">商品ページへ戻る</a></p>
+<p><a href="https://soracom.jp/products/industrial_devices/soracom-plus-camera-basic/" target="_blank">商品ページへ戻る</a></p>
 <p>よくあるご質問は<a href="https://dev.soracom.io/jp/mosaic/faqs/" target="_blank">こちら</a>でご案内しています。</p>
 <p>[1] 画像の送信に時間がかかると場合エラーになる場合があるので、<em>s1.fast</em>を設定してください。</p>
 <p>[2] S+ Camera Basicでは暗い場所でも映像を取得するため、Non-IRカメラを採用しているため日中は赤味がかった画像になります。</p>
