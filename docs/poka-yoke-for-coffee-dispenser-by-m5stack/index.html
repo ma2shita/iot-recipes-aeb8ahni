@@ -30,14 +30,10 @@
       <google-codelab-step label="M5Stack と 3G 拡張ボードで作る「コーヒーカップ取り忘れお知らせデバイス」" duration="1">
         <p>レシピ難易度：★★☆☆☆</p>
 <p>LCD付きプロトタイピング向けマイコンキット &#34;M5Stack&#34; にモバイルデータ通信機能を加える &#34;3G 拡張モジュール&#34; を組み合わせて、コーヒーマシンに置き忘れたカップをメールでお知らせしてくれるデバイスを作ります。</p>
-<aside class="warning"><p><strong>本レシピの動作不具合について (7/29)</strong></p>
-<p>本レシピを進めるにあたり、M5Stack Basicへ書き込むスケッチ(プログラム)の不具合が判明しており、レシピを完了させることが困難な状態となっています。</p>
-<p>原因の究明と復旧を行っております。今しばらくお待ちいただければ幸いです。</p>
-</aside>
 <p class="image-container"><img style="width: 520.00px" src="img/44b4c08b8ca1d9ad.gif"></p>
 <p class="image-container"><img style="width: 602.00px" src="img/ce8cb96d90703c0.png"></p>
 <h2 is-upgraded>全体の構成</h2>
-<p class="image-container"><img style="width: 602.00px" src="img/343c851889e83627.png"></p>
+<p class="image-container"><img style="width: 602.00px" src="img/4029db94fd431413.png"></p>
 <h3 is-upgraded>使用する SORACOM サービス</h3>
 <ul>
 <li>データ通信サービス <a href="https://soracom.jp/services/air/" target="_blank">SORACOM Air</a></li>
@@ -195,7 +191,7 @@
         <p>3G 拡張ボードを使って SORACOM Air によるセルラー通信を行い、3G 拡張ボードの動作確認を行います。</p>
 <h2 is-upgraded>セルラー通信ライブラリのインストール</h2>
 <p>3G 拡張ボードで利用できる通信ライブラリをインストールします。今回は <a href="https://github.com/vshymanskyy/TinyGSM" target="_blank">TinyGSM</a> というオープンソースライブラリを利用して、世界時計を M5Stack で表示してみます。</p>
-<h3 is-upgraded>［スケッチ］&gt;［ライブラリをインクルード］&gt;［ライブラリを管理...］をクリックします</h3>
+<h3 is-upgraded>Arduino IDE を開き、［スケッチ］&gt;［ライブラリをインクルード］&gt;［ライブラリを管理...］をクリックします</h3>
 <p class="image-container"><img style="width: 602.00px" src="img/41f6da411abfe840.png"></p>
 <p>※ 画面は macOS ですが、Windows も同様です。</p>
 <h3 is-upgraded>&#34;TinyGSM&#34; をインストールする</h3>
@@ -358,7 +354,7 @@ void loop() {
         <p>取り忘れをセンシングするスケッチを M5Stack へ書き込みます。</p>
 <h2 is-upgraded>ToF 距離センサーライブラリのインストール</h2>
 <p>M5Stack で ToF 距離センサーを利用するためのライブラリをインストールします。今回は<a href="https://github.com/pololu/vl53l0x-arduino" target="_blank">VL53L0X library for Arduino</a>というオープンソースライブラリを利用します。</p>
-<h3 is-upgraded>［スケッチ］&gt;［ライブラリをインクルード］&gt;［ライブラリを管理...］をクリックします</h3>
+<h3 is-upgraded>Arduino IDE を開き、［スケッチ］&gt;［ライブラリをインクルード］&gt;［ライブラリを管理...］をクリックします</h3>
 <p class="image-container"><img style="width: 602.00px" src="img/41f6da411abfe840.png"></p>
 <p>※ 画面は macOS ですが、Windows も同様です。</p>
 <h3 is-upgraded>&#34;VL53L0X&#34; をインストールする</h3>
@@ -372,7 +368,7 @@ void loop() {
 </aside>
 <h2 is-upgraded>JSON 処理ライブラリのインストール</h2>
 <p>M5Stack で JSON 形式の構造化テキストを処理するためのライブラリをインストールします。今回は<a href="https://arduinojson.org/?utm_source=meta&utm_medium=library.properties" target="_blank">ArduinoJson</a>というオープンソースライブラリを利用します。</p>
-<h3 is-upgraded>［スケッチ］&gt;［ライブラリをインクルード］&gt;［ライブラリを管理...］をクリックします</h3>
+<h3 is-upgraded>Arduino IDE を開き、［スケッチ］&gt;［ライブラリをインクルード］&gt;［ライブラリを管理...］をクリックします</h3>
 <p class="image-container"><img style="width: 602.00px" src="img/41f6da411abfe840.png"></p>
 <p>※ 画面は macOS ですが、Windows も同様です。</p>
 <h3 is-upgraded>&#34;ArduinoJson&#34; をインストールする</h3>
@@ -381,11 +377,11 @@ void loop() {
 <p class="image-container"><img style="width: 602.00px" src="img/893f0cbb8a5d7f3c.png"></p>
 <p>インストールが終了したら［閉じる］をクリックします。</p>
 <aside class="special"><p><strong>&#34;ArduinoJson&#34; を簡単に探し出す方法</strong></p>
-<p>検索用のテキストボックスへ <code>arduinojson</code> と入力すると素早く見つけることができます。</p>
+<p>検索用のテキストボックスへ <code>arduinoJson</code> と入力すると素早く見つけることができます。</p>
 </aside>
 <h2 is-upgraded>HTTP 通信ライブラリのインストール</h2>
 <p>M5Stack で HTTP 通信を行うライブラリをインストールします。今回は<a href="https://github.com/arduino-libraries/ArduinoHttpClient" target="_blank">ArduinoHttpClient</a>というオープンソースライブラリを利用します。</p>
-<h3 is-upgraded>［スケッチ］&gt;［ライブラリをインクルード］&gt;［ライブラリを管理...］をクリックします</h3>
+<h3 is-upgraded>Arduino IDE を開き、［スケッチ］&gt;［ライブラリをインクルード］&gt;［ライブラリを管理...］をクリックします</h3>
 <p class="image-container"><img style="width: 602.00px" src="img/41f6da411abfe840.png"></p>
 <p>※ 画面は macOS ですが、Windows も同様です。</p>
 <h3 is-upgraded>&#34;ArduinoHttpClient&#34; をインストールする</h3>
@@ -394,27 +390,12 @@ void loop() {
 <p class="image-container"><img style="width: 602.00px" src="img/ac2bba6dd2038a7a.png"></p>
 <p>インストールが終了したら［閉じる］をクリックします。</p>
 <aside class="special"><p><strong>&#34;ArduinoJson&#34; を簡単に探し出す方法</strong></p>
-<p>検索用のテキストボックスへ <code>arduinojson</code> と入力すると素早く見つけることができます。</p>
+<p>検索用のテキストボックスへ <code>arduinoHttp</code> と入力すると素早く見つけることができます。似たようなライブラリが表示されるため <strong>by Arduino</strong> という表記を頼りに探してください。</p>
 </aside>
-<h2 is-upgraded>時間割り込みライブラリのインストール</h2>
-<p>M5Stack で時間による割り込み(疑似的に複数の処理を進行させる)ためのライブラリをインストールします。今回は<a href="https://github.com/Toshik/TickerScheduler" target="_blank">TickerScheduler</a>というオープンソースライブラリを利用します。</p>
-<p>TickerScheduler はライブラリマネージャーの一覧に無いため、ZIP ファイルのダウンロード → 手動インストールという手順を踏みます。</p>
-<h3 is-upgraded>ZIP ファイルをダウンロードする</h3>
-<p><a href="https://github.com/Toshik/TickerScheduler" target="_blank">Github</a> を開き、［Clone or Download］&gt;［Download ZIP］をクリックします。すると <code>TickerScheduler-master.zip</code> がダウンロードできます。</p>
-<p class="image-container"><img style="width: 525.00px" src="img/182f31de1c661462.png"></p>
-<h3 is-upgraded>ZIP 形式のライブラリをインストールする</h3>
-<p>(ここからの画面は Windows ですが macOS も同様に進んでください)</p>
-<p>Arduino IDE を開き、メニューの［スケッチ］&gt;［ライブラリをインクルード］&gt;［.ZIP 形式のライブラリをインストール...］と進みます。<img style="width: 581.00px" src="img/56d65f5035565ca4.png"></p>
-<p>ダイアログで先ほどダウンロードしたファイル <code>TickerScheduler-master.zip</code> を選択して［開く］をクリックします。</p>
-<p class="image-container"><img style="width: 516.00px" src="img/e3aaf12180b675b1.png"></p>
-<aside class="special"><p><strong>TickerScheduler-master.zip はどこにある？</strong></p>
-<p>ブラウザでダウンロードしたファイルは「ダウンロード」フォルダに保存されていることがほとんどです。(アルファベットで Downloads となっている場合もあります)</p>
-</aside>
-<p>以上でインストールは完了です。</p>
-<h2 is-upgraded>スケッチを入手する</h2>
+<h2 is-upgraded>M5Stack へ書き込むスケッチを入手する</h2>
 <p>Arduino IDE を起動し［ファイル］&gt;［新規ファイル］を開くと void setup() { から始まる「空のスケッチ」が表示されます。</p>
-<p>一度スケッチの内容を削除してから、<a href="https://gist.githubusercontent.com/ma2shita/76c563550448a08b92f0614f8d772921/raw/cff5d7d792e69367b97a5b93478a8f2ecd6b7fce/m5stack_tof_ranger.ino" target="_blank">m5stack_tof_ranger.ino</a> の内容と置き換えてください。</p>
-<aside class="special"><p><a href="https://gist.githubusercontent.com/ma2shita/76c563550448a08b92f0614f8d772921/raw/cff5d7d792e69367b97a5b93478a8f2ecd6b7fce/m5stack_tof_ranger.ino" target="_blank">m5stack_tof_ranger.ino</a> の基となっている Gist (コード共有サイト) の URL は<a href="https://gist.github.com/ma2shita/76c563550448a08b92f0614f8d772921" target="_blank">こちら</a>です。</p>
+<p>一度スケッチの内容を削除してから、<a href="https://gist.githubusercontent.com/ma2shita/76c563550448a08b92f0614f8d772921/raw/749324c5bc18190e6baf633cf22d3c90f131d675/m5stack_tof_ranger.ino" target="_blank">m5stack_tof_ranger.ino</a> の内容と置き換えてください。</p>
+<aside class="special"><p>m5stack_tof_ranger.ino の基となっている Gist (コード共有サイト) の URL は<a href="https://gist.github.com/ma2shita/76c563550448a08b92f0614f8d772921" target="_blank">こちら</a>です。</p>
 </aside>
 <h2 is-upgraded>マイコンボードに書き込む</h2>
 <p>M5Stack を PC に取り付けた後、Arduino IDE で<img style="width: 33.00px" src="img/6eda9a3a4a4958d7.png">ボタンをクリックします。<strong>ボードへの書き込みが完了しました。</strong>と表示されたら正常終了です。</p>
@@ -427,50 +408,49 @@ void loop() {
 
       </google-codelab-step>
     
-      <google-codelab-step label="設置とパラメータの決定" duration="15">
+      <google-codelab-step label="設置と計測" duration="15">
         <p>「コーヒーカップの有無」を検出するためのパラメータを決定していくために、<strong>計測モード</strong>で設置を行います。</p>
 <p><strong>計測モード</strong>とはクラウドとの通信をせずに距離のセンシングのみを行うモードです。設置した際に得られた計測データを基に、「コーヒーカップの有無」を検出するためのパラメータを決定していきます。</p>
-<aside class="special"><p><strong>M5Stack は PC につながなくても動きます</strong></p>
-<p>M5Stack は スケッチを M5Stack に転送する時以外は PC に接続しなくとも動作します。USB AC アダプタと USB Type-C ケーブルがあれば、それを電源として利用できます。</p>
-</aside>
-<aside class="special"><p><strong>本スケッチの標準設定値</strong></p>
-<p>以下のように、バリスタの隣に設置する事を想定した値があらかじめ設定されています。このように設置できる場合は本ステップの作業は不要です。</p>
-<p>図のように近接して設置できない場合やカップサイズが大幅に異なる時には、本章の作業を行ってパラメータの決定をしてください。ちなみに数値はHIGH = 75mm, LOW = 20mm となります。</p>
+<h2 is-upgraded>本スケッチの標準設定値</h2>
+<p>以下のように、バリスタの隣に設置する事を想定した値があらかじめ設定されています。このように設置できる場合は標準設定値が利用できるため、本章の作業は行わず次の章に進むことができます。</p>
+<p>図のように近接して設置できない場合やカップサイズが大幅に異なる場合には、本章の作業を行ってパラメータの決定をしてください。</p>
+<p>標準設定値は近い時(LOW) で 20mm、遠い時(HIGH) = 55mmとなっています。</p>
 <p class="image-container"><img style="width: 587.00px" src="img/bec4796948e35a00.png"></p>
+<aside class="special"><p><strong>M5Stack は PC につながなくても動きます</strong></p>
+<p>M5Stack は スケッチを M5Stack に転送する時以外は PC に接続しなくとも動作します。USB AC アダプタやモバイルバッテリーと USB Type-C ケーブルがあれば、それを電源として利用できます。</p>
 </aside>
 <h2 is-upgraded>コーヒーカップの有無を検出する仕組みとパラメータ</h2>
-<p>コーヒーカップがない場合は、バリスタのカバー部分までの距離が返ってきます。こーひカップが置かれるとカップまでの距離が返ってくるため、その情報で「有無」を見分ける仕組みです。</p>
+<p>コーヒーカップがない場合は、バリスタのカバー部分までの距離が返ってきます。コーヒーカップが置かれるとカップまでの距離が返ってくるため、その情報で「有無」を見分ける仕組みです。</p>
 <p class="image-container"><img style="width: 602.00px" src="img/61fc15007e2f8379.png"></p>
-<h3 is-upgraded>計測誤差を吸収するためのパラメータ</h3>
+<aside class="special"><p><strong>計測誤差を吸収する仕組みについて</strong></p>
 <p>センサーは誤差が発生するものです。また、コーヒーカップの置き場所の微妙な違いによるズレも生じることから、誤差を吸収する仕組みが必要です。本スケッチでは「複数回の計測」と「範囲の指定」という2つの方法で計測誤差を取り除いています。</p>
-<p>「複数回の計測」は、何度か計測をして正確な値を確率的に得る方法です。本スケッチでも同様の手法を実装しており、標準設定では5回計測するようにしています。</p>
+<p>「複数回の計測」は、何度か計測をして正確な値を確率的に得る方法です。本スケッチでも同様の手法を実装しており、標準設定では5回計測を行い、外れ値を除外した後に残りの値で算術平均しています。</p>
 <p>2つ目の「範囲の指定」は、LOW と HIGH というパラメータを用意しその中に収まっているか否かで判定する仕組みです。この2つのパラメータを調整することで、設置場所に柔軟性を持たせることが可能です。</p>
-<p class="image-container"><img style="width: 602.00px" src="img/25a6ec7c07b867ca.png"></p>
-<p>これにより、ある程度ずれても「範囲の内外」を「コーヒーカップの有無」として判定することができます。</p>
-<h2 is-upgraded>M5Stack を計測モードで起動する</h2>
-<p>M5Stack の A ボタン(3つあるうちの一番左のボタン)を押しながら、電源ボタン(側面のボタン)を押してください。<code>Skip fetching config from Cloud</code> と表示され、すぐにメイン画面に移行します。</p>
-<p>一行目に <code>Config (by Local)</code> と表示されていれば計測モードです。</p>
-<p class="image-container"><img style="width: 480.00px" src="img/f271f68fd6e4332d.gif"></p>
-<h2 is-upgraded>設置して計測値をメモしておく</h2>
-<p>M5Stack を実際に設置します。この時、画面の <code>Oneshot Measurement</code> の数値に注目します。</p>
-<p class="image-container"><img style="width: 498.00px" src="img/412632175c99444b.png"></p>
-<p>カップを置かずに得た数値の概ねの平均値の 10%増を HIGH としてメモします。(例: 概ね120mm であれば <code>132</code> を HIGH とする)。また、カップを置いた時の概ね平均値の 10%減の値を LOW としてメモします。(例: 概ね60mm であれば <code>54</code> を LOW とする)。</p>
-<p>メモが出来たら次に進みます。</p>
-<aside class="special"><p><strong>±10% について</strong></p>
-<p>ToF 距離センサーは誤差の範囲が大きい場合があるため、約10%~15%程の余裕を持たせるようにしています。この辺りは実際に設置してみて決定してください。</p>
+<p class="image-container"><img style="width: 587.00px" src="img/7a985ab397197a05.png"></p>
 </aside>
-<aside class="special"><p><strong>Oneshot Measurement, Sampling Measurementについて</strong></p>
-<p>Oneshot Measurement = 0.5秒毎に計測をし続けている値となります。実際に設置してみると数mm レベルでの誤差が確認できるでしょう。</p>
-<p>Sampling Measurement = カウントダウン終了後に5回連続で計測し、LOW 以下と HIGH 以上の値(外れ値)を除外した平均値です。</p>
+<h2 is-upgraded>M5Stack を計測モードで起動する</h2>
+<p>M5Stack の A ボタン(3つあるうちの一番左のボタン)を押しながら、電源ボタン(側面のボタン)を押してください。<code>Skip fetching config from Cloud</code> と表示され、すぐにメイン画面に移行します。(その後、A ボタンは離してください)</p>
+<p>一行目に <code>Config (by Local)</code> と表示されていれば計測モードです。</p>
+<p class="image-container"><img style="width: 480.00px" src="img/bcb85f6a2a2d4335.gif"></p>
+<h2 is-upgraded>設置して計測値をメモしておく</h2>
+<p>M5Stack を実際に設置します。この時、画面の <code>Distance avg.</code> の数値に注目します。</p>
+<p class="image-container"><img style="width: 498.00px" src="img/df26b6488df1e46d.png"></p>
+<p>計測は「カップを置いた時」と「カップを除いた時」それぞれの Distance avg. の数値をメモしてください。常に変動しますので概ねの値で大丈夫です。</p>
+<p>Distance avg. に表示される nan は Not a Number(非数) は、距離があまりにも近すぎるもしくは何も存在しない場合に表示されるようになっています。</p>
+<h2 is-upgraded>パラメータの決定</h2>
+<p>計測した値から2つのパラメータを決定します。「カップを置いた時」の値に対して -10% の数値を &#34;LOW&#34; として決定します。「カップを除いた時」の値に対して +10% の数値を &#34;HIGH&#34; として決定します。</p>
+<p>例として「カップを置いた時」が 33 (mm) であれば LOW を 30 、「カップを除いた時」が 68 (mm) であれば HIGH を 75 とします。</p>
+<aside class="special"><p><strong>±10% について</strong></p>
+<p>ToF 距離センサーは誤差の範囲が大きい場合があるため、約10%の余裕を持たせるようにしています。この辺りは実際に設置してみて決定してください。</p>
 </aside>
 
 
       </google-codelab-step>
     
       <google-codelab-step label="メタデータサービスにパラメータを指定する" duration="5">
-        <p>メモをしたパラメータを「SORACOM Air メタデータサービス」に保存します。</p>
+        <p>メモをした数値を基に、M5Stack の動作用パラメータを「SORACOM Air メタデータサービス」に保存します。</p>
 <aside class="special"><p><strong>標準設定値をそのまま使える場合は？</strong></p>
-<p>前ステップで計測した結果、標準設定値(HIGH = 75mm, LOW = 20mm)がそのまま利用できる場合は、本ステップは飛ばすことができます。</p>
+<p>前ステップで計測した結果、標準設定値(LOW = 20mm, HIGH = 55mm)がそのまま利用できる場合は、本章の作業は行わず次の章に進むことができます。</p>
 </aside>
 <aside class="special"><p><strong>メタデータとは？</strong></p>
 <p>通信回線(SIM)に関するデータで、回線管理のために使用します。たとえば SIM を一意に識別することができる IMSI といった静的な情報から、現在の通信状況や回線速度といった動的な情報を取得することができます。また、ユーザー自身によって回線に対して「タグ付け」が可能です。タグは名前(キー)と値(バリュー)の対になっており、たとえば「使用部門」というキーを作り、その値に「開発部」と設定が可能です。設定だけでは無く、API によって読み出すこともできる他、SORACOM IoT SIM を使った回線からであれば、SIM によって認証が完了しているため、自 SIM の情報は認証なしで取得・更新可能となっています。</p>
@@ -487,8 +467,8 @@ void loop() {
 <h2 is-upgraded>「SIM 詳細」で［タグ］&gt;<img style="width: 52.00px" src="img/beddcc116acb43a.png">をクリックします。</h2>
 <p class="image-container"><img style="width: 602.00px" src="img/330780889df6f6e.png"></p>
 <h2 is-upgraded>「タグの編集」で以下のように設定します。</h2>
-<p>この時 CUT_VALUE_LOW_MM の <code>20</code> には先ほどメモをした LOW の値を、CUT_VALUE_HIGH_MM の <code>70</code> には先ほどメモをした HIGH の値になるようにしてください。</p>
-<p>例: メモした LOW が 54、HIGH が 132 であれば <code>{&#34;CUT_VALUE_LOW_MM&#34;: 54, &#34;CUT_VALUE_HIGH_MM&#34;: 132}</code> とします。</p>
+<p><code>DETECT_RANGE_LOW_MM</code> には決定したパラメータの LOW の値を、<code>DETECT_RANGE_HIGH_MM</code> には決定したパラメータの HIGH を設定します。</p>
+<p>例:  LOW が 30、HIGH が 70 であれば <code>{&#34;DETECT_RANGE_LOW_MM&#34;: 30, &#34;DETECT_RANGE_HIGH_MM&#34;: 75}</code> とします。</p>
 <table>
 <tr><td colspan="1" rowspan="1"><p><strong>項目</strong></p>
 </td><td colspan="1" rowspan="1"><p><strong>設定値</strong></p>
@@ -497,11 +477,11 @@ void loop() {
 </td><td colspan="1" rowspan="1"><p><code>config_json</code></p>
 </td></tr>
 <tr><td colspan="1" rowspan="1"><p>値</p>
-</td><td colspan="1" rowspan="1"><p><code>{&#34;CUT_VALUE_LOW_MM&#34;: 20, &#34;CUT_VALUE_HIGH_MM&#34;: 75}</code></p>
+</td><td colspan="1" rowspan="1"><p><code>{&#34;DETECT_RANGE_LOW_MM&#34;: 30, &#34;DETECT_RANGE_HIGH_MM&#34;: 75}</code></p>
 </td></tr>
 </table>
 <p>※1行で入力してください。</p>
-<p class="image-container"><img style="width: 602.00px" src="img/131b926f25a11ebb.png"></p>
+<p class="image-container"><img style="width: 602.00px" src="img/ddd6aa74be026e6e.png"></p>
 <p>最後に［保存］をクリックし、「SIM 詳細」では［閉じる］をクリックしてください。</p>
 <p>これで、SIM に対してタグ付けが完了しました。</p>
 
@@ -590,23 +570,21 @@ void loop() {
 <p class="image-container"><img style="width: 602.00px" src="img/6f1ba96bafc86abd.png"></p>
 <h2 is-upgraded>M5Stack の電源ボタン(側面のボタン)を一度押してリセットします</h2>
 <p>(A ボタンなど何も押さずに) 起動すると<strong>データ送信モード</strong>として動作し、クラウド(SORACOM Harvest Data) へデータ送信が開始されます。一行目に <code>Config (by Cloud)</code> もしくは <code>Config (by Default)</code> と表示されていればデータ送信モードです。</p>
+<p class="image-container"><img style="width: 592.20px" src="img/8359950c8480e04.png"></p>
 <p>データ送信モードの時は起動時にクラウド(SORACOM Air メタデータサービス)から設定情報を読み込むため、起動に約30~40秒ほどかかります。また SORACOM Air メタデータサービスで設定した値は画面上に表示されますので、設定が正しくできているか確認できます。（自分で設定した値とは異なる情報が出ている場合は、正しく設定できていない可能性があるため、メタデータの設定を再確認してください）</p>
-<p class="image-container"><img style="width: 475.50px" src="img/3ac8081e69f87eda.png"></p>
 <h2 is-upgraded>コーヒーカップを置いてみる</h2>
-<p>本スケッチでは「5分毎にコーヒーカップの有無を確認し、ある時にデータ送信をする（＝無い時にはデータ送信を行わない）」仕組みです。実際にコーヒーカップを置いてみて、データが送信されるか確認します。</p>
-<p>次回の計測タイミングは Sampling Measurement の &#34;Left&#34; に残り秒数が表示されていますので目安にしてください。</p>
-<p>Left が 0s になると計測と判定がされます。コーヒーカップが「無い」と判定されれば <code>nan mm</code> と表示され、「ある」と判定されれば、コーヒーカップまでの平均距離が mm 単位で表示されます。(nan = Not a Number; 非数)</p>
-<p class="image-container"><img style="width: 602.00px" src="img/8f6241bbf27f535b.png"></p>
-<p class="image-container"><img style="width: 602.00px" src="img/b69ba3591298a4fa.png"></p>
+<p>本スケッチは「物体を検出した状態が300秒(5分)間継続するとデータ送信する」仕組みです。実際にコーヒーカップを置いてみて、データが送信されるか確認します。</p>
+<p>コーヒーカップが検出されると <code>Object</code> が Found! となり <code>Notification Left</code> に通知までのカウントダウンが表示されます。カウントダウンが 0 になるとコーヒーカップまでの距離がクラウドへ送信されます。</p>
+<p class="image-container"><img style="width: 601.70px" src="img/f1369630f5076e3d.png"></p>
 <p>SORACOM Harvest Data では以下のように確認できます。コーヒーカップを置いて15分ほど放置した様子です。</p>
 <p class="image-container"><img style="width: 602.00px" src="img/127952407f9cfc86.png"></p>
 <p>以上でデータ送信の確認は終了です。</p>
 <aside class="warning"><p><strong>データが送信されない？</strong></p>
 <p>M5Stack の設置位置や LOW と HIGH のパラメータを見直してください。パラメータは SORACOM Air メタデータサービスの config_json タグで調整します。変更した後は M5Stack をリセットしてください。起動時に新しいパラメータを読み込みます。</p>
 </aside>
-<aside class="special"><p><strong>5分毎の判定タイミングを変更したい？</strong></p>
-<p><code>MEASUREMENT_INTERVAL_SEC</code> というパラメータを、 SORACOM Air メタデータサービスの config_json タグの値で設定します。標準では 300 (=300秒 = 5分)となっています。</p>
-<p>30秒毎に変更する例:<br><code>{&#34;CUT_VALUE_LOW_MM&#34;: 20, &#34;CUT_VALUE_HIGH_MM&#34;: 75, &#34;MEASUREMENT_INTERVAL_SEC&#34;: 30}</code></p>
+<aside class="special"><p><strong>5分毎の判定タイミングを変更するには？</strong></p>
+<p><code>NOTIFICATION_INTERVAL_SEC</code> というパラメータを、 SORACOM Air メタデータサービスの config_json タグの値で設定します。標準では 300 (=300秒 = 5分)となっています。</p>
+<p>1分(60秒)毎に変更する例(その他のパラメータと同時に指定しています):<br><code>{&#34;DETECT_RANGE_LOW_MM&#34;: 30, &#34;DETECT_RANGE_HIGH_MM&#34;: 75, &#34;NOTIFICATION_INTERVAL_SEC&#34;: 60}</code></p>
 </aside>
 
 
@@ -697,7 +675,7 @@ void loop() {
 <p class="image-container"><img style="width: 602.00px" src="img/ce8cb96d90703c0.png"></p>
 <aside class="special"><p><strong>他のメールアドレスに送信したい場合は？</strong></p>
 <p>SIM の「タグ」に <code>mail_to</code> という名前で登録した値に、送りたい先のメールアドレスが指定できます。</p>
-<p class="image-container"><img style="width: 587.00px" src="img/815538ba34cdf54c.png"></p>
+<p class="image-container"><img style="width: 587.00px" src="img/24ce3d529bf8282c.png"></p>
 </aside>
 
 
@@ -707,29 +685,28 @@ void loop() {
         <p>ここからは、これまで紹介していなかった機能や、本番に向けた設定を紹介します。</p>
 <h2 is-upgraded>LCD (液晶)画面の消灯</h2>
 <p>M5Stack の LCD 画面は C ボタン(一番右のボタン)を押すことで、消灯することができます。消灯後、再度 C ボタンを押すと点灯します。</p>
-<p class="image-container"><img style="width: 475.50px" src="img/3eb73547e894a90b.png"></p>
+<p class="image-container"><img style="width: 475.50px" src="img/4920cd49e1dedc88.png"></p>
 <p>標準では起動時には常に点灯するようになっていますが、 config_json で <code>&#34;LCD_TURN_ON_AT_BOOT&#34;: false</code> とすることで起動後に自動的に消灯させることができます。消灯状態で起動しても C ボタンで点灯が可能です。</p>
 <h2 is-upgraded>SORACOM Harvest Data の OFF</h2>
-<p>通知がき始めたら運用が開始できます。データの記録が不要であれば SORACOM Harvest Data を OFF にしておきましょう。</p>
-<p>こうすることで 5円/SIM/日 の費用を抑えることができます。</p>
+<p>データの記録が不要であれば SORACOM Harvest Data を OFF にしておきましょう。こうすることで 5円/SIM/日 の費用を抑えることができます。SORACOM Harvest Data を OFF にしても SORACOM Funk が ON であれば通知は動作します。</p>
 <h2 is-upgraded>config_json パラメータリファレンス</h2>
-<p>これまで <code>CUT_VALUE_LOW_MM</code> や <code>CUT_VALUE_HIGH_MM</code> 、 <code>MEASUREMENT_INTERVAL_SEC</code> といったパラメータを紹介してきましたが、ここで全てのパラメータを紹介します。</p>
+<p>これまで <code>DETECT_RANGE_LOW_MM</code> や <code>NOTIFICATION_INTERVAL_SEC</code> といったパラメータを紹介してきましたが、ここで全てのパラメータを紹介します。</p>
 <table>
 <tr><td colspan="1" rowspan="1"><p><strong>パラメータ名</strong></p>
 </td><td colspan="1" rowspan="1"><p><strong>役割</strong></p>
 </td><td colspan="1" rowspan="1"><p><strong>デフォルト値</strong></p>
 </td></tr>
-<tr><td colspan="1" rowspan="1"><p><code>CUT_VALUE_LOW_MM</code></p>
+<tr><td colspan="1" rowspan="1"><p><code>DETECT_RANGE_LOW_MM</code></p>
 </td><td colspan="1" rowspan="1"><p>物体が「ある」と判定するための最短距離。単位は mm 。</p>
-</td><td colspan="1" rowspan="1"><p>20 (mm)</p>
+</td><td colspan="1" rowspan="1"><p>20</p>
 </td></tr>
 <tr><td colspan="1" rowspan="1"><p><code>CUT_VALUE_HIGH_MM</code></p>
 </td><td colspan="1" rowspan="1"><p>物体が「ある」と判定するための最長距離。単位は mm 。</p>
-</td><td colspan="1" rowspan="1"><p>75 (mm)</p>
+</td><td colspan="1" rowspan="1"><p>55</p>
 </td></tr>
-<tr><td colspan="1" rowspan="1"><p><code>MEASUREMENT_INTERVAL_SEC</code></p>
-</td><td colspan="1" rowspan="1"><p>物体の有無を計測する間隔。単位は秒。</p>
-</td><td colspan="1" rowspan="1"><p>300 (秒)</p>
+<tr><td colspan="1" rowspan="1"><p><code>NOTIFICATION_INTERVAL_SEC</code></p>
+</td><td colspan="1" rowspan="1"><p>物体の存在を検知してからクラウド送信するまでの時間。単位は秒。</p>
+</td><td colspan="1" rowspan="1"><p>300</p>
 </td></tr>
 <tr><td colspan="1" rowspan="1"><p><code>LCD_TURN_ON_AT_BOOT</code></p>
 </td><td colspan="1" rowspan="1"><p>起動後の LCD 画面の制御。true で点灯、 false で消灯。</p>
@@ -740,17 +717,25 @@ void loop() {
 </td><td colspan="1" rowspan="1"><p>計測モードの時は false</p>
 <p>送信モードの時は true</p>
 </td></tr>
-<tr><td colspan="1" rowspan="1"><p><code>_ONESHOT_MEASUREMENT_INTERVAL_MS</code></p>
-</td><td colspan="1" rowspan="1"><p>&#34;Oneshot measurement&#34; による計測間隔。単位はミリ秒。</p>
-</td><td colspan="1" rowspan="1"><p>500 (ms)</p>
+<tr><td colspan="1" rowspan="1"><p><code>_COUNT_DOWN_INTERVAL_SEC</code></p>
+</td><td colspan="1" rowspan="1"><p>(内部動作用パラメータ) 物体検出後のカウントダウン単位。単位は秒。</p>
+</td><td colspan="1" rowspan="1"><p>1</p>
 </td></tr>
 <tr><td colspan="1" rowspan="1"><p><code>_SAMPLING_COUNT</code></p>
-</td><td colspan="1" rowspan="1"><p>物体の有無を計測する際に試行する回数。単位は回。</p>
-</td><td colspan="1" rowspan="1"><p>5 (回)</p>
+</td><td colspan="1" rowspan="1"><p>(内部動作用パラメータ) 物体の有無を計測する際に試行する回数。単位は回。</p>
+</td><td colspan="1" rowspan="1"><p>5</p>
 </td></tr>
 <tr><td colspan="1" rowspan="1"><p><code>_SAMPLING_INTERVAL_MS</code></p>
-</td><td colspan="1" rowspan="1"><p>物体を計測する際の試行間隔。単位はミリ秒。</p>
-</td><td colspan="1" rowspan="1"><p>200 (ms)</p>
+</td><td colspan="1" rowspan="1"><p>(内部動作用パラメータ) 物体を計測する際の試行間隔。単位はミリ秒。</p>
+</td><td colspan="1" rowspan="1"><p>50</p>
+</td></tr>
+<tr><td colspan="1" rowspan="1"><p><code>_CUT_RANGE_LOW_MM</code></p>
+</td><td colspan="1" rowspan="1"><p>(内部動作用パラメータ) 距離センサーのノイズ値として処理する最短距離。この値以下の場合はノイズとして処理を行わない。単位は mm。</p>
+</td><td colspan="1" rowspan="1"><p>5</p>
+</td></tr>
+<tr><td colspan="1" rowspan="1"><p><code>_CUT_RANGE_HIGH_MM</code></p>
+</td><td colspan="1" rowspan="1"><p>(内部動作用パラメータ) 距離センサーのノイズ値として処理する最長距離。この値以上の場合はノイズとして処理を行わない。単位は mm。</p>
+</td><td colspan="1" rowspan="1"><p>700</p>
 </td></tr>
 </table>
 
