@@ -1,0 +1,427 @@
+
+<!doctype html>
+
+<html>
+<head>
+  <meta name="viewport" content="width=device-width, minimum-scale=1.0, initial-scale=1.0, user-scalable=yes">
+  <meta name="theme-color" content="#4F7DC9">
+  <meta charset="UTF-8">
+  <title>【IoT DIY レシピ】Raspberry Piに遠隔から安全にアクセス</title>
+  <link rel="stylesheet" href="//fonts.googleapis.com/css?family=Source+Code+Pro:400|Roboto:400,300,400italic,500,700|Roboto+Mono">
+  <link rel="stylesheet" href="//fonts.googleapis.com/icon?family=Material+Icons">
+  <link rel="stylesheet" href="https://soracom.github.io/iot-recipes/codelab-elements/codelab-elements.css">
+  <style>
+    .success {
+      color: #1e8e3e;
+    }
+    .error {
+      color: red;
+    }
+  </style>
+</head>
+<body>
+  <google-codelab-analytics gaid="UA-66865146-33"></google-codelab-analytics>
+  <google-codelab codelab-gaid=""
+                  id="secure-remote-access-to-raspberry-pi"
+                  title="【IoT DIY レシピ】Raspberry Piに遠隔から安全にアクセス"
+                  environment="web"
+                  feedback-link="https://soracom.jp/products/kit/ak020-kit/">
+    
+      <google-codelab-step label="概要" duration="3">
+        <p>レシピ難易度：★★☆☆☆</p>
+<p>このレシピでは遠隔地のIoT機器(その例としてRaspberry Pi)に安全にリモートアクセスする仕組みを設定し、手元のPCからの遠隔での機器管理を実現します。</p>
+<p>リモートアクセスの仕組みは SORACOM Napter を用います。この仕組みでは遠隔地のローカルネットワーク(LAN)を変更することなく、かつRaspberry Piのセキュリティを保ちながらのリモートアクセスが可能です。</p>
+<p class="image-container"><img style="width: 601.70px" src="img/de8b73da31e9536b.png"></p>
+<h2 is-upgraded>本レシピのゴール</h2>
+<ul>
+<li>遠隔地のIoT機器(Raspberry Pi)にSSH接続できるようになる</li>
+</ul>
+<h3 is-upgraded>本レシピの所要想定時間と金額</h3>
+<ul>
+<li>想定所要時間: 約1時間</li>
+<li>概算費用: 16,450円（設定用PC本体を除く）</li>
+</ul>
+<p>※ 概算費用: ハードウェアや SORACOM を始めとした各種サービスの概ねの費用 (税や送料などの付帯費用や無料枠適用は考慮しないものとしています)</p>
+<h2 is-upgraded>利用するソラコムサービス</h2>
+<table>
+<tr><td colspan="1" rowspan="1"><p><strong>サービス名</strong></p>
+</td><td colspan="1" rowspan="1"><p><strong>概要</strong></p>
+</td></tr>
+<tr><td colspan="1" rowspan="1"><p><a href="https://soracom.jp/services/air/" target="_blank">SORACOM Air</a></p>
+</td><td colspan="1" rowspan="1"><p>IoT データ通信サービスです。</p>
+<p>Raspberry Piと3G USBドングル AK-020でのセルラー通信を実現します。</p>
+</td></tr>
+<tr><td colspan="1" rowspan="1"><p><a href="https://soracom.jp/services/napter/" target="_blank">SORACOM Napter</a></p>
+</td><td colspan="1" rowspan="1"><p>オンデマンド・リモートアクセスサービスです。</p>
+<p>遠隔地のSORACOM Airを搭載したデバイスにセキュアにリモートアクセスするために利用します</p>
+</td></tr>
+</table>
+<h2 is-upgraded>このコンテンツの進め方</h2>
+<p>ページの内容を読み、また作業を行ったら右下の［Next］を押して次のステップへ進みます。また、［Back］を使って戻ったり、左のナビゲーションメニューでもページの移動が可能です。</p>
+<p>左上の［×］を押してコンテンツを終了することができます。また、ページを開きなおすことで再開できます。ページのアドレスはブラウザの［履歴］メニューを利用してください。</p>
+
+<aside class="warning"><p>本コンテンツは現状のままで提供され、株式会社ソラコムは、誤りがないことの保証を含め、明示であると黙示であるとを問わず、本コンテンツの記載内容につき、いかなる種類の表明も保証も行いません。</p>
+<p>掲載情報の閲覧及び利用により、利用者自身、もしくは第三者が被った損害に対して、直接的、間接的を問わず、株式会社ソラコムは責任を負いかねます。</p>
+<p>本コンテンツを実践する中で用意された機器、利用されたサービスについてのご質問は、それぞれの機器やサービスの提供元にお問い合わせをお願いします。機器やサービスの仕様は、本コンテンツ作成当時のものです。</p>
+<p>株式会社ソラコムが提供する機器・サービスについてのご質問は、 <a href="https://soracom.jp/contact/" target="_blank">https://soracom.jp/contact/</a> をご確認の上、適切な窓口へのお問い合わせをお願いします。機器・サービスご利用前の導入相談は <a href="https://soracom.jp/contact/contactsales/" target="_blank">https://soracom.jp/contact/contactsales/</a> に、機器・サービスご利用開始後のサポートは、SORACOMユーザーコンソール内の<a href="https://soracom.zendesk.com/hc/ja/requests/" target="_blank">サポートサイトから「リクエストを送信」</a>(要ログイン)にてお問い合わせください。</p>
+<p>本ドキュメントは <a href="https://github.com/googlecodelabs/tools" target="_blank">CLaaT</a> を用いて制作しています</p>
+<p>Copyright (c) 2020 SORACOM, INC.</p>
+</aside>
+
+
+
+      </google-codelab-step>
+    
+      <google-codelab-step label="リモートアクセスの課題" duration="5">
+        <p>リモートアクセスとはその名の通り「通信を用いて、遠隔から現場の装置を制御する」ことになります。このリモートアクセスの仕組みは大きく分けて以下のように大別され、それぞれ課題があります。</p>
+<ul>
+<li>サーバ・クライアントに専用ソフトウェアをインストールする方式</li>
+<li>リモートアクセスするサーバとそれに接続するクライアントの両方に追加のソフトウェアをインストールする必要がある</li>
+<li>外部サービスを経由する場合がある</li>
+<li>VPNを経由する方式</li>
+<li>VPNアプライアンスの管理コストが高い </li>
+<li>VPNクライアントのライセンス管理とクライアントのキッティングが必要</li>
+<li>VPNアプライアンスを常にインターネットに公開する必要がある</li>
+</ul>
+<p>いずれの方式にもメリットとデメリットがあり、システム管理者には多くの負担が必要です。</p>
+<h2 is-upgraded>SORACOM Napterとは？</h2>
+<p>SORACOM NapterはSORACOM IoT SIMに対してセキュアにリモートアクセスするサービスです。Napterを有効にすると期限付きの一時的なIPアドレスとポート番号が発行され、NapterはそこへのアクセスをSIMの指定ポート宛に転送します。サーバやクライアントへの追加のソフトウェアが不要なのでシンプルに導入でき、アクセス元IPアドレスの制限やアクセス監査ログ機能を備えるため企業での利用にも適しています。</p>
+<p>SORACOM Airによるセルラー接続は遠隔地にインターネット接続回線がないケースにおいてもスピーディーに導入可能であり、遠隔メンテナンスのように不定期に利用するケースにおいては使った分だけ費用が発生する、SORACOM Airの従量課金モデルが非常に適しているとも言えます。</p>
+<p class="image-container"><img style="width: 601.70px" src="img/487a676a703ecdac.png"></p>
+
+
+      </google-codelab-step>
+    
+      <google-codelab-step label="準備" duration="1">
+        <p>本レシピを行うために、以下のものをご用意ください。</p>
+<h2 is-upgraded>ハードウェア</h2>
+<table>
+<tr><td colspan="1" rowspan="1"><p><strong>品名</strong></p>
+</td><td colspan="1" rowspan="1"><p><strong>数量</strong></p>
+</td><td colspan="1" rowspan="1"><p><strong>価格</strong></p>
+</td><td colspan="1" rowspan="1"><p><strong>購入先</strong></p>
+</td><td colspan="1" rowspan="1"><p><strong>備考</strong></p>
+</td></tr>
+<tr><td colspan="1" rowspan="1"><p>Raspberry Pi 4 Model B / 2GB</p>
+</td><td colspan="1" rowspan="1"><p>1</p>
+</td><td colspan="1" rowspan="1"><p>約4,750円</p>
+</td><td colspan="1" rowspan="1"><p><a href="https://www.switch-science.com/catalog/5681/" target="_blank">スイッチサイエンス</a></p>
+</td><td colspan="1" rowspan="1"><p>Raspberry Pi 3 モデルB+や搭載メモリサイズが異なるものでも同様です</p>
+</td></tr>
+<tr><td colspan="1" rowspan="1"><p>ラズパイ4に最適なACアダプター 5.1V/3.0A USB Type-Cコネクタ出力</p>
+</td><td colspan="1" rowspan="1"><p>1</p>
+</td><td colspan="1" rowspan="1"><p>約1,300円</p>
+</td><td colspan="1" rowspan="1"><p><a href="https://www.switch-science.com/catalog/5683/" target="_blank">スイッチサイエンス</a></p>
+</td><td colspan="1" rowspan="1"><p>同等の他製品でも構いません</p>
+</td></tr>
+<tr><td colspan="1" rowspan="1"><p>SORACOMスターターキット（3G USBドングル AK-020同梱）</p>
+</td><td colspan="1" rowspan="1"><p>1</p>
+</td><td colspan="1" rowspan="1"><p>約5,700円</p>
+</td><td colspan="1" rowspan="1"><p><a href="https://www.switch-science.com/catalog/2767/" target="_blank">スイッチサイエンス</a></p>
+</td><td colspan="1" rowspan="1"><p>キットの中には以下のものが含まれています。(それぞれを個別に準備しても構いません)</p>
+<ul>
+<li>AK-020 (USB ドングル型モデム) x 1</li>
+<li>SORACOM 特定地域向け IoT SIM (plan-D マルチカット) x 1</li>
+</ul>
+</td></tr>
+<tr><td colspan="1" rowspan="1"><p>microSD カード</p>
+</td><td colspan="1" rowspan="1"><p>1</p>
+</td><td colspan="1" rowspan="1"><p>約1,500円</p>
+</td><td colspan="1" rowspan="1"><p>―</p>
+</td><td colspan="1" rowspan="1"><p>16GB以上推奨</p>
+</td></tr>
+<tr><td colspan="1" rowspan="1"><p>microSD カードリーダー</p>
+</td><td colspan="1" rowspan="1"><p>1</p>
+</td><td colspan="1" rowspan="1"><p>約1,600円</p>
+</td><td colspan="1" rowspan="1"><p>―</p>
+</td><td colspan="1" rowspan="1"><p>microSD にパソコンから書き込めるようにするために必要です。(例: <a href="https://www.amazon.co.jp/dp/B00TMYLK1I/" target="_blank">エレコム カードリーダー MR3-C008BK</a>)</p>
+</td></tr>
+<tr><td colspan="1" rowspan="1"><p>有線 LAN (USB 型のアダプタ等形状問わず)</p>
+</td><td colspan="1" rowspan="1"><p>1</p>
+</td><td colspan="1" rowspan="1"><p>約1,600円</p>
+</td><td colspan="1" rowspan="1"><p>―</p>
+</td><td colspan="1" rowspan="1"><p>パソコンと Raspberry Pi の通信に必要です。(例: <a href="https://www.amazon.co.jp/dp/B07VG66XX3/" target="_blank">BUFFALO 有線LANアダプター LUA4-U3-AGTE-NBK</a>)</p>
+</td></tr>
+<tr><td colspan="1" rowspan="1"><p>パソコン</p>
+</td><td colspan="1" rowspan="1"><p>1</p>
+</td><td colspan="1" rowspan="1"><p>―</p>
+</td><td colspan="1" rowspan="1"><p>―</p>
+</td><td colspan="1" rowspan="1"><ul>
+<li>インターネット接続が可能でWebサイトへの接続が自由であること。</li>
+<li>Google Chrome 等の最新ブラウザーが利用可能な事。</li>
+<li>有線 LAN が接続できること。</li>
+</ul>
+</td></tr>
+<tr><td colspan="1" rowspan="1"><p>有線 LAN ケーブル</p>
+</td><td colspan="1" rowspan="1"><p>1</p>
+</td><td colspan="1" rowspan="1"><p>―</p>
+</td><td colspan="1" rowspan="1"><p>―</p>
+</td><td colspan="1" rowspan="1"><p>パソコンと Raspberry Pi の通信に必要です。</p>
+</td></tr>
+</table>
+<p>※ 金額はレシピ作成当時のもので、税抜き・送料別です。</p>
+<h2 is-upgraded>その他必要なもの</h2>
+<table>
+<tr><td colspan="1" rowspan="1"><p><strong>必要なもの</strong></p>
+</td><td colspan="1" rowspan="1"><p><strong>費用</strong></p>
+</td><td colspan="1" rowspan="1"><p><strong>作成方法など</strong></p>
+</td></tr>
+<tr><td colspan="1" rowspan="1"><p>SORACOM アカウント</p>
+</td><td colspan="1" rowspan="1"><p>無料※</p>
+</td><td colspan="1" rowspan="1"><p><a href="https://soracom.github.io/iot-recipes/create-account-soracom-jp/" target="_blank">SORACOM アカウントの作成 (JP)</a></p>
+</td></tr>
+</table>
+<p>※ アカウント作成・維持自体の料金です。</p>
+
+
+      </google-codelab-step>
+    
+      <google-codelab-step label="SORACOMスターターキットが届いたら" duration="5">
+        <p>SORACOMスターターキットに同梱されている SIM は、SORACOM に登録することで通信できるようになります。そのため、まずSORACOMスターターキット同梱されている SIM を SORACOM へ登録をしましょう。<br>※ すでに登録済み、もしくは登録済みの別の SIM を利用する場合は次へお進みください。</p>
+<p>登録の方法は<a href="https://soracom.github.io/iot-recipes/register-byod-sim-jp/" target="_blank">通販サイトやイベント等で入手した SIM を登録する (JP)</a>をご覧ください。約5分で完了します。</p>
+<p>登録が完了すると SIM 管理の一覧に表示されますので、確認ください。</p>
+<p class="image-container"><img style="width: 602.00px" src="img/2da56bb5e1a17c28.png"></p>
+<aside class="special"><p><strong>SORACOM の便利な使い方: SIM の「名前」機能</strong></p>
+<p>SIM には「名前」を付けることができ、これで整理が可能です。特に複数の SIM (ボタン含む) をお持ちの際には、名前を付けることを強くお勧めいたします。</p>
+<p>名前の付け方は <a href="https://dev.soracom.io/jp/start/console/#name_tag" target="_blank">SIM への名前の付け方</a>をご覧ください。</p>
+</aside>
+
+
+      </google-codelab-step>
+    
+      <google-codelab-step label="Raspberry Pi OS を microSD に書き込む" duration="20">
+        <p>Raspberry Piを動作させるためには、パソコンでOSイメージをmicroSDに書き込み、それをRaspberry Piにセットします。OSイメージのダウンロードと書き込みには、無償で利用できるソフトウェア Raspberry Pi Imager が便利です。</p>
+<h2 is-upgraded>Raspberry Pi Imager をダウンロードします。</h2>
+<p><a href="https://www.raspberrypi.org/downloads/" target="_blank">Raspberry Pi のダウンロードページ</a>を開き、操作するパソコンの OS に合った Raspberry Pi Imager をダウンロードします。</p>
+<p class="image-container"><img style="width: 602.00px" src="img/4be71d714f9c35.png"></p>
+<h2 is-upgraded>Raspberry Pi Imager をインストールします。</h2>
+<h3 is-upgraded>Windows の場合</h3>
+<p>ダウンロードした <code>imager.exe</code> を実行し、インストーラーの指示に従ってインストールを完了します。</p>
+<p class="image-container"><img style="width: 596.00px" src="img/a86cce01b57fd6c0.png"></p>
+<p>インストール完了時の &#34;Run Raspberry Pi Imager&#34; はチェックを外した状態で［Finish］をクリックします。</p>
+<h3 is-upgraded>macOS の場合</h3>
+<p>ダウンロードした <code>imager.dmg</code> を実行し、 <strong>Raspberry Pi Imager</strong> を Applications (アプリケーション) フォルダへコピーします。</p>
+<p class="image-container"><img style="width: 562.00px" src="img/93f4bbaf28bf9e1c.png"></p>
+<aside class="special"><p>インストールが完了したら、Finder のデバイスに表示されている <strong>Raspberry Pi Imager</strong> ディスクは不要となります。取出しをしてください。</p>
+</aside>
+<h2 is-upgraded>Raspberry Pi Imager を利用して OS イメージをダウンロードし microSD カードに書き込む</h2>
+<p>手順は動画をご覧ください。</p>
+<iframe class="youtube-video" src="https://www.youtube.com/embed/J024soVgEeM?rel=0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+<h3 is-upgraded>注意点: STEP2 における Raspberry Pi Imager の起動の方法</h3>
+<table>
+<tr><td colspan="1" rowspan="1"><p>Windows</p>
+</td><td colspan="1" rowspan="1"><p>［スタートメニュー］&gt; &#34;Raspberry Pi Imager&#34;</p>
+</td></tr>
+<tr><td colspan="1" rowspan="1"><p>macOS</p>
+</td><td colspan="1" rowspan="1"><p>［Finder］&gt;［アプリケーション フォルダ］&gt; &#34;Raspberry Pi Imager&#34;</p>
+</td></tr>
+</table>
+<aside class="special"><p>macOS で初回起動時に「インターネットからダウンロードされたアプリケーションです」のダイアログが表示された場合は［OK］をクリックして進めてください。</p>
+</aside>
+<p>標準のOSイメージを選択し、書き込みが完了したら microSD カードをカードリーダーから取り出してください。</p>
+
+
+      </google-codelab-step>
+    
+      <google-codelab-step label="microSD に追加の設定を書き込む / SSH サービス有効化と Wi-Fi の事前設定" duration="10">
+        <p>書き込んだmicroSDの内容を編集し、 Raspberry Pi の起動時に Wi-Fi への接続と SSH サービスの待ち受けをするように設定を加えます。</p>
+<h2 is-upgraded>ファイルの作成</h2>
+<p>以下二つのファイルをパソコンの任意のフォルダに作成します。テキストエディタで作成してください。</p>
+<ul>
+<li>wpa_supplicant.conf</li>
+<li>ssh</li>
+</ul>
+<h3 is-upgraded>wpa_supplicant.conf</h3>
+<pre><code>ctrl_interface=DIR=/var/run/wpa_supplicant GROUP=netdev
+country=JP
+update_config=1
+
+network={
+    ssid=&#34;YOUR_WIFI_AP_SSID1&#34;
+    psk=&#34;password1&#34;
+}
+
+network={
+    ssid=&#34;YOUR_WIFI_AP_SSID2&#34;
+    psk=&#34;password2&#34;
+}</code></pre>
+<p>このファイルは Raspberry Pi の起動時に接続する Wi-Fi のアクセスポイントをあらかじめ書いておくことができます。 <code>YOUR_WIFI_AP_SSID1</code> や <code>password1</code> を皆さんのご家庭もしくは職場の環境に合わせて書き換えてください。</p>
+<p><code>network={...</code> の <code>ssid=</code> には SSID を、 <code>psk=</code> にはパスフレーズを書きます。</p>
+<aside class="special"><p><code>network={...}</code> は複数書くことができるので、家や職場を指定しておくと便利です。一つでも問題ありません。</p>
+</aside>
+<aside class="warning"><p>特に職場の Wi-Fi を利用する際には、ネットワーク管理者の了解を取るようにしてください。また、Wi-Fi 接続時に Web ブラウザ等による認証が必要なネットワークは利用できません。</p>
+</aside>
+<h3 is-upgraded>ssh</h3>
+<pre><code></code></pre>
+<p>このファイルは「存在する事」が重要です。ファイルの中身は「空 (=0バイト)」にしてください。</p>
+<aside class="special"><p><strong>ssh ファイルの保存時に拡張子がついてしまったら？</strong></p>
+<p>Windows の「メモ帳」等であるのが、ファイル保存時に自動的に拡張子(ファイル名の後に続く &#34;.txt&#34; 等の、ファイル種別を表す文字)がついてしまうことがあります。</p>
+<p>Raspberry Pi OS は &#34;ssh&#34; もしくは &#34;ssh.txt&#34; というファイル名であれば ssh が有効化されるため問題なく利用できます。</p>
+</aside>
+<h2 is-upgraded>二つのファイルを microSD の &#34;boot&#34; にコピーする</h2>
+<p>一度取り出した microSD を再度カードリーダーに取り付けます。boot と表示されたディスクが現れるのを確認してください。これが microSD の内容です。</p>
+<p>その後、先ほどの 2 ファイル(wpa_supplicant.conf と ssh)を boot ディスクにコピーします。</p>
+<p class="image-container"><img style="width: 594.00px" src="img/b3c9a091ac92f113.png"></p>
+<p>※画面は macOSですが、Windows も同様です。</p>
+<p>コピーが完了したらパソコンでディスクの取り外し操作を行った後、 microSD を取り出してください。</p>
+
+
+      </google-codelab-step>
+    
+      <google-codelab-step label="Raspberry Pi の起動と SSH ログイン、Raspberry Pi OS の最新化" duration="20">
+        <h2 is-upgraded>Raspberry Pi の電源 ON</h2>
+<h3 is-upgraded>microSD を Raspberry Pi に取り付けます</h3>
+<p>少し残りますが奥までしっかりと刺さっていれば問題ありません。</p>
+<p class="image-container"><img style="width: 602.00px" src="img/b6a6709f57a7fe94.png"></p>
+<h3 is-upgraded>有線 LAN で Raspberry Pi とパソコンを接続</h3>
+<p>このあとのRaspberry Piの初期設定のために、Raspberry Pi の有線 LAN ポートとパソコンの有線 LAN ポートをケーブルで接続します。(Napterによるリモートアクセス時には不要です)</p>
+<p class="image-container"><img style="width: 601.70px" src="img/22c9cd7433833695.png"></p>
+<h3 is-upgraded>Raspberry Pi に ACアダプタを接続</h3>
+<p>USB-CポートにACアダプタのケーブルを挿すと、電源 ON となります。（電源スイッチはありません）</p>
+<aside class="warning"><p>Raspberry Pi の電源が ON になる前に、パソコンとの有線 LAN ケーブルの接続を確認してください。電源を ON にしてから有線 LAN ケーブルを接続しても、SSH リモートログインできない場合があります。</p>
+</aside>
+<p class="image-container"><img style="width: 601.70px" src="img/8aa90b904c558486.png"></p>
+<p>しばらく経過(約1~2分)すると macOS もしくは Windows 10 から Raspberry Pi へSSH接続出来るようになります。</p>
+<h2 is-upgraded>SSH 接続の方法</h2>
+<h3 is-upgraded>Windows の場合</h3>
+<p>スタートメニューを右クリックして「コマンドプロンプト」を起動します。</p>
+<p class="image-container"><img style="width: 292.00px" src="img/a50f797c77ec455d.png"></p>
+<p>コマンドプロンプトで以下のように入力して ssh コマンドを実行し、接続します。</p>
+<pre><code>ssh pi@raspberrypi.local</code></pre>
+<ul>
+<li><code>Are you sure you want to continue connecting (yes/no)?</code> との問いには yes と入力します。</li>
+<li><code>pi@raspberrypi.local&#39;s password:</code> との問いには、初期パスワードを入力しEnterキーを押下します(入力したパスワードは画面に表示されないことに注意します)。初期パスワードは <a href="https://www.raspberrypi.org/documentation/linux/usage/users.md" target="_blank">Raspberry Pi OS のドキュメント</a> に記載されていますので、それを利用してログインしてください。</li>
+</ul>
+<aside class="warning"><p><strong>ssh: Could not resolve hostname raspberrypi.local と表示された場合</strong></p>
+<p>Windows 10の以前の場合(Windows 10 の最新版でない場合も同様)では、同エラーが発生し、接続ができない場合があります。(原因は mDNS という名前解決のシステムが必要です。iTunes をインストールすることで解決します。 <a href="https://support.apple.com/ja_JP/downloads/itunes" target="_blank">Windows 用 Apple iTunes をインストール</a></p>
+</aside>
+<h3 is-upgraded>macOS の場合</h3>
+<p>［Finder］&gt;［アプリケーション］&gt;［ユーティリティ］&gt;［ターミナル］を起動します。</p>
+<aside class="special"><p>Spotlight (検索) から &#34;Terminal.app&#34; を探して起動する方法もあります。</p>
+</aside>
+<p>Terminal.app で以下のように入力して ssh コマンドを実行し、接続します。</p>
+<pre><code>ssh pi@raspberrypi.local</code></pre>
+<ul>
+<li><code>Are you sure you want to continue connecting (yes/no)?</code> との問いには yes と入力します。</li>
+<li><code>pi@raspberrypi.local&#39;s password:</code> との問いには、初期パスワードを入力しEnterキーを押下します(入力したパスワードは画面に表示されないことに注意します)。初期パスワードは <a href="https://www.raspberrypi.org/documentation/linux/usage/users.md" target="_blank">Raspberry Pi OS のドキュメント</a> に記載されていますので、それを利用してログインしてください。</li>
+</ul>
+<h2 is-upgraded>Raspberry Pi OS の最新化</h2>
+<p>以降は Windows、macOS 共通の作業です。</p>
+<p>Raspberry Pi へ SSH 接続でログインしたあと、Raspberry Pi 側で以下を実行します。</p>
+<pre><code>sudo timedatectl set-timezone Asia/Tokyo
+sudo apt update &amp;&amp; sudo apt upgrade -y
+sudo systemctl reboot</code></pre>
+<p>最後の1行で再起動となります。しばらく待ったら、PCからRaspberry Piに再度SSH接続します。</p>
+
+
+      </google-codelab-step>
+    
+      <google-codelab-step label="SORACOM Air によるインターネット接続" duration="10">
+        <p>Rapsberry PiからSORACOM Airによるインターネット接続を設定します。PCからコマンドを実行するために、Raspberry Pi へ SSH 接続していることを確認してください。以降は、特に断りを入れない場合は Raspberry Pi 側でコマンドを実行します。</p>
+<p class="image-container"><img style="width: 601.70px" src="img/b8d92c31d7a5fa34.png"></p>
+<h2 is-upgraded>setup_air.sh の実行</h2>
+<p>USB ドングル型モデムで SORACOM Air によるインターネット接続の一連の設定を自動化する setup_air.sh を<a href="https://dev.soracom.io/jp/start/device_setting/#raspi_usb" target="_blank">SORACOMユーザーサイト</a>で公開しているので、これをダウンロードし、実行します。</p>
+<p>Raspberry Pi へ SSH 接続をし、以下2つのコマンドを順に実行してください。</p>
+<pre><code>curl -O https://soracom-files.s3.amazonaws.com/setup_air.sh
+sudo bash setup_air.sh</code></pre>
+<h2 is-upgraded>USB ドングル型モデム (AK-020) に SIM を取り付け、Raspberry Pi に接続する</h2>
+<p>以下の図を参考に AK-020 に SIM カードを取り付け、Raspberry Piにセットしてください。</p>
+<p class="image-container"><img style="width: 602.00px" src="img/8c36e7519ddd583e.png"></p>
+<p>Raspberry Pi の USB ポートはどこでも構いませんが、有線LANポートと干渉しないようにしましょう。</p>
+<h2 is-upgraded>接続を確認する</h2>
+<p>USB ドングル型モデムの LED を見ながら接続状態になったのを見計らって、以下を実行します。</p>
+<pre><code>ping -c 4 pong.soracom.io</code></pre>
+<p>この時、期待される出力は以下の通りです。</p>
+<pre><code>PING pong.soracom.io (100.127.100.127) 56(84) bytes of data.
+64 bytes from 100.127.100.127 (100.127.100.127): icmp_seq=1 ttl=64 time=75.6 ms
+64 bytes from 100.127.100.127 (100.127.100.127): icmp_seq=2 ttl=64 time=58.8 ms
+64 bytes from 100.127.100.127 (100.127.100.127): icmp_seq=3 ttl=64 time=55.4 ms
+64 bytes from 100.127.100.127 (100.127.100.127): icmp_seq=4 ttl=64 time=43.4 ms</code></pre>
+
+
+      </google-codelab-step>
+    
+      <google-codelab-step label="これで Raspberry Pi から SORACOM Air を通じてインターネット接続が可能になりました。Raspberry Piから有線LANケーブルを外しておきましょう。" duration="0">
+        
+
+      </google-codelab-step>
+    
+      <google-codelab-step label="SORACOM Napterでのリモートアクセス" duration="10">
+        <p>いよいよ、PCから遠隔地を想定したRaspberry Piへのリモートアクセスを試します。</p>
+<p class="image-container"><img style="width: 601.70px" src="img/e9dc7db219c87b6b.png"></p>
+<h2 is-upgraded>SORACOM Napterでのリモート接続設定</h2>
+<p>この作業は「リモートアクセス元のPC」で行います。</p>
+<aside class="special"><p>SORACOM Napterのご利用には費用がかかります。詳細はWebサイト（<a href="https://soracom.jp/services/napter/price/" target="_blank">https://soracom.jp/services/napter/price/</a>）をご参照ください。</p>
+</aside>
+<p>SORACOM ユーザーコンソールにログインし、SIMにチェックを入れて[操作] - [オンデマンドリモートアクセス] をクリックします。</p>
+<p class="image-container"><img style="width: 433.00px" src="img/41885a89269e961d.png"></p>
+<p>ダイアログの [デバイス側ポート番号] が「22」になっていることを確認し、「OK」ボタンをクリックします。</p>
+<p class="image-container"><img style="width: 601.70px" src="img/d998692019386289.png"></p>
+<p>これでNapterが有効になり、アクセスするための一時的なホスト名/IPアドレスとポート番号が発行されました。[デバイスにアクセスするには(例)] の [SSH] にあるコマンドラインの文字列をコピーし、テキストエディタに貼り付けます。</p>
+<p class="image-container"><img style="width: 601.70px" src="img/99ed1fe3b39997dc.png"></p>
+<p>コマンドラインのうち、ユーザー名をRaspberry Piのユーザー名に書き換えましょう。</p>
+<pre><code>ssh -p XXXXX user@XX-XX-XX-XX.napter.soracom.io</code></pre>
+<p>↓</p>
+<pre><code>ssh -p XXXXX pi@XX-XX-XX-XX.napter.soracom.io</code></pre>
+<p>コマンドプロンプトやTerminal.appにテキストエディタのコマンドライン文字列をコピー&amp;ペーストし、Napter経由でもSSH接続できることを確認します。</p>
+<pre><code>ssh -p XXXXX pi@XX-XX-XX-XX.napter.soracom.io</code></pre>
+<ul>
+<li><code>Are you sure you want to continue connecting (yes/no)?</code> との問いには yes と入力します。</li>
+<li><code>pi@XX-XX-XX-XX.napter.soracom.io&#39;s password:</code> との問いには、初期パスワードを入力しEnterキーを押下します(入力したパスワードは画面に表示されないことに注意します)。初期パスワードは <a href="https://www.raspberrypi.org/documentation/linux/usage/users.md" target="_blank">Raspberry Pi OS のドキュメント</a> に記載されていますので、それを利用してログインしてください。</li>
+</ul>
+
+
+      </google-codelab-step>
+    
+      <google-codelab-step label="あとかたづけと注意事項" duration="1">
+        <p>本レシピでは費用がかかるサービスを利用しています。<br>本項をよく読み、必要な操作や解除作業を行うようにして、想定外の費用が掛からないようにしてください。</p>
+<h2 is-upgraded>費用について</h2>
+<p>ここで記載している金額は全て税別、送料別となります。</p>
+<h3 is-upgraded>SORACOM プラットフォームの利用料金</h3>
+<table>
+<tr><td colspan="1" rowspan="1"><p><strong>サービス／機能</strong></p>
+</td><td colspan="1" rowspan="1"><p><strong>料金</strong></p>
+</td></tr>
+<tr><td colspan="1" rowspan="1"><p><a href="https://soracom.jp/services/air/cellular/price_specific_area_sim/" target="_blank">SORACOM Air (plan-D)</a></p>
+</td><td colspan="1" rowspan="1"><ul>
+<li>基本料: 10円/日</li>
+<li>通信料: 0.2円~/MB</li>
+</ul>
+<p>(今回の利用であれば 100MB 以内で収まる範囲)</p>
+</td></tr>
+<tr><td colspan="1" rowspan="1"><p><a href="https://soracom.jp/services/napter/price/" target="_blank">SORACOM Napter</a></p>
+</td><td colspan="1" rowspan="1"><p>300円/月</p>
+</td></tr>
+</table>
+<p>※ 費用詳細はリンク先をご確認ください。</p>
+<aside class="special"><p><strong>無料利用枠について</strong></p>
+<p>SORACOM サービスでは一部サービスにおいて無料枠が設定されています。たとえば SORACOM Air for セルラーであればアカウント毎で30円/月の通信分や、SORACOM Napter であれば1SIM分などです。料金詳細に「無料利用枠」として掲載されていますので、ご確認ください。</p>
+</aside>
+<h2 is-upgraded>SORACOM Napter 設定の削除</h2>
+<p>SORACOM Napter の設定はアクセス可能時間の経過後自動で削除されます。</p>
+<p>明示的に削除する手順は<a href="https://soracom.github.io/iot-recipes/disable-soracom-lagoon" target="_blank">SORACOMユーザーサイト</a>をご覧ください。</p>
+<aside class="special"><p><strong>Raspberry Piの電源 OFF の方法</strong></p>
+<p>電源を OFF にする場合は SSH 接続した後、Raspberry Pi 側で以下を実行します。</p>
+<p><code>sudo systemctl poweroff</code></p>
+<p>この後 1分ほど経過して緑色 LED の点滅が止んだら microUSB ケーブルを抜きます。これで OFF にできます。</p>
+</aside>
+
+
+      </google-codelab-step>
+    
+      <google-codelab-step label="次のステップ" duration="1">
+        <p>本レシピでは、Raspberry Piへの遠隔アクセスをSORACOM AirとSORACOM Napterで実現しました。NapterはSSH接続の他にも任意のTCP通信を扱うことができますので、<a href="https://dev.soracom.io/jp/napter/getting-started/" target="_blank">SORACOMユーザーサイトの手順</a>で紹介している様々なリモートアクセス通信にチャレンジしてみてください。</p>
+<p><a href="https://soracom.jp/products/kit/ak020-kit/" target="_blank">商品ページへ戻る</a></p>
+
+
+      </google-codelab-step>
+    
+  </google-codelab>
+
+  <script src="https://soracom.github.io/iot-recipes/codelab-elements/native-shim.js"></script>
+  <script src="https://soracom.github.io/iot-recipes/codelab-elements/custom-elements.min.js"></script>
+  <script src="https://soracom.github.io/iot-recipes/codelab-elements/prettify.js"></script>
+  <script src="https://soracom.github.io/iot-recipes/codelab-elements/codelab-elements.js"></script>
+
+</body>
+</html>
