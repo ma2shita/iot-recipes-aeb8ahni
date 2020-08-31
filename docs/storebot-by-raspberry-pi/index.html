@@ -1,0 +1,339 @@
+
+<!doctype html>
+
+<html>
+<head>
+  <meta name="viewport" content="width=device-width, minimum-scale=1.0, initial-scale=1.0, user-scalable=yes">
+  <meta name="theme-color" content="#4F7DC9">
+  <meta charset="UTF-8">
+  <title>近づくと音声応答する自動店番ロボット</title>
+  <link rel="stylesheet" href="//fonts.googleapis.com/css?family=Source+Code+Pro:400|Roboto:400,300,400italic,500,700|Roboto+Mono">
+  <link rel="stylesheet" href="//fonts.googleapis.com/icon?family=Material+Icons">
+  <link rel="stylesheet" href="https://soracom.github.io/iot-recipes/codelab-elements/codelab-elements.css">
+  <style>
+    .success {
+      color: #1e8e3e;
+    }
+    .error {
+      color: red;
+    }
+  </style>
+</head>
+<body>
+  <google-codelab-analytics gaid="UA-66865146-33"></google-codelab-analytics>
+  <google-codelab codelab-gaid=""
+                  id="storebot-by-raspberry-pi"
+                  title="近づくと音声応答する自動店番ロボット"
+                  environment="web"
+                  feedback-link="https://soracom.jp/products/kit/gps_multiunit/">
+    
+      <google-codelab-step label="近づくと音声応答する自動店番ロボット" duration="1">
+        <p>レシピ難易度：★☆☆☆☆</p>
+<p>イベントに出展の困りごとが「スタッフのシフト」。応対を欠かすことが無いように人数や休憩時間に気を配る必要があります。本レシピはIoTを活用してお客様が近づいたら音声で展示物を紹介しつつ、応答した実績をチャット等で共有する「自動店番ロボット」で、そのお悩みを解決します。</p>
+<p>TODO:動画</p>
+<h2 is-upgraded>本レシピを行うのに必要な時間、概算費用</h2>
+<p>本レシピは以下の通りです。</p>
+<ul>
+<li>必要な時間: 約1時間</li>
+<li>概算費用: 約11,100円</li>
+</ul>
+<p>※ 概算費用: ハードウェアや SORACOM を始めとした各種サービスの概ねの費用 (税や送料などの付帯費用や無料枠適用は考慮しないものとしています)</p>
+<h2 is-upgraded>このコンテンツの進め方</h2>
+<p>ページの内容を読み、また作業を行ったら右下の［Next］を押して次のステップへ進みます。また、［Back］を使って戻ったり、左のナビゲーションメニューでもページの移動が可能です。</p>
+<p>左上の［×］を押してコンテンツを終了することができます。また、ページを開きなおすことで再開できます。ページのアドレスはブラウザの［履歴］メニューを利用してください。</p>
+
+<aside class="warning"><p>本コンテンツは現状のままで提供され、株式会社ソラコムは、誤りがないことの保証を含め、明示であると黙示であるとを問わず、本コンテンツの記載内容につき、いかなる種類の表明も保証も行いません。</p>
+<p>掲載情報の閲覧及び利用により、利用者自身、もしくは第三者が被った損害に対して、直接的、間接的を問わず、株式会社ソラコムは責任を負いかねます。</p>
+<p>本コンテンツを実践する中で用意された機器、利用されたサービスについてのご質問は、それぞれの機器やサービスの提供元にお問い合わせをお願いします。機器やサービスの仕様は、本コンテンツ作成当時のものです。</p>
+<p>株式会社ソラコムが提供する機器・サービスについてのご質問は、 <a href="https://soracom.jp/contact/" target="_blank">https://soracom.jp/contact/</a> をご確認の上、適切な窓口へのお問い合わせをお願いします。機器・サービスご利用前の導入相談は <a href="https://soracom.jp/contact/contactsales/" target="_blank">https://soracom.jp/contact/contactsales/</a> に、機器・サービスご利用開始後のサポートは、SORACOMユーザーコンソール内の<a href="https://soracom.zendesk.com/hc/ja/requests/" target="_blank">サポートサイトから「リクエストを送信」</a>(要ログイン)にてお問い合わせください。</p>
+<p>本ドキュメントは <a href="https://github.com/googlecodelabs/tools" target="_blank">CLaaT</a> を用いて制作しています</p>
+<p>Copyright (c) 2020 SORACOM, INC.</p>
+</aside>
+
+
+
+      </google-codelab-step>
+    
+      <google-codelab-step label="準備" duration="1">
+        <p>本レシピを行うためには以下のものをご用意ください。</p>
+<h2 is-upgraded>ハードウェア</h2>
+<table>
+<tr><td colspan="1" rowspan="1"><p><strong>品名</strong></p>
+</td><td colspan="1" rowspan="1"><p><strong>数量</strong></p>
+</td><td colspan="1" rowspan="1"><p><strong>価格</strong></p>
+</td><td colspan="1" rowspan="1"><p><strong>購入先</strong></p>
+</td><td colspan="1" rowspan="1"><p><strong>備考</strong></p>
+</td></tr>
+<tr><td colspan="1" rowspan="1"><p>Raspberry Pi 3 Model B+</p>
+</td><td colspan="1" rowspan="1"><p>1</p>
+</td><td colspan="1" rowspan="1"><p>11,000円</p>
+</td><td colspan="1" rowspan="1"><p>Raspberry Pi 4 (4GB以上)でも可</p>
+</td></tr>
+<tr><td colspan="1" rowspan="1"><p>microSD カードリーダー</p>
+</td><td colspan="1" rowspan="1"><p>1</p>
+</td><td colspan="1" rowspan="1"><p>約1,600円</p>
+</td><td colspan="1" rowspan="1"><p>―</p>
+</td><td colspan="1" rowspan="1"><p>microSD にパソコンから書き込めるようにするために必要です。(例: <a href="https://www.amazon.co.jp/dp/B00TMYLK1I/" target="_blank">エレコム カードリーダー MR3-C008BK</a>)</p>
+</td></tr>
+<tr><td colspan="1" rowspan="1"><p>有線 LAN (USB 型のアダプタ等形状問わず)</p>
+</td><td colspan="1" rowspan="1"><p>1</p>
+</td><td colspan="1" rowspan="1"><p>約1,600円</p>
+</td><td colspan="1" rowspan="1"><p>―</p>
+</td><td colspan="1" rowspan="1"><p>パソコンと Raspberry Pi の通信に必要です。(例: <a href="https://www.amazon.co.jp/dp/B07VG66XX3/" target="_blank">BUFFALO 有線LANアダプター LUA4-U3-AGTE-NBK</a>)</p>
+</td></tr>
+<tr><td colspan="1" rowspan="1"><p>microUSB ケーブル</p>
+</td><td colspan="1" rowspan="1"><p>1</p>
+</td><td colspan="1" rowspan="1"><p>Raspberry Pi の電源ケーブルとして利用します。</p>
+<p>(Raspberry Pi 4 を利用する場合は USB Type-C ケーブルとなります)</p>
+</td></tr>
+<tr><td colspan="1" rowspan="1"><p>超音波距離センサー</p>
+</td><td colspan="1" rowspan="1"><p>1</p>
+</td><td colspan="1" rowspan="1"><p>人物の近接を検知に利用します。</p>
+<p>(ここに記載していないものを利用する場合は、動作電圧が3.3V対応であることを確認してください)</p>
+</td></tr>
+<tr><td colspan="1" rowspan="1"><p>ジャンパワイヤ (メス - メス)</p>
+</td><td colspan="1" rowspan="1"><p>4</p>
+</td><td colspan="1" rowspan="1"><p>超音波距離センサーと Raspberry Pi の接続に利用します。</p>
+</td></tr>
+<tr><td colspan="1" rowspan="1"><p>スピーカー</p>
+</td><td colspan="1" rowspan="1"><p>1</p>
+</td><td colspan="1" rowspan="1"><p>音声を流すために利用します。</p>
+</td></tr>
+<tr><td colspan="1" rowspan="1"><p>オーディオケーブル</p>
+</td><td colspan="1" rowspan="1"><p>1</p>
+</td><td colspan="1" rowspan="1"><p>スピーカーと Raspberry Pi の接続に利用します。Raspberry Pi 側は 3.5mm サイズです。</p>
+</td></tr>
+<tr><td colspan="1" rowspan="1"><p>パソコン</p>
+</td><td colspan="1" rowspan="1"><p>1</p>
+</td><td colspan="1" rowspan="1"><p>―</p>
+</td><td colspan="1" rowspan="1"><p>―</p>
+</td><td colspan="1" rowspan="1"><ul>
+<li>インターネット接続が可能でサイトへの接続が自由であること。</li>
+<li>Google Chrome 等の最新ブラウザーが利用可能な事。</li>
+</ul>
+</td></tr>
+<tr><td colspan="1" rowspan="1"><p>(必要な方のみ)</p>
+<p>USB 型 AC アダプタ</p>
+</td><td colspan="1" rowspan="1"><p>―</p>
+</td><td colspan="1" rowspan="1"><p>―</p>
+</td><td colspan="1" rowspan="1"><p>―</p>
+</td><td colspan="1" rowspan="1"><p>Raspberry Pi の電源として利用します。パソコンからの給電でも代用可能です。</p>
+</td></tr>
+</table>
+<p>※ 金額はレシピ作成時となります。ソラコムで販売している金額は税抜き・送料別です。</p>
+<h2 is-upgraded>その他必要なもの</h2>
+<table>
+<tr><td colspan="1" rowspan="1"><p><strong>必要なもの</strong></p>
+</td><td colspan="1" rowspan="1"><p><strong>費用</strong></p>
+</td><td colspan="1" rowspan="1"><p><strong>作成方法など</strong></p>
+</td></tr>
+<tr><td colspan="1" rowspan="1"><p>SORACOM アカウント</p>
+</td><td colspan="1" rowspan="1"><p>無料※</p>
+</td><td colspan="1" rowspan="1"><p><a href="https://soracom.github.io/iot-recipes/create-account-soracom-jp/" target="_blank">SORACOM アカウントの作成 (JP)</a></p>
+</td></tr>
+</table>
+<p>※ アカウント作成・維持の費用の料金です。</p>
+<aside class="special"><p><strong>AWS の手順について</strong></p>
+<p>当レシピでは AWS の設定をします。これらの利用経験があるとスムーズです。なおわかりやすさのため当社で検証した内容をスクリーンショット付きで掲載しておりますが、公式な手順は各社のドキュメントをご確認ください。</p>
+</aside>
+<h3 is-upgraded>すでに AWS アカウントを持っている場合の確認事項</h3>
+<ul>
+<li>ルートアカウントを利用する場合：特に確認すべき事項はありません。先に進んでください。</li>
+<li>IAM アカウントを利用する場合：<strong>AWS Lambda の関数作成および実行権限の有無</strong>を確認してください。また、必要権限の解説およびサポートは致しかねますが、AdministratorAccess ポリシーが割り当てられていれば当レシピは完遂可能です (同ポリシーを割り当てたことによる影響については IAM アカウント管理者にご相談ください)</li>
+</ul>
+<h2 is-upgraded>設置に利用したもの</h2>
+<p>本レシピで設置時に利用した部材です。必須ではありませんがご参考にお使いください。</p>
+<table>
+<tr><td colspan="1" rowspan="1"><p><strong>品名</strong></p>
+</td><td colspan="1" rowspan="1"><p><strong>数量</strong></p>
+</td><td colspan="1" rowspan="1"><p><strong>備考</strong></p>
+</td></tr>
+<tr><td colspan="1" rowspan="1"><p>スマートフォンホルダー</p>
+</td><td colspan="1" rowspan="1"><p>1</p>
+</td><td colspan="1" rowspan="1"><p>超音波距離センサーの取り付けに利用。</p>
+</td></tr>
+<tr><td colspan="1" rowspan="1"><p>両面テープ等の固定用部材</p>
+</td><td colspan="1" rowspan="1"><p>1</p>
+</td></tr>
+</table>
+
+
+      </google-codelab-step>
+    
+      <google-codelab-step label="～が届いたら" duration="5">
+        <p>TODO</p>
+
+
+      </google-codelab-step>
+    
+      <google-codelab-step label="Raspberry Pi 用 OS &#34;Raspbian&#34; を microSD に書き込む" duration="20">
+        <h2 is-upgraded>Raspberry Pi Imager をダウンロードします。</h2>
+<p><a href="https://www.raspberrypi.org/downloads/" target="_blank">Raspberry Pi のダウンロードページ</a>を開き、OS に合った Raspberry Pi Imager をダウンロードします。</p>
+<p class="image-container"><img style="width: 601.70px" src="img/76b9ac7e545f7b40.png"></p>
+<h2 is-upgraded>Raspberry Pi Imager をインストールします。</h2>
+<h3 is-upgraded>Windows の場合</h3>
+<p>ダウンロードした <code>imager.exe</code> を実行し、インストーラーの指示に従ってインストールを完了します。</p>
+<p class="image-container"><img style="width: 596.00px" src="img/a86cce01b57fd6c0.png"></p>
+<p>インストール完了時の &#34;Run Raspberry Pi Imager&#34; はチェックを外した状態で［Finish］をクリックします。</p>
+<h3 is-upgraded>macOS の場合</h3>
+<p>ダウンロードした <code>imager.dmg</code> を実行し、 <strong>Raspberry Pi Imager</strong> を Applications (アプリケーション) フォルダへコピーします。</p>
+<p class="image-container"><img style="width: 562.00px" src="img/93f4bbaf28bf9e1c.png"></p>
+<aside class="special"><p>インストールが完了したら、Finder のデバイスに表示されている <strong>Raspberry Pi Imager</strong> は不要となります。取出しをしてください。</p>
+</aside>
+<h2 is-upgraded>Raspberry Pi Imager を利用して microSD カードに書き込む</h2>
+<p>手順は動画をご覧ください。</p>
+<iframe class="youtube-video" src="https://www.youtube.com/embed/J024soVgEeM?rel=0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+<h3 is-upgraded>注意点: STEP2 における Raspberry Pi Imager の起動の方法</h3>
+<table>
+<tr><td colspan="1" rowspan="1"><p>Windows</p>
+</td><td colspan="1" rowspan="1"><p>［スタートメニュー］&gt; &#34;Raspberry Pi Imager&#34;</p>
+</td></tr>
+<tr><td colspan="1" rowspan="1"><p>macOS</p>
+</td><td colspan="1" rowspan="1"><p>［Finder］&gt;［アプリケーション フォルダ］&gt; &#34;Raspberry Pi Imager&#34;</p>
+</td></tr>
+</table>
+<p>macOS で初回起動時に「インターネットからダウンロードされたアプリケーションです」のダイアログが表示された場合は［OK］をクリックして進めてください。</p>
+<p>書き込みが完了したら microSD カードを取り出してください。</p>
+
+
+      </google-codelab-step>
+    
+      <google-codelab-step label="microSD に追加の設定を書き込む / SSH サービス有効化と Wi-Fi の事前設定" duration="10">
+        <p>Raspberry Pi の起動時に、Wi-Fi への接続と SSH サービスの待ち受けをするように設定を加えます。</p>
+<h2 is-upgraded>ファイルの作成</h2>
+<p>以下二つのファイルを作成します。テキストエディタで作成してください。</p>
+<ul>
+<li>wpa_supplicant.conf</li>
+<li>ssh</li>
+</ul>
+<h3 is-upgraded>wpa_supplicant.conf</h3>
+<pre><code>ctrl_interface=DIR=/var/run/wpa_supplicant GROUP=netdev
+country=JP
+update_config=1
+
+network={
+    ssid=&#34;YOUR_WIFI_AP_SSID1&#34;
+    psk=&#34;password1&#34;
+}
+
+network={
+    ssid=&#34;YOUR_WIFI_AP_SSID2&#34;
+    psk=&#34;password2&#34;
+}</code></pre>
+<p>このファイルは Raspberry Pi 起動時に接続する Wi-Fi のアクセスポイントをあらかじめ書いておくことができます。 <code>YOUR_WIFI_AP_SSID1</code> や <code>password1</code> を皆さんのご家庭もしくは職場の環境に合わせて書き換えてください。</p>
+<ul>
+<li><code>network={...</code> の <code>ssid=</code> には SSID を、 <code>psk=</code> にはパスフレーズを書きます。</li>
+<li><code>network={...}</code> は複数書くことができるので、家や職場を指定しておくと便利です。(一つでも問題ありません)</li>
+</ul>
+<aside class="warning"><p>特に職場の Wi-Fi を利用する際には、ネットワーク管理者の了解を取るようにしてください。また、Wi-Fi 接続時に Web ブラウザ等による認証が必要なネットワークは利用できません。</p>
+</aside>
+<h3 is-upgraded>ssh</h3>
+<pre><code></code></pre>
+<p>このファイルは「存在する事」が重要です。ファイルの中身は「空 (=0バイト)」にしてください。</p>
+<h2 is-upgraded>2つのファイルを microSD の &#34;boot&#34; にコピーする</h2>
+<p>一度取り出した microSD を再度パソコンに取り付けます。boot と表示されたディスクが現れるのを確認してください。</p>
+<p>その後、先ほどの 2 ファイルを &#34;boot&#34; にコピーします。</p>
+<p class="image-container"><img style="width: 594.00px" src="img/b3c9a091ac92f113.png"></p>
+<p>※画面は macOSですが、Windows も同様です。</p>
+<p>コピーが完了したら microSD を取り出してください。</p>
+
+
+      </google-codelab-step>
+    
+      <google-codelab-step label="Raspberry Pi の起動から SSH ログイン、OS の最新化まで" duration="20">
+        <h2 is-upgraded>Raspberry Pi の電源 ON</h2>
+<h3 is-upgraded>microSD を Raspberry Pi に取り付けます</h3>
+<p>少し残りますが奥までしっかりと刺さっていれば問題ありません。</p>
+<p class="image-container"><img style="width: 601.70px" src="img/5fc2b4742e508eda.png"></p>
+<h3 is-upgraded>有線 LAN で Raspberry Pi とパソコンを接続</h3>
+<p>Raspberry Pi の有線 LAN ポートと、パソコンの有線 LAN ポートをケーブルで接続します。</p>
+<h3 is-upgraded>Raspberry Pi に microUSB (電源ケーブル) を接続</h3>
+<p>ケーブルを挿すと、電源 ON となります。（電源スイッチのようなものがありません）</p>
+<p class="image-container"><img style="width: 601.70px" src="img/f1c651db674e6e4e.png"></p>
+<p>しばらく経過(約1~2分)すると macOS もしくは Windows 10 から Raspberry Pi へリモートログイン出来るようになります。</p>
+<h2 is-upgraded>SSH リモートログインの方法</h2>
+<h3 is-upgraded>Windows の場合</h3>
+<p>スタートメニューから「コマンドプロンプト」を起動します。</p>
+<p>コマンドプロンプトで以下のように入力して実行します。</p>
+<pre>ssh pi@raspberrypi.local</pre>
+<ul>
+<li><code>Are you sure you want to continue connecting (yes/no)?</code> との問いには yes と入力します。</li>
+<li>初期パスワードは <a href="https://www.raspberrypi.org/documentation/linux/usage/users.md" target="_blank">Raspbian のドキュメント</a> に記載されていますので、それを利用してログインしてください。</li>
+</ul>
+<aside class="warning"><p><strong>Windows 10 で接続ができない場合は？</strong></p>
+<p>Windows 10の以前の場合(Windows 10 の最新版でない場合も同様)は、 <a href="https://support.apple.com/ja_JP/downloads/itunes" target="_blank">Windows 用 Apple iTunes をインストール</a>しないと Host not found となり、接続ができない場合があります。 (mDNS(Bonjour) を導入する必要があります)</p>
+<p>また、Raspberry Pi の<strong>電源が ON になる前</strong>にパソコンと有線 LAN で接続しないと、SSH リモートログインできない場合があります。</p>
+</aside>
+<h3 is-upgraded>macOS の場合</h3>
+<p>［Finder］&gt;［アプリケーション］&gt;［ユーティリティ］&gt;［ターミナル］を起動します。</p>
+<aside class="special"><p>Spotlight (検索) から &#34;Terminal.app&#34; を探して起動する方法もあります。</p>
+</aside>
+<p>Terminal.app で以下のように入力して実行します。</p>
+<pre>ssh pi@raspberrypi.local</pre>
+<ul>
+<li><code>Are you sure you want to continue connecting (yes/no)?</code> との問いには yes と入力します。</li>
+<li>初期パスワードは <a href="https://www.raspberrypi.org/documentation/linux/usage/users.md" target="_blank">Raspbian のドキュメント</a> に記載されていますので、それを利用してログインしてください。</li>
+</ul>
+<h2 is-upgraded>OS の最新化</h2>
+<p>以降は Windows、macOS 共通の作業です。</p>
+<p>Raspberry Pi へ SSH リモートログインしたあと、Raspberry Pi 側で以下を実行します。</p>
+<pre>sudo timedatectl set-timezone Asia/Tokyo
+sudo apt update &amp;&amp; sudo apt upgrade -y
+sudo systemctl reboot</pre>
+<p>最後の1行で再起動となります。</p>
+<aside class="special"><p><strong>SSH リモートログイン終了の方法</strong></p>
+<p>Raspberry Pi 側で以下を実行します。</p>
+<p><code>exit</code></p>
+<p>これで終了となります。コマンドプロンプト、もしくは Terminal.app を閉じることができます。</p>
+</aside>
+<h2 is-upgraded>Raspberry Pi の 電源 を OFF</h2>
+<p>OS の最新化を行った後、再起動で Raspberry Pi の起動が確認出来たら、この後行うセンサーの取り付けのために電源を OFF とします。</p>
+<p>電源を OFF にする場合は SSH リモートログインした後、Raspberry Pi 側で以下を実行します。</p>
+<pre>sudo systemctl poweroff</pre>
+<p>この後 1分ほど経過して緑色 LED の点滅が止んだら microUSB ケーブルを抜きます。これで OFF にできます。</p>
+
+
+      </google-codelab-step>
+    
+      <google-codelab-step label="超音波距離センサーを取り付ける" duration="0">
+        <h2 is-upgraded>超音波距離センサーへケーブルを接続する</h2>
+<h2 is-upgraded>Raspberry Pi と接続する</h2>
+<h2 is-upgraded>動作テストを行う</h2>
+
+
+      </google-codelab-step>
+    
+      <google-codelab-step label="SORACOM Air によるインターネット接続" duration="10">
+        <p>Raspberry Pi へ SSH リモートログインが出来ることを確認してください。以降は、特に断りを入れない場合は SSH リモートログイン後の Raspberry Pi 側で実行します。</p>
+<h2 is-upgraded>setup_air.sh の実行</h2>
+<p>USB ドングル型モデムで SORACOM Air によるインターネット接続の一連の設定を自動化する setup_air.sh を実行します。</p>
+<p>以下を実行してください。</p>
+<pre><code>curl -O https://soracom-files.s3.amazonaws.com/setup_air.sh
+sudo bash setup_air.sh</code></pre>
+<h2 is-upgraded>USB ドングル型モデム (AK-020) に SIM を取り付け、Raspberry Pi に接続する</h2>
+<p>以下の図を参考に取り付けてください。</p>
+<p class="image-container"><img style="width: 601.70px" src="img/8c36e7519ddd583e.png"></p>
+<p>Raspberry Pi の USB ポートはどこでも構いませんが、この後に接続する USB カメラとの位置で競合しないようにしてください。USB ドングル型モデム、USB カメラ共に Raspberry Pi の電源が ON 状態でもいつでも抜き挿し可能です。</p>
+<h2 is-upgraded>接続を確認する</h2>
+<p>USB ドングル型モデムの LED を見ながら接続状態になったのを見計らって、以下を実行します。</p>
+<pre><code>ping -c 4 pong.soracom.io</code></pre>
+<p>この時、期待される出力は以下の通りです。</p>
+<pre><code>PING pong.soracom.io (100.127.100.127) 56(84) bytes of data.
+64 bytes from 100.127.100.127 (100.127.100.127): icmp_seq=1 ttl=64 time=75.6 ms
+64 bytes from 100.127.100.127 (100.127.100.127): icmp_seq=2 ttl=64 time=58.8 ms
+64 bytes from 100.127.100.127 (100.127.100.127): icmp_seq=3 ttl=64 time=55.4 ms
+64 bytes from 100.127.100.127 (100.127.100.127): icmp_seq=4 ttl=64 time=43.4 ms</code></pre>
+<p>これで Raspberry Pi から SORACOM Air を通じてインターネット接続が可能になりました。</p>
+
+
+      </google-codelab-step>
+    
+  </google-codelab>
+
+  <script src="https://soracom.github.io/iot-recipes/codelab-elements/native-shim.js"></script>
+  <script src="https://soracom.github.io/iot-recipes/codelab-elements/custom-elements.min.js"></script>
+  <script src="https://soracom.github.io/iot-recipes/codelab-elements/prettify.js"></script>
+  <script src="https://soracom.github.io/iot-recipes/codelab-elements/codelab-elements.js"></script>
+
+</body>
+</html>
