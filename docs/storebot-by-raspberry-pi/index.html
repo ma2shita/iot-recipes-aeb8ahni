@@ -299,6 +299,89 @@ sudo systemctl reboot</pre>
         <h2 is-upgraded>超音波距離センサーへケーブルを接続する</h2>
 <h2 is-upgraded>Raspberry Pi と接続する</h2>
 <h2 is-upgraded>動作テストを行う</h2>
+<pre>curl -O https://gist.githubusercontent.com/ma2shita/0569ab4717c49349889c9fbe1af25386/raw/bda9390e8792045d3dd73d5db1f800f6dca8de34/sensor_test.py
+python2 sensor_test.py</pre>
+<aside class="warning"><p><strong><code>ファイルがダウンロードできない場合は？</code></strong></p>
+<p><code>curl</code> の後の <code>-O</code> はゼロでは無く大文字のオーです。</p>
+</aside>
+<pre>pi@raspberrypi:~ $ python2 sensor_test.py
+距離: 8.2 cm
+距離: 8.3 cm
+距離: 8.3 cm
+距離: 8.2 cm
+距離: 8.2 cm
+距離: 12.2 cm
+距離: 335.4 cm
+距離: 337.5 cm
+距離: 335.6 cm</pre>
+<h3 is-upgraded>【参考】<a href="https://gist.github.com/ma2shita/0569ab4717c49349889c9fbe1af25386" target="_blank">sensor_test.py</a></h3>
+<pre><code>#!/usr/bin/env python
+# -*- coding: utf-8 -*-
+
+import time
+# 距離を読む関数
+def read_distance():
+    # 必要なライブラリのインポート・設定
+    import RPi.GPIO as GPIO
+
+    # 使用するピンの設定
+    GPIO.setmode(GPIO.BOARD)
+    TRIG = 11 # ボード上の11番ピン(GPIO17)
+    ECHO = 13 # ボード上の13番ピン(GPIO27)
+
+    # ピンのモードをそれぞれ出力用と入力用に設定
+    GPIO.setup(TRIG,GPIO.OUT)
+    GPIO.setup(ECHO,GPIO.IN)
+    GPIO.output(TRIG, GPIO.LOW)
+
+    # TRIG に短いパルスを送る
+    GPIO.output(TRIG, GPIO.HIGH)
+    time.sleep(0.00001)
+    GPIO.output(TRIG, GPIO.LOW)
+
+    # ECHO ピンがHIGHになるのを待つ
+    signaloff = time.time()
+    while GPIO.input(ECHO) == GPIO.LOW:
+        signaloff = time.time()
+
+    # ECHO ピンがLOWになるのを待つ
+    signalon = signaloff
+    while time.time() &lt; signaloff + 0.1:
+        if GPIO.input(ECHO) == GPIO.LOW:
+            signalon = time.time()
+            break
+
+    # GPIO を初期化しておく
+    GPIO.cleanup()
+
+    # 時刻の差から、物体までの往復の時間を求め、距離を計算する
+    timepassed = signalon - signaloff
+    distance = timepassed * 17000
+
+    # 500cm 以上の場合はノイズと判断する
+    if distance &lt;= 500:
+        return distance
+    else:
+        return None
+
+def main():
+    while True:
+        distance = read_distance()
+        if distance:
+            print &#34;距離: %.1f cm&#34; % distance
+
+        time.sleep(1)
+
+if __name__ == &#34;__main__&#34;:
+    main()</code></pre>
+
+
+      </google-codelab-step>
+    
+      <google-codelab-step label="スピーカーを接続する" duration="0">
+        <p>aplay</p>
+<p>sudo raspi-config</p>
+<p>install mpg123</p>
 
 
       </google-codelab-step>
@@ -324,6 +407,251 @@ sudo bash setup_air.sh</code></pre>
 64 bytes from 100.127.100.127 (100.127.100.127): icmp_seq=3 ttl=64 time=55.4 ms
 64 bytes from 100.127.100.127 (100.127.100.127): icmp_seq=4 ttl=64 time=43.4 ms</code></pre>
 <p>これで Raspberry Pi から SORACOM Air を通じてインターネット接続が可能になりました。</p>
+
+
+      </google-codelab-step>
+    
+      <google-codelab-step label="AWS Lambda で Lambda 関数を作成する" duration="0">
+        <p class="image-container"><img style="width: 561.00px" src="img/2cbca3feea78d0b8.png"></p>
+<p class="image-container"><img style="width: 601.70px" src="img/c3323aea3c9c1d17.png"></p>
+<p class="image-container"><img style="width: 601.70px" src="img/7c9f7e3e0ef70223.png"></p>
+<p class="image-container"><img style="width: 508.00px" src="img/232ae8f16d0b8eb9.png"></p>
+<p class="image-container"><img style="width: 525.00px" src="img/6c864570bb916922.png"></p>
+<p class="image-container"><img style="width: 568.00px" src="img/1ecaf5412b188bb1.png"></p>
+<p class="image-container"><img style="width: 601.70px" src="img/beabef36ed362a93.png"></p>
+<p class="image-container"><img style="width: 601.70px" src="img/9f5fb36121473d15.png"></p>
+<p class="image-container"><img style="width: 601.70px" src="img/f16191e4cfa533ff.png"></p>
+<p class="image-container"><img style="width: 601.70px" src="img/37f2abfd4ec67110.png"></p>
+<p class="image-container"><img style="width: 601.70px" src="img/73b97a55b57e9044.png"></p>
+<h3 is-upgraded>storebot (Lambda 関数)</h3>
+<pre><code>from boto3 import Session
+from boto3 import resource
+from contextlib import closing
+import base64
+
+def lambda_handler(event, context):
+    text = &#34;こんにちは、このメッセージは店番ロボット君です。お店の前に立ち止まった人に展示物を解説します。実際はテキストを動的に作ったり、Amazon Sスリーを経由して受け渡すのが良いでしょう。&#34;
+
+    polly = Session().client(&#34;polly&#34;)
+    response = polly.synthesize_speech(Text=text, OutputFormat=&#34;mp3&#34;, VoiceId=&#34;Mizuki&#34;)
+    with closing(response[&#34;AudioStream&#34;]) as stream:
+        r = {&#39;encode&#39;: &#39;base64&#39;, &#39;format&#39;: &#34;mp3&#34;, &#39;data&#39;: base64.b64encode(stream.read()).decode(&#39;utf-8&#39;)}
+        return r</code></pre>
+<p class="image-container"><img style="width: 407.00px" src="img/548dfb3e976b7af.png"></p>
+<p class="image-container"><img style="width: 601.70px" src="img/9efd4cbe8084b3.png"></p>
+<p class="image-container"><img style="width: 420.00px" src="img/d65dec2392ab53a6.png"></p>
+<p class="image-container"><img style="width: 601.70px" src="img/a6153c73f02c5c98.png"></p>
+<p>考えられるミス</p>
+<p>コード貼り付け</p>
+<p>IAM設定</p>
+<p class="image-container"><img style="width: 601.70px" src="img/c68088612b4f4ed.png"></p>
+
+
+      </google-codelab-step>
+    
+      <google-codelab-step label="AWS IAM で SORACOM Funk 用の認証情報を作成する" duration="0">
+        <p class="image-container"><img style="width: 493.00px" src="img/937c18e5f8eb0b67.png"></p>
+<p class="image-container"><img style="width: 512.00px" src="img/132c730441fcb46d.png"></p>
+<p class="image-container"><img style="width: 601.70px" src="img/269a6918e8781c56.png"></p>
+<p class="image-container"><img style="width: 601.70px" src="img/93023f6d03a81cac.png"></p>
+<p class="image-container"><img style="width: 601.70px" src="img/eca3f9ab8b103278.png"></p>
+<p class="image-container"><img style="width: 601.70px" src="img/d670b5028ddefa1d.png"></p>
+<p class="image-container"><img style="width: 601.70px" src="img/38e0cb0a42a7849f.png"></p>
+
+
+      </google-codelab-step>
+    
+      <google-codelab-step label="SORACOM Funk を設定する" duration="0">
+        <h2 is-upgraded>SORACOM Funk と AWS Lambda の連携設定をテストする</h2>
+<pre>curl -O https://gist.githubusercontent.com/ma2shita/a7f2a0acf9b1a7f43c360e1371aadaed/raw/b07e0ad0b386177eb22ad9734a0f2c1a12c1bb15/soracom_funk_test.py
+python2 soracom_funk_test.py</pre>
+<aside class="warning"><p><strong><code>ファイルがダウンロードできない場合は？</code></strong></p>
+<p><code>curl</code> の後の <code>-O</code> はゼロでは無く大文字のオーです。</p>
+</aside>
+<pre>pi@raspberrypi:~ $ python2 soracom_funk_test.py
+200
+High Performance MPEG 1.0/2.0/2.5 Audio Player for Layers 1, 2 and 3
+        version 1.25.10; written and copyright by Michael Hipp and others
+        free software (LGPL) without any warranty but with best wishes
+
+Playing MPEG stream 1 of 1: - ...
+
+MPEG 2.0 L III cbr48 22050 mono
+
+
+[0:15] Decoding of - finished.</pre>
+<h3 is-upgraded><a href="https://gist.github.com/ma2shita/a7f2a0acf9b1a7f43c360e1371aadaed" target="_blank">【参考】soracom_funk_test.py</a></h3>
+<pre><code>#!/usr/bin/env python
+# -*- coding: utf-8 -*-
+
+import urllib2
+import json
+import base64
+from subprocess import Popen, PIPE
+def main():
+    headers = {&#39;Content-Type&#39;: &#39;application/json&#39;}
+    payload = json.dumps({})
+    response = urllib2.urlopen(urllib2.Request(&#39;http://uni.soracom.io&#39;, payload, headers))
+    print(response.getcode())
+    body = json.loads(response.read())
+    mp3data = base64.b64decode(body[&#39;data&#39;])
+    cp = Popen([&#39;mpg123&#39;, &#39;-&#39;], stdin=PIPE)
+    cp.communicate(input=mp3data)
+
+if __name__ == &#34;__main__&#34;:
+    main()</code></pre>
+
+
+      </google-codelab-step>
+    
+      <google-codelab-step label="設置をして動作を行う" duration="0">
+        <pre>curl -O https://gist.githubusercontent.com/ma2shita/e7f5d72c7592e8eb09adf92dcdf4310c/raw/2cd2a5eeb7af3ac144671c8bf5e967438c683e3e/storebot.py
+python2 storebot.py</pre>
+<aside class="warning"><p><strong><code>ファイルがダウンロードできない場合は？</code></strong></p>
+<p><code>curl</code> の後の <code>-O</code> はゼロでは無く大文字のオーです。</p>
+</aside>
+<pre>pi@raspberrypi:~ $ python2 storebot.py
+距離: 336.2 cm
+0
+距離: 336.6 cm
+0
+距離: 334.9 cm
+0
+距離: 19.6 cm
+0
+距離: 20.6 cm
+1
+距離: 20.5 cm
+2
+距離: 20.6 cm
+3
+距離: 20.5 cm
+4
+距離: 20.6 cm
+200
+High Performance MPEG 1.0/2.0/2.5 Audio Player for Layers 1, 2 and 3
+        version 1.25.10; written and copyright by Michael Hipp and others
+        free software (LGPL) without any warranty but with best wishes
+
+Playing MPEG stream 1 of 1: - ...
+
+MPEG 2.0 L III cbr48 22050 mono
+
+
+[0:15] Decoding of - finished.
+0
+距離: 335.4 cm
+0
+距離: 335.9 cm
+0
+距離: 335.7 cm</pre>
+<h3 is-upgraded><a href="https://gist.github.com/ma2shita/e7f5d72c7592e8eb09adf92dcdf4310c" target="_blank">【参考】storebot.py</a></h3>
+<pre><code>#!/usr/bin/env python
+# -*- coding: utf-8 -*-
+
+MIN_DISTANCE_CM = 20
+MAX_DISTANCE_CM = 100
+STAY_COUNT = 5
+
+import time
+# 距離を読む関数
+def read_distance():
+    # 必要なライブラリのインポート・設定
+    import RPi.GPIO as GPIO
+
+    # 使用するピンの設定
+    GPIO.setmode(GPIO.BOARD)
+    TRIG = 11 # ボード上の11番ピン(GPIO17)
+    ECHO = 13 # ボード上の13番ピン(GPIO27)
+
+    # ピンのモードをそれぞれ出力用と入力用に設定
+    GPIO.setup(TRIG,GPIO.OUT)
+    GPIO.setup(ECHO,GPIO.IN)
+    GPIO.output(TRIG, GPIO.LOW)
+
+    # TRIG に短いパルスを送る
+    GPIO.output(TRIG, GPIO.HIGH)
+    time.sleep(0.00001)
+    GPIO.output(TRIG, GPIO.LOW)
+
+    # ECHO ピンがHIGHになるのを待つ
+    signaloff = time.time()
+    while GPIO.input(ECHO) == GPIO.LOW:
+        signaloff = time.time()
+
+    # ECHO ピンがLOWになるのを待つ
+    signalon = signaloff
+    while time.time() &lt; signaloff + 0.1:
+        if GPIO.input(ECHO) == GPIO.LOW:
+            signalon = time.time()
+            break
+
+    # GPIO を初期化しておく
+    GPIO.cleanup()
+
+    # 時刻の差から、物体までの往復の時間を求め、距離を計算する
+    timepassed = signalon - signaloff
+    distance = timepassed * 17000
+
+    # 500cm 以上の場合はノイズと判断する
+    if distance &lt;= 500:
+        return distance
+    else:
+        return None
+
+import urllib2
+import json
+import base64
+from subprocess import Popen, PIPE
+def main():
+    cnt = 0
+    while True:
+        distance = read_distance()
+        if distance:
+            print &#34;距離: %.1f cm&#34; % distance
+    
+        if MIN_DISTANCE_CM &lt;= distance and distance &lt;= MAX_DISTANCE_CM:
+            cnt += 1
+        else:
+            cnt = 0
+    
+        if cnt &gt; STAY_COUNT - 1:
+            cnt = 0
+            headers = {&#39;Content-Type&#39;: &#39;application/json&#39;}
+            payload = json.dumps({})
+            response = urllib2.urlopen(urllib2.Request(&#39;http://uni.soracom.io&#39;, payload, headers))
+            print(response.getcode())
+            body = json.loads(response.read())
+            mp3data = base64.b64decode(body[&#39;data&#39;])
+            cp = Popen([&#39;mpg123&#39;, &#39;-&#39;], stdin=PIPE)
+            cp.communicate(input=mp3data)
+
+        print(cnt)
+        time.sleep(1)
+
+if __name__ == &#34;__main__&#34;:
+    main()</code></pre>
+
+
+      </google-codelab-step>
+    
+      <google-codelab-step label="「電源 ON 時にスタートする」設定を行う" duration="0">
+        <pre>curl -O https://gist.githubusercontent.com/ma2shita/4dfe0f4da1ecec963190be6e8e474990/raw/a9d640ae1797eb642bc96e23cc47340a0c983f97/storebot.service
+systemctl --user enable $PWD/storebot.service
+systemctl --user start storebot.service
+journalctl -n 10</pre>
+<aside class="warning"><p><strong><code>ファイルがダウンロードできない場合は？</code></strong></p>
+<p><code>curl</code> の後の <code>-O</code> はゼロでは無く大文字のオーです。</p>
+</aside>
+<p>最後の journalctl で期待される出力は以下の通りです。</p>
+<pre><code>Aug 31 04:56:50 raspberrypi systemd[575]: Started Storebot.py auto start.
+Aug 31 04:56:50 raspberrypi python2[5269]: 0
+Aug 31 04:56:51 raspberrypi python2[5269]: 距離: 338.2 cm
+Aug 31 04:56:51 raspberrypi python2[5269]: 0
+Aug 31 04:56:52 raspberrypi python2[5269]: 距離: 337.0 cm
+Aug 31 04:56:52 raspberrypi python2[5269]: 0
+Aug 31 04:56:54 raspberrypi python2[5269]: 距離: 337.8 cm
+Aug 31 04:56:54 raspberrypi python2[5269]: 0</code></pre>
 
 
       </google-codelab-step>
