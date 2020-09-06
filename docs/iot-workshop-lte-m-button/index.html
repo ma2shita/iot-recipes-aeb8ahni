@@ -1,0 +1,554 @@
+
+<!doctype html>
+
+<html>
+<head>
+  <meta name="viewport" content="width=device-width, minimum-scale=1.0, initial-scale=1.0, user-scalable=yes">
+  <meta name="theme-color" content="#4F7DC9">
+  <meta charset="UTF-8">
+  <title>【IoT ワークショップ】SORACOM LTE-M Button 編</title>
+  <link rel="stylesheet" href="//fonts.googleapis.com/css?family=Source+Code+Pro:400|Roboto:400,300,400italic,500,700|Roboto+Mono">
+  <link rel="stylesheet" href="//fonts.googleapis.com/icon?family=Material+Icons">
+  <link rel="stylesheet" href="https://soracom.github.io/iot-recipes/codelab-elements/codelab-elements.css">
+  <style>
+    .success {
+      color: #1e8e3e;
+    }
+    .error {
+      color: red;
+    }
+  </style>
+</head>
+<body>
+  <google-codelab-analytics gaid="UA-66865146-33"></google-codelab-analytics>
+  <google-codelab codelab-gaid=""
+                  id="iot-workshop-lte-m-button"
+                  title="【IoT ワークショップ】SORACOM LTE-M Button 編"
+                  environment="web"
+                  feedback-link="">
+    
+      <google-codelab-step label="ワークショップの概要" duration="1">
+        <p>IoTの「モノ・ネットワーク・クラウド」を手早く体験いただけるワークショップです。<br>SORACOM LTE-M Button と SORACOM サービスの活用で、最小限かつ実用性のある IoT システムの構築を行います。</p>
+<p class="image-container"><img style="width: 601.70px" src="img/71e71542b4dd0c1c.png"></p>
+<h2 is-upgraded>利用するデバイスやサービスの紹介</h2>
+<h3 is-upgraded>SORACOM LTE-M Button</h3>
+<p class="image-container"><img style="width: 344.00px" src="img/b4d4e8ef49c02c83.png"></p>
+<p><a href="https://soracom.jp/products/gadgets/" target="_blank"><strong>SORACOM LTE-M Button</strong></a> はボタン型 IoT デバイスで、用途や機能で3種類のモデルがあります。ここでは共通部分を解説します。</p>
+<p>ボタンは押し方に応じて3種類の情報をクラウドに送信できます。通信には省電力セルラー通信「LTE-M」を用いており、また、セルラー通信に欠かせない SIM は「eSIM」として内蔵していることから、通信設定が済んでいる状態ですぐに利用開始できます。電源は交換可能な単４電池２本で、小型で持ち運びも可能です。</p>
+<aside class="special"><p><strong>LTE-M とは？</strong></p>
+<p>スマートフォンで使われている LTE を基にした LPWA(省電力長距離無線通信)の1つ。既存の LTE 基地局を使って通信できるため、広い通信範囲と省電力性といった2つの特徴を実現している IoT 向けの長距離無線通信。SOARCOM では <a href="https://blog.soracom.com/ja-jp/2018/07/04/plan-km1-and-lte-m-devices/" target="_blank">plan-KM1 による KDDI LTE-M 網</a>と、 <a href="https://blog.soracom.com/ja-jp/2020/02/12/plan-d-support-lte-m/" target="_blank">plan-D による NTTドコモ LTE-M 網</a>が利用可能で、SORACOM LTE-M Button は plan-KM1 を採用している。</p>
+</aside>
+<aside class="special"><p><strong>eSIM とは？</strong></p>
+<p>SIM(Subscriber Identity Module) の形状の1つ。SIM は 3G や LTE といったセルラー通信の暗号化や回線の契約認証を行うために必要不可欠なモジュールで、現在普及している形状はカード型 (nanoSIM 等と呼ばれている) だが、近年は基板に埋め込む形状(embedded)による製品も流通している。 本テキストでは「形状」としての eSIM として紹介しているが、さらに詳しい定義や利用割合については参考資料を参照のこと。</p>
+<p>参考: <a href="https://monoist.atmarkit.co.jp/mn/articles/1906/26/news007.html" target="_blank">いまさら聞けないeSIM入門 (MONOist)</a> 、 <a href="https://soracom.jp/press/2020062501/" target="_blank">eSIM の割合は57% (ソラコム プレスリリース)</a></p>
+</aside>
+<h2 is-upgraded>SORACOM Harvest</h2>
+<p class="image-container"><img style="width: 128.00px" src="img/78a3c9f224e1bee2.png"></p>
+<p>IoT デバイスからのデータの収集や蓄積、およびファイルを保存するサービスが <a href="https://soracom.jp/services/harvest/" target="_blank"><strong>SORACOM Harvest</strong></a>(ソラコム ハーベスト) です。</p>
+<h3 is-upgraded>IoT データの蓄積における課題</h3>
+<p>データの収集や蓄積を行いたい場合、一般的にはクラウドサービスの契約や設定といった準備をすることで実現できます。<br>特に IoT ではデータが重要であるため、デバイスからのデータをいち早く確認したいという要望に対し、利用するクラウドが決まっていない、決まっているが準備ができていないために、開発スピードが停滞する事があります。</p>
+<h3 is-upgraded>SORACOM Harvest の利点</h3>
+<p>SORACOM Harvest は SORACOM の上で利用できるデータ収集・蓄積サービスです。SORACOM のアカウントを持っている時点で利用いただけます。利用はオンライン上で ON/OFF でき、契約は1日単位となっていることから、開発時の必要な時に必要なだけ使うことができます。</p>
+<p>SORACOM Harvest は蓄積するデータの種類によって2種類の機能があります。IoT デバイスからのデータの収集・蓄積対応しているのが SORACOM Harvest Data、画像ファイルやログファイルといったファイルに対応しているのが SORACOM Harvest Files です。</p>
+<h2 is-upgraded>SORACOM Funk</h2>
+<p class="image-container"><img style="width: 128.00px" src="img/d515520ce080f176.png"></p>
+<p>FaaS(Function as a Service)上の関数を直接実行し、結果の値を得ることができるサービスが <a href="https://soracom.jp/services/funk/" target="_blank">SORACOM Funk</a>(ソラコム ファンク) です。<br>クラウドのサービス間をつなげることに用いられる FaaS ですが、 IoT においても FaaS の活用は有効です。特に IoT デバイスから FaaS を利用することで「<strong>ロジックの更新性向上</strong>」「<strong>デバイスの省電力化</strong>」「<strong>デバイス単体では不可能な機能を実現</strong>」と3つの効果が得られます。</p>
+<aside class="special"><p><strong>FaaS とは？</strong></p>
+<p>データ変換や計算といったロジックを「関数」として公開し、他のシステムからの利用を容易にするクラウドサービス。昨今ではクラウドのサービス間を接続して目的のシステムを迅速に構築する手法があるが、その接続の際にデータフォーマットの変換や計算といったロジックを挟みたいときに特に利用できる。</p>
+<p>従来このような仕組みを作る場合はロジックの実装以外にもサーバーやロジックの実行環境、他システムからの受け付けインターフェイスが必要であり、また、構築だけでなくアップデート等の運用も行う必要がある。FaaS はサーバの構築や運用はクラウドから提供される(サーバレス)ため、開発者はロジックの実装と動作環境の設定のみで関数の公開ができるようになり、サービス間接続のギャップを迅速に埋めることができる。</p>
+</aside>
+<h3 is-upgraded>利点 1: ロジックの更新性向上</h3>
+<p>IoT デバイスから FaaS を呼び出せるようになると、本来 IoT デバイス上で実装していたプログラムの多くの部分を FaaS に移設できます。例えばセンサーからのデータを変換する複雑な「関数」を FaaS 上で実装し、IoT デバイスからはその「関数」を呼び出すだけとなります。<br>これにより、関数内のロジックに変更が必要となった際、従来であれば現場の IoT デバイスまで赴いてデバイス内のプログラムの書き換えが必要でしたが、FaaS を呼び出す構成であればクラウド上の関数の書き換えで済みます。このように、現場に配置してしまった後でもプログラムの更新ができることから、システムを成長し続けることが容易となるわけです。</p>
+<h3 is-upgraded>利点 2: 省電力化</h3>
+<p>AIや機械学習といった複雑なロジックの実行や、デバイスに直接接続されたストレージの読み書きは多くの電力を消費します。IoT デバイスが FaaS を通じてクラウド上の膨大な資源を利用できるようになると、消費電力の高い処理を FaaS へ移設することができることからデバイスの省電力化が期待できます。<br>一方、通信モジュール自体も電力消費をします。特に通信の頻度やデータサイズといった通信時間(= 通信モジュールが動作している時間)が消費電力に影響するため、FaaS とデバイス上の機能分担を考慮する必要があります。</p>
+<h3 is-upgraded>利点 3: デバイス単体では困難な機能を実現</h3>
+<p>センサーの値を基に現場の作業者が持つスマートフォンへ通知する仕組みを考えた際、IoT デバイスから直接スマートフォンへ通知する仕組みを開発するのは現実的ではありません。そこで FaaS 経由でクラウドサービスを利用することで、デバイス単体では困難な機能を実現できます。<br>また、FaaS を経由することでデバイス上でのプロトコル実装が不要となるため、新たな機能への対応といったプラス面だけでなく、認証情報の期限といった運用に欠かせない部分もデバイス上から無くすことができることから、IoTデバイスとクラウドサービスの継続的な連携をしやすくします。</p>
+<h2 is-upgraded>Hosted Funk について</h2>
+<p>SORACOM Funk は FaaS 上の関数を呼び出すサービスであるため、呼び出し先の関数を用意する必要があります。<br>本来、関数の作成にはクラウドサービスの契約と関数の作成作業が必要ですが、本ワークショップでは SORACOM Funk の体験を目的として「メール送信の専用関数」をソラコム側で準備(Hosted)しています。これが「Hosted Funk」です。</p>
+<aside class="warning"><p><strong>Hosted Funk は SORACOM Funk 体験用の関数です</strong></p>
+<p>Hosted Funk はソラコムが提供するハンズオンやレシピ向けとしての試験途上の機能(2020年6月現在)です。そのため、今後やむなく、また事前の連絡無く機能の変更や廃止の可能性があることをご承知おきください。</p>
+</aside>
+<h2 is-upgraded>ここまで確認したら</h2>
+<p>次に進みます。</p>
+
+
+      </google-codelab-step>
+    
+      <google-codelab-step label="【ステップ 1】「達成表」への記入について" duration="5">
+        <p>本ワークショップはスプレッドシートによる「達成表」を利用します。各自の進行状況や運営からのお伝えしたい事がまとまっているため、必ず使用してください。</p>
+<h2 is-upgraded>記入の方法</h2>
+<p>自分の氏名（もしくは受講者番号）の横に、達成したステップに応じて &#34;OK&#34; を記入します。</p>
+<p class="image-container"><img style="width: 520.00px" src="img/5ae87a961081b39b.gif"></p>
+<p>これ以降、テキストの「ステップ」が終了したら達成表に記入していきましょう。</p>
+<h2 is-upgraded>ここまで達成したら</h2>
+<p>「達成表」に &#34;OK&#34; の記入をして次に進みます。</p>
+
+
+      </google-codelab-step>
+    
+      <google-codelab-step label="【ステップ 2】準備の確認" duration="5">
+        <p>本コンテンツを行うためには以下のものをご用意ください。</p>
+<h2 is-upgraded>ハードウェア</h2>
+<table>
+<tr><td colspan="1" rowspan="1"><p><strong>品名</strong></p>
+</td><td colspan="1" rowspan="1"><p><strong>数量</strong></p>
+</td><td colspan="1" rowspan="1"><p><strong>価格</strong></p>
+</td><td colspan="1" rowspan="1"><p><strong>購入先</strong></p>
+</td><td colspan="1" rowspan="1"><p><strong>備考</strong></p>
+</td></tr>
+<tr><td colspan="1" rowspan="1"><p>SORACOM LTE-M Button for Enterprise</p>
+</td><td colspan="1" rowspan="1"><p>1</p>
+</td><td colspan="1" rowspan="1"><p>5,980円</p>
+</td><td colspan="1" rowspan="1"><p><a href="https://soracom.jp/products/gadgets/enterprise_button/" target="_blank">ソラコム</a></p>
+</td><td colspan="1" rowspan="1"><p><a href="https://soracom.jp/products/gadgets/button_plus/" target="_blank">SORACOM LTE-M Button Plus</a> でも代用可能です。</p>
+<p>※ SORACOM LTE-M Button powered by AWS は対象外となります</p>
+</td></tr>
+<tr><td colspan="1" rowspan="1"><p>パソコン</p>
+</td><td colspan="1" rowspan="1"><p>1</p>
+</td><td colspan="1" rowspan="1"><p>―</p>
+</td><td colspan="1" rowspan="1"><p>―</p>
+</td><td colspan="1" rowspan="1"><p>インターネット接続が可能でサイトへの接続が自由であること。</p>
+<p>Google Chrome 等の最新ブラウザーが利用可能な事。        </p>
+</td></tr>
+</table>
+<p>※ 金額はコンテンツ作成時となります。税抜き・送料別です。</p>
+<h2 is-upgraded>その他必要なもの</h2>
+<table>
+<tr><td colspan="1" rowspan="1"><p><strong>必要なもの</strong></p>
+</td><td colspan="1" rowspan="1"><p><strong>費用</strong></p>
+</td><td colspan="1" rowspan="1"><p><strong>作成方法など</strong></p>
+</td></tr>
+<tr><td colspan="1" rowspan="1"><p>SORACOM アカウント</p>
+</td><td colspan="1" rowspan="1"><p>無料※</p>
+</td><td colspan="1" rowspan="1"><p><a href="https://soracom.github.io/iot-recipes/create-account-soracom-jp/" target="_blank">SORACOM アカウントの作成 (JP)</a></p>
+<p>※ 貸し出しの方は、当社から連絡済みの<br>「オペレーター ID」「ユーザー名」「パスワード」<br>が手元にあるか確認してください。</p>
+</td></tr>
+<tr><td colspan="1" rowspan="1"><p>メールアドレス</p>
+</td><td colspan="1" rowspan="1"><p>―</p>
+</td><td colspan="1" rowspan="1"><p>通知先に利用します。</p>
+<p>※ SORACOM アカウント作成時に利用したメールアドレスと<br>同じものでも構いません。</p>
+</td></tr>
+</table>
+<p>※ アカウント作成・維持の費用の料金です。</p>
+<h2 is-upgraded>ここまで達成したら</h2>
+<p>「達成表」に &#34;OK&#34; の記入をして次に進みます。</p>
+
+
+      </google-codelab-step>
+    
+      <google-codelab-step label="【ステップ 3】SORACOM ユーザーコンソールへのログインと &#34;SIM&#34; の確認" duration="5">
+        <p>SORACOM のサービスを利用するためには、SORACOM ユーザーコンソールへログインするところからは始まります。</p>
+<h2 is-upgraded>ワークショップで利用するアカウント情報を準備する</h2>
+<p>本ワークショップで利用するアカウント情報を準備します。</p>
+<h3 is-upgraded>【ケース 1】ソラコムから貸し出されたアカウント情報を利用する場合</h3>
+<p>「オペレータ ID」「ユーザー名」「パスワード」の3つの情報が揃っているか確認します。次に、<a href="https://console.soracom.io/#/sam_login?coverage_type=jp" target="_blank"><strong>SAM ユーザーとしてログイン</strong></a>を開き、「オペレータ ID」「ユーザー名」「パスワード」の3つの情報を入力して［ログイン］をクリックします。</p>
+<p class="image-container"><img style="width: 601.70px" src="img/75bf1fd5486b0143.png"></p>
+<aside class="special"><p><strong>SAM とは？</strong></p>
+<p>SORACOM Access Management の略称です。SORACOM のアカウントには2つの種類があります。1つめが「ルートアカウント」で、メールアドレスとパスワードでログインします。最初に作られるアカウントで、全ての操作が無制限に可能となっています。2つ目が「SAM アカウント」で、ルートアカウント内に複数作成可能で、SORACOM に対する操作を権限で制御可能となっています。</p>
+</aside>
+<aside class="warning"><p><strong>入力ボックスが2つしか無かった場合は？</strong></p>
+<p>右上の「SAM ユーザーとしてログイン」をクリックすることで SAM ユーザとしてログインの画面に移動できます。</p>
+<p class="image-container"><img style="width: 587.00px" src="img/b9df386e670a5782.png"></p>
+</aside>
+<h3 is-upgraded>【ケース 2】ご自分のアカウント情報を利用する場合</h3>
+<h4 is-upgraded><a href="https://console.soracom.io/#/login" target="_blank"><strong>SORACOM アカウントにログイン</strong></a>からログインをします。</h4>
+<p class="image-container"><img style="width: 587.00px" src="img/4da9df8891a039ec.png"></p>
+<h2 is-upgraded>ログインが成功したら SORACOM LTE-M Button に紐づいている SIM を確認します</h2>
+<p class="image-container"><img style="width: 601.70px" src="img/ad7a2df9ab4f672c.png"></p>
+<aside class="special"><p><strong>SORACOM の便利な使い方: SIM の「名前」機能</strong></p>
+<p>例では &#34;LTE-M Button&#34; と表示されているのが SIM の名前です。初期では名前の割り当てが無いため、空白となっている場合がありますが、正常です。</p>
+<p>SIM に「名前」を付けることで整理が可能です。特に複数の SIM (ボタン含む) をお持ちの際には、名前を付けることを強くお勧めいたします。名前の付け方は <a href="https://dev.soracom.io/jp/start/console/#name_tag" target="_blank">SIM への名前の付け方</a>をご覧ください。</p>
+</aside>
+<aside class="warning"><p><strong>SIM 一覧に「ボタンの SIM」がない場合は？</strong></p>
+<p>4つの原因が考えられます。</p>
+<p><strong>原因 1: 別の SORACOM アカウントでログインしている</strong></p>
+<p>対象となる SORACOM LTE-M Button が登録されていない SORACOM アカウントでログインしている可能性があります。</p>
+<p>特に「すでに SORACOM アカウントは持っているが、今回は貸し出しで参加されている場合は、当社よりお伝え済みの SORACOM アカウントでログインし直してください。</p>
+<p><strong>原因 2: SORACOM LTE-M Button の「受け取り」を行っていない</strong></p>
+<p>購入した SORACOM LTE-M Button は「受け取る」事で SIM 一覧に表示され、利用可能となります。受け取り方法は<a href="https://soracom.github.io/iot-recipes/register-ordering-sim-jp/" target="_blank">発注済みの SIM を登録する(JP)</a>をご覧ください。約5分で完了します。<br>※貸し出しの場合は受け取りの必要はありません</p>
+<p><strong>原因 3: 「検索機能」でフィルタされている</strong></p>
+<p>SIM 一覧の管理画面では、大量の SIM の中から目的の SIM をいち早く探し出す機能として「検索機能」があります。画面上部のテキストボックスです。</p>
+<p>ここになんらかの文字が入力されている場合、対象となる SIM (SORACOM LTE-M Button) が非表示となっている可能があります。テキストボックス横の✖をクリックして、検索機能をクリアしてください。</p>
+<p><strong>原因 4: 「SIM 一覧」 の管理画面を表示をしていない</strong></p>
+<p>SIM は「SIM 一覧」の管理画面に表示されます。左上の［Menu］をクリックした後、［SIM 管理］とクリックして SIM 一覧の管理画面を表示してください。</p>
+</aside>
+<h2 is-upgraded>ここまで達成したら</h2>
+<p>「達成表」に &#34;OK&#34; の記入をして次に進みます。</p>
+
+
+      </google-codelab-step>
+    
+      <google-codelab-step label="【ステップ 4】グループの作成と SIM の所属を設定する" duration="5">
+        <p>SORACOM の IoT データ収集・蓄積サービス SORACOM Harvest Data を利用して、データの可視化を簡単に実現してみましょう。</p>
+<p>まずは<strong>グループ</strong>の作成と、作成したグループへ SIM を所属させる事から始めます。</p>
+<aside class="special"><p><strong>グループとは？</strong></p>
+<p>SORACOM サービスのほとんどが<strong>グループ</strong>という単位に対して設定するようになっています。SORACOM Harvest Data 等、SORACOM サービスのほとんどが SIM に直接設定をするのではなくグループに設定をします。そして、SIM をグループに所属させることで SORACOM サービスが利用できるという間接的な仕組みです。</p>
+<p>この仕組みは大量の SIM を管理する事を前提に考えられており、「グループの設定」を1つ行うだけで一括設定を行うことが可能となります。<img style="width: 601.70px" src="img/9e792d9c4ce80a0b.png"></p>
+<p>SIM をグループに所属させる方法は、グループを作成してから SIM を所属させる方法の他、グループの作成と SIM の所属を同時に行う方法もありますが、本テキストでは後者の「同時に行う」手順で進めていきます。</p>
+</aside>
+<h2 is-upgraded>SORACOM Harvest Data でデータの収集を行いたい SIM (SORACOM LTE-M Button) にチェックを付け、［操作］&gt;［所属グループ変更］とクリックします。</h2>
+<p class="image-container"><img style="width: 460.00px" src="img/e9e6e71d54ececca.gif"></p>
+<aside class="special"><p><strong>SORACOM の便利な使い方: 複数の SIM を同時に扱う</strong></p>
+<p>チェックをつける対象を複数にすれば、一度の複数の SIM を対象に操作が可能です。</p>
+</aside>
+<h2 is-upgraded>「新しい所属グループ」のプルダウンボックスをクリックした後、［新しいグループを作成...］をクリックします。</h2>
+<p class="image-container"><img style="width: 594.50px" src="img/f686e94927a02eb0.gif"></p>
+<h2 is-upgraded>&#34;グループ作成&#34; では、グループ名を入力して［グループ作成］をクリックします。</h2>
+<table>
+<tr><td colspan="1" rowspan="1"><p><strong>項目</strong></p>
+</td><td colspan="1" rowspan="1"><p><strong>例</strong></p>
+</td><td colspan="1" rowspan="1"><p><strong>備考</strong></p>
+</td></tr>
+<tr><td colspan="1" rowspan="1"><p>グループ名</p>
+</td><td colspan="1" rowspan="1"><p><code>button-handson</code></p>
+</td><td colspan="1" rowspan="1"><p>自由に入力可能です。日本語も設定可能です。</p>
+</td></tr>
+</table>
+<p class="image-container"><img style="width: 385.00px" src="img/43733f6aa3e4ca43.png"></p>
+<h2 is-upgraded>新しい所属グループが先ほど作成したグループになっていることを確認したら［グループ変更］をクリックします。</h2>
+<p class="image-container"><img style="width: 601.70px" src="img/41fb9c42d41e4de1.png"></p>
+<h2 is-upgraded>自動的に SIM 管理画面に戻ります。<br>SIM の「グループ」に、先ほど作ったグループが設定されていることを確認してください。</h2>
+<p class="image-container"><img style="width: 601.70px" src="img/200582244413e934.png"></p>
+<p>以上で、グループの作成と所属の作業は完了です。</p>
+<h2 is-upgraded>ここまで達成したら</h2>
+<p>「達成表」に &#34;OK&#34; の記入をして次に進みます。</p>
+
+
+      </google-codelab-step>
+    
+      <google-codelab-step label="【ステップ 5】グループの設定を行う" duration="5">
+        <p>グループに「<strong>バイナリ―パーサー機能</strong>」「<strong>簡易位置測位機能</strong>」「<strong>SORACOM Harvest Data</strong>」の3つの設定を行います。</p>
+<aside class="special"><p><strong>バイナリ―パーサー機能とは？</strong></p>
+<p>ハードウェア開発では容量を節約するために「バイナリ形式」のデータを用いることがあります。一方、昨今のクラウドはシステム開発を容易にするために「JSON 形式」のデータを扱うことが多くあります。バイナリ―パーサー機能は、SORACOM プラットフォーム上でバイナリからJSONへ変換する仕組みです。この機能を利用することで、データ変換用のシステムやプログラムが不要となります。詳細は<a href="https://dev.soracom.io/jp/docs/binary_parser/" target="_blank">リファレンス</a>をご覧ください。</p>
+</aside>
+<aside class="special"><p><strong>簡易位置測位機能とは？</strong></p>
+<p>携帯電話の基地局の位置情報や電波の強さを基に、LTE 通信の通信開始時点でのおおよその位置情報を取得して SORACOM サービスと連携できる機能です。LTE 通信のみで利用できることから GPS 等が無くとも位置測位が可能となります。利用可能な条件や精度などは<a href="https://dev.soracom.io/jp/docs/location_service/" target="_blank">簡易位置測位機能の設定ガイド</a>をご覧ください。</p>
+</aside>
+<h2 is-upgraded>SIM 管理画面から、SORACOM LTE-M Button に割り当てたグループ名をクリックします。</h2>
+<p class="image-container"><img style="width: 601.70px" src="img/9664249ba45e6157.png"></p>
+<h2 is-upgraded>［SORACOM Air for Cellular 設定］をクリックして設定ができるように開きます。</h2>
+<p class="image-container"><img style="width: 601.70px" src="img/983d263d446175bd.png"></p>
+<h2 is-upgraded>「SORACOM Air for Cellular 設定」で以下のように設定します。</h2>
+<table>
+<tr><td colspan="1" rowspan="1"><p><strong>項目</strong></p>
+</td><td colspan="1" rowspan="1"><p><strong>設定値</strong></p>
+</td><td colspan="1" rowspan="1"><p><strong>備考</strong></p>
+</td></tr>
+<tr><td colspan="1" rowspan="1"><p>簡易位置測位機能</p>
+</td><td colspan="1" rowspan="1"><p>ON</p>
+</td><td colspan="1" rowspan="1"><p>スイッチはクリックすることで OFF から ON に切り替えることができます。</p>
+</td></tr>
+<tr><td colspan="1" rowspan="1"><p>バイナリ―パーサー設定</p>
+</td><td colspan="1" rowspan="1"><p>ON</p>
+</td><td colspan="1" rowspan="1"><p>スイッチはクリックすることで OFF から ON に切り替えることができます。</p>
+</td></tr>
+<tr><td colspan="1" rowspan="1"><p>バイナリ―パーサー設定 / フォーマット</p>
+</td><td colspan="1" rowspan="1"><p><code>@button</code></p>
+</td><td colspan="1" rowspan="1"><p>半角英数で入力してください。</p>
+</td></tr>
+</table>
+<p class="image-container"><img style="width: 596.50px" src="img/6de89325cfb03dba.gif"></p>
+<p>最後に［保存］をクリックしてください。</p>
+<h2 is-upgraded>同じページの中にある［SORACOM Harvest Data 設定］をクリックして設定ができるように開きます。</h2>
+<p class="image-container"><img style="width: 601.70px" src="img/919ebb817fc92c39.png"></p>
+<h2 is-upgraded>「SORACOM Harvest Data 設定」で以下のように設定します。</h2>
+<table>
+<tr><td colspan="1" rowspan="1"><p><strong>項目</strong></p>
+</td><td colspan="1" rowspan="1"><p><strong>設定値</strong></p>
+</td><td colspan="1" rowspan="1"><p><strong>備考</strong></p>
+</td></tr>
+<tr><td colspan="1" rowspan="1"><p>（スイッチ）</p>
+</td><td colspan="1" rowspan="1"><p>ON</p>
+</td><td colspan="1" rowspan="1"><p>スイッチはクリックすることで OFF から ON に切り替えることができます。</p>
+</td></tr>
+</table>
+<p class="image-container"><img style="width: 599.50px" src="img/ff8928175798cfb6.gif"></p>
+<p>最後に［保存］をクリックしてください。その後表示される「SORACOM Harvest Data が有効になっています」のダイアログでは［OK］をクリックしてください。</p>
+<p>以上で「バイナリ―パーサー機能」「簡易位置測位機能」「SORACOM Harvest Data」の3つの設定が完了しました。<br>すでに SORACOM LTE-M Button (の SIM)は、このグループに所属しているためこの時点から SORACOM LTE-M Button からのデータが SORACOM Harvest Data に表示されるようになります。</p>
+<h2 is-upgraded>ここまで達成したら</h2>
+<p>「達成表」に &#34;OK&#34; の記入をして次に進みます。</p>
+
+
+      </google-codelab-step>
+    
+      <google-codelab-step label="【ステップ 6】デバイスからのデータを確認する" duration="5">
+        <p>SORACOM LTE-M Button からのデータが SORACOM Harvest Data に表示されることを確認してみましょう。</p>
+<h2 is-upgraded>［Menu］&gt;［SIM 管理］とクリックして SIM 管理画面を開きます。</h2>
+<p class="image-container"><img style="width: 594.50px" src="img/463e26f72db3f50a.gif"></p>
+<h2 is-upgraded>SORACOM Harvest Data でデータの表示を行いたい SIM (SORACOM LTE-M Button) にチェックを付け、［操作］&gt;［データを確認］とクリックします。</h2>
+<p class="image-container"><img style="width: 590.50px" src="img/64336db3b5122bdf.gif"></p>
+<h2 is-upgraded>表示された画面で［自動更新］を ON にします。</h2>
+<p>この表示された画面が SORACOM Harvest Data の画面となります。</p>
+<p class="image-container"><img style="width: 599.37px" src="img/fd86e1302f46cfda.gif"></p>
+<aside class="special"><p><strong>自動更新とは？</strong></p>
+<p>画面を再読み込みしなくとも新しいデータが自動的に表示されるようにする機能です。5秒毎に新しいデータを表示するようになります。</p>
+<p>この機能が OFF の場合は、表示する期間を指定して［検索］をクリックすることで期間内のデータを表示できます。</p>
+</aside>
+<h2 is-upgraded>SORACOM LTE-M Button を押してみる</h2>
+<p>実際に SORACOM LTE-M Button を押してデータを確認してみましょう。ボタン部分を押下後、最終的に LED が緑色に点灯したらデータ送信成功です。</p>
+<p class="image-container"><img style="width: 520.00px" src="img/ad25090f25a41dcf.gif"></p>
+<p>SORACOM LTE-M Button のデータが SORACOM Harvest Data に表示されていることが確認できます。</p>
+<h3 is-upgraded>1件のデータが到着した様子</h3>
+<p class="image-container"><img style="width: 601.70px" src="img/4c83e62d0ba82925.png"></p>
+<h3 is-upgraded>データテーブルを表示する</h3>
+<p>データはグラフだけでは無く、ページの下の方でデータテーブルとして表示されます。ここで具体的な値を確認できます。</p>
+<p class="image-container"><img style="width: 601.70px" src="img/253bd75b943481f4.png"></p>
+<aside class="warning"><p><strong>データが表示されない場合は？</strong></p>
+<p>ボタンを押してもデータが表示されない場合は3つの原因が考えられます。</p>
+<p><strong>原因 1: 自動更新</strong></p>
+<p>データ確認画面は表示直後は「表示時点までのデータ」のみを表示するようになっています。ボタンを押した際に発生した、新しいデータを自動的に表示したい場合は、「自動更新」を ON にしてください。</p>
+<p><strong>原因 2: 通信の失敗</strong></p>
+<p>SORACOM LTE-M Button は通信の結果をLEDで判別できます。ボタン押下直後はオレンジ色の点滅が約10 ~ 30秒続き、その後通信成功なら緑、通信失敗なら赤となります。通信失敗の場合はデータ送信がされていませんので、再度ボタンを押してデータ送信を行ってください。（再送機能はありません）</p>
+<p><strong>原因 3: グループの設定不足</strong></p>
+<p>グラフには表示されていないが、画面下部のデータテーブルには「<code>dE04Abe==</code>」といった文字が表示されている場合は、グループの設定不足です。一つ前のステップで「バイナリ―パーサー」の設定を確認してください。</p>
+</aside>
+<h3 is-upgraded>地図を表示する</h3>
+<p>ピンマークをクリックすると表示が地図に切り替わります。これでデータ内の <code>$metadata.lat</code> と <code>$metadata.lon</code> を基にした位置を描画しています。</p>
+<p class="image-container"><img style="width: 601.70px" src="img/4a784c8392be622f.png"></p>
+<aside class="warning"><p><strong>地図の表示が日本でない地域が表示されたら？</strong></p>
+<p>地図上でドラッグしてピンが描画されている地域（おそらく日本）まで移動してください。</p>
+</aside>
+<p>自動更新が ON になっていれば、SORACOM LTE-M Button を押した時点での位置が描画され、最終的には以下の様に活用できます。<br>※ 地図上の赤のラインは別途レタッチソフトで描画しています。</p>
+<p class="image-container"><img style="width: 601.70px" src="img/ae828d33fb7a35aa.png"></p>
+<h2 is-upgraded>ここまでのおさらい</h2>
+<p>以上でボタンのデータをデータ収集・蓄積サービス「SORACOM Harvest Data」で確認できるようになりました。</p>
+<p class="image-container"><img style="width: 601.70px" src="img/8afcacf7a1e01279.png"></p>
+<h2 is-upgraded>ここまで達成したら</h2>
+<p>「達成表」に &#34;OK&#34; の記入をして次に進みます。</p>
+
+
+      </google-codelab-step>
+    
+      <google-codelab-step label="【ステップ 7】ボタン押下でメールを送信する" duration="10">
+        <p>SORACOM LTE-M Button を押した時に、メールの通知を行えるように設定してみましょう。そのためには、クラウドファンクションアダプタ <a href="https://soracom.jp/services/funk/" target="_blank"><strong>SORACOM Funk</strong></a> を利用します。</p>
+<p class="image-container"><img style="width: 601.70px" src="img/962768b311f93072.png"></p>
+<h2 is-upgraded>［Menu］&gt;［SIM 管理］とクリックして SIM 管理画面を開きます。</h2>
+<p class="image-container"><img style="width: 594.50px" src="img/463e26f72db3f50a.gif"></p>
+<h2 is-upgraded>SIM 管理画面から、SORACOM LTE-M Button に割り当てたグループ名をクリックします。</h2>
+<p class="image-container"><img style="width: 601.70px" src="img/9664249ba45e6157.png"></p>
+<h2 is-upgraded>[SORACOM Funk 設定] をクリックして設定ができるように開きます。</h2>
+<p class="image-container"><img style="width: 601.70px" src="img/a46f8ecab38bf790.png"></p>
+<h2 is-upgraded>「SORACOM Funk 設定」で以下のように設定します。</h2>
+<table>
+<tr><td colspan="1" rowspan="1"><p><strong>項目</strong></p>
+</td><td colspan="1" rowspan="1"><p><strong>設定値</strong></p>
+</td><td colspan="1" rowspan="1"><p><strong>備考</strong></p>
+</td></tr>
+<tr><td colspan="1" rowspan="1"><p>(スイッチ)</p>
+</td><td colspan="1" rowspan="1"><p>ON</p>
+</td><td colspan="1" rowspan="1"><p>スイッチはクリックすることで OFF から ON に切り替えることができます。</p>
+</td></tr>
+<tr><td colspan="1" rowspan="1"><p>サービス</p>
+</td><td colspan="1" rowspan="1"><p>AWS Lambda</p>
+</td><td colspan="1" rowspan="1"><p>デフォルトで選択されています。</p>
+</td></tr>
+<tr><td colspan="1" rowspan="1"><p>送信データ形式</p>
+</td><td colspan="1" rowspan="1"><p>JSON</p>
+</td><td colspan="1" rowspan="1"><p>デフォルトで選択されています。</p>
+</td></tr>
+<tr><td colspan="1" rowspan="1"><p>認証情報</p>
+</td><td colspan="1" rowspan="1"><p>認証情報を指定しない</p>
+</td><td colspan="1" rowspan="1"><p>デフォルトで選択されています。</p>
+</td></tr>
+<tr><td colspan="1" rowspan="1"><p>関数の ARN</p>
+</td><td colspan="1" rowspan="1"><p><code>下記の ARN を指定</code></p>
+</td><td colspan="1" rowspan="1"><p>―</p>
+</td></tr>
+</table>
+<h3 is-upgraded>関数のARN</h3>
+<pre>arn:aws:lambda:ap-northeast-1:762707677580:function:funk-button-email:prod</pre>
+<p class="image-container"><img style="width: 520.00px" src="img/4dbfa0666d80626b.gif"></p>
+<p>最後に [保存] を押します。</p>
+<aside class="special"><p><strong>&#34;関数の ARN&#34; とは？</strong></p>
+<p>SORACOM Funk は FaaS 上の関数を呼び出すサービスです。この時「どの関数を呼び出すのか？」という指定を行います。<br>本テキストではソラコムで準備済みの AWS 上の関数を呼び出すため、その関数に割り当てられている名前である ARN(Amazon リソースネーム)を指定しています。</p>
+</aside>
+<h2 is-upgraded>メールの送信先を設定します。</h2>
+<h3 is-upgraded>［Menu］&gt;［SIM 管理］とクリックして SIM 管理画面を開きます。</h3>
+<p class="image-container"><img style="width: 594.50px" src="img/463e26f72db3f50a.gif"></p>
+<h3 is-upgraded>ボタンの SIM を選択し、[ 詳細 ] を押して詳細画面を開きます。</h3>
+<p class="image-container"><img style="width: 520.00px" src="img/12333444a3f12e9a.gif"></p>
+<h3 is-upgraded>SIM 詳細で ［タグ］ をクリックした後、［＋］  をクリックします。</h3>
+<p class="image-container"><img style="width: 601.70px" src="img/e52c8c6959549dd8.png"></p>
+<h3 is-upgraded>&#34;タグの編集&#34; で以下のように設定します。</h3>
+<table>
+<tr><td colspan="1" rowspan="1"><p><strong>項目</strong></p>
+</td><td colspan="1" rowspan="1"><p><strong>設定値</strong></p>
+</td><td colspan="1" rowspan="1"><p><strong>備考</strong></p>
+</td></tr>
+<tr><td colspan="1" rowspan="1"><p>名前</p>
+</td><td colspan="1" rowspan="1"><p><code>mail_to</code></p>
+</td></tr>
+<tr><td colspan="1" rowspan="1"><p>値</p>
+</td><td colspan="1" rowspan="1"><p>(送信先メールアドレス)</p>
+</td><td colspan="1" rowspan="1"><p>間違えないように気を付けてください</p>
+</td></tr>
+</table>
+<p class="image-container"><img style="width: 601.70px" src="img/782455d3079bc7cf.png"></p>
+<p>最後に［保存］をクリックし、 &#34;SIM 詳細&#34; の［閉じる］をクリックします。これで準備は完了です。</p>
+<h2 is-upgraded>SORACOM LTE-M Button を押してメールを送信する</h2>
+<p>SORACOM LTE-M Button を押すと設定したメールアドレスに、以下のようなメールが送信されます。</p>
+<p class="image-container"><img style="width: 601.70px" src="img/c3b8b4e74c45e8f1.png"></p>
+<h3 is-upgraded>件名: ボタンクリック通知</h3>
+<pre>ボタン 7MF6J01234567890 が SINGLE クリックされました
+
+- バッテリー残量: 100 % 
+- 位置情報:  緯度,経度 = 35.67026205900455,139.74446296691895
+
+--
+以下の情報はメールテンプレートで &#123;&#123;event.xxx}} &#123;&#123;context.xxx}} &#123;&#123;tags.xxx}} &#123;&#123;etc.xxx}} のように参照できます
+
+event:
+  clickType: 1
+  clickTypeName: &#34;SINGLE&#34;
+  BatteryLevel: 1
+  BatteryLevelPercent: 100
+
+context:
+  imsi: 440527777777777
+  imei: 359567777777777
+  operatorId: &#34;OP0123456789&#34;
+  location:
+    lat: 35.67026205900455
+    lon: 139.74446296691895
+
+tags:
+  name: &#34;7MF6J01234567890&#34;
+  mail_to: &#34;&#34; (未設定の場合は空欄) 
+
+etc:
+  timestamp: &#34;2020/05/16 09:51:11&#34;
+  timestampUtc: &#34;2020/05/15 00:51:11 UTC&#34;
+  unixtime: 1589590271.554126</pre>
+<h2 is-upgraded>ここまで達成したら</h2>
+<p>「達成表」に &#34;OK&#34; の記入をして次に進みます。</p>
+
+
+      </google-codelab-step>
+    
+      <google-codelab-step label="【ステップ 8】メール文章をカスタマイズしてみる" duration="5">
+        <p>Hosted Funk はメールの件名や本文をカスタマイズする機能を持っています。その機能を使って文面をカスタマイズしてみましょう。</p>
+<h2 is-upgraded>SIM 管理画面から、SORACOM LTE-M Button に割り当てたグループ名をクリックします。</h2>
+<p class="image-container"><img style="width: 601.70px" src="img/9664249ba45e6157.png"></p>
+<h2 is-upgraded>［SORACOM Air for Cellular 設定］をクリックして設定ができるように開きます。</h2>
+<p class="image-container"><img style="width: 601.70px" src="img/983d263d446175bd.png"></p>
+<h2 is-upgraded>&#34;メタデータサービス設定&#34; で以下のように設定します。</h2>
+<table>
+<tr><td colspan="1" rowspan="1"><p><strong>項目</strong></p>
+</td><td colspan="1" rowspan="1"><p><strong>設定値</strong></p>
+</td><td colspan="1" rowspan="1"><p><strong>備考</strong></p>
+</td></tr>
+<tr><td colspan="1" rowspan="1"><p>(スイッチ)</p>
+</td><td colspan="1" rowspan="1"><p>ON</p>
+</td><td colspan="1" rowspan="1"><p>スイッチはクリックすることで OFF から ON に切り替えることができます。</p>
+</td></tr>
+<tr><td colspan="1" rowspan="1"><p>ユーザーデータ</p>
+</td><td colspan="1" rowspan="1"><p>任意の文章</p>
+</td><td colspan="1" rowspan="1"><p>例文は下記参照</p>
+</td></tr>
+</table>
+<h3 is-upgraded>例文</h3>
+<pre>【ボタンからの通知】
+&lt;h1&gt;ボタン &#123;&#123;tags.name}} が &#123;&#123;event.clickTypeName}} クリックされました&lt;/h1&gt;
+&lt;ul&gt;
+&lt;li&gt;バッテリー残量: &#123;&#123;event.batteryLevelPercent}} %
+&lt;li&gt;&lt;a href=
+https://www.google.com/maps?q=&#123;&#123;context.location.lat}},&#123;&#123;context.location.lon}}&gt;位置情報&lt;/a&gt;
+&lt;li&gt;時刻: &#123;&#123;etc.timestamp}}
+&lt;/ul&gt;</pre>
+<p class="image-container"><img style="width: 520.00px" src="img/e21272d359e9830d.gif"></p>
+<p>最後に [保存] を押します。</p>
+<h3 is-upgraded>実際のメールの様子</h3>
+<p class="image-container"><img style="width: 601.70px" src="img/f7b944dc0d9e923b.png"></p>
+<h3 is-upgraded>【参考情報】ユーザーデータのフォーマット</h3>
+<p>ユーザーデータの１行目は件名として使われ、２行目以降が本文となります。また、HTMLタグを入れると自動的に HTML メールとなります。<br>本文中に <code>&#123;&#123;event.clickTypeName}}</code> などと書く事によって、メールの中に様々な情報を差し込むことが出来ます。利用可能なパラメータは、ユーザーデータ未設定時やメタデータのスイッチが OFF の場合に送信されるデフォルトのメールに記載があります。</p>
+<h2 is-upgraded>ここまで達成したら</h2>
+<p>「達成表」に &#34;OK&#34; の記入をしてください。<br>以上でワークショップは終了となります。お疲れさまでした！</p>
+<p>最後にあとかたづけと注意事項等のレクチャーをスタッフより受けてください。</p>
+
+
+      </google-codelab-step>
+    
+      <google-codelab-step label="あとかたづけと注意事項" duration="1">
+        <p>本コンテンツでは費用がかかるサービスを利用しています。<br>本項をよく読み、必要な操作や解除作業を行うようにして想定外の費用が掛からないようにしてください。</p>
+<h2 is-upgraded>【確認】費用について</h2>
+<p>ここで記載している金額は全て税別、送料別となります。</p>
+<h3 is-upgraded>SORACOM LTE-M Button for Enterprise (Plus) に係る費用</h3>
+<p>ご利用にあたっては本体の価格とは別に、内蔵されている SIM (plan-KM1) の<strong>基本料金(月額100円)</strong>と、データ通信量に応じた<strong>データ通信料</strong>が発生します。</p>
+<p>plan-KM1 の料金は<a href="https://soracom.jp/services/air/cellular/price_specific_area_sim/#plan-km1" target="_blank">ご利用料金 - 特定地域向け IoT SIM (plan-KM1)</a> をご確認ください。</p>
+<p>データ通信量の目安は 1送信あたり約 0.25 ~ 0.3 円です。</p>
+<h3 is-upgraded>SORACOM プラットフォームの利用料金</h3>
+<p>SORACOM Harvest Data を始めとした SORACOM プラットフォーム利用料は後述の通りかかります。</p>
+<table>
+<tr><td colspan="1" rowspan="1"><p><strong>サービス／機能</strong></p>
+</td><td colspan="1" rowspan="1"><p><strong>料金</strong></p>
+</td></tr>
+<tr><td colspan="1" rowspan="1"><p><a href="https://soracom.jp/services/harvest/price/" target="_blank">SORACOM Harvest Data</a></p>
+</td><td colspan="1" rowspan="1"><ul>
+<li>本機能を有効にしたグループに所属する1SIMあたり5円/日 (2000リクエスト/日/SIMを含む)</li>
+<li>2000リクエスト/日を超えた分は0.004円/リクエスト</li>
+</ul>
+</td></tr>
+<tr><td colspan="1" rowspan="1"><p><a href="https://soracom.jp/services/air/cellular/price_specific_area_sim/#price_location_service" target="_blank">簡易位置測位機能</a></p>
+</td><td colspan="1" rowspan="1"><ul>
+<li>本機能を有効にしたグループに所属する1SIMあたり50円/月 (750リクエスト/月/SIMを含む)</li>
+<li>750リクエスト/月を超えた分は0.15円/リクエスト        </li>
+</ul>
+</td></tr>
+<tr><td colspan="1" rowspan="1"><p><a href="https://soracom.jp/services/funk/price/" target="_blank">SORACOM Funk</a></p>
+</td><td colspan="1" rowspan="1"><ul>
+<li>1 リクエスト あたり 0.0018 円</li>
+<li>Hosted Funk は無料の機能です</li>
+</ul>
+</td></tr>
+</table>
+<p>※ 費用詳細はリンク先をご確認ください。</p>
+<aside class="special"><p><strong>無料利用枠について</strong></p>
+<p>SORACOM サービスでは一部サービスにおいて無料枠が設定されています。たとえば SORACOM Air for セルラーであればアカウント毎で30円/月の通信分や、SORACOM Harvest Data であれば31日分の書込みリクエスト、SORACOM Funk であれば 50000 回のリクエストなどです。料金詳細に「無料利用枠」として掲載されていますので、ご確認ください。</p>
+</aside>
+<aside class="warning"><p><strong>Hosted Funk は SORACOM Funk 体験用の関数です</strong></p>
+<p>Hosted Funk はソラコムが提供するハンズオンやレシピ向けとしての試験途上の機能(2020年6月現在)です。そのため、今後やむなく、また事前の連絡無く機能の変更や廃止の可能性があることをご承知おきください。</p>
+</aside>
+<h2 is-upgraded>【作業 / 推奨】グループ解除</h2>
+<p>SORACOM Harvest Data 等、「機能が有効になっているグループに所属している SIM × 費用」となっているサービスにおいては、「機能を OFF にする」することで費用の発生を抑えることができます。またもう1つの方法として「グループに所属している SIM の数を減らす(= 解除する)」事でも費用を抑える事ができます。</p>
+<p>また SORACOM Funk の設定やメタデータサービスについては、リクエストが行われなければ費用はかかりませんが、意図せずリクエストが行われるのを避けるため、グループを解除しておくと安心でしょう。</p>
+<p>グループ解除の方法は<a href="https://soracom.github.io/iot-recipes/unjoin-from-group/" target="_blank">グループからの解除 (JP)</a>をご覧ください。</p>
+<h2 is-upgraded>【作業 / 任意】SORACOM Harvest Data のデータ削除</h2>
+<p>SORACOM Harvest Data は基本的にはデータ保管料は無料※です。そのため、保存しておいても費用は発生しませんが、デモ等で利用する際にはデータを綺麗にしておく必要が出てくるため、データ削除について解説します。</p>
+<p>※発生から40日を超えたデータは削除されます。40日以上データを保管したい場合は<a href="https://soracom.jp/services/harvest/price/" target="_blank">データ保持期間延長オプション利用料金</a>をご利用ください。</p>
+<p>SORACOM Harvest Data 画面 (［操作］&gt;［データを確認］) のデータテーブルで、削除したいデータのチェックボックスを付けた後に［削除］をクリックします。表示されたダイアログで改めて［削除］をクリックすると、削除されます。<br>※ 複数のデータにチェックをつければ一括で削除可能です。</p>
+<p class="image-container"><img style="width: 414.00px" src="img/637cac3bf206c47c.png"></p>
+<p><strong>データの復元はできません</strong>のでご注意ください。</p>
+<h2 is-upgraded>【確認】本テキストついて</h2>
+<p>本コンテンツは無償で公開しています。URL が必要な方はブックマークなど行うようにしてください。事前の断りなく公開中止やURL 変更される場合があります。</p>
+<p>著作権は株式会社ソラコムに帰属しています。再利用を希望される場合はご連絡ください。</p>
+<h2 is-upgraded>確認事項を理解し、必要な作業を行ったら</h2>
+<p>「達成表」に &#34;OK&#34; の記入をしてください。</p>
+
+
+      </google-codelab-step>
+    
+      <google-codelab-step label="Appendix: 活用事例" duration="1">
+        <h2 is-upgraded>活用事例集</h2>
+<p>様々な活用事例がまとまっています</p>
+<p><a href="https://sorazine.soracom.jp/entry/2019/04/17/button_usecases" target="_blank">最新LPWA通信規格 &#34;LTE-M&#34; 搭載ボタンで何つくる？〜次々に身近なユースケースが生まれる理由〜</a></p>
+<h2 is-upgraded>活用のアイデア</h2>
+<p>LTE の電波を基にした仕組みであることから、GPS のように<strong>空が見えないような屋内でも位置の測位が可能</strong>です。</p>
+<p>ストラップの取り付け穴があり、また、人体に近づけても影響が無い事を示す Body‐SAR ガイドラインにも対応済みですので、持ち歩きの利用もできます。 (防水防塵ではありませんのでご注意ください)</p>
+<p class="image-container"><img style="width: 601.70px" src="img/be627711a6059216.png"></p>
+<p>よくあるご質問は<a href="https://sorazine.soracom.jp/entry/2019/10/11/oct-webinar-report" target="_blank">Let&#39;s try IoT プロトタイピング ～ 位置情報取得ボタンを作ろう 〜 動画とQAのご紹介</a>でご案内しています。こちらもご覧ください。</p>
+<h2 is-upgraded>外部のクラウドと連携する方法</h2>
+<p>本コンテンツでは SORACOM Harvest Data の連携までとなりましたが、他の SORACOM サービスの利用で AWS (Amazon Web Services) を始めとしたクラウドや SaaS との連携が可能となります。</p>
+<p>具体的な方法は<a href="https://dev.soracom.io/jp/design_patterns/design_patterns_for_button/" target="_blank">SORACOM LTE-M Button を様々なクラウドや SaaS で活用するアーキテクチャー例</a>をご覧ください。</p>
+
+
+      </google-codelab-step>
+    
+  </google-codelab>
+
+  <script src="https://soracom.github.io/iot-recipes/codelab-elements/native-shim.js"></script>
+  <script src="https://soracom.github.io/iot-recipes/codelab-elements/custom-elements.min.js"></script>
+  <script src="https://soracom.github.io/iot-recipes/codelab-elements/prettify.js"></script>
+  <script src="https://soracom.github.io/iot-recipes/codelab-elements/codelab-elements.js"></script>
+
+</body>
+</html>
