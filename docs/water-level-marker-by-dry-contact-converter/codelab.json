@@ -3,7 +3,7 @@
   "format": "html",
   "prefix": "https://soracom.github.io/iot-recipes",
   "mainga": "UA-66865146-33",
-  "updated": "2020-07-13T05:30:30Z",
+  "updated": "2020-09-10T12:43:52Z",
   "id": "water-level-marker-by-dry-contact-converter",
   "duration": 120,
   "title": "【IoT DIY レシピ】ドライコンタクトコンバーター＋冠水センサーで作る「冠水検知・可視化システム」",
