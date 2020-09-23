@@ -1,0 +1,399 @@
+
+<!doctype html>
+
+<html>
+<head>
+  <meta name="viewport" content="width=device-width, minimum-scale=1.0, initial-scale=1.0, user-scalable=yes">
+  <meta name="theme-color" content="#4F7DC9">
+  <meta charset="UTF-8">
+  <title>【SORACOM ハンズオン】SORACOM LTE-M Button for Enterprise をバーチャルで体験する</title>
+  <link rel="stylesheet" href="//fonts.googleapis.com/css?family=Source+Code+Pro:400|Roboto:400,300,400italic,500,700|Roboto+Mono">
+  <link rel="stylesheet" href="//fonts.googleapis.com/icon?family=Material+Icons">
+  <link rel="stylesheet" href="https://soracom.github.io/iot-recipes/codelab-elements/codelab-elements.css">
+  <style>
+    .success {
+      color: #1e8e3e;
+    }
+    .error {
+      color: red;
+    }
+  </style>
+</head>
+<body>
+  <google-codelab-analytics gaid="UA-66865146-33"></google-codelab-analytics>
+  <google-codelab codelab-gaid=""
+                  id="try-virtual-lte-m-button"
+                  title="【SORACOM ハンズオン】SORACOM LTE-M Button for Enterprise をバーチャルで体験する"
+                  environment="web"
+                  feedback-link="https://soracom.jp/products/gadgets/enterprise_button/">
+    
+      <google-codelab-step label="SORACOM LTE-M Button for Enterprise をバーチャルで体験する" duration="1">
+        <p>レシピ難易度：★☆☆☆☆</p>
+<p>ソラコムより販売されている SORACOM LTE-M Button for Enterprise をバーチャルに体験するハンズオンです。Web 上に用意した仮想的な SORACOM LTE-M Button for Enterprise (以後、仮想 LTE-M ボタン) をクリックして、SORACOM Harvest Data へのデータ格納や SORACOM Lagoon での可視化を体験します。SORACOM サービスを利用するためのアカウントは貸し出されます。</p>
+<p class="image-container"><img style="width: 570.00px" src="img/1f649b178dc26ac.png"></p>
+<aside class="special"><p>当資料はハンズオン参加者向けの資料となります。参加者には当ハンズオン用の貸し出しアカウント情報を別途お伝えしております。貸し出しアカウントをお持ちでない方は、当資料の内容を実施できませんのでご承知おきください。</p>
+</aside>
+<h2 is-upgraded>本ハンズオンを行うのに必要な時間、費用</h2>
+<p>本ハンズオンは以下の通りです。</p>
+<ul>
+<li>必要な時間: 30分</li>
+<li>費用: 0円</li>
+</ul>
+<h2 is-upgraded>このコンテンツの進め方</h2>
+<p>ページの内容を読み、また作業を行ったら右下の［Next］を押して次のステップへ進みます。また、［Back］を使って戻ったり、左のナビゲーションメニューでもページの移動が可能です。</p>
+<p>左上の［×］を押してコンテンツを終了することができます。また、ページを開きなおすことで再開できます。ページのアドレスはブラウザの［履歴］メニューを利用してください。</p>
+
+<aside class="warning"><p>本コンテンツは現状のままで提供され、株式会社ソラコムは、誤りがないことの保証を含め、明示であると黙示であるとを問わず、本コンテンツの記載内容につき、いかなる種類の表明も保証も行いません。</p>
+<p>掲載情報の閲覧及び利用により、利用者自身、もしくは第三者が被った損害に対して、直接的、間接的を問わず、株式会社ソラコムは責任を負いかねます。</p>
+<p>本コンテンツを実践する中で用意された機器、利用されたサービスについてのご質問は、それぞれの機器やサービスの提供元にお問い合わせをお願いします。機器やサービスの仕様は、本コンテンツ作成当時のものです。</p>
+<p>株式会社ソラコムが提供する機器・サービスについてのご質問は、 <a href="https://soracom.jp/contact/" target="_blank">https://soracom.jp/contact/</a> をご確認の上、適切な窓口へのお問い合わせをお願いします。機器・サービスご利用前の導入相談は <a href="https://soracom.jp/contact/contactsales/" target="_blank">https://soracom.jp/contact/contactsales/</a> に、機器・サービスご利用開始後のサポートは、SORACOMユーザーコンソール内の<a href="https://soracom.zendesk.com/hc/ja/requests/" target="_blank">サポートサイトから「リクエストを送信」</a>(要ログイン)にてお問い合わせください。</p>
+<p>本ドキュメントは <a href="https://github.com/googlecodelabs/tools" target="_blank">CLaaT</a> を用いて制作しています</p>
+<p>Copyright (c) 2020 SORACOM, INC.</p>
+</aside>
+
+
+
+      </google-codelab-step>
+    
+      <google-codelab-step label="準備" duration="1">
+        <p>本レシピを行うためには以下のものをご用意ください。</p>
+<h2 is-upgraded>ハードウェア</h2>
+<table>
+<tr><td colspan="1" rowspan="1"><p><strong>品名</strong></p>
+</td><td colspan="1" rowspan="1"><p><strong>数量</strong></p>
+</td><td colspan="1" rowspan="1"><p><strong>価格</strong></p>
+</td><td colspan="1" rowspan="1"><p><strong>購入先</strong></p>
+</td><td colspan="1" rowspan="1"><p><strong>備考</strong></p>
+</td></tr>
+<tr><td colspan="1" rowspan="1"><p>パソコン</p>
+</td><td colspan="1" rowspan="1"><p>1</p>
+</td><td colspan="1" rowspan="1"><p>―</p>
+</td><td colspan="1" rowspan="1"><p>―</p>
+</td><td colspan="1" rowspan="1"><ul>
+<li>インターネット接続が可能でサイトへの接続が自由であること。</li>
+<li>Google Chrome が利用可能な事 (デバイス体験ページは Google Chrome でのみ動作検証しています)</li>
+</ul>
+</td></tr>
+</table>
+
+
+      </google-codelab-step>
+    
+      <google-codelab-step label="ハンズオン情報の確認" duration="5">
+        <p>運営より連携された「ハンズオン情報シート」に、以下の情報が記載されています。</p>
+<ul>
+<li>受講者番号 (ご自身の番号と合っているか確認してください)</li>
+<li>デバイス体験ページの URL</li>
+<li>SORACOM Harvest Data を確認するためのユーザー名・パスワード</li>
+<li>SORACOM Lagoon で可視化するためのメールアドレス・パスワード・デバイス名</li>
+</ul>
+<p class="image-container"><img style="width: 601.70px" src="img/31e572d071e25862.png"></p>
+<p>これらの情報が記載されていることを確認して、デバイス体験ページの URL にアクセスします。</p>
+<aside class="special"><p>当ハンズオンでは、ソラコムよりアカウントが貸し出されます。すでに SORACOM アカウントへログインしている場合は一度ログアウトするか、デバイス体験ページの URL をブラウザのシークレットウィンドウで開いてください。</p>
+<h2 is-upgraded>(参考) ユーザーコンソールからのログアウト方法</h2>
+<p>SORACOM ユーザーコンソールからのログアウトは、右上のメールアドレスが表示されているボタンをクリックすると現れる<strong>ログアウト</strong>を使用します。</p>
+<h2 is-upgraded><img style="width: 507.00px" src="img/f42a64008cffce67.png"></h2>
+<h2 is-upgraded>(参考) SORACOM Lagoon からのログアウト方法</h2>
+<p>SORACOM Lagoon 空のログアウトには、左下のアイコンにマウスカーソルをかざして表示される<strong>サインアウト</strong>をクリックします。</p>
+<p class="image-container"><img style="width: 587.00px" src="img/d59acf0fad31af47.png"></p>
+</aside>
+
+
+      </google-codelab-step>
+    
+      <google-codelab-step label="仮想 LTE-M ボタンを操作" duration="5">
+        <h2 is-upgraded>デバイス体験ページへアクセス</h2>
+<p>デバイス体験ページより、データを SORACOM へ送信します。ハンズオン情報シートに記載されたデバイス体験ページの URL へアクセスしてください。</p>
+<p class="image-container"><img style="width: 601.70px" src="img/7d9db4f4cd10ece1.png"></p>
+<aside class="warning"><p>画像のようなページが表示されない場合、正しく URL へアクセスできていない可能性があります。ブラウザへコピー &amp; ペーストしている場合は URL を最後までコピーしてペーストしてください。</p>
+</aside>
+<h2 is-upgraded>データの送信</h2>
+<p>実際の SORACOM LTE-M Button for Enterprise は以下 3 種類のデータを SORACOM へ送信できます。当ハンズオンではデバイス体験ページより仮想 LTE-M ボタンの「シングルクリック」・「ダブルクリック」・「ロングクリック」をシミュレーションできます。</p>
+<table>
+<tr><td colspan="1" rowspan="1"><p>種別</p>
+</td><td colspan="1" rowspan="1"><p>説明</p>
+</td></tr>
+<tr><td colspan="1" rowspan="1"><p>シングルクリック</p>
+</td><td colspan="1" rowspan="1"><p>短く(1.2秒未満) 1回押す</p>
+</td></tr>
+<tr><td colspan="1" rowspan="1"><p>ダブルクリック</p>
+</td><td colspan="1" rowspan="1"><p>2秒以内にシングルクリックを2回行う</p>
+</td></tr>
+<tr><td colspan="1" rowspan="1"><p>ロングクリック</p>
+</td><td colspan="1" rowspan="1"><p>ロング        1.2秒以上押し続ける。</p>
+</td></tr>
+</table>
+<p>デバイス体験ページより、SORACOM へいずれかのクリック情報を送信しましょう。</p>
+<p class="image-container"><img style="width: 601.70px" src="img/5d81e0d7adf9375e.png"></p>
+<p>「データが送信されました」と表示されれば成功です。</p>
+<p class="image-container"><img style="width: 601.70px" src="img/a650348c684d906c.png"></p>
+<aside class="warning"><p>「認証エラーが発生しました」と表示された場合、ハンズオン情報シートに記載されたデバイス体験ページへアクセスしているか確認してください。なおデバイス体験ページはハンズオン終了後、一定期間が経つと有効期限が切れて利用できなくなります。</p>
+</aside>
+<p>以上で、データの送信ができました。</p>
+
+
+      </google-codelab-step>
+    
+      <google-codelab-step label="SORACOM Harvest Data の確認" duration="5">
+        <h2 is-upgraded>SORACOM Harvest Data でデータを確認</h2>
+<p>クリック情報を送信したら、「送信したデータを確認する」メニューより SORACOM サービスへ遷移します。まずは、SORACOM Harvest Data にて送信したデータを確認しましょう。デバイス体験ページの「SORACOM Harvest Data」をクリックすると、SORACOM ユーザコンソールが開きます。</p>
+<p class="image-container"><img style="width: 601.70px" src="img/cc662476d81c0742.png"></p>
+<h2 is-upgraded>SORACOM ユーザコンソールへログイン</h2>
+<p>ハンズオン情報シートに記載されたユーザー名とパスワードを入力してください。オペレーター ID に入力されている値は変更しません。</p>
+<p class="image-container"><img style="width: 601.70px" src="img/4b5070235ca1e2d6.png"></p>
+<aside class="warning"><p>当ハンズオンでは、ソラコムよりアカウントが貸し出されます。すでに SORACOM アカウントへログインしている場合は一度ログアウトするか、デバイス体験ページの URL をブラウザのシークレットウィンドウで開いてください。</p>
+</aside>
+<h2 is-upgraded>［自動更新］を ON にする</h2>
+<p>ログインに成功すると、SORACOM Harvest Data の画面へ遷移します。遷移しない場合は、再度デバイス体験ページの「SORACOM Harvest Data」をクリックしてください。</p>
+<p>[自動更新] を ON にすることで、デバイス体験ページから送信されたデータが随時反映されます。</p>
+<p class="image-container"><img style="width: 601.70px" src="img/d5e661b7180d377c.png"></p>
+<aside class="special"><p><strong>自動更新とは？</strong></p>
+<p>画面を再読み込みしなくとも新しいデータが自動的に表示されるようにする機能です。5秒毎に新しいデータを表示するようになります。この機能が OFF の場合は、表示する期間を指定して［検索］をクリックすることで期間内のデータを表示できます。</p>
+</aside>
+<h2 is-upgraded>送信されたデータの確認</h2>
+<p>SORACOM Harvest Data では送信されたデータを簡易的に確認できます。グラフ左上のアイコンより可視化の形式を折れ線・棒グラフと変更したり、右上より表示するデータを変更してみましょう。可視化の形式を棒グラフ (<img style="width: 15.40px" src="img/847c34496096e21f.png">) とします。また、&#34;●batteryLevel&#34; をクリックして、表示するデータを clickType のみとすると以下の画像のようにクリックタイプだけを表示できます。デバイス体験ページより何度かデータを送信してみましょう。</p>
+<p class="image-container"><img style="width: 601.70px" src="img/57831cbd9668c85c.png"></p>
+<p>次に、下へスクロールするとデータが JSON 形式で格納されていることが確認できます。[ダウンロード] &gt; [グラフ用データをダウンロード (CSV形式)] よりデータのダウンロードをしてみましょう。データが CSV 形式で取得できることがわかります。<img style="width: 601.70px" src="img/6c6b58aedecc994.png"></p>
+<p>以上で簡単なデータの確認が出来ました。デバイス体験ページよりクリックを何度か繰り返して、データが SORACOM Harvest Data へ格納されていることを確認してください。</p>
+<aside class="special"><p>(参考) 実際のユースケースでは API を用いて SORACOM Harvest Data へ格納したデータをダウンロードすることもあります。IoT デバイスから簡単に利用できるデータストアとして活用いただけます。詳細は<a href="https://blog.soracom.com/ja-jp/2020/06/08/asksa-howto-use-harvest/" target="_blank">こちらのブログ</a>をご参照ください。</p>
+</aside>
+
+
+      </google-codelab-step>
+    
+      <google-codelab-step label="SORACOM Lagoon で可視化" duration="10">
+        <p>SORACOM Harvest Data へ格納したデータを、よりカスタマイズしたダッシュボードで可視化したい場合は SORACOM Lagoon を利用します。デバイス体験ページより、[SORACOM Lagoon] をクリックして SORACOM Lagoon のログインページへ遷移しましょう。</p>
+<p class="image-container"><img style="width: 601.70px" src="img/e6bb30ac2fd3cbce.png"></p>
+<h2 is-upgraded>SORACOM Lagoon へログイン</h2>
+<p>SORACOM Lagoon ログインページでは、ハンズオン情報シートに記載されたメールアドレスとパスワードを入力してください。</p>
+<p class="image-container"><img style="width: 601.70px" src="img/451a6cd9cad81b43.png"></p>
+<aside class="warning"><p>当ハンズオンでは、ソラコムよりアカウントが貸し出されます。すでに SORACOM Lagoon を使ったことがある場合はご自分のアカウントへログインする場合があります。その際は、ご自分のアカウントからサインアウトして再度ハンズオン情報シートに記載されたメールアドレスとパスワードでログインしてください。</p>
+</aside>
+<h2 is-upgraded>ダッシュボードの作成</h2>
+<p>当ハンズオンではダッシュボードのサンプルとしてテンプレートを用意しています。用意されたテンプレートを SORACOM Lagoon へインポートし、可視化のイメージをつかんでみましょう。</p>
+<h2 is-upgraded>インポートするテンプレートをコピー</h2>
+<p>再度デバイス体験ページへ移動し、[送信したデータを確認する] &gt; [SORACOM Lagoon ダッシュボードのテンプレート] &gt; [クリップボードへコピーする] をクリックします。</p>
+<p class="image-container"><img style="width: 601.70px" src="img/a93bed0c8d547ef9.png"></p>
+<h2 is-upgraded>SORACOM Lagoon へインポート</h2>
+<p>左上の + アイコンにマウスカーソルをかざし、[インポート] をクリックします。</p>
+<p class="image-container"><img style="width: 601.70px" src="img/7bd57834e5d457f2.png"></p>
+<p>[Or paste JSON] (JSON を貼り付ける) の欄へ、先ほどコピーしたテンプレートをペーストします (Windows の場合 Ctrl + V、Mac の場合 Command + V)。その後、[Load] をクリックします。</p>
+<p class="image-container"><img style="width: 601.70px" src="img/cd89d60a687ba7a1.png"></p>
+<p>確認画面が表示されるので、[Import] をクリックします。</p>
+<p class="image-container"><img style="width: 601.70px" src="img/48ba4640fb418469.png"></p>
+<p>以下のようにダッシュボードが表示されたらインポート成功です。最新のクリックタイプを文字で表示したり、表や棒グラフ形式でクリックタイプの履歴を表示したりしています。</p>
+<p class="image-container"><img style="width: 601.70px" src="img/92b84b373f35ca.png"></p>
+<p>体験ページよりデータを送信し、SORACOM Lagoon 上でどのように可視化されるかを体験ください。ダッシュボードへの反映には 1 ～ 2 分かかります。</p>
+<aside class="special"><p><strong>データが表示されていない？</strong></p>
+<p>当サンプルダッシュボードでは過去 15 分間のデータを可視化しています。何もデータが表示されていない場合は、もう一度体験ページよりデータを送信してください。ダッシュボードへの反映には 1～2 分かかります。</p>
+<p>または、右上の時計アイコンをクリックし、表示する時間の範囲を変更してみましょう。</p>
+<p class="image-container"><img style="width: 587.00px" src="img/d47374c94f794f1d.png"></p>
+</aside>
+<aside class="special"><p><strong>背景を白くしたい</strong></p>
+<p>SORACOM Lagoon の標準では背景が黒となっています。これは設定で変更が可能です。</p>
+<p>右下のアイコンにカーソルを合わせて表示される［設定］をクリックします。</p>
+<p class="image-container"><img style="width: 342.00px" src="img/8cec8a9120d25dcd.png"></p>
+<p>設定画面に &#34;テーマ&#34; を &#34;Light&#34; に変更して［保存］すると、背景が白くなります。</p>
+<p class="image-container"><img style="width: 502.00px" src="img/69d5628454a7662a.png"></p>
+</aside>
+<h2 is-upgraded>(応用) ダッシュボードのカスタマイズ</h2>
+<p>当ハンズオンでは、SORACOM Lagoon のイメージをすぐにつかんでいただくためにサンプルのダッシュボードを用意しました。もしさらに詳しく SORACOM Lagoon を試したい場合は、「パネルの作成」や「アラートの作成」を参照してダッシュボードをカスタマイズしてみましょう。ここまででハンズオンを終了とする場合は、「後片付けと注意事項」に進んでください。</p>
+
+
+      </google-codelab-step>
+    
+      <google-codelab-step label="(応用) パネルの作成" duration="0">
+        <p>SORACOM Lagoon のパネルを自分で作成してみましょう。ここではクリックタイプを可視化するグラフパネルを作成します。SORACOM Lagoon のダッシュボードにて右上の [パネルを追加] アイコンをクリックし、[Graph] を選択します。</p>
+<p class="image-container"><img style="width: 601.70px" src="img/f07a2d3b3d591c0a.png"></p>
+<p>Panel Title 右側の▼アイコンをクリックし、[編集] を選択するとパネルを編集できます。</p>
+<p class="image-container"><img style="width: 601.70px" src="img/6d8f8a7cc164d1e0.png"></p>
+<h2 is-upgraded>デバイスの選択</h2>
+<p>メトリックタブより、ハンズオン情報シートに記載のある &#34;device-&#34; から始まるデバイス名を選択し、右のドロップダウンからは &#34;clickType&#34; を選択します。これにより、デバイス体験ページから送信したクリックイベントを可視化できます。</p>
+<p class="image-container"><img style="width: 601.70px" src="img/43da5d1def6d3129.png"></p>
+<aside class="special"><p><strong>データが表示されていない？</strong></p>
+<p>データを蓄積し始めてから間もない場合、グラフの右端に「少しだけ」表示されている場合があります。これは、パネルの表示時間の標準が「過去6時間分」を表示するようになっているからです。</p>
+<p class="image-container"><img style="width: 601.70px" src="img/c64ecf6711bfd65a.png"></p>
+<p>右上の「時間」ボタンで表示範囲を設定可能です。まずは「過去15分間」くらいが良いでしょう。</p>
+<p class="image-container"><img style="width: 587.00px" src="img/76a64d941a095f3.png"></p>
+<p>また、グラフ作成直後のパネルは折れ線グラフ設定となっています。そのため、データを一件しか送っていない場合は「ポイント」としてのみ表示されているため、見落としがちです。何件か送るようにしてください。</p>
+<p class="image-container"><img style="width: 559.00px" src="img/7444147bfe1fcff3.png"></p>
+<p>それでもデータが表示されていない場合は、いったん SORACOM Harvest Data の蓄積具合を確認するようにしてください。</p>
+</aside>
+<h2 is-upgraded>棒グラフで可視化する</h2>
+<p>[表示]タブより、描画モードに「棒」を指定して見やすくします。</p>
+<p class="image-container"><img style="width: 601.70px" src="img/94a0ee8b23c74536.png"></p>
+<h2 is-upgraded>ダッシュボードの保存</h2>
+<p>右上の保存ボタン<img style="width: 33.00px" src="img/6780dfe4cd33f2a0.png">をクリックし、表示されたダイアログでダッシュボード名を入力した上で［保存］をクリックします。</p>
+<p>ダッシュボードの更新時は名前を変更内容を記載 (任意) し、保存してください。</p>
+<p class="image-container"><img style="width: 513.00px" src="img/45df3cebab9c6e45.png"></p>
+<p>新規にダッシュボードを保存する場合はダッシュボード名を設定します。</p>
+<table>
+<tr><td colspan="1" rowspan="1"><p><strong>項目</strong></p>
+</td><td colspan="1" rowspan="1"><p><strong>設定値</strong></p>
+</td><td colspan="1" rowspan="1"><p><strong>備考</strong></p>
+</td></tr>
+<tr><td colspan="1" rowspan="1"><p>名前</p>
+</td><td colspan="1" rowspan="1"><p><code>仮想ボタンハンズオン</code></p>
+</td><td colspan="1" rowspan="1"><p>任意の名前が利用できます。</p>
+</td></tr>
+</table>
+<p class="image-container"><img style="width: 513.00px" src="img/9149c6eed1f142f8.png"></p>
+<p>これでパネルの作成が出来ました。グラフパネルではほかにも様々なオプションを用意しており、さらにグラフパネル以外にも豊富な種類のパネルを用意されていますので、ぜひ活用してみて下さい。</p>
+<p>(参考ドキュメント : <a href="https://dev.soracom.io/jp/start/lagoon-panel/" target="_blank">SORACOM Lagoon を利用して様々なパネルを作成する</a>)</p>
+
+
+      </google-codelab-step>
+    
+      <google-codelab-step label="(応用) アラートの作成" duration="0">
+        <p>SORACOM Lagoon のグラフパネルでは条件に応じてアラートを発報できます。発報したアラートの通知先としてメールや Slack などが設定できます。ここではメールでのアラートを作成しましょう。</p>
+<h2 is-upgraded>通知チャンネルの設定</h2>
+<p>アラート作成アイコン<img style="width: 42.00px" src="img/b32a9a5b5951b49c.png">にカーソルを乗せると表示される「作成」メニューから［通知チャンネル］をクリックし、その後表示される［チャンネルを追加］をクリックします。</p>
+<p class="image-container"><img style="width: 297.00px" src="img/af117aa0b9d789c5.png"></p>
+<h2 is-upgraded><img style="width: 292.00px" src="img/99d2dc13bedafcf6.png"></h2>
+<h2 is-upgraded>通知のテスト</h2>
+<p>「新しい通知チャンネルを追加」では、以下のように設定します。</p>
+<table>
+<tr><td colspan="1" rowspan="1"><p><strong>項目</strong></p>
+</td><td colspan="1" rowspan="1"><p><strong>設定値</strong></p>
+</td><td colspan="1" rowspan="1"><p><strong>備考</strong></p>
+</td></tr>
+<tr><td colspan="1" rowspan="1"><p>名前</p>
+</td><td colspan="1" rowspan="1"><p><code>ロングクリックの通知</code></p>
+</td><td colspan="1" rowspan="1"><p>任意の名前が利用できます。</p>
+</td></tr>
+<tr><td colspan="1" rowspan="1"><p>タイプ</p>
+</td><td colspan="1" rowspan="1"><p>Email</p>
+</td><td colspan="1" rowspan="1"><p>Email となっていれば次に進みます。</p>
+</td></tr>
+<tr><td colspan="1" rowspan="1"><p>Email addresses</p>
+</td><td colspan="1" rowspan="1"><p>（通知の送信先 Email アドレス）</p>
+</td><td colspan="1" rowspan="1"><p>通知の送信先アドレスを指定します。</p>
+</td></tr>
+</table>
+<p class="image-container"><img style="width: 442.00px" src="img/7265b7277dd104e1.png"></p>
+<p>ここまで入力が終わったら［送信テスト］をクリックします。「Email addresses」に記載したアドレスへ、以下のようなメールが届いていることを確認します。</p>
+<p class="image-container"><img style="width: 601.70px" src="img/7534041c996f1ba0.png"></p>
+<p>テストの結果が良好であれば、SORACOM Lagoon の画面に戻り［保存］をクリックします。</p>
+<p class="image-container"><img style="width: 442.00px" src="img/caa6aa8514c76188.png"></p>
+<h2 is-upgraded>アラートの設定</h2>
+<p>作成したダッシュボードを開きます。ダッシュボードアイコン<img style="width: 35.15px" src="img/fa2f0cbf5b4ff6f7.png">にカーソルを乗せると表示される「管理」メニューから表示されたダッシュボードをクリックします。</p>
+<p class="image-container"><img style="width: 601.70px" src="img/a0de05c35a829477.png"></p>
+<p class="image-container"><img style="width: 601.70px" src="img/ede49b8dd665b596.png"></p>
+<p>「(応用) パネルの作成」で作成したグラフパネルに対して &#34;Panel Title&#34; &gt;［編集］をクリックします。</p>
+<p class="image-container"><img style="width: 601.70px" src="img/1b0aadbbf576fc79.png"></p>
+<h2 is-upgraded>アラート条件の設定</h2>
+<p>&#34;アラート&#34; タブをクリックした後、［アラートの作成］をクリックします。</p>
+<p class="image-container"><img style="width: 601.70px" src="img/2e64af541ff9ae09.png"></p>
+<p>「アラート設定」を以下の通りに設定します。</p>
+<table>
+<tr><td colspan="1" rowspan="1"><p><strong>項目</strong></p>
+</td><td colspan="1" rowspan="1"><p><strong>設定値</strong></p>
+</td><td colspan="1" rowspan="1"><p><strong>備考</strong></p>
+</td></tr>
+<tr><td colspan="1" rowspan="1"><p>名前</p>
+</td><td colspan="1" rowspan="1"><p><code>ロングクリック Alert</code></p>
+</td><td colspan="1" rowspan="1"><p>任意の名前が利用できます。</p>
+</td></tr>
+<tr><td colspan="1" rowspan="1"><p>評価間隔</p>
+</td><td colspan="1" rowspan="1"><p><code>60s</code></p>
+</td><td colspan="1" rowspan="1"><p>閾値の監視間隔です。</p>
+</td></tr>
+<tr><td colspan="1" rowspan="1"><p>条件 (WHEN)</p>
+</td><td colspan="1" rowspan="1"><p><code>last()</code></p>
+</td><td colspan="1" rowspan="1"><p>&#34;avg()&#34; をクリックすると一覧に現れます。</p>
+</td></tr>
+<tr><td colspan="1" rowspan="1"><p>条件 (OF)</p>
+</td><td colspan="1" rowspan="1"><p><code>query(A, 90s, now)</code></p>
+</td><td colspan="1" rowspan="1"><p>&#34;5m&#34; をクリックすると一覧が現れますが、<br>キーボードから &#34;<code>90s</code>&#34; と入力したあと<br>Enter キーを押して設定できます。</p>
+</td></tr>
+<tr><td colspan="1" rowspan="1"><p>条件 (IS ABOVE)</p>
+</td><td colspan="1" rowspan="1"><p><code>2.5</code></p>
+</td><td colspan="1" rowspan="1"><p>&#34;IS ABOVE&#34; はそれ自体の条件の &#34;IS BELOW&#34;<br>(=未満)等に変更することができます。</p>
+</td></tr>
+<tr><td colspan="1" rowspan="1"><p>データが無いか全ての値が Null の時</p>
+</td><td colspan="1" rowspan="1"><p><code>Keep Last State</code></p>
+</td><td colspan="1" rowspan="1"><p>評価間隔内でデータが無い、即ちボタンの動作が<br>無かった場合の扱いを設定しています。</p>
+</td></tr>
+<tr><td colspan="1" rowspan="1"><p>実行エラーまたはタイムアウトの時</p>
+</td><td colspan="1" rowspan="1"><p><code>Keep Last State</code></p>
+</td><td colspan="1" rowspan="1"><p>何らかの理由で評価に失敗した時の設定です。<br>最後の状態を維持する設定としています。</p>
+</td></tr>
+</table>
+<p class="image-container"><img style="width: 601.70px" src="img/56278364956db6f4.png"></p>
+<aside class="special"><p><strong>設定内容の意味は？</strong></p>
+<ul>
+<li><code>last()</code> は、条件(OF) で設定した期間内の最後(=最新)の値です。</li>
+<li><code>query(A, 90s, now)</code> は、「メトリックの &#34;A&#34; を対象に、過去 90s から now までの間」となります。</li>
+</ul>
+<p>合わせると、メトリック &#34;A&#34; すなわち 仮想 LTE-M ボタン の ClickType を対象に、過去 <code>90s</code>(秒) から <code>now</code>(現在) における最後の値が <code>2.5</code> 以上（の時はアラート発生）という意味になります。</p>
+</aside>
+<p>ここまで入力が完了できたら［ルールを確認］をクリックします。この時点でボタンからのデータが過去90秒以内に発生していなければ  <code>firing: false</code> 即ち、アラートは発生せず、正常な設定となります。</p>
+<p class="image-container"><img style="width: 268.00px" src="img/912d9bf6fb0c3838.png"></p>
+<p>次に、デバイス体験ページにてロングクリックを発生させます。30秒～60秒経過した後に、再度［ルールを確認］をクリックすると <code>firing: true</code> 即ち、アラートが発生した状態となります。（この時点では通知の送信先を設定していないため、アラート発生の有無を確認するのみとなります。）</p>
+<p class="image-container"><img style="width: 266.00px" src="img/47407b00b4337b96.png"></p>
+<p>そこから30秒～60秒経過した後に、再度［ルールを確認］をクリックすると <code>firing: false</code> に戻ることが確認できるでしょう。</p>
+<p>［ルールを確認］ボタンは何度でも押すことが可能ですので、何度か試してみることをお勧めいたします。</p>
+<aside class="special"><p><strong>アラート発生のタイミングを調整するためには？</strong></p>
+<p>評価間隔や条件の関係性は<a href="https://soracom.zendesk.com/hc/ja/articles/360028531812" target="_blank">SORACOM Lagoon のアラートがトリガーされないことがある</a>をご覧ください。</p>
+</aside>
+<h2 is-upgraded>通知の設定</h2>
+<p>［通知］をクリックした後、 &#34;送り先&#34; の追加 <img style="width: 40.00px" src="img/8366db64ed0d3c95.png"> をクリックします。一覧の中から通知チャンネルで作成した通知先をクリックします。</p>
+<p>本レシピでは &#34;ロングクリックの通知&#34; という名称で作ったので、それをクリックします。</p>
+<p class="image-container"><img style="width: 601.70px" src="img/6ae5308b92900b77.png"></p>
+<h2 is-upgraded>メッセージの設定</h2>
+<p>&#34;メッセージ&#34; にアラート発生時のメッセージを入力します。今回は ClickType が 2.5 よりも大きいとき、すなわちロングクリック (ClickType = 3) の時にアラートを送信するため、その旨を入力しています。</p>
+<p class="image-container"><img style="width: 408.00px" src="img/a3d67c6c6d3b5a02.png"></p>
+<p>設定が完了したら右上の保存ボタン<img style="width: 33.00px" src="img/6780dfe4cd33f2a0.png">をクリックし、［保存］をクリックします。</p>
+<p>以上で全ての設定が終了しました。画面右上のダッシュボードに戻る<img style="width: 54.00px" src="img/2c69286f16fd7716.png">ボタンをクリックし、ダッシュボードに戻ります。</p>
+<h2 is-upgraded>アラートのメールを確認する</h2>
+<p>実際に通知が来るか試してみましょう。デバイス体験ページよりロングクリックを実行すると、以下のようなメールが届きます。</p>
+<p class="image-container"><img style="width: 601.70px" src="img/80571d25de7e2d12.png"></p>
+<p>また、次にシングルクリック・またはダブルクリックを送信すると [OK] メールが送信されます。</p>
+<p class="image-container"><img style="width: 601.70px" src="img/ae70a43a20e11fb6.png"></p>
+<p>なお、データがダッシュボードへ反映されるには 60 秒程度かかります。そのためデバイス体験ページからボタンクリックの送信は 60 秒以上の間隔を空けてください。実際に SORACOM Lagoon を利用された際にはよりダッシュボードへの反映までの時間が短くなるプランも用意しています。</p>
+<p>また、連続してロングクリックが送信されても新たな通知は来ないようになっています。これは、頻繁な通知による「通知爆弾」を避けるための仕組みです。</p>
+<p>以上で、アラートの作成は終了です。</p>
+
+
+      </google-codelab-step>
+    
+      <google-codelab-step label="後片付けと注意事項" duration="5">
+        <p>当ハンズオンではアカウントを貸し出しているため、費用は発生しません。</p>
+<p>なお、貸し出しアカウント、仮想デバイス、および作成した SORACOM Lagoon のダッシュボードは<strong>約 24 時間で利用できなくなります。</strong></p>
+<h2 is-upgraded>(参考) ユーザーコンソールからのログアウト方法</h2>
+<p>SORACOM ユーザーコンソールからのログアウトは、右上のユーザー名が表示されているボタンをクリックすると現れる<strong>ログアウト</strong>を使用します。</p>
+<h2 is-upgraded><img style="width: 507.00px" src="img/f42a64008cffce67.png"></h2>
+<h2 is-upgraded>(参考) SORACOM Lagoon からのログアウト方法</h2>
+<p>SORACOM Lagoon 空のログアウトには、左下のアイコンにマウスカーソルをかざして表示される<strong>サインアウト</strong>をクリックします。</p>
+<p class="image-container"><img style="width: 601.70px" src="img/95b63c53b65b7e84.png"></p>
+
+
+      </google-codelab-step>
+    
+      <google-codelab-step label="次のステップ" duration="5">
+        <p>当ハンズオンでは Web 上に用意した仮想的な SORACOM LTE-M Button for Enterpriseをクリックして、SORACOM Harvest Data へのデータ格納や SORACOM Lagoon での可視化を体験しました。</p>
+<p>SORACOM LTE-M Button for Enterprise の実デバイスは、SORACOM IoT Store よりお求めいただけます。また利用方法について具体的な手順が記載された IoT レシピの用意もありますので是非取り組んでみてください。</p>
+<p>(参考) <a href="https://soracom.jp/products/gadgets/enterprise_button/" target="_blank">【商品ページ】 SORACOM LTE-M Button for Enterprise</a></p>
+<p>(参考) <a href="https://soracom.github.io/iot-recipes/geo-position-by-soracom-lte-m-button/#0" target="_blank">【IoT DIY レシピ】SORACOM LTE-M Buttonでできる、現在地を知らせるボタン</a></p>
+<p>今回のハンズオンでは SORACOM Harvest Data や SORACOM Lagoon の使い勝手を体験いただきましたが、実際のデバイスはさらに以下 3 つのような特長があります。</p>
+<h3 is-upgraded>[1] 電池駆動のシンプルなセルラーデバイスとしての特長をもつ</h3>
+<p>単４電池２本で駆動するため、小型で持ち運びも可能、さらに電源ケーブルが不要です。また、設定はクラウド側にオフロードしているためデバイス側へのプログラム書き込みは一切不要です。さらにセルラーデバイスのため Wi-Fi の設定が不要で屋外でも使用できるという特長があります。</p>
+<h3 is-upgraded>[2] 簡易位置測位機能が利用できる</h3>
+<p>SORACOM LTE-M Button for Enterprise が内蔵する plan-KM1 の SIM は簡易位置測位機能を利用できます。当機能はエリア情報をベースに位置情報を取得する仕組みとなるため、GPS による位置測位に比べると大まかな範囲での取得となりますが、GPS モジュールが不要となるため低価格化、低消費電力化が可能で、加えて衛星が見えない屋内やビルの谷間での位置情報の取得も可能という特徴もあります。IoT レシピで実際に利用していますので、是非お試しください。</p>
+<p>(参考) <a href="https://soracom.github.io/iot-recipes/geo-position-by-soracom-lte-m-button/#0" target="_blank">【IoT DIY レシピ】SORACOM LTE-M Buttonでできる、現在地を知らせるボタン</a></p>
+<h3 is-upgraded>[3] SORACOM Harvest Data だけでなく、他のサービスも利用できる</h3>
+<p>SORACOM Harvest Data へデータを格納するだけでなく、クラウドサービスや FaaS と連携するような SORACOM サービスも利用できます。以下のデザインパターンも参考にしてください。</p>
+<p>(参考) <a href="https://dev.soracom.io/jp/design_patterns/design_patterns_for_button/" target="_blank">SORACOM LTE-M Button を様々なクラウドや SaaS で活用するアーキテクチャー例</a></p>
+
+
+      </google-codelab-step>
+    
+  </google-codelab>
+
+  <script src="https://soracom.github.io/iot-recipes/codelab-elements/native-shim.js"></script>
+  <script src="https://soracom.github.io/iot-recipes/codelab-elements/custom-elements.min.js"></script>
+  <script src="https://soracom.github.io/iot-recipes/codelab-elements/prettify.js"></script>
+  <script src="https://soracom.github.io/iot-recipes/codelab-elements/codelab-elements.js"></script>
+
+</body>
+</html>
