@@ -6,7 +6,7 @@
   <meta name="viewport" content="width=device-width, minimum-scale=1.0, initial-scale=1.0, user-scalable=yes">
   <meta name="theme-color" content="#4F7DC9">
   <meta charset="UTF-8">
-  <title>近づくと音声応答する自動店番ロボット</title>
+  <title>近づくと音声で自動応答する店番ロボット</title>
   <link rel="stylesheet" href="//fonts.googleapis.com/css?family=Source+Code+Pro:400|Roboto:400,300,400italic,500,700|Roboto+Mono">
   <link rel="stylesheet" href="//fonts.googleapis.com/icon?family=Material+Icons">
   <link rel="stylesheet" href="https://soracom.github.io/iot-recipes/codelab-elements/codelab-elements.css">
@@ -23,19 +23,23 @@
   <google-codelab-analytics gaid="UA-66865146-33"></google-codelab-analytics>
   <google-codelab codelab-gaid=""
                   id="storebot-by-raspberry-pi"
-                  title="近づくと音声応答する自動店番ロボット"
+                  title="近づくと音声で自動応答する店番ロボット"
                   environment="web"
                   feedback-link="https://soracom.jp/products/kit/gps_multiunit/">
     
-      <google-codelab-step label="近づくと音声応答する自動店番ロボット" duration="1">
-        <p>レシピ難易度：★☆☆☆☆</p>
+      <google-codelab-step label="近づくと音声で自動応答する店番ロボット" duration="1">
+        <p>公開日: 2020年8月</p>
+<p>レシピ難易度：★☆☆☆☆</p>
 <p>イベントに出展の困りごとが「スタッフのシフト」。応対を欠かすことが無いように人数や休憩時間に気を配る必要があります。本レシピはIoTを活用してお客様が近づいたら音声で展示物を紹介しつつ、応答した実績をチャット等で共有する「自動店番ロボット」で、そのお悩みを解決します。</p>
-<p>TODO:動画</p>
+<p>こちらの動画では制作から実際に動いている様子までをご覧いただけます。</p>
+<p><img style="width: 126.00px" src="img/8f4fcffa6a3f874a.png">TODO</p>
+<h2 is-upgraded>全体構成</h2>
+<p class="image-container"><img style="width: 601.70px" src="img/f63abf88f0dedda1.png"></p>
 <h2 is-upgraded>本レシピを行うのに必要な時間、概算費用</h2>
 <p>本レシピは以下の通りです。</p>
 <ul>
 <li>必要な時間: 約1時間</li>
-<li>概算費用: 約11,100円</li>
+<li>概算費用: 約24,500円</li>
 </ul>
 <p>※ 概算費用: ハードウェアや SORACOM を始めとした各種サービスの概ねの費用 (税や送料などの付帯費用や無料枠適用は考慮しないものとしています)</p>
 <h2 is-upgraded>このコンテンツの進め方</h2>
@@ -64,10 +68,21 @@
 </td><td colspan="1" rowspan="1"><p><strong>購入先</strong></p>
 </td><td colspan="1" rowspan="1"><p><strong>備考</strong></p>
 </td></tr>
-<tr><td colspan="1" rowspan="1"><p>Raspberry Pi 3 Model B+</p>
+<tr><td colspan="1" rowspan="1"><p>IoT 体験キット 〜距離測定センサー〜</p>
 </td><td colspan="1" rowspan="1"><p>1</p>
-</td><td colspan="1" rowspan="1"><p>11,000円</p>
-</td><td colspan="1" rowspan="1"><p>Raspberry Pi 4 (4GB以上)でも可</p>
+</td><td colspan="1" rowspan="1"><p>15,580円</p>
+</td><td colspan="1" rowspan="1"><p><a href="https://soracom.jp/products/kit/sensor_kit/" target="_blank">ソラコム</a></p>
+</td><td colspan="1" rowspan="1"><p>キットの中には以下のものが含まれています。(それぞれを個別に準備しても構いません)</p>
+<ul>
+<li>Raspberry Pi 3 Model B+ 本体 x 1</li>
+<li>Raspberry Pi 3 用電源アダプタ x 1</li>
+<li>microSD (16GB以上) x 1</li>
+<li>超音波距離センサー (3.3V対応) x 1</li>
+<li>ジャンパワイヤ (オス - メス) x 4</li>
+<li>ブレッドボード x 1</li>
+<li>AK-020 (USB ドングル型モデム) x 1</li>
+<li>SORACOM 特定地域向け IoT SIM (plan-D 標準サイズ) x 1</li>
+</ul>
 </td></tr>
 <tr><td colspan="1" rowspan="1"><p>microSD カードリーダー</p>
 </td><td colspan="1" rowspan="1"><p>1</p>
@@ -81,27 +96,17 @@
 </td><td colspan="1" rowspan="1"><p>―</p>
 </td><td colspan="1" rowspan="1"><p>パソコンと Raspberry Pi の通信に必要です。(例: <a href="https://www.amazon.co.jp/dp/B07VG66XX3/" target="_blank">BUFFALO 有線LANアダプター LUA4-U3-AGTE-NBK</a>)</p>
 </td></tr>
-<tr><td colspan="1" rowspan="1"><p>microUSB ケーブル</p>
-</td><td colspan="1" rowspan="1"><p>1</p>
-</td><td colspan="1" rowspan="1"><p>Raspberry Pi の電源ケーブルとして利用します。</p>
-<p>(Raspberry Pi 4 を利用する場合は USB Type-C ケーブルとなります)</p>
-</td></tr>
-<tr><td colspan="1" rowspan="1"><p>超音波距離センサー</p>
-</td><td colspan="1" rowspan="1"><p>1</p>
-</td><td colspan="1" rowspan="1"><p>人物の近接を検知に利用します。</p>
-<p>(ここに記載していないものを利用する場合は、動作電圧が3.3V対応であることを確認してください)</p>
-</td></tr>
-<tr><td colspan="1" rowspan="1"><p>ジャンパワイヤ (メス - メス)</p>
-</td><td colspan="1" rowspan="1"><p>4</p>
-</td><td colspan="1" rowspan="1"><p>超音波距離センサーと Raspberry Pi の接続に利用します。</p>
-</td></tr>
 <tr><td colspan="1" rowspan="1"><p>スピーカー</p>
 </td><td colspan="1" rowspan="1"><p>1</p>
-</td><td colspan="1" rowspan="1"><p>音声を流すために利用します。</p>
+</td><td colspan="1" rowspan="1"><p>約5,000円</p>
+</td><td colspan="1" rowspan="1"><p>―</p>
+</td><td colspan="1" rowspan="1"><p>音声を流すために利用します。動画内では<a href="https://www.amazon.co.jp/dp/B01NAVANRX" target="_blank">Anker社のSoundcore2を利用</a>しています。</p>
 </td></tr>
 <tr><td colspan="1" rowspan="1"><p>オーディオケーブル</p>
 </td><td colspan="1" rowspan="1"><p>1</p>
-</td><td colspan="1" rowspan="1"><p>スピーカーと Raspberry Pi の接続に利用します。Raspberry Pi 側は 3.5mm サイズです。</p>
+</td><td colspan="1" rowspan="1"><p>約700円</p>
+</td><td colspan="1" rowspan="1"><p>―</p>
+</td><td colspan="1" rowspan="1"><p>スピーカーと Raspberry Pi の接続に利用します。Raspberry Pi 側は 3.5mm サイズです。(例: <a href="https://www.amazon.co.jp/dp/B00NO73IN2/" target="_blank">Amazon ベーシック オーディオケーブル</a>)</p>
 </td></tr>
 <tr><td colspan="1" rowspan="1"><p>パソコン</p>
 </td><td colspan="1" rowspan="1"><p>1</p>
@@ -112,15 +117,13 @@
 <li>Google Chrome 等の最新ブラウザーが利用可能な事。</li>
 </ul>
 </td></tr>
-<tr><td colspan="1" rowspan="1"><p>(必要な方のみ)</p>
-<p>USB 型 AC アダプタ</p>
-</td><td colspan="1" rowspan="1"><p>―</p>
-</td><td colspan="1" rowspan="1"><p>―</p>
-</td><td colspan="1" rowspan="1"><p>―</p>
-</td><td colspan="1" rowspan="1"><p>Raspberry Pi の電源として利用します。パソコンからの給電でも代用可能です。</p>
-</td></tr>
 </table>
 <p>※ 金額はレシピ作成時となります。ソラコムで販売している金額は税抜き・送料別です。</p>
+<aside class="special"><p><strong>準備するものについて</strong></p>
+<p>Raspberry Piは4でも動作します。その場合は4GB以上で、ACアダプタも対応するものをご用意ください。</p>
+<p>IoT体験キット内に同梱されている超音波距離センサーは<a href="https://www.switch-science.com/catalog/5512/" target="_blank">US-100</a>を利用しています。</p>
+<p>冒頭の動画ではブレッドボードを使わずに超音波距離センサーとRaspberry Piを接続しています。その場合は別途「<a href="https://www.switch-science.com/catalog/2295/" target="_blank">メス―メス型ジャンパワイヤ</a>」を4本ご用意ください。</p>
+</aside>
 <h2 is-upgraded>その他必要なもの</h2>
 <table>
 <tr><td colspan="1" rowspan="1"><p><strong>必要なもの</strong></p>
@@ -131,10 +134,15 @@
 </td><td colspan="1" rowspan="1"><p>無料※</p>
 </td><td colspan="1" rowspan="1"><p><a href="https://soracom.github.io/iot-recipes/create-account-soracom-jp/" target="_blank">SORACOM アカウントの作成 (JP)</a></p>
 </td></tr>
+<tr><td colspan="1" rowspan="1"><p>WiFi環境</p>
+</td><td colspan="1" rowspan="1"><p>―</p>
+</td><td colspan="1" rowspan="1"><p>Raspberry Piにソフトウェアをダウンロードする際に利用します。ログインポータル(Webによる認証)が無いWiFiをご用意ください。</p>
+<p>※セットアップが終わった後はSORACOM Airでインターネットにつながるため不要となります。</p>
+</td></tr>
 </table>
 <p>※ アカウント作成・維持の費用の料金です。</p>
 <aside class="special"><p><strong>AWS の手順について</strong></p>
-<p>当レシピでは AWS の設定をします。これらの利用経験があるとスムーズです。なおわかりやすさのため当社で検証した内容をスクリーンショット付きで掲載しておりますが、公式な手順は各社のドキュメントをご確認ください。</p>
+<p>当レシピでは AWS の設定をします。これらの利用経験があるとスムーズです。なお、わかりやすさのため当社で検証した当時の内容をスクリーンショット付きで掲載しておりますが、公式な手順は各社のドキュメントをご確認ください。</p>
 </aside>
 <h3 is-upgraded>すでに AWS アカウントを持っている場合の確認事項</h3>
 <ul>
@@ -154,14 +162,22 @@
 </td></tr>
 <tr><td colspan="1" rowspan="1"><p>両面テープ等の固定用部材</p>
 </td><td colspan="1" rowspan="1"><p>1</p>
+</td><td colspan="1" rowspan="1"><p>超音波距離センサーをスマートフォンホルダーに固定する際に利用。</p>
 </td></tr>
 </table>
 
 
       </google-codelab-step>
     
-      <google-codelab-step label="～が届いたら" duration="5">
-        <p>TODO</p>
+      <google-codelab-step label="IoT 体験キット 〜距離測定センサー〜 が届いたら" duration="5">
+        <p>IoT 体験キット 〜距離測定カメラ〜(以下、IoT 体験キット) に同梱されている SIM は、SORACOM に登録することで通信が出来るようになります。そのため、まず IoT 体験キットに同梱されている SIM を SORACOM へ登録をしましょう。<br>※ すでに登録済み、もしくは登録済みの別の SIM を利用する場合は次へお進みください。</p>
+<p>登録の方法は<a href="https://soracom.github.io/iot-recipes/register-ordering-sim-jp/#0" target="_blank">発注済みの SIM を登録する</a>をご覧ください。約5分で完了します。</p>
+<p>登録が完了すると SIM 管理の一覧に表示されますので、確認ください。</p>
+<p class="image-container"><img style="width: 601.70px" src="img/8ab59a68e0f87ac4.png"></p>
+<aside class="special"><p><strong>SORACOM の便利な使い方: SIM の「名前」機能</strong></p>
+<p>SIM には「名前」を付けることができ、これで整理が可能です。特に複数の SIM (ボタン含む) をお持ちの際には、名前を付けることを強くお勧めいたします。</p>
+<p>名前の付け方は <a href="https://dev.soracom.io/jp/start/console/#name_tag" target="_blank">SIM への名前の付け方</a>をご覧ください。</p>
+</aside>
 
 
       </google-codelab-step>
@@ -247,9 +263,10 @@ network={
 <p class="image-container"><img style="width: 601.70px" src="img/5fc2b4742e508eda.png"></p>
 <h3 is-upgraded>有線 LAN で Raspberry Pi とパソコンを接続</h3>
 <p>Raspberry Pi の有線 LAN ポートと、パソコンの有線 LAN ポートをケーブルで接続します。</p>
+<p class="image-container"><img style="width: 601.70px" src="img/3cb100652a7c023a.png"></p>
 <h3 is-upgraded>Raspberry Pi に microUSB (電源ケーブル) を接続</h3>
 <p>ケーブルを挿すと、電源 ON となります。（電源スイッチのようなものがありません）</p>
-<p class="image-container"><img style="width: 601.70px" src="img/f1c651db674e6e4e.png"></p>
+<p class="image-container"><img style="width: 601.70px" src="img/99acea5891fdae4d.png"></p>
 <p>しばらく経過(約1~2分)すると macOS もしくは Windows 10 から Raspberry Pi へリモートログイン出来るようになります。</p>
 <h2 is-upgraded>SSH リモートログインの方法</h2>
 <h3 is-upgraded>Windows の場合</h3>
@@ -276,9 +293,10 @@ network={
 </ul>
 <h2 is-upgraded>OS の最新化</h2>
 <p>以降は Windows、macOS 共通の作業です。</p>
-<p>Raspberry Pi へ SSH リモートログインしたあと、Raspberry Pi 側で以下を実行します。</p>
+<p>Raspberry Pi へ SSH リモートログインしたあと、Raspberry Pi 側で以下を1行ずつ実行します。</p>
 <pre>sudo timedatectl set-timezone Asia/Tokyo
-sudo apt update &amp;&amp; sudo apt upgrade -y
+sudo apt update
+sudo apt upgrade -y
 sudo systemctl reboot</pre>
 <p>最後の1行で再起動となります。</p>
 <aside class="special"><p><strong>SSH リモートログイン終了の方法</strong></p>
@@ -296,14 +314,47 @@ sudo systemctl reboot</pre>
       </google-codelab-step>
     
       <google-codelab-step label="超音波距離センサーを取り付ける" duration="0">
-        <h2 is-upgraded>超音波距離センサーへケーブルを接続する</h2>
-<h2 is-upgraded>Raspberry Pi と接続する</h2>
+        <h2 is-upgraded>パーツを準備する</h2>
+<p>以下のパーツを準備してください。</p>
+<ul>
+<li>ジャンパワイヤ (オス - メス) x 4 ※ 画像上部ケーブル</li>
+<li>超音波距離センサー (3.3V対応) x 1 ※画像左下のスピーカのような形の緑色の基板</li>
+<li>ブレッドボード x 1 ※画像右下の穴あき板</li>
+</ul>
+<p class="image-container"><img style="width: 601.70px" src="img/56619254079777f8.png"></p>
+<h2 is-upgraded>超音波距離センサーのジャンパプラグを抜き取る</h2>
+<p>超音波距離センサーの裏面を確認してください。その時、ジャンパプラグ(白、もしくは黒の部品)がついていれば抜き取ってください。</p>
+<p>抜き取ったジャンパプラグは本レシピでは使用しませんが、保管しておいてください。(無くした場合でも別途購入は可能です)</p>
+<p class="image-container"><img style="width: 601.70px" src="img/54b600d4c7209d08.png"></p>
+<aside class="special"><p><strong>ジャンパプラグの役割</strong></p>
+<p>今回利用している超音波距離センサー(US-100)は、計測した距離データを2つの方法(UARTモード、HC-SR04モード)で取得することができます。ジャンパプラグがついている状態はUARTモードです。今回はHC-SR04モードによる動作をさせるため、ジャンパプラグを抜いています。詳しくは<a href="https://www.switch-science.com/catalog/5512/" target="_blank">スイッチサイエンスの商品ページ</a>をご覧ください。</p>
+</aside>
+<h2 is-upgraded>配線</h2>
+<h3 is-upgraded>超音波距離センサーをブレッドボードに刺します。</h3>
+<p>端から1列目に挿します。ブレッドボードの向きに気をつけてください。</p>
+<p class="image-container"><img style="width: 601.70px" src="img/b096caaaec3a1a75.png"></p>
+<aside class="special"><p><strong>ブレッドボードとは？</strong></p>
+<p>表面に開いている穴にジャンパワイヤなどを挿すだけで電子回路を組み上げることができる配線用のパーツです。抜き挿しだけで回路の組み換えが可能であるため、試験時に用いられます。内部的には右図のオレンジの線でつながってます。</p>
+<p class="image-container"><img style="width: 587.00px" src="img/7ab25c5cff78a729.png"></p>
+</aside>
+<aside class="special"><p><strong>ブレッドボードを使わずに配線する</strong></p>
+<p>冒頭の動画では、ブレッドボードを経由せず超音波距離センサーとRaspberry Piを直接接続する方法をご紹介しています。この場合は別途「メス―メス型のジャンパワイヤ」を4本ご用意ください。接続場所自体は本レシピで紹介している通りです。</p>
+</aside>
+<h3 is-upgraded>ジャンパーワイヤをブレッドボードに挿します。</h3>
+<p>センサーのピンは5つありますが、そのうち右側4つを使用します（一番左のピンは利用しません）ジャンパワイヤはセンサーの一番右から赤、青、黄、黒と挿します。</p>
+<p class="image-container"><img style="width: 601.70px" src="img/ac5f2e3e2e4fd6e4.png"></p>
+<h3 is-upgraded>ジャンパワイヤをRaspberry Piにつなげる</h3>
+<p><strong>Raspberry Pi の電源は OFF の状態で行ってください。</strong></p>
+<p>また、接続するピンを間違えると故障の原因になるので、十分気をつけてください。取り付け順序としては、黒、黄、青、赤と、電源である赤を最後にしていただくと比較的安全です。</p>
+<p class="image-container"><img style="width: 601.70px" src="img/e10421692856e839.png"></p>
 <h2 is-upgraded>動作テストを行う</h2>
+<p>全ての接続が確認出来たら、Raspberry Pi の電源を ON にしてから、Raspberry Pi 上で以下を一行ずつ実行します。</p>
 <pre>curl -O https://gist.githubusercontent.com/ma2shita/0569ab4717c49349889c9fbe1af25386/raw/bda9390e8792045d3dd73d5db1f800f6dca8de34/sensor_test.py
 python2 sensor_test.py</pre>
 <aside class="warning"><p><strong><code>ファイルがダウンロードできない場合は？</code></strong></p>
 <p><code>curl</code> の後の <code>-O</code> はゼロでは無く大文字のオーです。</p>
 </aside>
+<p><code>sensor_test.py</code> の実行の様子です。センサの前に手をかざしてみて、距離が変化する事を確認してください。</p>
 <pre>pi@raspberrypi:~ $ python2 sensor_test.py
 距離: 8.2 cm
 距離: 8.3 cm
@@ -314,6 +365,11 @@ python2 sensor_test.py</pre>
 距離: 335.4 cm
 距離: 337.5 cm
 距離: 335.6 cm</pre>
+<p>プログラムの終了は <code>Ctrl + C</code> です。</p>
+<aside class="warning"><p><strong>プログラムを実行しても距離が表示されない場合は？</strong></p>
+<p>2つの原因が考えられます。1つ目はセンサー前に「何も存在しない」場合です。確認用プログラムでは &#34;距離が500cmと判定された場合には、何も表示しない&#34; としています。そのため、センサー前に手をかざしてみてください。</p>
+<p>2つめは配線間違いです。センサーの前に手をかざしてみても動かない場合はこのケースになります。速やかに確認用プログラムを停止したあと、Raspberry Piの電源をOFFにしてから、配線を再度確認してください。</p>
+</aside>
 <h3 is-upgraded>【参考】<a href="https://gist.github.com/ma2shita/0569ab4717c49349889c9fbe1af25386" target="_blank">sensor_test.py</a></h3>
 <pre><code>#!/usr/bin/env python
 # -*- coding: utf-8 -*-
@@ -379,18 +435,19 @@ if __name__ == &#34;__main__&#34;:
       </google-codelab-step>
     
       <google-codelab-step label="スピーカーを接続する" duration="0">
-        <p>aplay</p>
-<p>sudo raspi-config</p>
-<p>install mpg123</p>
+        <p>スピーカーとオーディオケーブルを準備し、Raspberry Piとスピーカーをつなげます。</p>
+<p class="image-container"><img style="width: 601.70px" src="img/fc1d6e7ec7c0d49b.png"></p>
+<p>接続が確認出来たら、Raspberry Pi 上で以下を実行します。成功すると「フロント・センター」と英語で再生されます。音量にはご注意ください。また、聞こえない場合はスピーカーの音量を調整してください。</p>
+<pre>aplay -D plughw:CARD=0,DEV=0 /usr/share/sounds/alsa/Front_Center.wav</pre>
 
 
       </google-codelab-step>
     
       <google-codelab-step label="SORACOM Air によるインターネット接続" duration="10">
-        <p>Raspberry Pi へ SSH リモートログインが出来ることを確認してください。以降は、特に断りを入れない場合は SSH リモートログイン後の Raspberry Pi 側で実行します。</p>
+        <p>ここからはUSBドングル型モデム(AK-020)とSORACOM IoT SIMを利用してセルラー通信経由でインターネット接続が行えるようにします。</p>
 <h2 is-upgraded>setup_air.sh の実行</h2>
 <p>USB ドングル型モデムで SORACOM Air によるインターネット接続の一連の設定を自動化する setup_air.sh を実行します。</p>
-<p>以下を実行してください。</p>
+<p>以下をRaspberry Piで1行ずつ実行してください。</p>
 <pre><code>curl -O https://soracom-files.s3.amazonaws.com/setup_air.sh
 sudo bash setup_air.sh</code></pre>
 <h2 is-upgraded>USB ドングル型モデム (AK-020) に SIM を取り付け、Raspberry Pi に接続する</h2>
@@ -398,7 +455,7 @@ sudo bash setup_air.sh</code></pre>
 <p class="image-container"><img style="width: 601.70px" src="img/8c36e7519ddd583e.png"></p>
 <p>Raspberry Pi の USB ポートはどこでも構いませんが、この後に接続する USB カメラとの位置で競合しないようにしてください。USB ドングル型モデム、USB カメラ共に Raspberry Pi の電源が ON 状態でもいつでも抜き挿し可能です。</p>
 <h2 is-upgraded>接続を確認する</h2>
-<p>USB ドングル型モデムの LED を見ながら接続状態になったのを見計らって、以下を実行します。</p>
+<p>USB ドングル型モデムの LED を見ながら接続状態になったのを見計らって、以下をRaspberry Piで実行します。</p>
 <pre><code>ping -c 4 pong.soracom.io</code></pre>
 <p>この時、期待される出力は以下の通りです。</p>
 <pre><code>PING pong.soracom.io (100.127.100.127) 56(84) bytes of data.
@@ -412,17 +469,56 @@ sudo bash setup_air.sh</code></pre>
       </google-codelab-step>
     
       <google-codelab-step label="AWS Lambda で Lambda 関数を作成する" duration="0">
-        <p class="image-container"><img style="width: 561.00px" src="img/2cbca3feea78d0b8.png"></p>
-<p class="image-container"><img style="width: 601.70px" src="img/c3323aea3c9c1d17.png"></p>
-<p class="image-container"><img style="width: 601.70px" src="img/7c9f7e3e0ef70223.png"></p>
-<p class="image-container"><img style="width: 508.00px" src="img/232ae8f16d0b8eb9.png"></p>
-<p class="image-container"><img style="width: 525.00px" src="img/6c864570bb916922.png"></p>
-<p class="image-container"><img style="width: 568.00px" src="img/1ecaf5412b188bb1.png"></p>
-<p class="image-container"><img style="width: 601.70px" src="img/beabef36ed362a93.png"></p>
-<p class="image-container"><img style="width: 601.70px" src="img/9f5fb36121473d15.png"></p>
-<p class="image-container"><img style="width: 601.70px" src="img/f16191e4cfa533ff.png"></p>
-<p class="image-container"><img style="width: 601.70px" src="img/37f2abfd4ec67110.png"></p>
-<p class="image-container"><img style="width: 601.70px" src="img/73b97a55b57e9044.png"></p>
+        <p>ここからはAWS LambdaでLambda関数を作成します。</p>
+<p><a href="https://console.aws.amazon.com/" target="_blank">AWS マネジメントコンソール</a>を開き、AWS Lambdaの関数作成画面へと進みます。</p>
+<p>AWSは数多くのサービスがあるため、トップページで「lambda」と探すと素早く移動できます。</p>
+<p class="image-container"><img style="width: 561.00px" src="img/2cbca3feea78d0b8.png"></p>
+<p>AWS Lambdaの管理画面で［関数の作成］をクリックします。</p>
+<p class="image-container"><img style="width: 601.70px" src="img/1f43a5b2256a0352.png"></p>
+<p>関数の作成画面では［一から作成］をクリックした後、以下のように入力をして［関数の作成］をクリックします。</p>
+<table>
+<tr><td colspan="1" rowspan="1"><p>関数名</p>
+</td><td colspan="1" rowspan="1"><p><code>storebot</code></p>
+</td><td colspan="1" rowspan="1"><p>任意の名前が利用できます。</p>
+</td></tr>
+<tr><td colspan="1" rowspan="1"><p>ランタイム</p>
+</td><td colspan="1" rowspan="1"><p>Python3.8</p>
+</td><td colspan="1" rowspan="1"><p>―</p>
+</td></tr>
+</table>
+<p class="image-container"><img style="width: 601.70px" src="img/959572ce1c385032.png"></p>
+<p>しばらくすると関数の管理画面に移動します。まず［アクセス権限］タブをクリックし、その後 &#34;ロール名&#34; の部分 (図中では <code>storebot-role-...</code> となっている部分)をクリックします。するとAWS IAM(Identity and Access Management)の管理画面に移動します。</p>
+<p class="image-container"><img style="width: 508.00px" src="img/384166e5de6c5b14.png"></p>
+<p>AWS IAMの管理画面でポリシー名の &#34;AWSLambdaBasic...&#34; から始まるリンクをクリックします。</p>
+<p class="image-container"><img style="width: 525.00px" src="img/696b60c82551ed17.png"></p>
+<p>続いて表示された画面で［ポリシーの編集］をクリックします。</p>
+<p class="image-container"><img style="width: 568.00px" src="img/7414b99a17838062.png"></p>
+<p>続いての画面では［さらにアクセス許可を追加する］をクリックします。</p>
+<p class="image-container"><img style="width: 601.70px" src="img/a38bb8a869d6e5e9.png"></p>
+<p>次の画面では &#34;サービス&#34; 等を以下のように設定したら［ポリシーの確認］をクリックします。</p>
+<table>
+<tr><td colspan="1" rowspan="1"><p>サービス</p>
+</td><td colspan="1" rowspan="1"><p>Polly</p>
+</td><td colspan="1" rowspan="1"><p>検索窓に <code>polly</code> と入力すると素早く見つけることができます。</p>
+</td></tr>
+<tr><td colspan="1" rowspan="1"><p>アクション</p>
+</td><td colspan="1" rowspan="1"><p>SynthesizeSpeedh</p>
+</td><td colspan="1" rowspan="1"><p>検索窓に <code>synthe</code> と入力すると素早く見つけることができます。</p>
+</td></tr>
+<tr><td colspan="1" rowspan="1"><p>リソース</p>
+</td><td colspan="1" rowspan="1"><p>全てのリソース</p>
+</td></tr>
+<tr><td colspan="1" rowspan="1"><p>リクエスト条件</p>
+</td><td colspan="1" rowspan="1"><p>（設定不要）</p>
+</td></tr>
+</table>
+<p class="image-container"><img style="width: 601.70px" src="img/71291355a704a5e6.png"></p>
+<p>確認画面では［変更の保存］をクリックします。</p>
+<p class="image-container"><img style="width: 601.70px" src="img/541a2f53228f4deb.png"></p>
+<p>ここまでの作業が終了したら、AWS IAMの画面は閉じて問題ありません。<br>続いてはAWS Lambdaの管理画面に戻り、［設定］タブをクリックします。</p>
+<p class="image-container"><img style="width: 601.70px" src="img/b96eb31f278b6c0a.png"></p>
+<p>下にスクロールすると &#34;関数コード&#34; が出てきます。この中のプログラムを後述する &#34;storebot (Lambda 関数)&#34; の内容と入れ替えます。</p>
+<p class="image-container"><img style="width: 601.70px" src="img/5767a82c6934fc1c.png"></p>
 <h3 is-upgraded>storebot (Lambda 関数)</h3>
 <pre><code>from boto3 import Session
 from boto3 import resource
@@ -437,37 +533,140 @@ def lambda_handler(event, context):
     with closing(response[&#34;AudioStream&#34;]) as stream:
         r = {&#39;encode&#39;: &#39;base64&#39;, &#39;format&#39;: &#34;mp3&#34;, &#39;data&#39;: base64.b64encode(stream.read()).decode(&#39;utf-8&#39;)}
         return r</code></pre>
-<p class="image-container"><img style="width: 407.00px" src="img/548dfb3e976b7af.png"></p>
-<p class="image-container"><img style="width: 601.70px" src="img/9efd4cbe8084b3.png"></p>
-<p class="image-container"><img style="width: 420.00px" src="img/d65dec2392ab53a6.png"></p>
-<p class="image-container"><img style="width: 601.70px" src="img/a6153c73f02c5c98.png"></p>
-<p>考えられるミス</p>
-<p>コード貼り付け</p>
-<p>IAM設定</p>
-<p class="image-container"><img style="width: 601.70px" src="img/c68088612b4f4ed.png"></p>
+<p>入れ替えたら、AWS Lambda 管理画面上部の［テストイベントの選択］をクリックし、その後［テストイベントの設定］をクリックします。</p>
+<p class="image-container"><img style="width: 278.50px" src="img/887fa66f5c29b3f4.png"></p>
+<p>ダイアログでは以下のように設定した後、［作成］をクリックします。</p>
+<table>
+<tr><td colspan="1" rowspan="1"><p>イベント名</p>
+</td><td colspan="1" rowspan="1"><p><code>test</code></p>
+</td><td colspan="1" rowspan="1"><p>名前は任意です。</p>
+</td></tr>
+</table>
+<p>※イベントの中身自体は変更しません。</p>
+<p class="image-container"><img style="width: 601.70px" src="img/e409b281ad8caed.png"></p>
+<p>AWS Lambdaの管理画面で［保存］をクリックした後に［テスト］をクリックします。</p>
+<p class="image-container"><img style="width: 420.00px" src="img/cb0d96febbc58649.png"></p>
+<p>テスト実行後に &#34;関数コード&#34; で <strong>&#34;Status: Succeeded&#34;</strong> となっていれば成功です。</p>
+<p class="image-container"><img style="width: 601.70px" src="img/5f70496b288b5698.png"></p>
+<aside class="warning"><p><strong>Succeededにならない場合は？</strong></p>
+<p>主に2つの原因が考えられます。</p>
+<p>1つ目はAWS IAM設定です。今回は Amazon Pollyというサービスに音声データを作成させています。その時の権限が SynthesizeSpeedh です。Lambda 関数にこの権限が割り当てられていないとAmazon Pollyは動作拒否をします。AWS IAMの設定まで戻って確認してください。</p>
+<p>2つ目はプログラムの入れ替えミスです。既存のプログラムが残っていたりすると失敗します。再度入れ替えをしてみてください。</p>
+</aside>
+<p>&#34;関数コード&#34; の［Deploy］をクリックします。ボタンが白くなったら完了です。</p>
+<p class="image-container"><img style="width: 357.00px" src="img/4019d3f8bdaad2c6.png"></p>
+<h3 is-upgraded>ARNを入手する</h3>
+<p>ここまでの動作が確認出来たら、最後にLambda 関数の ARN(Amazon Resource Name) を入手します。このARNは後ほど SORACOM Funk で使用するため必ず入手してください。<br>Lambda 関数管理画面の上部にある ARN をメモしてください。(書類マークでコピーできます)</p>
+<p class="image-container"><img style="width: 601.70px" src="img/84582b0c5f9f93ce.png"></p>
+<p>以上で AWS Lambda の設定は終了です。</p>
 
 
       </google-codelab-step>
     
       <google-codelab-step label="AWS IAM で SORACOM Funk 用の認証情報を作成する" duration="0">
-        <p class="image-container"><img style="width: 493.00px" src="img/937c18e5f8eb0b67.png"></p>
-<p class="image-container"><img style="width: 512.00px" src="img/132c730441fcb46d.png"></p>
-<p class="image-container"><img style="width: 601.70px" src="img/269a6918e8781c56.png"></p>
-<p class="image-container"><img style="width: 601.70px" src="img/93023f6d03a81cac.png"></p>
-<p class="image-container"><img style="width: 601.70px" src="img/eca3f9ab8b103278.png"></p>
-<p class="image-container"><img style="width: 601.70px" src="img/d670b5028ddefa1d.png"></p>
-<p class="image-container"><img style="width: 601.70px" src="img/38e0cb0a42a7849f.png"></p>
+        <p>SORACOM Funk から先ほど作成した Lambda 関数を呼び出せるように、専用の認証情報をAWSで作成します。</p>
+<p>AWS マネジメントコンソールを開き、AWS IAM管理画面へと進みます。</p>
+<p>AWSは数多くのサービスがあるため、トップページで「iam」と探すと素早く移動できます。</p>
+<p class="image-container"><img style="width: 493.00px" src="img/937c18e5f8eb0b67.png"></p>
+<p>AWS IAM管理画面で［ユーザー］をクリックした後、［ユーザーを追加］をクリックします。<br>※すでに &#34;ユーザー&#34; 画面であれば ［ユーザーを追加］のクリックのみとなります。</p>
+<p class="image-container"><img style="width: 512.00px" src="img/6ec1ce28373b28fa.png"></p>
+<p>ユーザーを追加の画面では以下のように設定してから［次のステップ：アクセス権限］をクリックします。</p>
+<table>
+<tr><td colspan="1" rowspan="1"><p>ユーザー名</p>
+</td><td colspan="1" rowspan="1"><p><code>storebot-invoker-by-soracom</code></p>
+</td><td colspan="1" rowspan="1"><p>ユーザー名は任意です。後で見返したときにわかりやすい名前が良いでしょう。</p>
+</td></tr>
+<tr><td colspan="1" rowspan="1"><p>プログラムによるアクセス</p>
+</td><td colspan="1" rowspan="1"><p>チェックを付ける</p>
+</td><td colspan="1" rowspan="1"><p>―</p>
+</td></tr>
+</table>
+<p class="image-container"><img style="width: 601.70px" src="img/f83dd455c6baed39.png"></p>
+<p>アクセス許可の設定画面では［既存のポリシーを直接アタッチ］をクリックした後、 &#34;AWSLambdaRole&#34; にチェックを付け、［次のステップ：タグ］をクリックします。<br>※数が多いためフィルタに <code>lambdarole</code> と入力すると素早く見つけることができるでしょう。</p>
+<p class="image-container"><img style="width: 601.70px" src="img/281481d0fde25231.png"></p>
+<p>タグの追加画面では特に作業はありません。［次のステップ：確認］をクリックします。</p>
+<p class="image-container"><img style="width: 601.70px" src="img/264a083af9a920e1.png"></p>
+<p>確認画面で今までの内容をチェックします。特にアクセス権限に AWSLambdaRole が設定されていることを確認してください。その後［ユーザーの作成］をクリックします。</p>
+<p class="image-container"><img style="width: 601.70px" src="img/4c0d7ee016b3da6f.png"></p>
+<p>ユーザーの作成直後に表示される &#34;アクセスキー ID&#34; と &#34;シークレットアクセスキー&#34; をメモしておいてください。シークレットアクセスキー［表示］をクリックすると現れます。また、これ以降で確認することが出来ないため、確実にメモしておきましょう。(.csv のダウンロードも良い選択です)</p>
+<p class="image-container"><img style="width: 601.70px" src="img/761c8b7ea945041c.png"></p>
+<p>以上で AWS IAM の設定は終了です。</p>
 
 
       </google-codelab-step>
     
       <google-codelab-step label="SORACOM Funk を設定する" duration="0">
-        <h2 is-upgraded>SORACOM Funk と AWS Lambda の連携設定をテストする</h2>
-<pre>curl -O https://gist.githubusercontent.com/ma2shita/a7f2a0acf9b1a7f43c360e1371aadaed/raw/b07e0ad0b386177eb22ad9734a0f2c1a12c1bb15/soracom_funk_test.py
+        <p>これまで設定してきた情報を使い SORACOM Funk を設定して Lambda 関数を呼び出せるようにします。</p>
+<p><a href="https://console.soracom.io/" target="_blank">SORACOM ユーザーコンソール</a>にログインした後［Menu］&gt;［SIM 管理］とクリックして SIM 管理画面を開きます。</p>
+<p class="image-container"><img style="width: 566.00px" src="img/c4968675c5a9a1c8.png"></p>
+<aside class="warning"><p><strong>［SIM 管理］をクリックしても画面が切り替わらない場合は？</strong></p>
+<p>すでに SIM 管理画面を開いている場合は、［SIM 管理］をクリックしても画面が切り替わることがありません。その場合、青の点線で囲まれている「SORACOM ロゴ」をクリックすることでメニューを閉じることができます。</p>
+</aside>
+<p>USB ドングル型モデムに取り付けた SIM にチェックを付け、［操作］&gt;［所属グループ変更］とクリックします。</p>
+<p class="image-container"><img style="width: 601.70px" src="img/cf061a031b3ce475.png"></p>
+<aside class="special"><p><strong>SORACOM の便利な使い方: 複数の SIM を同時に扱う</strong></p>
+<p>チェックをつける対象を複数にすれば、一度の複数の SIM を対象に操作が可能です。</p>
+</aside>
+<p>「新しい所属グループ」のプルダウンボックスをクリックした後、［新しいグループを作成...］をクリックします。</p>
+<p class="image-container"><img style="width: 601.70px" src="img/eca14a331c8696cf.png"></p>
+<h2 is-upgraded>「グループ作成」のグループ名を入力して［グループ作成］をクリックします。</h2>
+<table>
+<tr><td colspan="1" rowspan="1"><p><strong>項目</strong></p>
+</td><td colspan="1" rowspan="1"><p><strong>例</strong></p>
+</td><td colspan="1" rowspan="1"><p><strong>備考</strong></p>
+</td></tr>
+<tr><td colspan="1" rowspan="1"><p>グループ名</p>
+</td><td colspan="1" rowspan="1"><p><code>storebot</code></p>
+</td><td colspan="1" rowspan="1"><p>自由に入力可能です。日本語も設定可能です。</p>
+</td></tr>
+</table>
+<p class="image-container"><img style="width: 385.00px" src="img/728b1173e6846db5.png"></p>
+<p>新しい所属グループが先ほど作成したグループになっていることを確認したら［グループ変更］をクリックします。</p>
+<p class="image-container"><img style="width: 601.70px" src="img/ead479c0dad57fc3.png"></p>
+<p>自動的に SIM 管理画面に戻ります。<br>SIM の「グループ」に先ほど作ったグループが設定されていることを確認してください。</p>
+<p class="image-container"><img style="width: 601.70px" src="img/e8be8e0b5d24ac69.png"></p>
+<p>以上で、グループの作成と所属の作業は完了です。</p>
+<h2 is-upgraded>SORACOM Funk の設定</h2>
+<p>先ほど作成したグループをクリックします。</p>
+<p class="image-container"><img style="width: 601.70px" src="img/db1d12adc3982609.png"></p>
+<p>グループの設定画面で &#34;SORACOM Funk&#34; を探し、クリックします。すると SORACOM Funk の設定画面が開きます。</p>
+<p>SORACOM Funk の設定では、まず &#34;OFF&#34; となっている部分をクリックします。すると &#34;ON&#34; に切り替わり、設定ができるようになります。</p>
+<p>その後 &#34;サービス&#34; と &#34;送信データ形式&#34; は変更せずに、 &#34;認証情報&#34; の［認証情報を指定しない］をクリックします。表示される一覧の中から［認証情報を新規作成する...］をクリックします。</p>
+<p class="image-container"><img style="width: 601.70px" src="img/957445f278bd3118.png"></p>
+<p>認証情報を登録する画面では以下の通りに設定した後、［登録］をクリックします。</p>
+<table>
+<tr><td colspan="1" rowspan="1"><p>認証情報 ID</p>
+</td><td colspan="1" rowspan="1"><p><code>storebot-invoker</code></p>
+</td><td colspan="1" rowspan="1"><p>任意です。後で見返した時にわかりやすくしておくと良いでしょう。</p>
+</td></tr>
+<tr><td colspan="1" rowspan="1"><p>AWS Access Key ID</p>
+</td><td colspan="1" rowspan="1"><p>AWS IAMで設定した時にメモをした「アクセスキー ID」を入力します</p>
+</td><td colspan="1" rowspan="1"><p>―</p>
+</td></tr>
+<tr><td colspan="1" rowspan="1"><p>AWS Secret Access Key</p>
+</td><td colspan="1" rowspan="1"><p>AWS IAMで設定した時にメモをした「シークレットアクセスキー」を入力します</p>
+</td><td colspan="1" rowspan="1"><p>―</p>
+</td></tr>
+</table>
+<p class="image-container"><img style="width: 601.70px" src="img/b29f062e5d3b6639.png"></p>
+<p>SORACOM Funk 設定画面に戻ってきたら追加で以下の設定を行い、その後［保存］をクリックします。</p>
+<table>
+<tr><td colspan="1" rowspan="1"><p>関数の ARN</p>
+</td><td colspan="1" rowspan="1"><p>AWS Lambda管理画面でメモをした ARN を入力します。</p>
+</td><td colspan="1" rowspan="1"><p>―</p>
+</td></tr>
+</table>
+<p class="image-container"><img style="width: 601.70px" src="img/3ca1aa081e00a556.png"></p>
+<h2 is-upgraded>SORACOM Funk と AWS Lambda の連携設定をテストする</h2>
+<p>ここまでの設定を実際に動作させてみてテストします。</p>
+<p>以下をRaspberry Piで1行ずつ実行してください。</p>
+<pre>sudo install mpg123
+curl -O https://gist.githubusercontent.com/ma2shita/a7f2a0acf9b1a7f43c360e1371aadaed/raw/b07e0ad0b386177eb22ad9734a0f2c1a12c1bb15/soracom_funk_test.py
 python2 soracom_funk_test.py</pre>
 <aside class="warning"><p><strong><code>ファイルがダウンロードできない場合は？</code></strong></p>
 <p><code>curl</code> の後の <code>-O</code> はゼロでは無く大文字のオーです。</p>
 </aside>
+<p>以下は <code>soracom_funk_test.py</code> の実行の様子です。スピーカーから「こんにちは、このメッセージは店番ロボット君です....」と再生されるでしょう。</p>
 <pre>pi@raspberrypi:~ $ python2 soracom_funk_test.py
 200
 High Performance MPEG 1.0/2.0/2.5 Audio Player for Layers 1, 2 and 3
@@ -500,16 +699,20 @@ def main():
 
 if __name__ == &#34;__main__&#34;:
     main()</code></pre>
+<p>これで全ての設定が完了しました。</p>
 
 
       </google-codelab-step>
     
-      <google-codelab-step label="設置をして動作を行う" duration="0">
-        <pre>curl -O https://gist.githubusercontent.com/ma2shita/e7f5d72c7592e8eb09adf92dcdf4310c/raw/2cd2a5eeb7af3ac144671c8bf5e967438c683e3e/storebot.py
+      <google-codelab-step label="センサーと組み合わせて動かす" duration="0">
+        <p>超音波距離センサーと組み合わせてしゃべることができるか確認します。</p>
+<p>以下をRaspberry Piで1行ずつ実行してください。</p>
+<pre>curl -O https://gist.githubusercontent.com/ma2shita/e7f5d72c7592e8eb09adf92dcdf4310c/raw/2cd2a5eeb7af3ac144671c8bf5e967438c683e3e/storebot.py
 python2 storebot.py</pre>
 <aside class="warning"><p><strong><code>ファイルがダウンロードできない場合は？</code></strong></p>
 <p><code>curl</code> の後の <code>-O</code> はゼロでは無く大文字のオーです。</p>
 </aside>
+<p>以下は <code>storebot.py</code> の実行の様子です。超音波距離センサーに手をかざしてみて、5秒経過すると音声が再生されます。</p>
 <pre>pi@raspberrypi:~ $ python2 storebot.py
 距離: 336.2 cm
 0
@@ -631,16 +834,24 @@ def main():
 
 if __name__ == &#34;__main__&#34;:
     main()</code></pre>
+<p>これで全て動作は完了です。</p>
+<h3 is-upgraded>設置をする加工</h3>
+<p>例えばですが、スマートフォンスタンドを利用して超音波距離センサーを立てかけるようにできると、立ち止まった人の検知がより確実にできるでしょう。</p>
+<p>※この例ではブレッドボードを利用せず、直接Raspberry Piとセンサーを接続しています。</p>
+<p class="image-container"><img style="width: 600.00px" src="img/63795cc8e32f1961.png"></p>
 
 
       </google-codelab-step>
     
       <google-codelab-step label="「電源 ON 時にスタートする」設定を行う" duration="0">
-        <pre>curl -O https://gist.githubusercontent.com/ma2shita/4dfe0f4da1ecec963190be6e8e474990/raw/a9d640ae1797eb642bc96e23cc47340a0c983f97/storebot.service
+        <p>現在の状態では、Raspberry Piに電源がONになった後、storebot.py を手で起動する必要があります。実際の運用に向けて「電源がONになったら自動的に storebot.py が動き出す」ようにしてみます。</p>
+<p>以下をRaspberry Piで1行ずつ実行してください。</p>
+<pre>curl -O https://gist.githubusercontent.com/ma2shita/4dfe0f4da1ecec963190be6e8e474990/raw/a9d640ae1797eb642bc96e23cc47340a0c983f97/storebot.service
+sudo loginctl enable-linger $USER
 systemctl --user enable $PWD/storebot.service
 systemctl --user start storebot.service
 journalctl -n 10</pre>
-<aside class="warning"><p><strong><code>ファイルがダウンロードできない場合は？</code></strong></p>
+<aside class="warning"><p><strong>ファイルがダウンロードできない場合は？</strong></p>
 <p><code>curl</code> の後の <code>-O</code> はゼロでは無く大文字のオーです。</p>
 </aside>
 <p>最後の journalctl で期待される出力は以下の通りです。</p>
@@ -652,6 +863,50 @@ Aug 31 04:56:52 raspberrypi python2[5269]: 距離: 337.0 cm
 Aug 31 04:56:52 raspberrypi python2[5269]: 0
 Aug 31 04:56:54 raspberrypi python2[5269]: 距離: 337.8 cm
 Aug 31 04:56:54 raspberrypi python2[5269]: 0</code></pre>
+<p>これで次回以降、電源ON時に自動的にstorebot.pyが動くようになりました。</p>
+<aside class="special"><p><strong>自動起動の仕組み</strong></p>
+<p>自動起動は systemd という Linux (Raspberry Pi OS)に標準搭載されているミドルウェアを利用して実現しています。 systemctl コマンドで制御しています。journalctl コマンドでログを確認できます。</p>
+</aside>
+<aside class="warning"><p><strong>起動前の注意点</strong></p>
+<p>起動前にセンサーやUSBドングル型モデム、スピーカー全てが接続されている状態にして、それから起動するようにしてください。</p>
+</aside>
+<aside class="special"><p><strong>WiFi が無くても動作します</strong></p>
+<p>USBドングル型モデムが接続されていれば、IoTデータ通信サービス「SORACOM Air」でインターネット接続ができるため、WiFiが無くとも動作します。</p>
+<p>Raspberry Piへのアクセスをしたい場合は本レシピでも紹介した有線LANを利用する方法の他、オンデマンドリモートアクセスサービス「<a href="https://soracom.jp/services/napter/" target="_blank">SORACOM Napter</a>」を利用すればSORACOM Airを通じてクラウド側からアクセスも可能です。SORACOM Napterによるリモートアクセスの詳細は<a href="https://dev.soracom.io/jp/start/napter_ssh/" target="_blank">SORACOM Napter を利用してIoTデバイスにSSHログインする</a>をご覧ください。</p>
+</aside>
+
+
+      </google-codelab-step>
+    
+      <google-codelab-step label="あとかたづけと注意事項" duration="1">
+        <p>本レシピでは費用がかかるサービスを利用しています。<br>本項をよく読み、必要な操作や解除作業を行うようにして、想定外の費用が掛からないようにしてください。</p>
+<h2 is-upgraded>費用について</h2>
+<p>ここで記載している金額は全て税別、送料別となります。</p>
+<h3 is-upgraded>SORACOM プラットフォームの利用料金</h3>
+<table>
+<tr><td colspan="1" rowspan="1"><p><strong>サービス／機能</strong></p>
+</td><td colspan="1" rowspan="1"><p><strong>料金</strong></p>
+</td></tr>
+<tr><td colspan="1" rowspan="1"><p><a href="https://soracom.jp/services/air/cellular/price_specific_area_sim/" target="_blank">SORACOM Air (plan-D)</a></p>
+</td><td colspan="1" rowspan="1"><ul>
+<li>基本料: 10円/日</li>
+<li>通信料: 0.2円~/MB</li>
+</ul>
+<p>(今回の利用であれば 100MB 以内で収まる範囲)</p>
+</td></tr>
+<tr><td colspan="1" rowspan="1"><p><a href="https://soracom.jp/services/funk/price/" target="_blank">SORACOM Funk</a></p>
+</td><td colspan="1" rowspan="1"><ul>
+<li>50000リクエスト/月を超えた分は0.0018円/リクエスト</li>
+</ul>
+</td></tr>
+</table>
+<p>※ 費用詳細はリンク先をご確認ください。</p>
+<aside class="special"><p><strong>無料利用枠について</strong></p>
+<p>SORACOM サービスでは一部サービスにおいて無料枠が設定されています。たとえば SORACOM Air for セルラーであればアカウント毎で30円/月の通信分などです。料金詳細に「無料利用枠」として掲載されていますので、ご確認ください。</p>
+</aside>
+<h2 is-upgraded>グループ解除</h2>
+<p>SORACOM Funk はリクエスト回数に応じて費用が発生する従量課金サービスです。そのため、通信が発生しなければ費用も発生しませんが、「機能を OFF にする」することで確実に費用の発生を抑えることができます。またもう1つの方法として「グループからSIMのの所属を解除する」事でも同様の効果が得られます。</p>
+<p>グループ解除や削除の方法は<a href="https://soracom.github.io/iot-recipes/unjoin-from-group/" target="_blank">グループからの解除 (JP)</a>をご覧ください。</p>
 
 
       </google-codelab-step>
