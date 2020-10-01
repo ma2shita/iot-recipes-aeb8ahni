@@ -3,19 +3,19 @@
   "format": "html",
   "prefix": "https://soracom.github.io/iot-recipes",
   "mainga": "UA-66865146-33",
-  "updated": "2020-10-01T09:39:06Z",
+  "updated": "2020-10-01T10:39:06Z",
   "id": "storebot-by-raspberry-pi",
   "duration": 68,
   "title": "近づくと音声で自動応答する店番ロボット",
   "authors": "SORACOM, INC.",
   "summary": "イベントに出展の困りごとが「スタッフのシフト」。応対を欠かすことが無いように人数や休憩時間に気を配る必要があります。本レシピはIoTを活用してお客様が近づいたら音声で展示物を紹介しつつ、応答した実績をチャット等で共有する「自動店番ロボット」で、そのお悩みを解決します。",
   "source": "13cf3vs5D0rPakRRIGyWyTn-p4--Vg94ErIO8nKcZ2xs",
-  "theme": "100-recipe",
+  "theme": "200-recipe",
   "status": [
     "published"
   ],
   "category": [
-    "100-Recipe"
+    "200-Recipe"
   ],
   "tags": [],
   "feedback": "https://soracom.jp/products/kit/gps_multiunit/",
