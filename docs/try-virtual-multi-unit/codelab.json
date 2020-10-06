@@ -3,7 +3,7 @@
   "format": "html",
   "prefix": "https://soracom.github.io/iot-recipes",
   "mainga": "UA-66865146-33",
-  "updated": "2020-09-22T12:42:27Z",
+  "updated": "2020-10-06T00:16:17Z",
   "id": "try-virtual-multi-unit",
   "duration": 37,
   "title": "【SORACOM ハンズオン】GPSマルチユニットSORACOM Edition をバーチャルで体験する",
@@ -11,7 +11,9 @@
   "summary": "ソラコムより販売されている GPSマルチユニットSORACOM Edition をバーチャルに体験するハンズオンです。Web 上に用意した仮想的な GPSマルチユニットSORACOM Edition を操作して、SORACOM Harvest Data へのデータ格納や SORACOM Lagoon での可視化を体験します。",
   "source": "1QQWk2NJIr05GiCctGqWz-kXY37g_pNAxGN607liOOIA",
   "theme": "100-virtualdevice",
-  "status": [],
+  "status": [
+    "published"
+  ],
   "category": [
     "100-VirtualDevice"
   ],
