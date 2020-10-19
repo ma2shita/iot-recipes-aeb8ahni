@@ -6,7 +6,7 @@
   <meta name="viewport" content="width=device-width, minimum-scale=1.0, initial-scale=1.0, user-scalable=yes">
   <meta name="theme-color" content="#4F7DC9">
   <meta charset="UTF-8">
-  <title>【IoT DIY レシピ】ピセロ AK-130でリモート環境にセキュアアクセス</title>
+  <title>【IoT DIY レシピ】遠隔地のPCやネットワーク機器にセキュアにリモートアクセス</title>
   <link rel="stylesheet" href="//fonts.googleapis.com/css?family=Source+Code+Pro:400|Roboto:400,300,400italic,500,700|Roboto+Mono">
   <link rel="stylesheet" href="//fonts.googleapis.com/icon?family=Material+Icons">
   <link rel="stylesheet" href="https://soracom.github.io/iot-recipes/codelab-elements/codelab-elements.css">
@@ -23,15 +23,21 @@
   <google-codelab-analytics gaid="UA-66865146-33"></google-codelab-analytics>
   <google-codelab codelab-gaid=""
                   id="secure-remote-access-by-abit-ak-130"
-                  title="【IoT DIY レシピ】ピセロ AK-130でリモート環境にセキュアアクセス"
+                  title="【IoT DIY レシピ】遠隔地のPCやネットワーク機器にセキュアにリモートアクセス"
                   environment="web"
                   feedback-link="https://soracom.jp/products/industrial_devices/microserver_ak1304_kit/">
     
-      <google-codelab-step label="概要" duration="3">
+      <google-codelab-step label="遠隔地のPCやネットワーク機器にセキュアにリモートアクセス" duration="3">
         <p>公開日: 2020年5月</p>
 <p>レシピ難易度：★★★★★</p>
-<p>このレシピでは遠隔地のPCやネットワーク機器にセキュアにリモートアクセス可能な仕組みを構築し、手元のPCからの遠隔地の機器管理を実現します。</p>
-<p>リモートアクセスの仕組みはエイビット社製ワイヤレスマイクロサーバー ピセロ AK-130 と SORACOM Napter を用います。この仕組みでは遠隔地のサーバやPCに追加のソフトウェアやハードウェアを導入する必要がなく、予めセットアップ済みのピセロ AK-130を遠隔地のネットワーク接続するだけでリモートアクセス出来るようになるので構成管理の面でシンプルです。</p>
+<p class="image-container"><img style="width: 596.50px" src="img/2c534fb63d902d26.png"></p>
+<p>遠隔地にある特定業務用PCやサーバは現場での作業が基本となります。しかし、遠隔地からの操作が出来るようになると作業効率やサービスレベルの向上が見込めます。</p>
+<p>遠隔地からの操作として一般的に考えうる手段（PCやサーバに専用ソフトウェアをインストールする方式、リモートアクセスするサーバやクライアントに追加のソフトウェアをインストールする方式、VPNを利用する方式など）と比較して、手軽さとセキュリティの確保のバランスが良いのがこのレシピでご紹介する方式となります。</p>
+<p>汎用性・拡張性が高く安定運用が可能なワイヤレスマイクロサーバー ピセロ AK-130 とIoTプラットフォームSORACOMのセキュアなリモートアクセスサービス SORACOM Napterの機能を利用することで、遠隔地のPCやサーバに追加のソフトウェアやハードウェアを導入する必要がなくスピーディーにセキュアなリモートアクセスを実現します。</p>
+<p>ソラコムの提供する IoT データ通信サービス SORACOM Air と オンデマンド・リモートアクセスサービス SORACOM Napter による、IoTテクノロジーによるリモートアクセスの使い勝手を体験いただける内容となっています。</p>
+<aside class="warning"><p>本レシピでは、セットアップにターミナルでのコマンド処理が必要とされます。OSやネットワークの基礎知識が必要になるレシピとなりますので予めご了承ください。</p>
+</aside>
+<h2 is-upgraded>全体構成</h2>
 <p class="image-container"><img style="width: 602.00px" src="img/c74de7151a2dd7c0.png"></p>
 <h2 is-upgraded>本レシピのゴール</h2>
 <ul>

@@ -6,7 +6,7 @@
   <meta name="viewport" content="width=device-width, minimum-scale=1.0, initial-scale=1.0, user-scalable=yes">
   <meta name="theme-color" content="#4F7DC9">
   <meta charset="UTF-8">
-  <title>【IoT DIY レシピ】Meitrack T366による車両トラッキング</title>
+  <title>【IoT DIY レシピ】車載用途に最適化されたGPSトラッカーで車両トラッキング</title>
   <link rel="stylesheet" href="//fonts.googleapis.com/css?family=Source+Code+Pro:400|Roboto:400,300,400italic,500,700|Roboto+Mono">
   <link rel="stylesheet" href="//fonts.googleapis.com/icon?family=Material+Icons">
   <link rel="stylesheet" href="https://soracom.github.io/iot-recipes/codelab-elements/codelab-elements.css">
@@ -23,16 +23,20 @@
   <google-codelab-analytics gaid="UA-66865146-33"></google-codelab-analytics>
   <google-codelab codelab-gaid=""
                   id="vehicle-tracking-by-meitrack-t366"
-                  title="【IoT DIY レシピ】Meitrack T366による車両トラッキング"
+                  title="【IoT DIY レシピ】車載用途に最適化されたGPSトラッカーで車両トラッキング"
                   environment="web"
                   feedback-link="https://soracom.jp/products/industrial_devices/tracker_t366l_kit/">
     
-      <google-codelab-step label="構築する仕組み" duration="0">
+      <google-codelab-step label="車載用途に最適化されたGPSトラッカーで車両トラッキング" duration="0">
         <p>公開日: 2020年7月</p>
 <p>レシピ難易度：★★★★★</p>
-<h2 is-upgraded>概要</h2>
-<p>本レシピでは<a href="https://soracom.jp/products/industrial_devices/tracker_t366l_kit/" target="_blank">車載GPSトラッカー T366L スターターキット</a>を使った車載の位置情報管理の仕組みを構築します。GPSトラッカーから送信される位置情報をもとに地図上に現在地やその軌跡をプロットしたダッシュボードを作成していきます。</p>
-<p>ロケーションデータの取得にはMeitrack T366、ロケーションデータの保存及び可視化にはSORACOM Harvest、SORACOM Lagoonを活用します。またMeitrack T366からのロケーションデータを可視化するためのデータ加工処理としてSORACOM Orbitを利用します。</p>
+<p class="image-container"><img style="width: 624.00px" src="img/4cbd99e58ef0d29d.png"></p>
+<p>社用車や作業車、貨物車両など管理車両を保有する企業では、位置情報や経路情報の把握、稼働率の向上、最適なタイミングでの業務連絡をしたいといった多様な課題が発生します。</p>
+<p>本レシピでは、IoTテクノロジーを使ってこれらの課題を自ら解決するための仕組みについて情報提供します。</p>
+<p>日本のみならず世界の顧客と多数のIoTプロジェクトを成功に導いているソラコムが選定した、車載用途に最適化されたGPSトラッカーとデータ通信用のSORACOM IoT SIMをセットにした&lt;車載GPSトラッカー T366L スターターキット&gt;を使って車両の位置情報を管理する仕組みを作っていきます。最終的にはGPSトラッカーから送信される位置情報をもとに地図上に現在地やその軌跡をWeb上で確認できるダッシュボードを作成していきます。</p>
+<p>位置情報の取得にはMeitrack T366、位置情報の保存及び可視化にはIoTに特化したデータ蓄積サービス SORACOM Harvest、IoTデータの簡易的なダッシュボードサービス SORACOM Lagoonを活用します。またMeitrack T366からの位置情報データをWebで可視化するためにはデータの加工が必要となりますので、本レシピではデータ加工処理にSORACOM Orbitの機能利用します。</p>
+<p>SORACOM Orbit の機能を使うためには、プログラミングの基礎知識が必要になります。プログラミングの基礎知識をお持ちの方による作業が必要なレシピになりますので予めご了承ください。</p>
+<h2 is-upgraded>全体構成</h2>
 <p class="image-container"><img style="width: 624.00px" src="img/db7e38faa1fb5b41.png"></p>
 <h2 is-upgraded>利用するソラコムサービス</h2>
 <table>

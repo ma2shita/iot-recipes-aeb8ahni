@@ -6,7 +6,7 @@
   <meta name="viewport" content="width=device-width, minimum-scale=1.0, initial-scale=1.0, user-scalable=yes">
   <meta name="theme-color" content="#4F7DC9">
   <meta charset="UTF-8">
-  <title>【IoT DIY レシピ】ドライコンタクトコンバーター＋冠水センサーで作る「冠水検知・可視化システム」</title>
+  <title>【IoT DIY レシピ】電池駆動で長期間の屋外動作が可能な「冠水検知・可視化システム」</title>
   <link rel="stylesheet" href="//fonts.googleapis.com/css?family=Source+Code+Pro:400|Roboto:400,300,400italic,500,700|Roboto+Mono">
   <link rel="stylesheet" href="//fonts.googleapis.com/icon?family=Material+Icons">
   <link rel="stylesheet" href="https://soracom.github.io/iot-recipes/codelab-elements/codelab-elements.css">
@@ -23,15 +23,19 @@
   <google-codelab-analytics gaid="UA-66865146-33"></google-codelab-analytics>
   <google-codelab codelab-gaid=""
                   id="water-level-marker-by-dry-contact-converter"
-                  title="【IoT DIY レシピ】ドライコンタクトコンバーター＋冠水センサーで作る「冠水検知・可視化システム」"
+                  title="【IoT DIY レシピ】電池駆動で長期間の屋外動作が可能な「冠水検知・可視化システム」"
                   environment="web"
                   feedback-link="https://soracom.jp/iot-recipes/">
     
-      <google-codelab-step label="ドライコンタクトコンバーター＋冠水センサーで作る「冠水検知・可視化システム」" duration="0">
+      <google-codelab-step label="電池駆動で長期間の屋外動作が可能な「冠水検知・可視化システム」" duration="0">
         <p>公開日: 2020年7月</p>
 <p>レシピ難易度：★★★☆☆</p>
-<p>Watty社製冠水センサー「HL-MC1A」とOPTEX社製Sigfoxデバイス「ドライコンタクトコンバーター」を活用して、冠水の検知・可視化を行うためのレシピです。Sigfoxによる低消費電力通信を活かした電池駆動デバイスで長期間屋外で動作させることができる冠水検知システムとなっています。</p>
-<p class="image-container"><img style="width: 430.15px" src="img/e67902c977916ea1.jpeg"><img style="width: 434.50px" src="img/bde7f5bd29969c33.jpeg"></p>
+<p class="image-container"><img style="width: 586.41px" src="img/5ec14717c464bef.png"></p>
+<p>自社の倉庫や車両基地の浸水対策として自社独自の冠水検知の仕組みを作ることができれば、現場にいなくても複数拠点の情報を正しく把握し、素早い対策を行うことが出来ます。</p>
+<p>本レシピでは屋外利用の設置実績が豊富な専用品であるWatty社製冠水センサー「HL-MC1A」とOPTEX社製Sigfoxデバイス「ドライコンタクトコンバーター」を活用して、冠水の検知の仕組みを作っていきます。また、データの送信と可視化にはIoTプラットフォームSORACOMの機能を利用します。</p>
+<p>このレシピでは屋外での長期間利用を実現するために、低消費電力でのIoTに特化した通信方式Sigfoxを利用します。</p>
+<aside class="warning"><p>※2020年9月時点で日本国内の人口カバー率は95%となります。Sigfoxの日本国内のサービスエリアについてはこちらをご確認ください。 <a href="https://www.kccs-iot.jp/area/" target="_blank">https://www.kccs-iot.jp/area/</a></p>
+</aside>
 <h2 is-upgraded>本レシピを行うのに必要な時間、概算費用</h2>
 <p>本レシピは以下の通りです。</p>
 <ul>
@@ -336,7 +340,7 @@
 <h2 is-upgraded>［SORACOM Lagoon の利用を開始する］をクリックします。</h2>
 <p class="image-container"><img style="width: 602.00px" src="img/4a10b1d6ed1f5cc0.png"></p>
 <h2 is-upgraded>プランのうち［Free］を選択したあと［続行する］をクリックします。</h2>
-<p class="image-container"><img style="width: 602.00px" src="img/60107b200a7a5a98.png"></p>
+<p class="image-container"><img style="width: 602.00px" src="img/748cdbb71537788c.png"></p>
 <h2 is-upgraded>SORACOM Lagoon ユーザーの初期ユーザーに設定するパスワードを入力した後、［利用開始］をクリックします。</h2>
 <p class="image-container"><img style="width: 602.00px" src="img/f2b324c51b7a071e.png"></p>
 <aside class="special"><p><strong>SORACOM Lagoon ユーザーの初期ユーザの ID は？</strong></p>
