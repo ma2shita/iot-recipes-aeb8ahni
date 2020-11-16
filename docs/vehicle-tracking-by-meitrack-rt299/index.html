@@ -25,7 +25,7 @@
                   id="vehicle-tracking-by-meitrack-rt299"
                   title="【IoT DIY レシピ】手軽に設置可能なGPSトラッカーで車両トラッキング"
                   environment="web"
-                  feedback-link="T.B.D">
+                  feedback-link="https://soracom.jp/products/industrial_devices/tracker_rt299_kit/">
     
       <google-codelab-step label="車載用途に最適化されたGPSトラッカーで車両トラッキング" duration="0">
         <p>公開日: 2020年7月</p>
@@ -34,9 +34,11 @@
 <p class="image-container"><img style="width: 624.00px" src="img/a21a45e55b836919.png"></p>
 <p>社用車や作業車、貨物車両など管理車両を保有する企業では、位置情報や経路情報の把握、稼働率の向上、最適なタイミングでの業務連絡をしたいといった多様な課題が発生します。</p>
 <p>本レシピでは、IoTテクノロジーを使ってこれらの課題を自ら解決するための仕組みについて情報提供します。</p>
-<p>日本のみならず世界の顧客と多数のIoTプロジェクトを成功に導いているソラコムが選定した、シガーソケットを利用して手軽に設置可能なGPSトラッカーとデータ通信用のSORACOM IoT SIMをセットにした&lt;シガーソケットGPSトラッカー RT299 スターターキット&gt;を使って車両の位置情報を管理する仕組みを作っていきます。最終的にはGPSトラッカーから送信される位置情報をもとに地図上に現在地やその軌跡をWeb上で確認できるダッシュボードを作成していきます。</p>
+<p>多数のIoTプロジェクトを成功に導いているソラコムが選定した、シガーソケットを利用して手軽に設置可能なGPSトラッカーとデータ通信用のSORACOM IoT SIMをセットにした&lt;シガーソケットGPSトラッカー RT299 スターターキット&gt;を使って車両の位置情報を管理する仕組みを作っていきます。最終的にはGPSトラッカーから送信される位置情報をもとに地図上に現在地やその軌跡をWeb上で確認できるダッシュボードを作成していきます。</p>
 <p>位置情報の取得にはRT299、位置情報の保存及び可視化にはIoTに特化したデータ蓄積サービス SORACOM Harvest、IoTデータの簡易的なダッシュボードサービス SORACOM Lagoonを活用します。またRT299からの位置情報データをWebで可視化するためにはデータの加工が必要となりますので、本レシピではデータ加工処理にSORACOM Orbitの機能利用します。</p>
 <p>SORACOM Orbit の機能を使うためには、プログラミングの基礎知識が必要になりますが、RT299にはすでに利用可能な公式プログラムが提供されておりますので、本レシピの内容においてはプログラミングの作業は不要となります。</p>
+<p>なお、GPS以外にもCAN接続による車の速度や操作の情報を取れる車両管理に最適化された車載GPSトラッカーT366のレシピも公開しております。ドライバーに車載GPSトラッカーを意識させず運用したいケースなどでは、T366の活用もご検討ください。</p>
+<p><a href="https://soracom.github.io/iot-recipes/vehicle-tracking-by-meitrack-t366" target="_blank">https://soracom.github.io/iot-recipes/vehicle-tracking-by-meitrack-t366</a></p>
 <h2 is-upgraded>全体構成</h2>
 <p class="image-container"><img style="width: 624.00px" src="img/1e893d47f2d15b9f.png"></p>
 <h2 is-upgraded>利用するソラコムサービス</h2>
@@ -80,7 +82,7 @@
 <tr><td colspan="1" rowspan="1"><p>車載GPSトラッカー RT299 スターターキット</p>
 </td><td colspan="1" rowspan="1"><p>1</p>
 </td><td colspan="1" rowspan="1"><p>19,800円</p>
-</td><td colspan="1" rowspan="1"><p><a href="https://soracom.jp/products/industrial_devices/tracker_t366l_kit/" target="_blank">ソラコム</a></p>
+</td><td colspan="1" rowspan="1"><p><a href="https://soracom.jp/products/industrial_devices/tracker_rt299_kit/" target="_blank">ソラコム</a></p>
 </td><td colspan="1" rowspan="1"><p>ー</p>
 </td></tr>
 </table>
@@ -101,7 +103,7 @@
       </google-codelab-step>
     
       <google-codelab-step label="RT299とは" duration="0">
-        <p>本レシピで利用する<a href="https://soracom.jp/products/industrial_devices/tracker_t366l_kit/" target="_blank">シガーソケットGPSトラッカー RT299 スターターキット</a>は防水防塵のIP防護レベルがIP67と耐環境性に優れたGPSトラッカーです。そのため車、バイク、ヨット、船といった過酷な環境下でも利用が可能です。また3軸加速度計を搭載しており、デバイス単体で振動でデバイスをウェイクアップしたり、牽引警報、急加速警報、急ブレーキ警報を検知することができます。</p>
+        <p>本レシピで利用する<a href="https://soracom.jp/products/industrial_devices/tracker_rt299_kit/" target="_blank">シガーソケットGPSトラッカー RT299 スターターキット</a>は防水防塵のIP防護レベルがIP67と耐環境性に優れたGPSトラッカーです。そのため車、バイク、ヨット、船といった過酷な環境下でも利用が可能です。また3軸加速度計を搭載しており、デバイス単体で振動でデバイスをウェイクアップしたり、牽引警報、急加速警報、急ブレーキ警報を検知することができます。</p>
 <p>本レシピではIoTストアで提供されているRT299の標準設定を用いて位置情報を連携していきます。専用の設定ツールを利用することで位置情報の送信頻度の変更や、SMSによる遠隔での設定変更などが可能です。これら本レシピでは扱わない範囲の機能詳細については下記関連リンクをご参考ください。</p>
 <p class="image-container"><img style="width: 274.00px" src="img/8c1f1fc5c31d57dc.png"></p>
 <p>関連リンク一覧</p>
@@ -435,6 +437,14 @@
 <h2 is-upgraded>ダッシュボードに任意の名前をつけて、［保存］をクリックします。</h2>
 <p class="image-container"><img style="width: 624.00px" src="img/5aa01c141cc8fbac.png"></p>
 <p>以上でダッシュボードの作成は完了です。</p>
+
+
+      </google-codelab-step>
+    
+      <google-codelab-step label="次のステップ" duration="0">
+        <p>本レシピでは、シガーソケットで手軽に車内に設置ができるRT299を用いて、車両の位置情報トラッキングシステムを実現しました。</p>
+<p>さらなる応用例としては、RT299に備わっているSOSボタンが押されたときのアラートの監視やシガーソケットからの取り外しを監視する仕組みを取り入れ、車両内の状態を可視化してより高度なトラッキングシステムを構築することが考えられます。</p>
+<p>RT299は非常に簡単に設置が可能ですので、まずは車両管理の始めの一歩としてご採用いただくことでトラッキングシステムをスピーディに構築・運用いただけると考えております。</p>
 
 
       </google-codelab-step>
