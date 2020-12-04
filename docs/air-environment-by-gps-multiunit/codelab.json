@@ -1,0 +1,23 @@
+{
+  "environment": "web",
+  "format": "html",
+  "prefix": "https://soracom.github.io/iot-recipes",
+  "mainga": "UA-66865146-33",
+  "updated": "2020-09-10T12:54:20Z",
+  "id": "air-environment-by-gps-multiunit",
+  "duration": 79,
+  "title": "【IoT DIY レシピ】GPS マルチユニット SORACOM Edition で作る「健康管理や肌の乾燥を防ぐ温湿度計」",
+  "authors": "SORACOM, INC.",
+  "summary": "4種のセンサーとバッテリーを内蔵した LTE-M 通信 IoT デバイス「GPS マルチユニット SORACOM Edition」を活用して、室内の温湿度をモニタリングして健康管理に役立てるレシピです。",
+  "source": "1bqH9Fz75oxPWhEQxKRku37gY53j7eIzd-lJbumX0zcY",
+  "theme": "100-recipe",
+  "status": [
+    "published"
+  ],
+  "category": [
+    "100-Recipe"
+  ],
+  "tags": [],
+  "feedback": "https://soracom.jp/products/kit/gps_multiunit/",
+  "url": "air-environment-by-gps-multiunit"
+}
