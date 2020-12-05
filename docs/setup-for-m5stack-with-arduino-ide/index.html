@@ -67,6 +67,7 @@
 </td><td colspan="1" rowspan="1"><p>3,575円</p>
 </td><td colspan="1" rowspan="1"><p><a href="https://www.switch-science.com/catalog/3647/" target="_blank">スイッチサイエンス</a> 等</p>
 </td><td colspan="1" rowspan="1"><p>M5Stack は <a href="https://www.switch-science.com/catalog/3648/" target="_blank">Gray</a> でも可です。<a href="https://soracom.jp/products/kit/3g_module_m5stack_set/" target="_blank">その他のキット</a>に同梱されている M5Stack でも OK です。</p>
+<p>※M5Stack Fire や M5GO は本ハンズオンではサポート外となています。</p>
 </td></tr>
 <tr><td colspan="1" rowspan="1"><p>USB Type-C ケーブル</p>
 </td><td colspan="1" rowspan="1"><p>1</p>
@@ -182,13 +183,14 @@
         <p>ここまでのセットアップが正常にできているか、実際にサンプルのプログラム (スケッチと呼ばれる) をコンパイルしてみます。</p>
 <p>ここでは M5Stack 実機はまだ使用しません。</p>
 <h2 is-upgraded>ボード定義を &#34;M5Stack-Core-EPS32&#34; に変更する</h2>
-<p>［ツール］&gt;［ボード: ...］&gt;［M5Stack-Core-ESP32］をクリックします。</p>
-<p class="image-container"><img style="width: 593.00px" src="img/6e4ccad4f9b0cb44.png"></p>
+<p>［ツール］&gt;［ボード: ...］&gt;［ESP32 Arduino］&gt;［M5Stack-Core-ESP32］をクリックします。</p>
+<p class="image-container"><img style="width: 593.00px" src="img/abbab2bc3703d8c3.png"></p>
 <p>※ 画面は Windows ですが macOS も同様です。</p>
 <aside class="warning"><p><strong>M5Stack-Core-ESP32 が見つからなかったら？</strong></p>
 <ul>
+<li><strong>Arduino IDE のバージョンが古い場合</strong>は、 &#34;ESP32 Arduino&#34; と表示されること無くボード一覧が表示される場合があります。その一覧の中から選んでください。</li>
 <li><strong>リストの下の方までスクロールしてみてください。</strong>リストが多い事から埋もれてしまっていることがあります。</li>
-<li><strong>ESP32 用ボード定義のインストール</strong>に戻り作業を行ってください。</li>
+<li>定義が読み込めていない場合があります。<strong>ESP32 用ボード定義のインストール</strong>に戻り作業を行ってください。</li>
 </ul>
 </aside>
 <h2 is-upgraded>サンプルスケッチ &#34;HelloWorld&#34; を開く</h2>
