@@ -1,0 +1,23 @@
+{
+  "environment": "web",
+  "format": "html",
+  "prefix": "https://soracom.github.io/iot-recipes",
+  "mainga": "UA-66865146-33",
+  "updated": "2020-12-06T14:43:13Z",
+  "id": "ambient-monitor-box-by-iot-starter-kit-for-arduino",
+  "duration": 109,
+  "title": "【IoT DIY レシピ】IoT スターターキット for Arduinoで作る「屋内環境計」",
+  "authors": "SORACOM, INC.",
+  "summary": "",
+  "source": "1EH8HwWA9DJTW8L48Y8cuXcDfpeVB-ZfWNqsB3PEVk-A",
+  "theme": "200-recipe",
+  "status": [
+    "published"
+  ],
+  "category": [
+    "200-Recipe"
+  ],
+  "tags": [],
+  "feedback": "https://soracom.jp/products/kit/iotstarter_kit_for_arduino/",
+  "url": "ambient-monitor-box-by-iot-starter-kit-for-arduino"
+}
