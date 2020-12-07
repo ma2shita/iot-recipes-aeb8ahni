@@ -3,13 +3,13 @@
   "format": "html",
   "prefix": "https://soracom.github.io/iot-recipes",
   "mainga": "UA-66865146-33",
-  "updated": "2020-10-12T13:12:33Z",
+  "updated": "2020-12-07T07:34:50Z",
   "id": "quick-start-ocr-by-s+camera-basic",
-  "duration": 79,
+  "duration": 69,
   "title": "【IoT DIY レシピ】IoT カメラで計測機器のデータを可視化",
   "authors": "SORACOM, INC.",
   "summary": "現場に行かないとわからない機器のモニター表示やホワイトボードの表記を遠隔から確認できると、生産性があがり業務間の連携も強化されます。\n人が現場に行って確認、それを転記するオペレーションをデジタルに見える化する手段として、このレシピではIoTカメラを使ったOCRの手順をご案内します。\nソラコムの提供するプログラマブルなエッジ AI カメラ S+ Camera Basic を利用し、カメラに映った数字や文字を読み取ってOCR(Optical Character Recognition)によって電子データ化します。\n本レシピにはpythonの開発環境構築が必要な内容が含まれます。プログラミング基礎知識をお持ちの方による作業が必要なレシピになりますので予めご了承ください。",
-  "source": "16j0y-cLWlGXKiM7R2qf1qZOPe02zYa4AkzJZHlisyKs",
+  "source": "1KxE6APBElVPhzhDya7Y4vRLKdqQa4FzzG5LimEry78M",
   "theme": "300-recipe",
   "status": [
     "published"
