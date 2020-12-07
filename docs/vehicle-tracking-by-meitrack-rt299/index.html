@@ -338,10 +338,10 @@
         &#34;soraletId&#34;: &#34;iot-recipe-soralet&#34;,
         &#34;updatedTime&#34;: 1592491058519
 }</code></pre>
-<p>作成したSoraletへ先ほどダウンロードしたWASMモジュールをアップロードします。まずコマンドラインを操作して、ダウンロードしたbuildディレクトリに移動します。ディレクトリに<code>soralet-optimized.wasm</code>が存在していることを確認して下さい。<em>--body</em> に<code>soralet-optimized.wasm</code>を指定してします。同じ Soralet に対して複数回 WASM モジュールをアップロードすると srn (SORACOM Resource Name。以下SRN) の version (バージョン番号) 部分がインクリメントされていきます。SORACOM Orbitでは利用するWASMモジュールをSRNとバージョン番号を指定して設定します。</p>
+<p>作成したSoraletへ先ほどダウンロードしたWASMモジュールをアップロードします。まずコマンドラインを操作して、ダウンロードしたbuildディレクトリに移動します。ディレクトリに<code>soralet.wasm</code>が存在していることを確認して下さい。<em>--body</em> に<code>soralet.wasm</code>を指定してします。同じ Soralet に対して複数回 WASM モジュールをアップロードすると srn (SORACOM Resource Name。以下SRN) の version (バージョン番号) 部分がインクリメントされていきます。SORACOM Orbitでは利用するWASMモジュールをSRNとバージョン番号を指定して設定します。</p>
 <pre><code>$ soracom soralets upload --soralet-id iot-recipe-soralet \
     --content-type application/octet-stream \
-    --body @soralet-optimized.wasm 
+    --body @soralet.wasm 
 {
         &#34;createdTime&#34;: 1594632153993,
         &#34;hash&#34;: &#34;fc4a493b6926e3ba8a9ef7c5f02ea11c2a4e6f69029cc110f9a1011f09a47as2b495a1a2fab197fd2d98be5366985cc442d0aeb12623ac7e39de63cg4c0f399&#34;,
